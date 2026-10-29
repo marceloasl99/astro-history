@@ -69,23 +69,91 @@ Em cumprimento aos critérios pré-registrados, o projeto executou o **CAMINHO A
 
 ## 4. Como Executar e Reproduzir
 
+### Pré-requisitos
+- Linux / macOS (Python 3.12+)
+- Bibliotecas C do Swiss Ephemeris (`libswe-dev`, `libswe0`, `swisseph-data-all`)
+
 ```bash
-# 1. Configurar ambiente e instalar dependências congeladas
+# 1. Clonar repositório
+git clone https://github.com/marceloasl99/astro-history.git
+cd astro-history
+
+# 2. Configurar ambiente e instalar dependências congeladas
 make setup
 
-# 2. Executar suíte completa de testes automatizados
+# 3. Executar suíte completa de testes automatizados
 make test
 
-# 3. Rodar validação estatística completa (10.000 permutações sob N3)
+# 4. Rodar validação estatística completa (10.000 permutações sob N3)
 make validate
 
-# 4. Iniciar servidor local com a interface responsável
+# 5. Iniciar servidor local com a interface responsável (localhost:8000 ou :81)
 make run
+```
+
+### Execução via Docker
+```bash
+docker compose up -d --build
+```
+O proxy reverso Caddy nas portas 80/443 encaminha o tráfego de forma segura para a aplicação.
+
+---
+
+## 5. Estrutura do Repositório
+
+```
+astro-history/
+├── CITATION.cff              # Metadados de citação acadêmica
+├── LICENSE                   # Licença GNU Affero General Public License v3
+├── Makefile                  # Automação de compilação, testes e validação
+├── Dockerfile                # Especificação de container de produção
+├── docker-compose.yml        # Orquestração da aplicação + proxy Caddy
+├── Caddyfile                 # Configuração de proxy reverso seguro
+├── pyproject.toml            # Configuração de ferramentas (pytest, ruff, mypy)
+├── requirements.lock         # Dependências congeladas exatas
+├── config/
+│   ├── score.yaml            # Definições de aspectos e pesos de orbes
+│   ├── stars.yaml            # Catálogo curado de 28 estrelas fixas
+│   └── analysis.yaml         # Permutações estatísticas, sementes e divisões
+├── data/
+│   ├── DATASET_CARD.md       # Regras objetivas de inclusão e cartão de dados
+│   ├── events_v2.csv         # Dataset estruturado (COW, UCDP, NBER, P&T)
+│   └── ephemeris/            # Grade diária 1800-2100 pré-computada (.npz)
+├── db/
+│   └── history_astrology.db  # Banco SQLite (events, events_v2, control_dates)
+├── docs/
+│   ├── hipoteses.md          # Hipóteses pré-registradas e critérios de sucesso
+│   └── decisao_M2.md         # Registro formal de decisão do Marco M2 (Caminho A)
+├── reports/
+│   ├── baseline_metrics.json # Métricas da auditoria inicial v0
+│   ├── phase1_before_after.md# Diff metodológico detalhado (antes vs. depois)
+│   ├── phase3_validation.md  # Relatório de permutações, valores-p, escores-z, FDR
+│   └── final_report.md       # Relatório científico exaustivo de pesquisa
+├── src/
+│   ├── astro_engine.py       # Motor de cálculo astronômico Swiss Ephemeris
+│   ├── correlation_engine.py # Matcher histórico com leave-one-out
+│   ├── future_engine.py      # Linha do tempo homogênea e modelo prospectivo
+│   ├── core/
+│   │   └── ephemeris_grid.py # 109k efemérides diárias e percentis contínuos
+│   ├── data/
+│   │   └── ingest_historical.py # Ingestão de dados e gerador de datas de controle
+│   ├── analysis/
+│   │   ├── null_models.py    # Permutações N1, N2, N3 (deslocamento circular)
+│   │   ├── multiplicity.py   # Correção de multiplicidade Benjamini-Hochberg FDR
+│   │   └── run_phase3_validation.py # Executor da validação completa
+│   └── web/
+│       ├── app.py            # Aplicação web FastAPI
+│       ├── mandala.py        # Gerador vetorial SVG de mandala zodiacal
+│       └── templates/        # Dashboard, detalhe de eventos e aba de metodologia
+└── tests/
+    ├── regression/           # Testes golden baseline (reprodutibilidade v0)
+    ├── unit/                 # Testes unitários (leave-one-out, percentis, orbes)
+    └── statistical/          # Verificações de integridade em ruído sintético
 ```
 
 ---
 
-## 5. Licença e Atribuição
+## 6. Licença e Atribuição
 
 - **Código-Fonte**: Licenciado sob a **[GNU Affero General Public License v3 (AGPL-3.0-or-later)](LICENSE)**.
 - **Swiss Ephemeris**: Utiliza a biblioteca Swiss Ephemeris da **Astrodienst AG**. Em conformidade com os termos da Astrodienst, o projeto é distribuído sob AGPL. Uso comercial sem termos AGPL exige licença proprietária comercial da Astrodienst AG.
