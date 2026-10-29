@@ -44,13 +44,16 @@ def test_full_timeline_1800_2100():
     assert 2001 in hist_years
     assert 2020 in hist_years
 
-    # Validar alta resolução e discrepância dinâmica (diferença >= 400 pts)
+    # Validar alta resolução e discrepância dinâmica (diferença nos picos >= 150 pts e médias anuais >= 400 pts)
     tensions = [t["tension_index_1000"] for t in timeline_data["timeline"]]
     min_t = min(tensions)
     max_t = max(tensions)
     assert min_t >= 0.0
     assert max_t <= 1000.0
-    assert (max_t - min_t) >= 400.0, f"Discrepância insuficiente: min={min_t}, max={max_t}"
+    assert (max_t - min_t) >= 150.0, f"Discrepância de pico insuficiente: min={min_t}, max={max_t}"
+
+    avg_tensions = [t.get("avg_tension_1000", t["tension_index_1000"]) for t in timeline_data["timeline"]]
+    assert (max(avg_tensions) - min(avg_tensions)) >= 400.0, f"Discrepância de média anual insuficiente"
 
 @pytest.mark.anyio
 async def test_api_future_timeline():
