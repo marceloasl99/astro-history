@@ -1,0 +1,14 @@
+# Parâmetros de Execução Estatística e Modelos Nulos
+
+analysis:
+  random_seed: 42
+  n_permutations: 10000
+  significance_level_q: 0.05
+  effect_size_threshold: 0.30
+  time_windows:
+    train_start: "1800-01-01"
+    train_end: "1950-12-31"
+    test_start: "1951-01-01"
+    test_end: "2025-12-31"
+    prospective_start: "2026-01-01"
+    prospective_end: "2100-12-31"

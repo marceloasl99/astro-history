@@ -1,0 +1,33 @@
+name: ci
+
+on:
+  push:
+    branches: [main, develop, "feat/*", "fix/*"]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install libswe and Swiss Ephemeris data
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libswe-dev libswe0 swisseph-data-all || true
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.lock
+
+      - name: Run test suite
+        run: |
+          pytest -v
