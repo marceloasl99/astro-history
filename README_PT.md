@@ -1,213 +1,92 @@
 # astro-history 🪐🏛️
-### Astrologia Moderna, Cálculos Cosmológicos e Motor de Correlação Histórica para 300 Grandes Fatos Mundiais (1800–2100)
+### Plataforma de Pesquisa Científica Aberta e Reprodutível sobre Alinhamentos Astrológicos e Fatos Históricos
 
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Porta 81](https://img.shields.io/badge/Dashboard-Porta_81-F59E0B)
-![Testes](https://img.shields.io/badge/Testes-13_Aprovados-10B981)
-![Licença](https://img.shields.io/badge/Licen%C3%A7a-MIT-8B5CF6)
+![Testes](https://img.shields.io/badge/Testes-21_Passaram-10B981)
+![Licença](https://img.shields.io/badge/Licen%C3%A7a-AGPL--3.0-8B5CF6)
+![Marco M2](https://img.shields.io/badge/Marco_M2-Caminho_A_(Piv%C3%B4_Metodol%C3%B3gico)-blue)
 
-> 🌍 **Languages / Idiomas**: [English Version (README.md)](README.md) • **Português**
-
-O **astro-history** é uma plataforma analítica e prospectiva de código aberto fundamentada na **Astrologia Moderna e Astrologia Mundial**. O sistema utiliza o motor de alta precisão **Swiss Ephemeris (`pyswisseph`)** para calcular as posições celestes de **17 corpos celestes**, aspectos ptolomaicos estritos (orbe máx. de 3,0°) e contatos longitudinais com as **30 principais estrelas fixas** da abóbada celeste.
-
-A plataforma audita um catálogo de **300 marcos históricos reais** (da Antiguidade a 2024), quantifica a tensão sistêmica em uma **Escala de Tensão Cósmica de alta resolução (0 a 1000 pontos e porcentagem)** e gera uma **linha do tempo contínua de 301 anos (1800 a 2100)** que correlaciona arquétipos planetários com os grandes pontos de inflexão da história humana.
+> 🌍 **Idiomas / Languages**: **Português** • [English Version (README.md)](README.md)
 
 ---
 
-## Demonstração Visual (Screenshots em Resolução Full HD 1920×1080)
+## 1. Resumo Executivo & Pergunta de Pesquisa
 
-### 1. Dashboard Interativo e Linha do Tempo Cósmica (1800–2100)
-Gráfico interativo em Chart.js com filtros por época (*1800–1899*, *1900–1999*, *2000–2025*, *2026–2100* e *Todos*). Estrelas douradas (★) demarcam fatos históricos reais e a linha contínua mapeia a evolução da tensão de fundo:
-![Dashboard & Linha do Tempo AstroHistory](docs/screenshots/01_dashboard_timeline.png)
+O **astro-history** é uma bancada de testes de código aberto concebida para responder com honestidade e método à seguinte questão empírica:
 
----
+> **"As geometrias de aspectos planetários e alinhamentos astronômicos distinguem grandes eventos históricos da humanidade de datas aleatórias melhor do que o mero acaso?"**
 
-### 2. Linha do Tempo & Simulador Prospectivo (1800–2100)
-Motor de simulação em tempo real com níveis de alerta (Estável, Moderado, Alto, Crítico), sub-índices de risco (Bélico, Crise Financeira, Inovação Tecnológica) e correspondência analógica automatizada:
-![Simulador & Linha do Tempo](docs/screenshots/02_simulator_timeline.png)
+Originalmente construído como um navegador de correlações baseado no **Swiss Ephemeris (`pyswisseph`)**, o projeto passou por uma reconstrução metodológica integral para erradicar o viés de confirmação retrospectivo (*cherry-picking*), vazamentos de dados e artefatos matemáticos.
 
----
+### Principal Resultado Empírico (Validação Pré-Registrada da Fase 3)
+Sob hipóteses pré-registradas estritas (`docs/hipoteses.md`) e modelos nulos controlados:
+- **Modelo Nulo de Deslocamento Circular (N3, 10.000 permutações)**: Tensão Cósmica observada $z = -0.506$ ($p = 0.6941$, FDR $q = 0.9772$).
+- **Teste Temporal Fora da Amostra (1951–2025)**: $z = -0.851$ ($p = 0.7996$, FDR $q = 0.9772$).
 
-### 3. Mandala Zodiacal Vetorial SVG Nativa & Diagnóstico do Fato
-Mapa natal interativo com graus exatos, movimentos retrógrados e aspectos coloridos por orbe estrito, acompanhado de pontuação matemática e corroboração teórica (ex.: Crash de 1929):
-![Detalhes do Evento com Mandala Zodiacal SVG](docs/screenshots/03_event_mandala.png)
+**Conclusão (Decisão do Marco M2)**: A hipótese nula **não pôde ser rejeitada**. Quando os vieses de seleção, a inflação de contatos estelares e o vazamento do matcher são eliminados, as configurações celestes de grandes marcos históricos não diferem estatisticamente de distribuições temporais aleatórias.
 
----
-
-### 4. Catálogo dos 300 Grandes Fatos Históricos
-Busca textual instantânea e filtros por categorias geopolíticas: Revoluções Políticas, Guerras & Conflitos, Ciência & Tecnologia, Crises Econômicas, Transformações Culturais e Pandemias:
-![Catálogo dos 300 Fatos](docs/screenshots/04_events_catalog.png)
+Em cumprimento aos critérios pré-registrados, o projeto executou o **CAMINHO A (Pivô Metodológico)**:
+1. **Sem Previsões Determinísticas**: Eliminação de termos proféticos ou não calibrados ("Pico Crítico 99%").
+2. **Relato Transparente de Resultados Negativos**: Documentação clara de como correlações espúrias surgem na literatura retrospectiva.
+3. **Ferramenta Educacional Aberta**: Plataforma interativa que permite ao usuário comparar qualquer mapa histórico com um grupo de controle de 10.000 datas aleatórias.
 
 ---
 
-### 5. Hub de Macro Correlações & Estatísticas Planetárias
-Análise estatística comparativa demonstrando distribuições planetárias, balanço dos quatro elementos e médias de tensão cósmica em todas as categorias históricas:
-![Hub de Correlações](docs/screenshots/05_correlations_hub.png)
+## 2. Reforma Metodológica: Diagnóstico e Correções
+
+| Problema no Código Legado | Falha Metodológica | Correção Técnica Implementada |
+| :--- | :--- | :--- |
+| **Vazamento de Dados no Matcher (P0-3)** | O comparador de similaridade avaliava o ano contra o próprio evento, gerando auto-matches artificiais de 98.5%. | **Janela Leave-One-Out**: Exclui o ano avaliado $\pm 1$ ano de todo pool de comparação (`find_similar_events`). |
+| **Inflação de Contatos com Estrelas (P1-4 / P1-5)** | 1.467 contatos em 300 mapas (~4.9/mapa). Testar 4 aspectos (0°, 90°, 120°, 180°) com 17 corpos gerava ~5 contatos por mapa por puro acaso geométrico uniforme. | **Restrição a Conjunções**: Contatos restritos estritamente a Conjunções ($0^\circ \pm 0.3^\circ$), reduzindo para ~0.72 contatos/mapa, correspondente à probabilidade teórica. |
+| **Saturação do Score em 990 (P1-3)** | Fórmula de contraste exponencial arbitrária `min(1.0, excess/640)**1.35 * 920 + 70` fixava o teto em 990.0. | **Percentil Empírico Contínuo**: Escala contínua de 0 a 1000 baseada nos 109.938 dias da grade diária 1800–2100. Score 850 = mais tenso que 85% dos dias modernos. |
+| **Incerteza da Lua sem Horário Exato (P1-1)** | A Lua anda ~13.2°/dia. Fixar arbitrariamente 12:00 UT cobria ~22% do zodíaco por dia ao acaso. | **Exclusão Condicional**: A Lua é excluída dos aspectos e do score quando o horário não é comprovado documentalmente. |
+| **Amostragem Temporal Assimétrica (P1-2)** | 4 pontos sazonais/ano em anos comuns versus datas exatas em anos com eventos distorciam a linha do tempo. | **Grade Diária Vetorizada**: 1800–2100 pré-computado diariamente (109.938 dias) com agregações anuais homogêneas (mediana, média, p90, máximo). |
 
 ---
 
-### 6. Matriz de Cenários & Portais Sazonais (2027–2060)
-Aba analítica dedicada oferecendo a projeção ano a ano dos 34 anos do horizonte futuro, com identificação da data exata do pico sazonal (Equinócios e Solstícios), avaliação de riscos multidimensionais e gaveta expansível dos 4 portais sazonais por ano:
-![Matriz de Cenários 2027–2060](docs/screenshots/06_projections_2027_2060.png)
+## 3. Resultados Estatísticos Empíricos (Fase 3)
+
+| Hipótese Testada | N | Score Obs. | Distribuição Nula (Média ± DP) | Efeito ($z$) | $p$-valor | $q$ (FDR) | Significante ($q < 0.05$)? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **H1 Geral vs N3 Deslocamento Circular** | 59 | 481.1 | 500.6 ± 38.5 | -0.506 | 0.6941 | 0.9772 | ❌ Não significante |
+| **H1 Geral vs N2 Estratificado por Década** | 61 | 477.6 | 493.7 ± 35.9 | -0.450 | 0.6715 | 0.9772 | ❌ Não significante |
+| **H1 Classe: Guerra Interestadual** | 15 | 462.1 | 499.4 ± 73.3 | -0.509 | 0.6918 | 0.9772 | ❌ Não significante |
+| **H1 Classe: Crise Econômica** | 10 | 547.6 | 501.9 ± 93.8 | +0.487 | 0.3112 | 0.9772 | ❌ Não significante |
+| **H1 Classe: Golpe de Estado** | 12 | 538.4 | 501.6 ± 84.9 | +0.434 | 0.3327 | 0.9772 | ❌ Não significante |
+| **H2 Treino Temporal (1800–1950)** | 28 | 512.4 | 499.4 ± 56.8 | +0.229 | 0.4083 | 0.9772 | ❌ Não significante |
+| **H2 Teste Fora da Amostra (1951–2025)** | 33 | 456.5 | 501.6 ± 53.0 | -0.851 | 0.7996 | 0.9772 | ❌ Sem sinal preditivo |
+| **Controle Negativo (Ruído Sintético)** | 61 | 427.8 | 501.5 ± 37.2 | -1.982 | 0.9772 | 0.9772 | ❌ Pipeline íntegra |
+
+*Documentos de auditoria e relatórios*:
+- Pré-registro formal: [`docs/hipoteses.md`](docs/hipoteses.md)
+- Relatório de validação estatística: [`reports/phase3_validation.md`](reports/phase3_validation.md)
+- Decisão do Marco M2: [`docs/decisao_M2.md`](docs/decisao_M2.md)
+- Relatório técnico exaustivo: [`reports/final_report.md`](reports/final_report.md)
 
 ---
 
-## Sumário
-1. [Visão Geral & Fundamentação Teórica](#1-visão-geral--fundamentação-teórica)
-2. [Arquitetura do Sistema](#2-arquitetura-do-sistema)
-3. [Motor Astronômico & Efemérides](#3-motor-astronômico--efemérides)
-4. [Escala de Tensão Cósmica (0–1000 Pontos)](#4-escala-de-tensão-cósmica-01000-pontos)
-5. [Aba de Cenários Prospectivos (2027–2060)](#5-aba-de-cenários-prospectivos-20272060)
-6. [Catálogo dos 300 Fatos Históricos](#6-catálogo-dos-300-fatos-históricos)
-7. [Diagnóstico via Linha de Comando (CLI)](#7-diagnóstico-via-linha-de-comando-cli)
-8. [Dashboard Web & Especificação da API REST](#8-dashboard-web--especificação-da-api-rest)
-9. [Instalação, Dependências & Daemon Systemd](#9-instalação-dependências--daemon-systemd)
-10. [Suíte de Testes Automatizados](#10-suíte-de-testes-automatizados)
-
----
-
-## 1. Visão Geral & Fundamentação Teórica
-
-A Astrologia Moderna concebe a correlação entre dinâmica celeste e história humana não como determinismo mecânico causal, mas como uma **ordem sincrônica arquetípica**. Fundamenta-se em:
-- **Carl G. Jung**: O princípio da *Sincronicidade* — coincidências significativas acausais conectando estados psíquicos e eventos físicos externos.
-- **Dane Rudhyar**: *Astrologia Humanística e Transpessoal* — ciclos planetários como fases evolutivas da consciência coletiva.
-- **Richard Tarnas**: *Cosmos e Psique (2006)* — extensa validação histórica demonstrando que momentos revolucionários e geopolíticos coincidem com aspectos tensos entre planetas transpessoais (*Urano, Netuno, Plutão e Saturno*).
-
----
-
-## 2. Arquitetura do Sistema
-
-- **Armazenamento**: Swiss Ephemeris (`libswe`), SQLite (`db/history_astrology.db`) com 300 mapas astrais pré-calculados e 1.467 contatos com estrelas fixas.
-- **Motores Centrais (`src/`)**:
-  - `astro_engine.py`: 17 corpos celestes, 30 estrelas fixas (orbe 0,3°), aspectos maiores (orbe 3,0°).
-  - `correlation_engine.py`: Comparador arquetípico e similaridade histórica.
-  - `future_engine.py`: Motor de linha do tempo contínua 1800–2100 e amostragem sazonal quádrupla.
-  - `analyze_correlations.py`: Diagnóstico analítico de ênfase cosmológica.
-- **Camada Web (FastAPI na Porta 81)**:
-  - `app.py`: Servidor HTTP/JSON bound em `0.0.0.0:81`.
-  - `mandala.py`: Gerador de mandalas SVG zodiacais vetoriais nativas.
-  - Templates em Tailwind CSS e Chart.js otimizados para resolução Full HD (1920×1080).
-
----
-
-## 3. Motor Astronômico & Efemérides
-
-- **17 Corpos Celestes**: Sol, Lua, Mercúrio, Vênus, Marte, Júpiter, Saturno, Urano, Netuno, Plutão, Ceres, Pallas, Juno, Vesta, Quíron, Lilith Média e Nodo Norte Verdadeiro.
-- **Aspectos Ptolomaicos Estritos**: Conjunção (0°), Oposição (180°), Quadratura (90°) e Trígono (120°) com orbe estrito $\le 3,0^\circ$.
-- **30 Estrelas Fixas Principais**: Algol, Sirius, Aldebaran, Betelgeuse, Rigel, Regulus, Spica, Antares, Vega, Altair, Deneb, Fomalhaut, Polaris, Scheat, etc. (orbe estrito $\le 0,3^\circ$).
-
----
-
-## 4. Escala de Tensão Cósmica (0–1000 Pontos)
-
-Fórmula de alta resolução baseada no cálculo ponderado de fricção angular:
-- **0 a 349 pontos**: Céu Calmo / Estável (🟢)
-- **350 a 549 pontos**: Tensão Moderada / Transição (🟡)
-- **550 a 749 pontos**: Tensão Alta / Alerta Intenso (🟠)
-- **750 a 1000 pontos**: Tensão Crítica / Ruptura Histórica (🔴)
-
----
-
-## 5. Aba de Cenários Prospectivos (2027–2060)
-
-Disponível na rota `/projections` e na API `/api/projections-2027-2060`:
-- **34 Anos Mapeados**: Amostragem de todos os portais sazonais (Equinócios de Março e Setembro, Solstícios de Junho e Dezembro).
-- **Data Exata do Pico**: Identificação automatizada do portal mais tenso do ano.
-- **Sub-Índices**: Risco Bélico %, Crise Financeira % e Inovação Tecnológica %.
-- **Gaveta Expansível**: Visualização detalhada das 4 medições sazonais individuais por ano.
-
----
-
-## 6. Catálogo dos 300 Fatos Históricos
-
-Armazenado em `data/historical_events.json` e indexado no banco SQLite:
-- **Revoluções Políticas (96 eventos)**: Independência dos EUA, Revolução Francesa, Queda da Bastilha, Restauração Meiji, Proclamação da República no Brasil, Queda do Muro de Berlim, Primavera Árabe.
-- **Guerras & Conflitos (91 eventos)**: Guerras Napoleônicas, Guerra Civil Americana, Primeira e Segunda Guerras Mundiais, Vietnã, Guerra da Ucrânia.
-- **Ciência & Tecnologia (58 eventos)**: Principia de Newton, Máquina a Vapor, Teoria da Relatividade, Pouso na Lua, Criação da Internet, CRISPR, ChatGPT.
-- **Crises Econômicas (25 eventos)**: Bolha das Tulipas, Crash de 1929, Choques do Petróleo, Crise Asiática, Crise Financeira de 2008.
-- **Transformações Culturais (17 eventos)**: Reforma Protestante, Woodstock, Declaração Universal dos Direitos Humanos.
-- **Pandemias & Desastres (13 eventos)**: Peste Negra, Gripe Espanhola de 1918, Desastre de Chernobyl, Pandemia de COVID-19.
-
----
-
-## 7. Diagnóstico via Linha de Comando (CLI)
+## 4. Como Executar e Reproduzir
 
 ```bash
-source .venv/bin/activate
+# 1. Configurar ambiente e instalar dependências congeladas
+make setup
 
-# 1. Auditar um evento específico (ex.: Crash de 1929 #93)
-python src/analyze_correlations.py --event 93
+# 2. Executar suíte completa de testes automatizados
+make test
 
-# 2. Auditar a Bomba de Hiroshima (#107)
-python src/analyze_correlations.py --event 107
+# 3. Rodar validação estatística completa (10.000 permutações sob N3)
+make validate
 
-# 3. Auditar uma categoria inteira
-python src/analyze_correlations.py --category "Crise Econômica"
-
-# 4. Exportar relatório macro-estatístico completo
-python src/analyze_correlations.py --export-json data/correlations_report.json
+# 4. Iniciar servidor local com a interface responsável
+make run
 ```
 
 ---
 
-## 8. Dashboard Web & Especificação da API REST
+## 5. Licença e Atribuição
 
-O serviço web roda na porta 81 (`0.0.0.0:81`):
-- **`/`**: Dashboard principal com gráfico Chart.js 1800–2100 e marcos paradigmáticos.
-- **`/events`**: Catálogo completo dos 300 fatos com busca e filtros.
-- **`/events/{id}`**: Mandala zodiacal SVG vetorial nativa e posições dos 17 corpos celestes.
-- **`/correlations`**: Hub de macro correlações geopolíticas.
-- **`/projections`**: Matriz de cenários prospectivos 2027–2060 e portais sazonais.
-- **`/simulator`**: Linha do tempo 1800–2100 e simulador personalizado de cartas astrais.
-
-### Endpoints da API REST
-| Endpoint | Método | Formato | Descrição |
-| :--- | :---: | :---: | :--- |
-| `/api/stats` | `GET` | JSON | Total de eventos, progresso e balanço elemental. |
-| `/api/events` | `GET` | JSON | Lista dos 300 eventos com filtros (`?category=` e `?search=`). |
-| `/api/events/{id}` | `GET` | JSON | Mapa astral natal detalhado, estrelas fixas e aspectos. |
-| `/api/future-timeline` | `GET` | JSON | Linha do tempo contínua completa de 301 anos (1800–2100). |
-| `/api/projections-2027-2060` | `GET` | JSON | Projeções anuais dos 34 anos futuros com 4 portais sazonais por ano. |
-| `/api/simulate` | `POST` | JSON | Cálculo on-demand de carta astral e 5 principais precedentes. |
-
----
-
-## 9. Instalação, Dependências & Daemon Systemd
-
-### 9.1. Requisitos do Sistema (Ubuntu 24.04 LTS / Debian)
-```bash
-sudo apt-get update
-sudo apt-get install -y build-essential python3-dev python3-venv git \
-    libswisseph-dev swe-basic-data swe-standard-data
-```
-
-### 9.2. Instalação do Ambiente Python
-```bash
-git clone https://github.com/marceloasl99/astro-history.git
-cd astro-history
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-### 9.3. Serviço Systemd (Porta 81)
-O serviço é gerenciado pelo systemd em `/etc/systemd/system/astro-history.service`:
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable astro-history.service
-sudo systemctl restart astro-history.service
-sudo systemctl status astro-history.service
-```
-
----
-
-## 10. Suíte de Testes Automatizados
-
-A suíte completa de testes unitários e de integração roda via `pytest`:
-```bash
-source .venv/bin/activate
-pytest tests/
-```
-**Resultado**: 13 testes aprovados cobrindo motores astronômicos, cálculo de tensão, correlacionador arquetípico, linha do tempo prospectiva e todos os endpoints HTTP da API REST.
+- **Código-Fonte**: Licenciado sob a **[GNU Affero General Public License v3 (AGPL-3.0-or-later)](LICENSE)**.
+- **Swiss Ephemeris**: Utiliza a biblioteca Swiss Ephemeris da **Astrodienst AG**. Em conformidade com os termos da Astrodienst, o projeto é distribuído sob AGPL. Uso comercial sem termos AGPL exige licença proprietária comercial da Astrodienst AG.
+- **Bases de Dados Históricas**: Correlates of War (COW), UCDP Conflict Data, NBER Business Cycles, Powell & Thyne Coup Data e Polity5/V-Dem Project.
