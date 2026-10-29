@@ -131,17 +131,16 @@ def load_historical_events_from_db() -> Dict[int, List[Dict[str, Any]]]:
     return events_by_year
 
 def sample_year_charts(year: int, specific_event_dates: Optional[List[str]] = None) -> List[Dict[str, Any]]:
-    """Amostra os 4 pontos sazonais cardinais do ano (Equinócios e Solstícios) + datas específicas de eventos."""
+    """
+    Amostra os 4 pontos sazonais cardinais do ano (Equinócios e Solstícios).
+    P1-2: Não injeta datas específicas de eventos na amostragem geral para manter simetria e comparabilidade.
+    """
     dates = [
         f"{year}-03-20",  # Equinócio de Outono (Hemisfério Sul) / Primavera (Norte)
         f"{year}-06-21",  # Solstício de Inverno / Verão
         f"{year}-09-22",  # Equinócio de Primavera / Outono
         f"{year}-12-21",  # Solstício de Verão / Inverno
     ]
-    if specific_event_dates:
-        for ed in specific_event_dates:
-            if ed not in dates:
-                dates.append(ed)
 
     charts = []
     for d in dates:
@@ -164,8 +163,7 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
     hist_events = hist_events or []
     has_history = len(hist_events) > 0
 
-    event_dates = [ev["date"] for ev in hist_events if ev.get("date")]
-    charts = sample_year_charts(year, specific_event_dates=event_dates)
+    charts = sample_year_charts(year)
 
     if not charts:
         # Fallback de segurança se falhar amostragem
@@ -186,11 +184,22 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
         scores_1000.append(s_data["tension_index_1000"])
         sub_scores_list.append(s_data)
 
-    peak_tension = max(scores_1000)
-    avg_tension = round(sum(scores_1000) / len(scores_1000), 1)
+    # Estatísticas diárias reais da janela anual (365 dias) a partir da grade diária pré-computada
+    try:
+        from src.core.ephemeris_grid import get_year_daily_stats
+        daily_stats = get_year_daily_stats(year)
+        avg_tension = daily_stats["mean_tension"]
+        median_tension = daily_stats["median_tension"]
+        peak_tension = daily_stats["max_tension"]
+        p90_tension = daily_stats["p90_tension"]
+    except Exception:
+        peak_tension = max(scores_1000)
+        avg_tension = round(sum(scores_1000) / len(scores_1000), 1)
+        median_tension = avg_tension
+        p90_tension = peak_tension
 
-    # Pegar o gráfico mais intenso para extrair os gatilhos arquetípicos
-    peak_idx = scores_1000.index(peak_tension)
+    # Pegar o gráfico sazonal mais intenso para extrair os gatilhos arquetípicos
+    peak_idx = scores_1000.index(max(scores_1000))
     peak_chart = charts[peak_idx]
     peak_sub = sub_scores_list[peak_idx]
 
@@ -200,13 +209,13 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
     social_transformation = peak_sub["social_transformation_index_1000"]
 
     # Identificar nível de alerta com base na nova escala 0-1000
-    if peak_tension >= 750.0 or conflict_risk >= 780.0:
+    if peak_tension >= 850.0 or conflict_risk >= 850.0:
         alert_level = "Crítico / Ruptura Histórica"
         alert_color = "red"
-    elif peak_tension >= 550.0 or conflict_risk >= 600.0:
+    elif peak_tension >= 650.0 or conflict_risk >= 650.0:
         alert_level = "Alto / Tensão Intensa"
         alert_color = "orange"
-    elif peak_tension >= 350.0:
+    elif peak_tension >= 400.0:
         alert_level = "Moderado / Transição"
         alert_color = "yellow"
     else:
@@ -234,8 +243,8 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
         f"{'★ Estrela Ativa: ' + top_star_name if star_contacts else ''}"
     )
 
-    # Similaridade com a base dos 200 eventos
-    sim_data = find_similar_events(peak_chart, top_k=3)
+    # Similaridade com a base histórica aplicando Leave-One-Out (P0-3: exclui ano +/- 1)
+    sim_data = find_similar_events(peak_chart, top_k=3, exclude_year=year, exclude_window=1)
     top_matches = sim_data.get("top_matches", [])
     dom_cat = sim_data.get("dominant_matching_category", "Transformação Cultural")
     resonance = sim_data.get("avg_match_percent", 50.0)

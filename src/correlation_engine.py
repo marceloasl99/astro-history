@@ -113,11 +113,17 @@ def get_category_correlations() -> Dict[str, Any]:
         "major_cycles": dict(major_cycles)
     }
 
-def find_similar_events(target_chart: Dict[str, Any], top_k: int = 5) -> Dict[str, Any]:
+def find_similar_events(
+    target_chart: Dict[str, Any],
+    top_k: int = 5,
+    exclude_event_id: Optional[int] = None,
+    exclude_year: Optional[int] = None,
+    exclude_window: int = 1
+) -> Dict[str, Any]:
     """
-    Compara uma carta natal (passada, presente ou futura) com os 200 eventos históricos,
-    considerando planetas transpessoais, sociais, asteroides, aspectos estritos (3.0°)
-    e alinhamentos idênticos com as 30 estrelas fixas (0.3°).
+    Compara uma carta natal (passada, presente ou futura) com a base histórica,
+    aplicando estritamente leave-one-out (exclui o próprio evento e eventos do mesmo ano +/- exclude_window)
+    para evitar vazamento de dados (data leakage P0-3).
     """
     conn = get_connection()
     events_rows = conn.execute("""
@@ -127,6 +133,16 @@ def find_similar_events(target_chart: Dict[str, Any], top_k: int = 5) -> Dict[st
         WHERE calculated = 1
     """).fetchall()
     conn.close()
+
+    if exclude_event_id is None:
+        exclude_event_id = target_chart.get("event_id") or target_chart.get("id")
+
+    if exclude_year is None and target_chart.get("date"):
+        try:
+            dt_s = target_chart["date"]
+            exclude_year = int(dt_s.split("-")[0]) if not dt_s.startswith("-") else -int(dt_s.split("-")[1])
+        except Exception:
+            pass
 
     target_bodies = {b["id"]: b for b in target_chart.get("planets", [])}
     target_summary = target_chart.get("summary", {})
@@ -155,6 +171,19 @@ def find_similar_events(target_chart: Dict[str, Any], top_k: int = 5) -> Dict[st
     scored_events = []
 
     for er in events_rows:
+        cand_id = er["id"]
+        cand_date = er["date"]
+        try:
+            cand_year = int(cand_date.split("-")[0]) if not cand_date.startswith("-") else -int(cand_date.split("-")[1])
+        except Exception:
+            cand_year = None
+
+        # P0-3 Correção de Vazamento: Excluir o próprio evento ou eventos da janela [ano - exclude_window, ano + exclude_window]
+        if exclude_event_id is not None and cand_id == exclude_event_id:
+            continue
+        if exclude_year is not None and cand_year is not None and abs(cand_year - exclude_year) <= exclude_window:
+            continue
+
         ev_chart = json.loads(er["chart_json"])
         ev_bodies = {b["id"]: b for b in ev_chart.get("planets", [])}
         ev_aspect_pairs = {(a["planet1_id"], a["planet2_id"]): a["aspect_name"] for a in ev_chart.get("aspects", [])}
@@ -208,9 +237,9 @@ def find_similar_events(target_chart: Dict[str, Any], top_k: int = 5) -> Dict[st
         tension_sim = max(0.0, 10.0 - (tension_diff / 5.0))
         current_score += tension_sim
 
-        # Normalização percentual
+        # Normalização percentual contínua (sem teto artificial de 98.5%)
         total_possible = max_score + 20.0 + 10.0 + 15.0
-        match_percent = round(min(98.5, max(15.0, (current_score / total_possible) * 100.0)), 1)
+        match_percent = round(min(100.0, max(0.0, (current_score / total_possible) * 100.0)), 1)
 
         scored_events.append({
             "id": er["id"],
