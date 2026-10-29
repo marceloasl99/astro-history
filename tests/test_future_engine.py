@@ -16,6 +16,10 @@ def test_single_future_year_2026():
     assert 0 <= y2026["tech_innovation_index_1000"] <= 1000
     assert 0 <= y2026["resonance_index"] <= 100
     assert y2026["alert_level"] in [
+        "Percentil Superior (P90+)",
+        "Percentil Moderado",
+        "Percentil Basal",
+        # Compatibilidade com labels legados
         "Crítico / Ruptura Histórica",
         "Alto / Tensão Intensa",
         "Moderado / Transição",

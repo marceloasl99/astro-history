@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Metodologia e Validação Estatística | AstroHistory{% endblock %}
+{% block title %}Metodologia e Validação Estatística v2 | AstroHistory{% endblock %}
 
 {% block content %}
 <div class="space-y-8">
@@ -9,131 +9,324 @@
         <div class="flex items-center gap-3 mb-2">
             <span class="text-3xl">🔬</span>
             <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-sky-300 via-indigo-300 to-amber-300 bg-clip-text text-transparent">
-                Metodologia, Modelos Nulos & Validação Científica
+                Metodologia, Modelos Nulos & Validação Científica v2
             </h1>
         </div>
         <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-4xl">
-            Esta plataforma foi reconstruída para seguir o padrão ouro da pesquisa empírica: <strong>pré-registro público de hipóteses</strong>,
-            grupos de controle pareados, modelos nulos de deslocamento circular e controle rigoroso de falsas descobertas (FDR).
+            Esta plataforma segue o padrão ouro da pesquisa empírica pré-registrada: <strong>amostra analítica transparente (N=59)</strong>,
+            modelos nulos de deslocamento circular (N3) e estratificação por década (N2), correção de taxa de falsas descobertas (FDR Benjamini-Hochberg),
+            teste de equivalência (TOST) para confirmar ausência de efeito prático, e análise formal de poder estatístico.
         </p>
     </div>
 
-    <!-- Card de Decisão M2 -->
+    <!-- Card de Decisão M2 e Equivalência TOST -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-amber-500/30 bg-amber-950/20 shadow-lg">
         <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
             <div>
                 <span class="text-xs uppercase font-mono tracking-wider px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                    Marco de Decisão M2
+                    Marco de Decisão M2 · Conclusão Formal
                 </span>
-                <h2 class="text-xl font-bold text-slate-100 mt-2">Veredito: CAMINHO A (Pivô Metodológico)</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-100 mt-2">Veredito: CAMINHO A (Pivô Metodológico)</h2>
             </div>
-            <div class="text-right font-mono text-sm">
-                <span class="text-slate-400">Score vs N3:</span> <span class="text-amber-400 font-bold">z = -0.506 (p = 0.694)</span><br/>
-                <span class="text-slate-400">Teste Fora da Amostra (1951–2025):</span> <span class="text-amber-400 font-bold">z = -0.851 (p = 0.800)</span>
+            <div class="text-right font-mono text-sm space-y-1">
+                <div><span class="text-slate-400">Score vs N3:</span> <span class="text-amber-400 font-bold">z = -0.506 (p = 0.694)</span></div>
+                <div><span class="text-slate-400">Fora da Amostra (1951–2025):</span> <span class="text-amber-400 font-bold">z = -0.851 (p = 0.800)</span></div>
+                <div><span class="text-slate-400">Teste TOST (&Delta;=0.3 DP):</span> <span class="text-emerald-400 font-bold">p<sub>TOST</sub> = 0.04103 (Equivalente ao Nulo)</span></div>
             </div>
         </div>
-        <p class="text-sm text-slate-300 leading-relaxed">
-            Após a remoção do viés de seleção retrospectivo, do vazamento de dados no matcher e da saturação artificial em 990,
+        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            Após a remoção do viés de seleção retrospectivo, do vazamento de dados no matcher (LOO) e da saturação artificial em 990,
             os testes estatísticos revelaram que <strong>as assinaturas astrológicas dos eventos históricos não se distinguem do acaso estratificado</strong>.
-            Em cumprimento estrito aos princípios da honestidade científica, <strong>não são exibidas previsões determinísticas</strong>,
-            e o projeto atua como instrumento pedagógico de literacia estatística e pensamento crítico.
+            Mais do que um mero "p-valor não significativo", o teste de equivalência bicaudal TOST rejeitou a hipótese de qualquer efeito &ge; 0.30 desvios-padrão (86.4 pontos),
+            confirmando estatisticamente que a hipótese nula é sustentada.
         </p>
+        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs text-slate-400 font-mono">
+            <strong>Compromisso Científico:</strong> A plataforma atua exclusivamente como instrumento pedagógico de literacia estatística, pensamento crítico e exploração geométrica dos ciclos celestes, abstendo-se categoricamente de previsões determinísticas ou cenários de alarme.
+        </div>
     </div>
 
     <!-- Tabela de Hipóteses e Modelos Nulos -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60">
-        <h2 class="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
-            <span>📊</span> Resultados Empíricos dos Testes de Hipótese (Fase 3)
-        </h2>
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                <span>📊</span> Resultados Empíricos dos Testes de Hipótese (Fase 3 v2 · N=59)
+            </h2>
+            <span class="text-xs text-slate-400 font-mono">Amostra analítica congelada: 1800–2025 (Ver log de exclusão)</span>
+        </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
                 <thead>
                     <tr class="border-b border-slate-700 text-slate-400 text-xs font-mono uppercase">
-                        <th class="py-3 px-4">Hipótese / Modelo</th>
+                        <th class="py-3 px-4">Hipótese / Teste</th>
                         <th class="py-3 px-3 text-center">N</th>
                         <th class="py-3 px-3 text-center">Score Obs.</th>
                         <th class="py-3 px-4 text-center">Nulo (Média ± DP)</th>
                         <th class="py-3 px-3 text-center">Efeito (z)</th>
-                        <th class="py-3 px-3 text-center">p-valor</th>
+                        <th class="py-3 px-3 text-center">p (unicaudal)</th>
+                        <th class="py-3 px-3 text-center">p (bicaudal)</th>
                         <th class="py-3 px-3 text-center">q (FDR)</th>
                         <th class="py-3 px-4 text-center">Veredito</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800">
-                    <tr class="hover:bg-slate-800/40">
-                        <td class="py-3 px-4 font-semibold text-slate-100">H1 Geral vs N3 Deslocamento Circular</td>
-                        <td class="py-3 px-3 text-center">59</td>
-                        <td class="py-3 px-3 text-center font-mono">481.1</td>
-                        <td class="py-3 px-4 text-center font-mono">500.6 ± 38.5</td>
-                        <td class="py-3 px-3 text-center font-mono text-slate-400">-0.506</td>
-                        <td class="py-3 px-3 text-center font-mono">0.6941</td>
-                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-800/40">
-                        <td class="py-3 px-4 font-semibold text-slate-100">H1 Geral vs N2 Estratificado por Década</td>
-                        <td class="py-3 px-3 text-center">61</td>
-                        <td class="py-3 px-3 text-center font-mono">477.6</td>
-                        <td class="py-3 px-4 text-center font-mono">493.7 ± 35.9</td>
-                        <td class="py-3 px-3 text-center font-mono text-slate-400">-0.450</td>
-                        <td class="py-3 px-3 text-center font-mono">0.6715</td>
-                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-800/40">
-                        <td class="py-3 px-4 font-semibold text-slate-100">H2 Fora da Amostra (1951–2025)</td>
-                        <td class="py-3 px-3 text-center">33</td>
-                        <td class="py-3 px-3 text-center font-mono">456.5</td>
-                        <td class="py-3 px-4 text-center font-mono">501.6 ± 53.0</td>
-                        <td class="py-3 px-3 text-center font-mono text-slate-400">-0.851</td>
-                        <td class="py-3 px-3 text-center font-mono">0.7996</td>
-                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Sem sinal preditivo</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-800/40">
-                        <td class="py-3 px-4 font-semibold text-slate-100">Controle Negativo (Ruído Sintético)</td>
-                        <td class="py-3 px-3 text-center">61</td>
-                        <td class="py-3 px-3 text-center font-mono">427.8</td>
-                        <td class="py-3 px-4 text-center font-mono">501.5 ± 37.2</td>
-                        <td class="py-3 px-3 text-center font-mono text-slate-400">-1.982</td>
-                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
-                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-emerald-950 text-emerald-400 border border-emerald-800/50">Pipeline Íntegra</span></td>
-                    </tr>
+                    {% if results and results.hypotheses_results %}
+                        {% for row in results.hypotheses_results %}
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="py-3 px-4 font-semibold text-slate-100">{{ row.hypothesis }}</td>
+                            <td class="py-3 px-3 text-center font-mono">{{ row.n }}</td>
+                            <td class="py-3 px-3 text-center font-mono">{{ "%.1f"|format(row.obs) }}</td>
+                            <td class="py-3 px-4 text-center font-mono">{{ "%.1f"|format(row.null_mean) }} ± {{ "%.1f"|format(row.null_std) }}</td>
+                            <td class="py-3 px-3 text-center font-mono {% if row.z > 0 %}text-sky-400{% else %}text-slate-400{% endif %}">{{ "%.3f"|format(row.z) }}</td>
+                            <td class="py-3 px-3 text-center font-mono">{{ "%.4f"|format(row.p_one_sided) }}</td>
+                            <td class="py-3 px-3 text-center font-mono">{{ "%.4f"|format(row.p_two_sided) }}</td>
+                            <td class="py-3 px-3 text-center font-mono">{{ "%.4f"|format(row.q) }}</td>
+                            <td class="py-3 px-4 text-center">
+                                {% if row.significant %}
+                                <span class="px-2 py-0.5 rounded text-xs bg-emerald-900 text-emerald-300 border border-emerald-700/50">Rejeita H0</span>
+                                {% else %}
+                                <span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Fallback estático com dados canônicos -->
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="py-3 px-4 font-semibold text-slate-100">H1 Geral vs N3 Deslocamento Circular (Principal)</td>
+                            <td class="py-3 px-3 text-center font-mono">59</td>
+                            <td class="py-3 px-3 text-center font-mono">481.1</td>
+                            <td class="py-3 px-4 text-center font-mono">500.6 ± 38.5</td>
+                            <td class="py-3 px-3 text-center font-mono text-slate-400">-0.506</td>
+                            <td class="py-3 px-3 text-center font-mono">0.6941</td>
+                            <td class="py-3 px-3 text-center font-mono">0.6117</td>
+                            <td class="py-3 px-3 text-center font-mono">0.8834</td>
+                            <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="py-3 px-4 font-semibold text-slate-100">H1 Geral vs N2 Estratificado por Década</td>
+                            <td class="py-3 px-3 text-center font-mono">59</td>
+                            <td class="py-3 px-3 text-center font-mono">481.1</td>
+                            <td class="py-3 px-4 text-center font-mono">493.9 ± 36.6</td>
+                            <td class="py-3 px-3 text-center font-mono text-slate-400">-0.350</td>
+                            <td class="py-3 px-3 text-center font-mono">0.6418</td>
+                            <td class="py-3 px-3 text-center font-mono">0.7163</td>
+                            <td class="py-3 px-3 text-center font-mono">0.8834</td>
+                            <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="py-3 px-4 font-semibold text-slate-100">H2 Teste Fora da Amostra (1951–2025)</td>
+                            <td class="py-3 px-3 text-center font-mono">33</td>
+                            <td class="py-3 px-3 text-center font-mono">456.5</td>
+                            <td class="py-3 px-4 text-center font-mono">501.6 ± 53.0</td>
+                            <td class="py-3 px-3 text-center font-mono text-slate-400">-0.851</td>
+                            <td class="py-3 px-3 text-center font-mono">0.7996</td>
+                            <td class="py-3 px-3 text-center font-mono">0.4008</td>
+                            <td class="py-3 px-3 text-center font-mono">0.9329</td>
+                            <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Sem sinal preditivo</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40">
+                            <td class="py-3 px-4 font-semibold text-slate-100">H4 Tese de Tarnas (Planetas Lentos)</td>
+                            <td class="py-3 px-3 text-center font-mono">59</td>
+                            <td class="py-3 px-3 text-center font-mono">33.4</td>
+                            <td class="py-3 px-4 text-center font-mono">34.0 ± 8.7</td>
+                            <td class="py-3 px-3 text-center font-mono text-slate-400">-0.063</td>
+                            <td class="py-3 px-3 text-center font-mono">0.5103</td>
+                            <td class="py-3 px-3 text-center font-mono">0.9794</td>
+                            <td class="py-3 px-3 text-center font-mono">0.8834</td>
+                            <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Os 5 Princípios da Reforma Metodológica -->
+    <!-- Seções de Rigor Estatístico v2: Poder, TOST e Controles Calibrados -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Poder Estatístico -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-4">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">📈</span>
+                <h3 class="text-base font-bold text-sky-300">Poder Estatístico & Efeito Mínimo</h3>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Com o erro-padrão do nulo N3 de <strong>&sigma;<sub>nulo</sub> = 38.5 pontos</strong>, calculamos a curva de poder analítico para &alpha; = 5%:
+            </p>
+            <div class="space-y-2 text-xs font-mono">
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Efeito Mínimo (Poder 80%):</span>
+                    <span class="text-sky-300 font-bold">95.7 pts (0.332 DP)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Poder para Efeito 0.20 DP:</span>
+                    <span class="text-slate-300">44.2%</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Poder para Efeito 0.30 DP:</span>
+                    <span class="text-slate-300">72.8%</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Poder para Efeito 0.332 DP:</span>
+                    <span class="text-sky-300 font-bold">80.1%</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Poder para Efeito 0.50 DP:</span>
+                    <span class="text-slate-300">98.2%</span>
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-tight">
+                <strong>Significado:</strong> Um efeito macro-histórico real teria sido detectado se fosse &ge; 0.33 DP. Efeitos sutis (&lt; 0.3 DP) exigiriam milhares de eventos não disponíveis historicamente.
+            </p>
+        </div>
+
+        <!-- Equivalência TOST -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-4">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">⚖️</span>
+                <h3 class="text-base font-bold text-amber-300">Equivalência Formal (TOST)</h3>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Em vez de apenas "falhar em rejeitar", aplicamos o teste bicaudal de equivalência <em>Two One-Sided Tests</em> (TOST) com margem &Delta; = 0.30 DP (86.4 pts):
+            </p>
+            <div class="space-y-2 text-xs font-mono">
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Margem de Equivalência:</span>
+                    <span class="text-amber-300 font-bold">&plusmn;86.4 pts (&plusmn;0.30 DP)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Teste Superior t<sub>1</sub>:</span>
+                    <span class="text-slate-300">1.739 (p<sub>1</sub> = 0.0410)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Teste Inferior t<sub>2</sub>:</span>
+                    <span class="text-slate-300">2.752 (p<sub>2</sub> = 0.0030)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">p-valor TOST:</span>
+                    <span class="text-emerald-400 font-bold">p = 0.04103 (&lt; 0.05)</span>
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-tight">
+                <strong>Conclusão:</strong> O efeito observado &eacute; estatisticamente equivalente a zero dentro da margem estipulada, descartando relevância prática.
+            </p>
+        </div>
+
+        <!-- Calibração de Falsos Positivos -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-4">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🎯</span>
+                <h3 class="text-base font-bold text-emerald-300">Calibração de Falsos Positivos</h3>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Avaliamos a calibração da esteira analítica gerando <strong>1.000 catálogos sintéticos de ruído puro</strong> sob as mesmas regras do teste substantivo:
+            </p>
+            <div class="space-y-2 text-xs font-mono">
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Simulações Sintéticas:</span>
+                    <span class="text-slate-300">1.000 catálogos</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Taxa Alvo (&alpha;):</span>
+                    <span class="text-slate-300">5.0% (faixa aceita: 3% a 7%)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Rejeições Observadas:</span>
+                    <span class="text-emerald-400 font-bold">3.7% (37 / 1.000)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-800">
+                    <span class="text-slate-400">Status de Calibração:</span>
+                    <span class="text-emerald-300 font-bold">Calibrada &amp; Desacoplada</span>
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-tight">
+                <strong>Integridade:</strong> Os controles negativos foram removidos da família FDR para não diluir o limiar de significância dos testes reais.
+            </p>
+        </div>
+    </div>
+
+    <!-- Hipótese Específica de Tarnas e Precedentes LOO -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
-            <h3 class="text-base font-bold text-amber-300">1. Erradicação de Vazamento (Leave-One-Out)</h3>
+            <h3 class="text-base font-bold text-indigo-300">🪐 Teste Direto da Tese de Richard Tarnas</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-                Ao comparar qualquer ano ou evento com a base histórica, exclui-se estritamente o próprio evento e qualquer marco ocorrido na janela de ±1 ano.
-                Isso impede a auto-combinação artificial de 98.5% que gerava a ilusão de concordância perfeita.
+                Testamos especificamente a hipótese central da astrologia arquetípica moderna (Tarnas, 2006): que alinhamentos tensos (0°, 90°, 180° ± 6°)
+                exclusivamente entre os planetas exteriores lentos (<strong>Saturno, Urano, Netuno e Plutão</strong>) concentram crises e rupturas históricas.
+            </p>
+            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs font-mono space-y-1">
+                <div>Score Observado: <span class="text-slate-200 font-bold">33.41</span></div>
+                <div>Distribuição Nula N3: <span class="text-slate-200">33.96 ± 8.67</span></div>
+                <div>Efeito: <span class="text-slate-400 font-bold">z = -0.063 (p = 0.5103)</span></div>
+                <div class="text-slate-400 text-[11px] pt-1">Veredito: Mesmo isolando estritamente os ciclos lentos, a distribuição é indistinguível do modelo nulo.</div>
+            </div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
+            <h3 class="text-base font-bold text-rose-300">🔍 Validação Preditiva do Matcher (Leave-One-Out)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Testamos se o evento histórico geometricamente mais similar (excluindo a janela ±1 ano) compartilha da mesma categoria temática do evento-alvo (teste E5):
+            </p>
+            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs font-mono space-y-1">
+                <div>Acurácia Top-1 Observada: <span class="text-rose-400 font-bold">26.7%</span> (16 / 60)</div>
+                <div>Taxa-Base por Classe Majoritária: <span class="text-slate-200 font-bold">32.0%</span></div>
+                <div>Significância por Permutação: <span class="text-slate-400">p = 0.8023</span></div>
+                <div class="text-slate-400 text-[11px] pt-1">Decisão: O matcher foi reclassificado para <em>"Exploração Geométrica"</em>, sem valor preditivo de cenários.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Os 5 Princípios da Reforma Metodológica -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-2">
+            <h3 class="text-sm font-bold text-amber-300">1. Erradicação de Vazamento</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Exclusão estrita do próprio evento e de qualquer evento a &plusmn;1 ano na busca de precedentes, eliminando a auto-combinação artificial de 98.5%.
             </p>
         </div>
-        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
-            <h3 class="text-base font-bold text-sky-300">2. Estrelas Fixas sem Inflação Combinatória</h3>
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-2">
+            <h3 class="text-sm font-bold text-sky-300">2. Estrelas Fixas Sem Inflação</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-                Contatos estelares foram restritos estritamente a <strong>Conjunções ($0^\circ \pm 0.3^\circ$)</strong>.
-                A inclusão de 4 aspectos (quadraturas e trígonos) anteriormente inflava o número de contatos para ~5 por mapa por mero ruído geométrico aleatório.
+                Restritas exclusivamente a conjunções estritas (&plusmn;0.3&deg;). Aspectos secundários inflavam aleatoriamente ~5 contatos por mapa.
             </p>
         </div>
-        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
-            <h3 class="text-base font-bold text-indigo-300">3. Tratamento da Incerteza Temporal</h3>
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-2">
+            <h3 class="text-sm font-bold text-indigo-300">3. Incerteza Temporal</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-                A Lua percorre ~13° por dia. Para eventos históricos sem hora e fuso horário documentados, a Lua é excluída dos aspectos e do score,
-                evitando que aspectos fictícios criem correlações ilusórias.
+                A Lua percorre ~13&deg;/dia. Em eventos históricos sem hora e fuso documentados, a Lua é excluída dos aspectos e pontuações.
             </p>
         </div>
-        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
-            <h3 class="text-base font-bold text-emerald-300">4. Grade Diária Vetorizada & Percentil Empírico</h3>
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-2">
+            <h3 class="text-sm font-bold text-emerald-300">4. Percentil Calibrado &amp; Grade Diária</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-                O teto artificial de 990 pontos foi eliminado. A pontuação agora mapeia para a distribuição empírica contínua dos 109.938 dias entre 1800 e 2100,
-                permitindo interpretação direta: score 850 significa dia mais tenso que 85% de todos os dias da era moderna.
+                Eliminação de saturações (clamps em 990 ou pisos em 10). O índice mapeia diretamente para a distribuição contínua dos 109.938 dias entre 1800 e 2100.
             </p>
+        </div>
+    </div>
+
+    <!-- Auditoria do Catálogo e Log de Exclusão -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60">
+        <h3 class="text-base font-bold text-slate-100 mb-2 flex items-center gap-2">
+            <span>📋</span> Auditoria do Catálogo & Funil de Exclusão (300 &rarr; 61 &rarr; 59)
+        </h3>
+        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            A discrepância de contagem de eventos entre testes anteriores foi sanada. O funil metodológico completo está registrado em 
+            <a href="/events" class="text-sky-300 hover:underline"><code>data/exclusion_log.md</code></a>:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+            <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block mb-1">Catálogo Inicial:</span>
+                <strong class="text-slate-200 text-sm">300 eventos</strong>
+                <p class="text-[11px] text-slate-400 mt-1 font-sans">Compilado histórico exploratório com datas aproximadas e incerteza horária.</p>
+            </div>
+            <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block mb-1">Amostra Qualificada (v2):</span>
+                <strong class="text-amber-300 text-sm">61 eventos diários</strong>
+                <p class="text-[11px] text-slate-400 mt-1 font-sans">Apenas eventos com dia/mês/ano precisos e documentados na historiografia.</p>
+            </div>
+            <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block mb-1">Amostra Analítica Congelada:</span>
+                <strong class="text-emerald-400 text-sm">59 eventos (1800–2025)</strong>
+                <p class="text-[11px] text-slate-400 mt-1 font-sans">Delimitação temporal estrita da grade diária Swiss Ephemeris (excluindo 1789 e 1799).</p>
+            </div>
         </div>
     </div>
 </div>

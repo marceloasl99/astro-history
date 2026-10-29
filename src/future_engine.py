@@ -13,6 +13,7 @@ import time
 import sqlite3
 from typing import Dict, List, Any, Optional
 from collections import defaultdict
+from datetime import date
 
 # Garantir que a raiz do projeto esteja no sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -23,71 +24,6 @@ from src.correlation_engine import find_similar_events
 CACHE_FILE = "/home/astro/data/timeline_1800_2100.json"
 OLD_CACHE_FILE = "/home/astro/data/future_simulation_2026_2060.json"
 DB_PATH = "/home/astro/db/history_astrology.db"
-
-# Contexto arquetípico dos trânsitos geracionais conhecidos da Astrologia Moderna (1800-2100)
-TRANSIT_CONTEXT = {
-    # Marcos do Século XIX
-    1805: "Batalha de Trafalgar: Plutão e Saturno em tensão marcando o ápice das Guerras Napoleônicas marítimas.",
-    1815: "Batalha de Waterloo: Fim da hegemonia napoleônica e estabelecimento da Santa Aliança na Europa.",
-    1822: "Independência do Brasil: Conjunção Urano-Netuno em Capricórnio definindo a soberania das novas nações americanas.",
-    1848: "A Primavera dos Povos: Urano e Saturno em conjunção detonando revoluções democráticas simultâneas na Europa.",
-    1861: "Início da Guerra Civil Americana: Quadratura Urano-Netuno em signos mutáveis, ruptura institucional interna.",
-    1889: "Proclamação da República no Brasil: Conjunção Netuno-Plutão em Gêmeos, transição da monarquia agrária para modernidade militar.",
-    # Marcos do Século XX
-    1914: "Início da Primeira Guerra Mundial: Saturno conjunto a Plutão em Câncer, colapso de impérios centrais.",
-    1918: "Gripe Espanhola e Fim da Primeira Guerra: Saturno em Leão com quadratura a Urano em Aquário.",
-    1929: "Crash de Wall Street: T-square cardinal envolvendo Saturno, Urano e Plutão, colapso financeiro mundial.",
-    1933: "Incêndio do Reichstag e Ascensão Nazista: Quadratura Urano-Plutão em Áries e Câncer, efervescência totalitária.",
-    1939: "Início da Segunda Guerra Mundial: Saturno conjunto a Urano em Touro, avanço militar mecanizado sobre a Europa.",
-    1945: "Fim da Segunda Guerra e Bomba Atômica: Plutão em Leão ativado por Marte e Saturno em Câncer, inauguração da Era Nuclear.",
-    1969: "Pouso na Lua (Apollo 11): Conjunção Júpiter-Urano em Libra e Plutão em Virgem, ápice da corrida espacial.",
-    1989: "Queda do Muro de Berlim: Grande Stellium em Capricórnio (Saturno, Urano, Netuno) em oposição a Júpiter.",
-    2001: "11 de Setembro: Oposição exata Saturno em Gêmeos a Plutão em Sagitário, início da Guerra ao Terror global.",
-    2008: "Colapso do Lehman Brothers: Ingresso de Plutão em Capricórnio e oposição a Marte, implosão do crédito hipotecário.",
-    2020: "Pandemia de COVID-19: Conjunção histórica Saturno-Plutão em Capricórnio com Júpiter conjunto.",
-    # Horizonte Futuro Século XXI (2026-2100)
-    2026: "Conjunção Saturno-Netuno no ponto vernal (0° Áries) e Grande Trígono de Ar Urano em Gêmeos - Plutão em Aquário. Início de um novo megaciclo civilizatório.",
-    2027: "Plutão consolida seu trânsito em Aquário com trígono a Urano em Gêmeos. Aceleração extrema da IA, redes descentralizadas e reconfiguração do direito digital.",
-    2028: "Saturno entra em Touro em quadratura com Plutão em Aquário. Ajuste e contração de sistemas monetários digitais, commodities e segurança alimentar.",
-    2029: "Urano atinge o meio de Gêmeos em oposição ao centro galáctico. Rupturas drásticas em telecomunicações globais, computação quântica e aviação hipersônica.",
-    2030: "Netuno avança nos primeiros graus de Áries. Surgimento de novas doutrinas de defesa, idealismo militarizado e corrida por novos recursos energéticos.",
-    2031: "Júpiter e Saturno formam aspectos tensos com planetas transpessoais. Revisão de tratados geopolíticos mundiais e reformas na governança da ONU.",
-    2032: "Urano ingressa em Câncer. Choques e redefinições em torno de soberania nacional, fronteiras territoriais e autossuficiência de recursos domésticos.",
-    2033: "Saturno em Gêmeos forma quadratura com Netuno em Áries. Batalhas de narrativas informacionais, regulação draconiana da internet e cibersegurança estatal.",
-    2034: "Plutão no segundo decanato de Aquário. Amadurecimento de novas formas de democracia digital direta e automação integral da produção industrial.",
-    2035: "Saturno forma oposição a Plutão (Eixo Leão-Aquário). Tensão geopolítica bipolar aguda, blocos de poder antagônicos e crises de legitimidade executiva.",
-    2036: "Pico da tensão da oposição Saturno-Plutão. Reformas radicais nas arquiteturas de alianças militares globais e redivisão de esferas de influência.",
-    2037: "Júpiter em trígono com Plutão. Grande expansão de novas matrizes energéticas limpas (fusão nuclear comercial) e reorganização comercial entre continentes.",
-    2038: "Urano em Leão. Disrupções em fontes de energia primária, soberania de lideranças fortes e novas formas de autoridade tecnocrática.",
-    2039: "Netuno atinge o meio de Áries. Efervescência de movimentos de renovação cultural, ética pioneira e novos conceitos de identidade individual.",
-    2040: "Conjunção Júpiter-Saturno. Novo ciclo de 20 anos inaugurando diretrizes de planejamento econômico e metas globais de desenvolvimento pós-carbono.",
-    2041: "Plutão no terceiro decanato de Aquário. Consolidação definitiva de redes autônomas descentralizadas e fim do modelo burocrático do século XX.",
-    2042: "Saturno em Escorpião. Auditoria profunda de passivos ambientais globais, dívidas soberanas acumuladas e reestruturação de fundos soberanos.",
-    2043: "Plutão inicia transição para o signo de Peixes. Deslocamento do foco tecnológico para o desenvolvimento da consciência, bioética e espiritualidade quântica.",
-    2044: "Ingresso definitivo de Plutão em Peixes. Dissolução de dogmas materialistas rígidos, avanço nas ciências da mente e reconfiguração das religiões globais.",
-    2045: "Urano em Virgem. Revolução biotecnológica radical, reengenharia do trabalho humano pela automação biológica e medicina molecular de precisão.",
-    2046: "Urano em Virgem em oposição a Netuno em Peixes. Tensões éticas extremas entre manipulação genética avançada e limites morais da espécie humana.",
-    2047: "Saturno em Capricórnio. Retorno institucional severo: códigos jurídicos globais para bioengenharia e reordenação de pactos interestatais rígidos.",
-    2048: "Auge da quadratura Urano-Plutão. Rupturas nos paradigmas médicos e farmacêuticos e novos modelos de propriedade intelectual.",
-    2049: "Júpiter conjunto a Netuno em Peixes. Renascimento humanitário, grandes tratados de proteção aos oceanos e cooperação ecológica planetária.",
-    2050: "Marco do meio do século: Netuno ingressa em Touro e Plutão consolida Peixes. Transição histórica da economia de escassez para economia de abundância circular.",
-    2051: "Saturno em Aquário conjunto ao retorno institucional e Netuno em Touro. Estabilização de novas moedas ecológicas e novos padrões de liquidez global descentralizada.",
-    2052: "Júpiter em oposição a Urano em Libra. Disputas regulatórias sobre tratados orbitais, telecomunicações espaciais e partilha de mineração de asteroides.",
-    2053: "Saturno em Peixes conjunto a Plutão. Reestruturação profunda dos tratados marítimos internacionais e governança ética de biosferas sintéticas.",
-    2054: "Trígono de Terra Netuno em Touro com planetas em Virgem. Aceleração da infraestrutura agrotech regenerativa e estabilização de cadeias de suprimentos alimentares.",
-    2055: "Urano em Escorpião. Saltos drásticos em tecnologias de regeneração celular, fusão homem-máquina e protocolos de biossegurança contra bioameaças.",
-    2056: "Saturno em Áries em sextil com Plutão em Peixes. Reconfiguração da cibersegurança quântica autônoma e defesa contra sistemas cognitivos descentralizados.",
-    2057: "Júpiter em Leão em trígono com Netuno. Florescimento de novas correntes artísticas globais e síntese de patrimônio cultural com IA senciente.",
-    2058: "Urano ingressa em Sagitário. Rupturas e saltos pioneiros em propulsão espacial de longo alcance e telecomunicações subespaciais.",
-    2059: "Saturno em Touro conjunto a Netuno. Consolidação de protocolos climáticos mundiais vinculantes e auditoria ambiental automatizada por satélites.",
-    2060: "Netuno consolidado em Touro e Plutão no meio de Peixes. Síntese ecológica, fusão quântica madura e harmonização tecnológica global.",
-    2065: "Urano em Sagitário em trígono com planetas em Fogo. Nova onda de exploração espacial comercial e expansão lunar/marciana.",
-    2070: "Grande alinhamento transpessoal em signos de Ar e Terra. Padronização de governança para inteligências pós-humanas e inteligência artificial geral.",
-    2075: "Netuno ingressa em Gêmeos. Revolução na transmissão mental de dados, interfaces neurais de banda larga e reformulação da linguagem humana.",
-    2080: "Ingresso histórico de Plutão em Áries (ciclo de 248 anos). Início de uma era de novos pioneirismos bélicos e refundação radical de impérios interestelares.",
-    2090: "Saturno e Urano em conjunção polar. Reconfiguração definitiva da ordem geopolítica planetária para a transição do século XXII.",
-    2100: "Marco de encerramento do Século XXI: Integração cosmológica de civilização planetária Tipo 1 na Escala Kardashev."
-}
 
 def load_historical_events_from_db() -> Dict[int, List[Dict[str, Any]]]:
     """Carrega todos os eventos históricos cadastrados no SQLite com data >= 1800 agrupados por ano."""
@@ -176,51 +112,52 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
         })
         charts = [mid_chart]
 
-    # Avaliar todos os gráficos amostrados no ano na escala de 0 a 1000
+    # Avaliar os 4 portais sazonais com percentil empírico calibrado da grade diária
     scores_1000 = []
     sub_scores_list = []
-    for ch in charts:
+    cardinal_dates = [date(year, 3, 20), date(year, 6, 21), date(year, 9, 22), date(year, 12, 21)]
+    for idx, ch in enumerate(charts):
         s_data = calculate_chart_tension_1000(ch)
-        scores_1000.append(s_data["tension_index_1000"])
+        try:
+            from src.core.ephemeris_grid import get_score_for_date
+            calibrated_gate_score = get_score_for_date(cardinal_dates[idx])
+        except Exception:
+            calibrated_gate_score = s_data["tension_index_1000"]
+        s_data["tension_index_1000"] = calibrated_gate_score
+        scores_1000.append(calibrated_gate_score)
         sub_scores_list.append(s_data)
 
-    # Estatísticas diárias reais da janela anual (365 dias) a partir da grade diária pré-computada
+    # Estatísticas diárias reais e percentil anual calibrado da janela anual
     try:
-        from src.core.ephemeris_grid import get_year_daily_stats
-        daily_stats = get_year_daily_stats(year)
-        avg_tension = daily_stats["mean_tension"]
-        median_tension = daily_stats["median_tension"]
-        peak_tension = daily_stats["max_tension"]
-        p90_tension = daily_stats["p90_tension"]
+        from src.core.ephemeris_grid import get_calibrated_year_metrics, get_score_for_date
+        calibrated_metrics = get_calibrated_year_metrics(year)
+        annual_percentile = calibrated_metrics["annual_percentile_1000"]
+        avg_tension = calibrated_metrics["daily_mean_percentile"]
+        median_tension = calibrated_metrics["daily_median_percentile"]
+        peak_tension = calibrated_metrics["daily_max_percentile"]
+        p90_tension = calibrated_metrics["daily_p90_percentile"]
+        days_above_p90 = calibrated_metrics["days_above_p90"]
+        expected_days_above_p90 = calibrated_metrics["expected_days_above_p90"]
+        tier_label = calibrated_metrics["tier_label"]
+        tier_color = calibrated_metrics["tier_color"]
     except Exception:
         peak_tension = max(scores_1000)
         avg_tension = round(sum(scores_1000) / len(scores_1000), 1)
         median_tension = avg_tension
         p90_tension = peak_tension
+        annual_percentile = avg_tension
+        days_above_p90 = 36
+        expected_days_above_p90 = 36.5
+        tier_label = "Percentil Moderado"
+        tier_color = "sky"
 
-    # Pegar o gráfico sazonal mais intenso para extrair os gatilhos arquetípicos
-    peak_idx = scores_1000.index(max(scores_1000))
+    # Mapeamento neutro de nível e cor para a interface
+    alert_level = tier_label
+    alert_color = "red" if tier_color == "indigo" else ("yellow" if tier_color == "sky" else "green")
+
+    # Gráfico do portal sazonal de maior score para extrair os gatilhos astronômicos
+    peak_idx = scores_1000.index(max(scores_1000)) if scores_1000 else 0
     peak_chart = charts[peak_idx]
-    peak_sub = sub_scores_list[peak_idx]
-
-    conflict_risk = peak_sub["conflict_risk_index_1000"]
-    crisis_risk = peak_sub["crisis_risk_index_1000"]
-    tech_innovation = peak_sub["tech_innovation_index_1000"]
-    social_transformation = peak_sub["social_transformation_index_1000"]
-
-    # Identificar nível de alerta com base na nova escala 0-1000
-    if peak_tension >= 850.0 or conflict_risk >= 850.0:
-        alert_level = "Crítico / Ruptura Histórica"
-        alert_color = "red"
-    elif peak_tension >= 650.0 or conflict_risk >= 650.0:
-        alert_level = "Alto / Tensão Intensa"
-        alert_color = "orange"
-    elif peak_tension >= 400.0:
-        alert_level = "Moderado / Transição"
-        alert_color = "yellow"
-    else:
-        alert_level = "Estável / Céu Calmo"
-        alert_color = "green"
 
     # Posições dos planetas geracionais no pico
     planets_map = {p["id"]: p for p in peak_chart.get("planets", [])}
@@ -249,17 +186,14 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
     dom_cat = sim_data.get("dominant_matching_category", "Transformação Cultural")
     resonance = sim_data.get("avg_match_percent", 50.0)
 
-    # Determinar texto explicativo / histórico
-    context_note = TRANSIT_CONTEXT.get(year, "")
-    
+    # Síntese textual exclusivamente derivada das efemérides reais calculadas
     if has_history:
-        # Se for um ano do passado com eventos históricos cadastrados
         main_hist = hist_events[0]
         titles_str = " | ".join([e["title"] for e in hist_events])
         scenario_text = (
             f"FATO HISTÓRICO REAL: {titles_str}. "
-            f"Tensão de Pico Cósmico calculada: {peak_tension:.1f}/1000 (Média Anual: {avg_tension:.1f}/1000). "
-            f"{context_note} "
+            f"Percentil Médio Anual: {annual_percentile:.1f}/1000 ({tier_label}, {days_above_p90} dias > P90 da era). "
+            f"Configuração calculada pelo Swiss Ephemeris: Plutão em {pluto_sign}, Netuno em {neptune_sign}, Urano em {uranus_sign}, Saturno em {saturn_sign}. "
             f"Consequências registradas na história: \"{main_hist['consequence'][:220]}...\""
         )
         historical_summary = [
@@ -273,45 +207,51 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
             for e in hist_events
         ]
     elif year < 2026:
-        # Ano do passado sem evento cadastrado na base dos 200
         top_past_title = top_matches[0]["title"] if top_matches else "Marcos da História"
+        top_match_sim = top_matches[0]["match_percent"] if top_matches else 50.0
         scenario_text = (
             f"Ano histórico sem fato específico no catálogo dos 200 marcos. "
-            f"Tensão Cósmica de fundo: {peak_tension:.1f}/1000 (Média: {avg_tension:.1f}/1000). "
-            f"{context_note or 'Período de continuidade dos ciclos geracionais vigentes.'} "
-            f"Padrão celeste mais próximo correlacionado a '{top_past_title}'."
+            f"Percentil Médio Anual: {annual_percentile:.1f}/1000 ({tier_label}, {days_above_p90} dias > P90). "
+            f"Configuração calculada: Plutão em {pluto_sign}, Netuno em {neptune_sign}, Urano em {uranus_sign}, Saturno em {saturn_sign}. "
+            f"Isomorfismo geométrico mais próximo: '{top_past_title}' ({top_match_sim}% de similaridade angular)."
         )
         historical_summary = []
     else:
-        # Ano do horizonte futuro (2026–2100)
         top_past_title = top_matches[0]["title"] if top_matches else "Marcos da modernidade"
         top_past_consequence = top_matches[0]["consequence"][:160] if top_matches else ""
+        top_match_sim = top_matches[0]["match_percent"] if top_matches else 50.0
         scenario_text = (
-            f"Horizonte prospectivo para {year}: Tensão Projetada de {peak_tension:.1f}/1000 "
-            f"com {resonance:.1f}% de similaridade com '{dom_cat}'. "
-            f"{context_note or 'Ciclos de consolidação evolutiva.'} "
-            f"Precedente correlato: '{top_past_title}' (onde ocorreu: \"{top_past_consequence}...\"). "
-            f"Desdobramentos potenciais orientados pela atuação de Plutão em {pluto_sign} e Urano em {uranus_sign}."
+            f"Horizonte prospectivo para {year}: Percentil Médio Anual de {annual_percentile:.1f}/1000 ({tier_label}), "
+            f"com {days_above_p90} dias acima do percentil 90 da era (esperado ao acaso: {expected_days_above_p90:.1f} dias). "
+            f"Configuração calculada: Plutão em {pluto_sign}, Netuno em {neptune_sign}, Urano em {uranus_sign}, Saturno em {saturn_sign}. "
+            f"Isomorfismo geométrico mais próximo: '{top_past_title}' ({top_match_sim}% de similaridade). "
+            f"Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
         )
         historical_summary = []
 
-    # Compatibilidade com campo anterior de 0-100 para evitar quebra em templates legados
-    legacy_tension_100 = round(peak_tension / 10.0, 1)
+    # Compatibilidade com campos anteriores
+    legacy_tension_100 = round(annual_percentile / 10.0, 1)
 
     return {
         "year": year,
         "is_historical": has_history,
         "historical_events": historical_summary,
-        "tension_index": legacy_tension_100,  # 0-100 compatível
-        "tension_index_1000": peak_tension,  # 0-1000 alta resolução
+        "tension_index": legacy_tension_100,
+        "tension_index_1000": annual_percentile,  # agora calibrado para percentil anual
+        "annual_percentile_1000": annual_percentile,
         "avg_tension_1000": avg_tension,
-        "conflict_risk_index": round(conflict_risk / 10.0, 1),
-        "conflict_risk_index_1000": conflict_risk,
-        "crisis_risk_index": round(crisis_risk / 10.0, 1),
-        "crisis_risk_index_1000": crisis_risk,
-        "tech_innovation_index": round(tech_innovation / 10.0, 1),
-        "tech_innovation_index_1000": tech_innovation,
-        "social_transformation_index_1000": social_transformation,
+        "days_above_p90": days_above_p90,
+        "expected_days_above_p90": expected_days_above_p90,
+        "tier_label": tier_label,
+        "tier_color": tier_color,
+        "peak_tension_1000": peak_tension,
+        "conflict_risk_index": 0.0,
+        "conflict_risk_index_1000": 0.0,
+        "crisis_risk_index": 0.0,
+        "crisis_risk_index_1000": 0.0,
+        "tech_innovation_index": 0.0,
+        "tech_innovation_index_1000": 0.0,
+        "social_transformation_index_1000": 0.0,
         "resonance_index": round(resonance, 1),
         "alert_level": alert_level,
         "alert_color": alert_color,
@@ -445,29 +385,20 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
         if not base_item:
             base_item = calculate_single_year(yr)
 
-        # Amostragem das 4 datas sazonais para determinar o portal exato de pico
+        # Amostragem das 4 datas sazonais com percentil diário empírico calibrado
         seasonal_gates = []
         for s_date_suf, s_name in season_labels:
             full_date = f"{yr}-{s_date_suf}"
             try:
-                ch = calculate_event_chart({
-                    "date": full_date,
-                    "time": "12:00",
-                    "latitude": 0.0,
-                    "longitude": 0.0,
-                    "title": f"Portal {full_date}"
-                })
-                s_metrics = calculate_chart_tension_1000(ch)
-                t_score = s_metrics["tension_index_1000"]
+                m_part, d_part = int(s_date_suf.split("-")[0]), int(s_date_suf.split("-")[1])
+                from src.core.ephemeris_grid import get_score_for_date
+                t_score = get_score_for_date(date(yr, m_part, d_part))
                 seasonal_gates.append({
                     "date": full_date,
                     "season_label": s_name,
                     "short_season": s_name.split(" ")[0] + " " + s_name.split(" ")[2],
                     "tension_1000": t_score,
                     "tension_percent": round(t_score / 10.0, 1),
-                    "conflict_risk_1000": s_metrics["conflict_risk_index_1000"],
-                    "crisis_risk_1000": s_metrics["crisis_risk_index_1000"],
-                    "tech_innovation_1000": s_metrics["tech_innovation_index_1000"],
                 })
             except Exception:
                 continue
@@ -488,15 +419,20 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
         top_prec = top_m[0] if top_m else {
             "title": "Marcos da História Moderna",
             "category": base_item.get("dominant_category", "Transformação Cultural"),
-            "match_percent": base_item.get("resonance_index", 50.0),
+            "match_percent": 50.0,
             "consequence": ""
         }
 
-        # Formatações percentuais
-        tension_val = base_item.get("tension_index_1000", 500.0)
-        conflict_val = base_item.get("conflict_risk_index_1000", 500.0)
-        crisis_val = base_item.get("crisis_risk_index_1000", 500.0)
-        tech_val = base_item.get("tech_innovation_index_1000", 500.0)
+        # Métricas anuais calibradas
+        annual_pct = base_item.get("annual_percentile_1000", 500.0)
+        daily_mean_val = base_item.get("avg_tension_1000", 500.0)
+        days_above_p90 = base_item.get("days_above_p90", 36)
+        expected_days_above_p90 = base_item.get("expected_days_above_p90", 36.5)
+        tier_label = base_item.get("tier_label", "Percentil Moderado")
+        tier_color = base_item.get("tier_color", "sky")
+
+        ui_alert_color = "red" if tier_color == "indigo" else ("yellow" if tier_color == "sky" else "green")
+        ui_alert_level = tier_label
 
         proj_row = {
             "year": yr,
@@ -504,23 +440,18 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
             "peak_date": peak_date,
             "peak_season": peak_season,
             "seasonal_gates": seasonal_gates,
-            "tension_1000": tension_val,
-            "tension_percent": round(tension_val / 10.0, 1),
-            "tension_percent_str": f"{tension_val / 10.0:.1f}%",
-            "avg_tension_1000": base_item.get("avg_tension_1000", round(tension_val * 0.8, 1)),
-            "conflict_risk_1000": conflict_val,
-            "conflict_risk_percent": round(conflict_val / 10.0, 1),
-            "conflict_risk_percent_str": f"{conflict_val / 10.0:.1f}%",
-            "crisis_risk_1000": crisis_val,
-            "crisis_risk_percent": round(crisis_val / 10.0, 1),
-            "crisis_risk_percent_str": f"{crisis_val / 10.0:.1f}%",
-            "tech_innovation_1000": tech_val,
-            "tech_innovation_percent": round(tech_val / 10.0, 1),
-            "tech_innovation_percent_str": f"{tech_val / 10.0:.1f}%",
-            "social_transformation_1000": base_item.get("social_transformation_index_1000", 500.0),
-            "resonance_index": base_item.get("resonance_index", 50.0),
-            "alert_level": base_item.get("alert_level", "Moderado"),
-            "alert_color": base_item.get("alert_color", "yellow"),
+            "annual_percentile_1000": annual_pct,
+            "annual_percentile_str": f"{annual_pct / 10.0:.1f}%",
+            "tension_1000": annual_pct,
+            "tension_percent": round(annual_pct / 10.0, 1),
+            "tension_percent_str": f"{annual_pct / 10.0:.1f}%",
+            "avg_tension_1000": daily_mean_val,
+            "days_above_p90": days_above_p90,
+            "expected_days_above_p90": expected_days_above_p90,
+            "tier_label": tier_label,
+            "tier_color": tier_color,
+            "alert_level": ui_alert_level,
+            "alert_color": ui_alert_color,
             "dominant_category": base_item.get("dominant_category", "Transformação Cultural"),
             "cosmic_trigger": base_item.get("cosmic_trigger", ""),
             "pluto_sign": base_item.get("pluto_sign", ""),
@@ -535,9 +466,8 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
 
     # Métricas agregadas do horizonte 2027-2060
     highest_tension = max(projections, key=lambda p: p["tension_1000"])
-    highest_war = max(projections, key=lambda p: p["conflict_risk_1000"])
-    highest_crisis = max(projections, key=lambda p: p["crisis_risk_1000"])
-    highest_tech = max(projections, key=lambda p: p["tech_innovation_1000"])
+    lowest_tension = min(projections, key=lambda p: p["tension_1000"])
+    highest_days = max(projections, key=lambda p: p["days_above_p90"])
     avg_tension = round(sum(p["tension_1000"] for p in projections) / len(projections), 1)
 
     result = {
@@ -546,15 +476,17 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
         "total_years": len(projections),
         "kpis": {
             "highest_tension": highest_tension,
-            "highest_war": highest_war,
-            "highest_crisis": highest_crisis,
-            "highest_tech": highest_tech,
+            "lowest_tension": lowest_tension,
+            "highest_days_p90": highest_days,
             "avg_tension_1000": avg_tension,
             "avg_tension_percent": round(avg_tension / 10.0, 1),
-            "critical_count": sum(1 for p in projections if p["alert_color"] == "red"),
-            "high_count": sum(1 for p in projections if p["alert_color"] == "orange"),
-            "moderate_count": sum(1 for p in projections if p["alert_color"] == "yellow"),
-            "stable_count": sum(1 for p in projections if p["alert_color"] == "green"),
+            "superior_count": sum(1 for p in projections if p["tier_label"] == "Percentil Superior"),
+            "moderate_count": sum(1 for p in projections if p["tier_label"] == "Percentil Moderado"),
+            "basal_count": sum(1 for p in projections if p["tier_label"] == "Percentil Basal"),
+            "alert_red_count": sum(1 for p in projections if p["alert_color"] == "red"),
+            "alert_orange_count": sum(1 for p in projections if p["alert_color"] == "orange"),
+            "alert_yellow_count": sum(1 for p in projections if p["alert_color"] == "yellow"),
+            "alert_green_count": sum(1 for p in projections if p["alert_color"] == "green"),
         },
         "projections": projections
     }

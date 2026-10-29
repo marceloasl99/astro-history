@@ -812,20 +812,22 @@ def calculate_chart_tension_1000(chart: Dict[str, Any]) -> Dict[str, float]:
         else:
             star_pts += 20.0 * star_factor
 
-    raw_total = base_score + tension_pts + star_pts - (harmony_pts * 0.2)
+    # O score de tensão calibrado contra a grade de efemérides (9 corpos)
+    raw_core = base_score + tension_pts - (harmony_pts * 0.2)
 
-    # Conversão para Percentil Empírico (sem saturação em 990)
+    # Conversão para Percentil Empírico na grade diária de 113.596 dias (sem saturação)
     try:
         from src.core.ephemeris_grid import raw_score_to_percentile_1000
-        tension_1000 = raw_score_to_percentile_1000(raw_total)
+        tension_1000 = raw_score_to_percentile_1000(raw_core)
     except Exception:
         # Fallback se a grade ainda não estiver carregada
-        tension_1000 = round(min(1000.0, max(1.0, raw_total * 1.5)), 1)
+        tension_1000 = round(max(0.0, min(1000.0, raw_core * 1.5)), 1)
 
-    conflict_1000 = round(min(1000.0, max(10.0, ((conflict_accum + star_pts * 0.8) / 550.0) * 1000.0)), 1)
-    crisis_1000 = round(min(1000.0, max(10.0, ((economic_accum + tension_pts * 0.5) / 520.0) * 1000.0)), 1)
-    tech_1000 = round(min(1000.0, max(10.0, ((tech_accum + harmony_pts * 1.5) / 480.0) * 1000.0)), 1)
-    social_1000 = round(min(1000.0, max(10.0, ((social_accum + tension_pts * 0.6) / 520.0) * 1000.0)), 1)
+    # Sub-índices contínuos sem clamp artificial no piso de 10.0 ou teto rígido
+    conflict_1000 = round(max(0.0, min(1000.0, (conflict_accum / 450.0) * 1000.0)), 1)
+    crisis_1000 = round(max(0.0, min(1000.0, (economic_accum / 450.0) * 1000.0)), 1)
+    tech_1000 = round(max(0.0, min(1000.0, (tech_accum / 450.0) * 1000.0)), 1)
+    social_1000 = round(max(0.0, min(1000.0, (social_accum / 450.0) * 1000.0)), 1)
 
     return {
         "tension_index_1000": tension_1000,

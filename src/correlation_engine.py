@@ -137,12 +137,23 @@ def find_similar_events(
     if exclude_event_id is None:
         exclude_event_id = target_chart.get("event_id") or target_chart.get("id")
 
-    if exclude_year is None and target_chart.get("date"):
-        try:
-            dt_s = target_chart["date"]
-            exclude_year = int(dt_s.split("-")[0]) if not dt_s.startswith("-") else -int(dt_s.split("-")[1])
-        except Exception:
-            pass
+    if exclude_year is None:
+        if target_chart.get("date"):
+            try:
+                dt_s = target_chart["date"]
+                exclude_year = int(dt_s.split("-")[0]) if not dt_s.startswith("-") else -int(dt_s.split("-")[1])
+            except Exception:
+                pass
+        elif exclude_event_id is not None:
+            # Buscar ano do evento no catálogo para aplicar a janela temporal estrita
+            for er in events_rows:
+                if er["id"] == exclude_event_id:
+                    try:
+                        dt_s = er["date"]
+                        exclude_year = int(dt_s.split("-")[0]) if not dt_s.startswith("-") else -int(dt_s.split("-")[1])
+                    except Exception:
+                        pass
+                    break
 
     target_bodies = {b["id"]: b for b in target_chart.get("planets", [])}
     target_summary = target_chart.get("summary", {})
@@ -260,22 +271,22 @@ def find_similar_events(
     categories_count = defaultdict(int)
     for m in top_matches:
         categories_count[m["category"]] += 1
-    most_common_cat = max(categories_count, key=categories_count.get)
+    most_common_cat = max(categories_count, key=categories_count.get) if categories_count else "Sem categoria"
 
-    avg_match_percent = round(sum(m["match_percent"] for m in top_matches) / len(top_matches), 1)
+    avg_match_percent = round(sum(m["match_percent"] for m in top_matches) / len(top_matches), 1) if top_matches else 0.0
+    top_1_percent = top_matches[0]["match_percent"] if top_matches else 0.0
 
     synthesis = (
-        f"Com base na assinatura astrológica calculada (incluindo asteroides e estrelas fixas), "
-        f"a configuração possui alta concordância histórica ({avg_match_percent}%) com marcos da categoria '{most_common_cat}'. "
-        f"Na história, conjunções com essa distribuição dos planetas transpessoais e grau de tensão "
-        f"desencadearam transformações de grande impacto: "
-        f"{top_matches[0]['consequence'][:220]}... "
-        f"Os paralelos históricos indicam momentos de ruptura de paradigmas e transformações institucionais irreversíveis."
+        f"Exploração de isomorfismo geométrico: a configuração angular apresenta similaridade "
+        f"de {top_1_percent}% com a geometria de '{top_matches[0]['title'] if top_matches else 'marco histórico'}'. "
+        f"Nota metodológica (M2): esta correspondência indica apenas proximidade de posições astronômicas, "
+        f"sem implicação de repetição factual ou previsão determinística de cenários."
     )
 
     return {
         "top_matches": top_matches,
         "dominant_matching_category": most_common_cat,
         "avg_match_percent": avg_match_percent,
+        "top_1_match_percent": top_1_percent,
         "historical_synthesis": synthesis
     }

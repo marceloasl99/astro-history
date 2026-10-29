@@ -280,6 +280,91 @@ def get_year_daily_stats(year: int) -> Dict[str, float]:
         "min_tension": round(float(np.min(scores_1000)), 1)
     }
 
+_ANNUAL_CACHE: Optional[Dict[int, Dict[str, Any]]] = None
+
+def _get_annual_cache() -> Dict[int, Dict[str, Any]]:
+    global _ANNUAL_CACHE
+    if _ANNUAL_CACHE is not None:
+        return _ANNUAL_CACHE
+
+    grid = get_daily_grid()
+    sorted_all_daily = grid["sorted_scores"]
+    p90_threshold_score = float(np.percentile(sorted_all_daily, 90.0))
+
+    year_data = {}
+    annual_means = []
+    years = list(range(1800, 2101))
+
+    for yr in years:
+        d_start = date(yr, 1, 1)
+        d_end = date(yr, 12, 31)
+        idx_start = get_day_index(d_start)
+        idx_end = get_day_index(d_end)
+
+        raw_slice = grid["raw_scores"][idx_start : idx_end + 1]
+        mean_raw = float(np.mean(raw_slice))
+        annual_means.append(mean_raw)
+
+        days_above_p90 = int(np.sum(raw_slice >= p90_threshold_score))
+        daily_percentiles = np.searchsorted(sorted_all_daily, raw_slice, side="right") / len(sorted_all_daily) * 1000.0
+
+        year_data[yr] = {
+            "year": yr,
+            "mean_raw": mean_raw,
+            "days_in_year": len(raw_slice),
+            "days_above_p90": days_above_p90,
+            "expected_days_above_p90": round(len(raw_slice) * 0.1, 1),
+            "daily_mean_percentile": round(float(np.mean(daily_percentiles)), 1),
+            "daily_median_percentile": round(float(np.median(daily_percentiles)), 1),
+            "daily_p90_percentile": round(float(np.percentile(daily_percentiles, 90.0)), 1),
+            "daily_max_percentile": round(float(np.max(daily_percentiles)), 1),
+            "daily_min_percentile": round(float(np.min(daily_percentiles)), 1),
+        }
+
+    sorted_means = np.sort(annual_means)
+    n_years = len(sorted_means)
+
+    for yr in years:
+        m_raw = year_data[yr]["mean_raw"]
+        idx = np.searchsorted(sorted_means, m_raw, side="right")
+        annual_pct = round(float(np.clip((idx / n_years) * 1000.0, 1.0, 1000.0)), 1)
+        year_data[yr]["annual_percentile_1000"] = annual_pct
+
+        if annual_pct >= 800.0:
+            tier = "Percentil Superior"
+            badge = "indigo"
+        elif annual_pct >= 300.0:
+            tier = "Percentil Moderado"
+            badge = "sky"
+        else:
+            tier = "Percentil Basal"
+            badge = "emerald"
+
+        year_data[yr]["tier_label"] = tier
+        year_data[yr]["tier_color"] = badge
+
+    _ANNUAL_CACHE = year_data
+    return _ANNUAL_CACHE
+
+def get_calibrated_year_metrics(year: int) -> Dict[str, Any]:
+    """Retorna as métricas anuais calibradas (sem clamp, escala uniforme) para o ano."""
+    cache = _get_annual_cache()
+    if year in cache:
+        return cache[year]
+    return {
+        "year": year,
+        "annual_percentile_1000": 500.0,
+        "daily_mean_percentile": 500.0,
+        "daily_median_percentile": 500.0,
+        "daily_p90_percentile": 500.0,
+        "daily_max_percentile": 500.0,
+        "daily_min_percentile": 500.0,
+        "days_above_p90": 36,
+        "expected_days_above_p90": 36.5,
+        "tier_label": "Percentil Moderado",
+        "tier_color": "sky"
+    }
+
 if __name__ == "__main__":
     print("Construindo grade diária 1800-2100...")
     g = build_daily_grid()

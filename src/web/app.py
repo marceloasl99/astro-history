@@ -304,10 +304,18 @@ async def simulator_post_view(
 
 @app.get("/methodology", response_class=HTMLResponse)
 async def methodology_view(request: Request):
+    results_file = "/home/astro/data/results.json"
+    results_data = {}
+    if os.path.exists(results_file):
+        try:
+            with open(results_file, "r", encoding="utf-8") as f:
+                results_data = json.load(f)
+        except Exception as e:
+            print(f"Error loading results.json: {e}")
     return templates.TemplateResponse(
         request=request,
         name="methodology.html",
-        context={}
+        context={"results": results_data}
     )
 
 @app.get("/api/random-control-comparison/{event_id}")

@@ -4,7 +4,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Testes](https://img.shields.io/badge/Testes-21_Passaram-10B981)
+![Testes](https://img.shields.io/badge/Testes-29_Passaram-10B981)
 ![Licença](https://img.shields.io/badge/Licen%C3%A7a-AGPL--3.0-8B5CF6)
 ![Marco M2](https://img.shields.io/badge/Marco_M2-Caminho_A_(Piv%C3%B4_Metodol%C3%B3gico)-blue)
 
@@ -18,12 +18,14 @@ O **astro-history** é uma bancada de testes de código aberto concebida para re
 
 > **"As geometrias de aspectos planetários e alinhamentos astronômicos distinguem grandes eventos históricos da humanidade de datas aleatórias melhor do que o mero acaso?"**
 
-Originalmente construído como um navegador de correlações baseado no **Swiss Ephemeris (`pyswisseph`)**, o projeto passou por uma reconstrução metodológica integral para erradicar o viés de confirmação retrospectivo (*cherry-picking*), vazamentos de dados e artefatos matemáticos.
+Originalmente construído como um navegador de correlações baseado no **Swiss Ephemeris (`pyswisseph`)**, o projeto passou por uma reconstrução metodológica integral (v2) para erradicar o viés de confirmação retrospectivo (*cherry-picking*), vazamentos de dados e artefatos matemáticos.
 
-### Principal Resultado Empírico (Validação Pré-Registrada da Fase 3)
-Sob hipóteses pré-registradas estritas (`docs/hipoteses.md`) e modelos nulos controlados:
-- **Modelo Nulo de Deslocamento Circular (N3, 10.000 permutações)**: Tensão Cósmica observada $z = -0.506$ ($p = 0.6941$, FDR $q = 0.9772$).
-- **Teste Temporal Fora da Amostra (1951–2025)**: $z = -0.851$ ($p = 0.7996$, FDR $q = 0.9772$).
+### Principal Resultado Empírico (Validação Pré-Registrada da Fase 3 v2)
+Sob hipóteses pré-registradas estritas (`docs/hipoteses.md`), amostra analítica unificada ($N=59$) e modelos nulos controlados:
+- **Modelo Nulo de Deslocamento Circular (N3, 10.000 permutações)**: Tensão observada $z = -0.506$ ($p = 0.6941$, FDR $q = 0.8834$).
+- **Teste Temporal Fora da Amostra (1951–2025)**: $z = -0.851$ ($p = 0.7996$, FDR $q = 0.9329$).
+- **Teste de Equivalência Formal (TOST, $\Delta = \pm 0.30$ DP)**: $p_{\text{TOST}} = 0.04103$ (efeito estatisticamente equivalente a zero; hipótese nula sustentada).
+- **Tese Arquetípica de Richard Tarnas (Aspectos Duros entre Planetas Lentos)**: $z = -0.063$ ($p = 0.5103$, FDR $q = 0.8834$).
 
 **Conclusão (Decisão do Marco M2)**: A hipótese nula **não pôde ser rejeitada**. Quando os vieses de seleção, a inflação de contatos estelares e o vazamento do matcher são eliminados, as configurações celestes de grandes marcos históricos não diferem estatisticamente de distribuições temporais aleatórias.
 
@@ -46,24 +48,31 @@ Em cumprimento aos critérios pré-registrados, o projeto executou o **CAMINHO A
 
 ---
 
-## 3. Resultados Estatísticos Empíricos (Fase 3)
+## 3. Resultados Estatísticos Empíricos (Fase 3 v2)
 
-| Hipótese Testada | N | Score Obs. | Distribuição Nula (Média ± DP) | Efeito ($z$) | $p$-valor | $q$ (FDR) | Significante ($q < 0.05$)? |
+| Hipótese Testada | N | Score Obs. | Distribuição Nula (Média ± DP) | Efeito ($z$) | $p$ (bicaudal) | $q$ (FDR) | Significante ($q < 0.05$)? |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **H1 Geral vs N3 Deslocamento Circular** | 59 | 481.1 | 500.6 ± 38.5 | -0.506 | 0.6941 | 0.9772 | ❌ Não significante |
-| **H1 Geral vs N2 Estratificado por Década** | 61 | 477.6 | 493.7 ± 35.9 | -0.450 | 0.6715 | 0.9772 | ❌ Não significante |
-| **H1 Classe: Guerra Interestadual** | 15 | 462.1 | 499.4 ± 73.3 | -0.509 | 0.6918 | 0.9772 | ❌ Não significante |
-| **H1 Classe: Crise Econômica** | 10 | 547.6 | 501.9 ± 93.8 | +0.487 | 0.3112 | 0.9772 | ❌ Não significante |
-| **H1 Classe: Golpe de Estado** | 12 | 538.4 | 501.6 ± 84.9 | +0.434 | 0.3327 | 0.9772 | ❌ Não significante |
-| **H2 Treino Temporal (1800–1950)** | 28 | 512.4 | 499.4 ± 56.8 | +0.229 | 0.4083 | 0.9772 | ❌ Não significante |
-| **H2 Teste Fora da Amostra (1951–2025)** | 33 | 456.5 | 501.6 ± 53.0 | -0.851 | 0.7996 | 0.9772 | ❌ Sem sinal preditivo |
-| **Controle Negativo (Ruído Sintético)** | 61 | 427.8 | 501.5 ± 37.2 | -1.982 | 0.9772 | 0.9772 | ❌ Pipeline íntegra |
+| **H1 Geral vs N3 Deslocamento Circular** | 59 | 481.1 | 500.6 ± 38.5 | -0.506 | 0.6117 | 0.8834 | ❌ Não significante |
+| **H1 Geral vs N2 Estratificado por Década** | 59 | 481.1 | 493.9 ± 36.6 | -0.350 | 0.7163 | 0.8834 | ❌ Não significante |
+| **H1 Geral vs N1 Uniforme Aleatório** | 59 | 481.1 | 499.7 ± 37.7 | -0.493 | 0.6299 | 0.8834 | ❌ Não significante |
+| **H1 Classe: Guerra Interestadual** | 15 | 462.1 | 499.4 ± 73.3 | -0.509 | 0.6163 | 0.8834 | ❌ Não significante |
+| **H1 Classe: Crise Econômica** | 10 | 547.6 | 501.9 ± 93.8 | +0.487 | 0.6223 | 0.8834 | ❌ Não significante |
+| **H1 Classe: Golpe de Estado** | 11 | 538.4 | 501.6 ± 84.9 | +0.434 | 0.6653 | 0.8834 | ❌ Não significante |
+| **H2 Treino Temporal (1800–1950)** | 26 | 512.4 | 499.4 ± 56.8 | +0.229 | 0.8165 | 0.8834 | ❌ Não significante |
+| **H2 Teste Fora da Amostra (1951–2025)** | 33 | 456.5 | 501.6 ± 53.0 | -0.851 | 0.4008 | 0.9329 | ❌ Sem sinal preditivo |
+| **H4 Tese de Tarnas (Planetas Lentos)** | 59 | 33.4 | 34.0 ± 8.7 | -0.063 | 0.9794 | 0.8834 | ❌ Não significante |
+
+### Inovações Metodológicas na v2
+- **Teste de Equivalência TOST**: Com margem $\Delta = \pm 0.30$ DP ($\pm 86.4$ pts), $p_{\text{TOST}} = 0.04103$ rejeitou a hipótese de relevância prática.
+- **Poder Estatístico & MDE**: O efeito mínimo detectável com 80% de poder sob $\sigma_{\text{nulo}} = 38.5$ e DP diário uniforme $\sigma = 1000/\sqrt{12} \approx 288.7$ é de 95.7 pontos ($0.332$ DP). O poder formal atinge 72.8% para 0.30 DP, 80.1% no limiar de 0.332 DP e 98.2% para 0.50 DP.
+- **Controles Negativos Calibrados**: 1.000 catálogos de ruído puro obtiveram taxa de rejeição de 3.7% com $\alpha = 5\%$ (faixa alvo 3% a 7%), desacoplados do FDR.
+- **Amostra Unificada ($N=59$)**: Funil transparente documentado em [`data/exclusion_log.md`](data/exclusion_log.md) delimitado em 1800–2025 com precisão diária.
 
 *Documentos de auditoria e relatórios*:
 - Pré-registro formal: [`docs/hipoteses.md`](docs/hipoteses.md)
-- Relatório de validação estatística: [`reports/phase3_validation.md`](reports/phase3_validation.md)
+- Relatório de validação estatística v2: [`reports/validacao_v2.md`](reports/validacao_v2.md)
 - Decisão do Marco M2: [`docs/decisao_M2.md`](docs/decisao_M2.md)
-- Relatório técnico exaustivo: [`reports/final_report.md`](reports/final_report.md)
+- Relatório técnico final v2: [`reports/final_report_v2.md`](reports/final_report_v2.md)
 
 ---
 

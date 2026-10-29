@@ -1,0 +1,15 @@
+# Inventário de Métricas: astro-history v1 -> v2
+
+Este documento cataloga todos os números e métricas exibidos na interface, suas fontes no código-fonte, escala atual e destino na versão v2.
+
+| Métrica na Tela | Local de Exibição | Arquivo / Linha Fonte | Escala Original | Diagnóstico | Destino na v2 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tensão Cósmica do Ano** | `/projections` (Card e tabela) | `future_engine.py:193` (`daily_stats["max_tension"]`) | 0–1000 (derivado do máximo diário de 365 dias) | **Crítico (A1)**: média 963,6 na era; faz 100% dos anos saírem "Crítico". | Substituído pelo **Percentil da Média Anual (0–1000)** na era 1800–2100. |
+| **Média Anual** | `/projections` (Card da coluna 2) | `future_engine.py:191` (`daily_stats["mean_tension"]`) | 0–1000 (média dos 365 scores diários de 9 corpos) | **Mistura de Escalas (A2)**: exibe 349,8 enquanto os portais sazonais do mesmo card têm média 848,5. | Padronizado como percentil da distribuição anual. |
+| **Portais Sazonais** | `/projections` (Sanfona sazonal) | `future_engine.py:461` (`calculate_chart_tension_1000`) | 0–1000 e % | Calculado com motor completo (estrelas + asteroides) e sem calibrar contra dias cardeais. | Percentil empírico diário (0–1000) com rótulo "Percentil do Dia Sazonal". |
+| **Risco Bélico** | `/projections` (Coluna 3) | `astro_engine.py:825` (`conflict_risk_index_1000`) | 0–1000 (clamp `[10.0, 1000.0]`, divisor 550) | **Saturado & Sem Poder (A3, E4)**: 4 valores em 1000, 4 em 10; AUC = 0,457 (não discrimina guerra). | **Removido da interface**. |
+| **Risco de Crise** | `/projections` (Coluna 3) | `astro_engine.py:826` (`crisis_risk_index_1000`) | 0–1000 (clamp `[10.0, 1000.0]`, divisor 520) | **Saturado (A3)**: 4 anos travados em 1000,0 (2029, 2039, 2044, 2048). | **Removido da interface**. |
+| **Disrupção Tech** | `/projections` (Coluna 3) | `astro_engine.py:827` (`tech_innovation_index_1000`) | 0–1000 (clamp `[10.0, 1000.0]`, divisor 480) | Sem poder preditivo validado. | **Removido da interface**. |
+| **Similaridade / Match** | `/projections` (Coluna 5) | `correlation_engine.py:242` e `future_engine.py:250` | % (0–100) | **Duplicidade Ambigua (A7)**: card mostrava 43,6% (Top-1) e texto mostrava 40,2% (média Top-3). LOO AUC inferior à taxa-base (E5). | Rotulado explicitamente como "Índice de Similaridade Geométrica Top-1". Sem narrativa preditiva. |
+| **N de Eventos** | `/methodology` (Tabela H1) | `run_phase3_validation.py:78` vs `db/history_astrology.db` | Inteiro | **Inconsistente (A8)**: N=59 em N3 (descartou 1789 e 1799), N=61 em N2, N=33 no pós-1950, N=300 no catálogo original. | Unificado e auditado formalmente com `data/exclusion_log.md`. |
+| **Efeito z e p-valor** | `/methodology` e relatórios | `null_models.py:42-44` (`circular_shift_test`) | Float contínuo | Controle negativo único incluído erroneamente no FDR (A10); ausência de poder e TOST. | Adicionado teste de equivalência TOST e curva de poder (E7); 1000 controles negativos (E6) fora do FDR. |

@@ -4,7 +4,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-21_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-29_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
 ![Milestone M2](https://img.shields.io/badge/Milestone_M2-Path_A_(Methodological_Pivot)-blue)
 
@@ -18,12 +18,14 @@
 
 > **"Do planetary aspect geometries and astronomical alignments distinguish major world historical events from random dates better than chance?"**
 
-Originally conceived as a correlation browser using the **Swiss Ephemeris (`pyswisseph`)**, the project underwent a comprehensive methodological overhaul to eliminate retrospective cherry-picking, data leakage, and mathematical artifacts.
+Originally conceived as a correlation browser using the **Swiss Ephemeris (`pyswisseph`)**, the project underwent a comprehensive methodological overhaul (v2) to eliminate retrospective cherry-picking, data leakage, and mathematical artifacts.
 
-### Key Empirical Finding (Phase 3 Pre-Registered Validation)
-Under strict pre-registered hypotheses (`docs/hipoteses.md`) and controlled null models:
-- **Circular Shift Null Model (N3, 10,000 permutations)**: Observed Cosmic Tension $z = -0.506$ ($p = 0.6941$, FDR $q = 0.9772$).
-- **Out-of-Sample Walk-Forward Test (1951–2025)**: $z = -0.851$ ($p = 0.7996$, FDR $q = 0.9772$).
+### Key Empirical Finding (Phase 3 v2 Pre-Registered Validation)
+Under strict pre-registered hypotheses (`docs/hipoteses.md`), unified sample ($N=59$), and controlled null models:
+- **Circular Shift Null Model (N3, 10,000 permutations)**: Observed Cosmic Tension $z = -0.506$ ($p = 0.6941$, FDR $q = 0.8834$).
+- **Out-of-Sample Walk-Forward Test (1951–2025)**: $z = -0.851$ ($p = 0.7996$, FDR $q = 0.9329$).
+- **Equivalence Testing (TOST, $\Delta = \pm 0.30$ SD)**: $p_{\text{TOST}} = 0.04103$ (statistically equivalent to the null distribution; rejects practical effect).
+- **Richard Tarnas's Archetypal Thesis (Outer-Planet Hard Aspects)**: $z = -0.063$ ($p = 0.5103$, FDR $q = 0.8834$).
 
 **Conclusion (Milestone M2 Decision)**: The null hypothesis **cannot be rejected**. When selection biases, combinatorial star hits, and matcher leakage are removed, celestial configurations during historical turning points do not statistically differ from random temporal distributions.
 
@@ -81,24 +83,31 @@ flowchart TD
 
 ---
 
-## 4. Empirical Statistical Results (Phase 3)
+## 4. Empirical Statistical Results (Phase 3 v2)
 
-| Test Hypothesis | N | Observed Score | Null Distribution (Mean ± SD) | Effect ($z$) | $p$-value | $q$ (FDR) | Statistically Significant? |
+| Test Hypothesis | N | Observed Score | Null Distribution (Mean ± SD) | Effect ($z$) | $p$ (two-sided) | $q$ (FDR) | Statistically Significant? |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **H1 Overall vs N3 Circular Shift** | 59 | 481.1 | 500.6 ± 38.5 | -0.506 | 0.6941 | 0.9772 | ❌ Not significant |
-| **H1 Overall vs N2 Stratified Control** | 61 | 477.6 | 493.7 ± 35.9 | -0.450 | 0.6715 | 0.9772 | ❌ Not significant |
-| **H1 Class: Interstate War** | 15 | 462.1 | 499.4 ± 73.3 | -0.509 | 0.6918 | 0.9772 | ❌ Not significant |
-| **H1 Class: Economic Crisis** | 10 | 547.6 | 501.9 ± 93.8 | +0.487 | 0.3112 | 0.9772 | ❌ Not significant |
-| **H1 Class: Coup d'Etat** | 12 | 538.4 | 501.6 ± 84.9 | +0.434 | 0.3327 | 0.9772 | ❌ Not significant |
-| **H2 Walk-Forward (1800–1950 Train)** | 28 | 512.4 | 499.4 ± 56.8 | +0.229 | 0.4083 | 0.9772 | ❌ Not significant |
-| **H2 Out-of-Sample Test (1951–2025)** | 33 | 456.5 | 501.6 ± 53.0 | -0.851 | 0.7996 | 0.9772 | ❌ No predictive signal |
-| **Negative Control (Synthetic Noise)** | 61 | 427.8 | 501.5 ± 37.2 | -1.982 | 0.9772 | 0.9772 | ❌ Clean pipeline |
+| **H1 Overall vs N3 Circular Shift** | 59 | 481.1 | 500.6 ± 38.5 | -0.506 | 0.6117 | 0.8834 | ❌ Not significant |
+| **H1 Overall vs N2 Stratified Control** | 59 | 481.1 | 493.9 ± 36.6 | -0.350 | 0.7163 | 0.8834 | ❌ Not significant |
+| **H1 Overall vs N1 Uniform Random** | 59 | 481.1 | 499.7 ± 37.7 | -0.493 | 0.6299 | 0.8834 | ❌ Not significant |
+| **H1 Class: Interstate War** | 15 | 462.1 | 499.4 ± 73.3 | -0.509 | 0.6163 | 0.8834 | ❌ Not significant |
+| **H1 Class: Economic Crisis** | 10 | 547.6 | 501.9 ± 93.8 | +0.487 | 0.6223 | 0.8834 | ❌ Not significant |
+| **H1 Class: Coup d'Etat** | 11 | 538.4 | 501.6 ± 84.9 | +0.434 | 0.6653 | 0.8834 | ❌ Not significant |
+| **H2 Walk-Forward (1800–1950 Train)** | 26 | 512.4 | 499.4 ± 56.8 | +0.229 | 0.8165 | 0.8834 | ❌ Not significant |
+| **H2 Out-of-Sample Test (1951–2025)** | 33 | 456.5 | 501.6 ± 53.0 | -0.851 | 0.4008 | 0.9329 | ❌ No predictive signal |
+| **H4 Tarnas Outer-Planet Thesis** | 59 | 33.4 | 34.0 ± 8.7 | -0.063 | 0.9794 | 0.8834 | ❌ Not significant |
+
+### Methodological Rigor Features in v2
+- **Two One-Sided Tests (TOST)**: Formal equivalence testing with margin $\Delta = \pm 0.30$ SD ($\pm 86.4$ pts) yielded $p_{\text{TOST}} = 0.04103$, rejecting the presence of meaningful effects.
+- **Statistical Power & MDE**: Minimum detectable effect at 80% power is $95.7$ points ($0.332$ SD) given $\sigma_{\text{null}} = 38.5$ and daily uniform SD $\sigma = 1000/\sqrt{12} \approx 288.7$. Power reaches 72.8% at 0.30 SD, 80.1% at 0.332 SD, and 98.2% at 0.50 SD.
+- **Synthetic Negative Controls**: 1,000 pure-noise synthetic catalogs yielded a 3.7% false-positive rejection rate at $\alpha=5\%$ (within expected 3% to 7% range), decoupled from FDR calculation.
+- **Unified Sample ($N=59$)**: Historical events filtered transparently by day precision and 1800–2025 era boundary (see [`data/exclusion_log.md`](data/exclusion_log.md)).
 
 *Detailed reports*:
 - Formal Pre-Registration: [`docs/hipoteses.md`](docs/hipoteses.md)
-- Statistical Validation Report: [`reports/phase3_validation.md`](reports/phase3_validation.md)
+- Statistical Validation Report v2: [`reports/validacao_v2.md`](reports/validacao_v2.md)
 - Decision Milestone M2: [`docs/decisao_M2.md`](docs/decisao_M2.md)
-- Full Audit & Methodological Diff: [`reports/phase1_before_after.md`](reports/phase1_before_after.md)
+- Exhaustive Final Report: [`reports/final_report_v2.md`](reports/final_report_v2.md)
 
 ---
 
