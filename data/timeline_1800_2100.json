@@ -2,7 +2,7 @@
   "start_year": 1800,
   "end_year": 2100,
   "total_years_calculated": 301,
-  "calculation_time_seconds": 32.3,
+  "calculation_time_seconds": 31.72,
   "highest_past_rupture": {
     "year": 1819,
     "tension": 990.0,
