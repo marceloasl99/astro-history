@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Hub de Correlações Astrológicas Históricas{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden">
+        <h1 class="text-3xl font-extrabold text-white tracking-tight mb-2 flex items-center gap-3">
+            <span>🌌</span> Hub de Correlações da Astrologia Moderna
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-4xl">
+            A Astrologia Moderna postula que os planetas transpessoais (<strong class="text-amber-400">Urano, Netuno e Plutão</strong>) e os planetas sociais (<strong class="text-sky-400">Júpiter e Saturno</strong>) demarcam os ciclos geracionais e as grandes viradas geopolíticas e econômicas da história. Abaixo, exploramos como os 300 eventos analisados se distribuem estatisticamente sob estes arquétipos cósmicos.
+        </p>
+    </div>
+
+    <!-- Category Tension Ranking -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl">
+        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+            <span>⚡</span> Nível Médio de Tensão Cósmica por Categoria de Fato Histórico
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {% for cat_name, cdata in corrs.by_category.items() %}
+            <div class="bg-slate-900/70 p-5 rounded-xl border border-slate-700/80 hover:border-slate-500 transition">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-base font-bold text-white">{{ cat_name }}</span>
+                    <span class="text-xs font-mono text-slate-400">{{ cdata.total_events }} eventos</span>
+                </div>
+
+                <!-- Tension Score Meter -->
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                        <span class="text-slate-400">Tensão Cósmica:</span>
+                        <span class="font-bold {% if cdata.average_tension > 78 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+                            {{ cdata.average_tension }}/100
+                        </span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2">
+                        <div class="h-full rounded-full {% if cdata.average_tension > 78 %}bg-rose-500{% else %}bg-amber-400{% endif %}" style="width: {{ cdata.average_tension }}%"></div>
+                    </div>
+                </div>
+
+                <!-- Highlights -->
+                <div class="text-xs space-y-1.5 pt-3 border-t border-slate-800 text-slate-300">
+                    <div class="text-slate-400 font-semibold mb-1">Concentrações Significativas:</div>
+                    {% for p_name, p_text in cdata.key_highlights.items() %}
+                    <div class="flex items-start gap-1.5">
+                        <span class="text-amber-400 font-bold">• {{ p_name }}:</span>
+                        <span class="text-slate-300">{{ p_text }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Ciclos Históricos Saturno-Plutão e Urano-Plutão -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl">
+        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+            <span>🪐</span> Grandes Ciclos Planetários Registrados no Dataset
+        </h3>
+        <p class="text-sm text-slate-400 mb-6">
+            Alinhamentos maiores entre planetas transpessoais coincidem historicamente com transformações profundas na geopolítica, guerras mundiais e crises sistêmicas.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Ciclo Saturno - Plutão -->
+            <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-500/30">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-bold text-purple-300 flex items-center gap-2">
+                        <span>♄ ↔ ♇</span> Ciclo Saturno-Plutão
+                    </h4>
+                    <span class="text-xs text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded font-mono">
+                        Estruturas, Guerras & Crises Globais
+                    </span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                    Historicamente associado a momentos de ruptura de ordens vigentes, austeridade drástica, colapsos institucionais e redefinição de fronteiras nacionais (período sinódico de aprox. 33 a 38 anos).
+                </p>
+
+                <div class="space-y-3 text-xs">
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">1914 • Conjunção Saturno-Plutão em Câncer</div>
+                        <div class="text-slate-400 mt-0.5">Início da Primeira Guerra Mundial, colapso de impérios europeus e desestruturação da ordem do século XIX.</div>
+                    </div>
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">1947 • Conjunção Saturno-Plutão em Leão</div>
+                        <div class="text-slate-400 mt-0.5">Partição sangrenta da Índia e Paquistão, Doutrina Truman e início formal da Guerra Fria.</div>
+                    </div>
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">1982 • Conjunção Saturno-Plutão em Libra</div>
+                        <div class="text-slate-400 mt-0.5">Guerra das Malvinas, auge da recessão global do início dos anos 80 e avanço do neoliberalismo.</div>
+                    </div>
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">2020 • Conjunção Saturno-Plutão em Capricórnio (22°)</div>
+                        <div class="text-slate-400 mt-0.5">Eclosão da Pandemia de COVID-19, lockdowns planetários sincronizados e choque na economia internacional.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ciclo Urano - Plutão -->
+            <div class="bg-slate-900/80 p-5 rounded-xl border border-sky-500/30">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-bold text-sky-300 flex items-center gap-2">
+                        <span>♅ ↔ ♇</span> Ciclo Urano-Plutão
+                    </h4>
+                    <span class="text-xs text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded font-mono">
+                        Revoluções Tecnológicas & Sociais
+                    </span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                    Associa a pulsão revolucionária, libertária e inovadora de Urano com a força transformadora subterrânea de Plutão, marcando eclosões de contracultura, colapsos econômicos e saltos de inovação radical.
+                </p>
+
+                <div class="space-y-3 text-xs">
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">1930-1934 • Quadratura Urano em Áries x Plutão em Câncer</div>
+                        <div class="text-slate-400 mt-0.5">Auge da Grande Depressão, New Deal, descoberta de Plutão e ascensão do totalitarismo na Europa.</div>
+                    </div>
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">1965-1966 • Conjunção Urano-Plutão em Virgem</div>
+                        <div class="text-slate-400 mt-0.5">Efervescência da contracultura dos anos 60, movimentos de direitos civis, Revolução Cultural Chinesa e corrida espacial.</div>
+                    </div>
+                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
+                        <div class="font-bold text-white">2012-2015 • Série de 7 Quadraturas Urano (Áries) x Plutão (Capricórnio)</div>
+                        <div class="text-slate-400 mt-0.5">Primavera Árabe, Jornadas de Junho no Brasil, Operação Lava Jato, Bóson de Higgs e ascensão das redes sociais massivas.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

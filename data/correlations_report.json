@@ -1,0 +1,581 @@
+{
+  "total_historical_events": 200,
+  "categories_analysis": {
+    "Ciência & Tecnologia": {
+      "total_events": 39,
+      "average_tension": 87.9,
+      "top_placements": [
+        {
+          "planet_name": "Netuno",
+          "sign_name": "Peixes",
+          "cnt": 8
+        },
+        {
+          "planet_name": "Pallas",
+          "sign_name": "Libra",
+          "cnt": 8
+        },
+        {
+          "planet_name": "Plutão",
+          "sign_name": "Capricórnio",
+          "cnt": 8
+        },
+        {
+          "planet_name": "Vesta",
+          "sign_name": "Áries",
+          "cnt": 8
+        },
+        {
+          "planet_name": "Ceres",
+          "sign_name": "Gêmeos",
+          "cnt": 7
+        }
+      ],
+      "top_aspects": [
+        {
+          "planet1_id": "mars",
+          "planet2_id": "pallas",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 5
+        },
+        {
+          "planet1_id": "sun",
+          "planet2_id": "vesta",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 5
+        },
+        {
+          "planet1_id": "vesta",
+          "planet2_id": "chiron",
+          "aspect_name": "Conjunção",
+          "aspect_symbol": "☌",
+          "nature": "intenso",
+          "cnt": 5
+        },
+        {
+          "planet1_id": "mercury",
+          "planet2_id": "juno",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 4
+        },
+        {
+          "planet1_id": "mercury",
+          "planet2_id": "pluto",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 4
+        }
+      ],
+      "top_stars": [
+        {
+          "star_name": "Alphard",
+          "aspect_name": "Oposição",
+          "cnt": 10
+        },
+        {
+          "star_name": "Vega",
+          "aspect_name": "Quadratura",
+          "cnt": 9
+        },
+        {
+          "star_name": "Capella",
+          "aspect_name": "Quadratura",
+          "cnt": 9
+        },
+        {
+          "star_name": "Ras Alhague",
+          "aspect_name": "Trígono",
+          "cnt": 8
+        }
+      ],
+      "modern_astrology_theory": "Grandes saltos de inovação, eletromagnetismo, física quântica e astronomia respondem ao arquétipo de Urano (a mente cósmica superior e a inovação tecnológica desbravadora) harmonizado com Saturno (método empírico e leis da matéria) e Netuno (teorias sutis e invisíveis). Os trígonos nestes mapas indicam sínteses conceituais brilhantes que redefiniram as ferramentas da civilização humana."
+    },
+    "Crise Econômica": {
+      "total_events": 21,
+      "average_tension": 91.5,
+      "top_placements": [
+        {
+          "planet_name": "Juno",
+          "sign_name": "Sagitário",
+          "cnt": 6
+        },
+        {
+          "planet_name": "Pallas",
+          "sign_name": "Capricórnio",
+          "cnt": 5
+        },
+        {
+          "planet_name": "Ceres",
+          "sign_name": "Aquário",
+          "cnt": 4
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Escorpião",
+          "cnt": 4
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Libra",
+          "cnt": 4
+        }
+      ],
+      "top_aspects": [
+        {
+          "planet1_id": "jupiter",
+          "planet2_id": "juno",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "moon",
+          "planet2_id": "pluto",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "venus",
+          "planet2_id": "chiron",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "ceres",
+          "planet2_id": "juno",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 2
+        },
+        {
+          "planet1_id": "ceres",
+          "planet2_id": "lilith",
+          "aspect_name": "Oposição",
+          "aspect_symbol": "☍",
+          "nature": "tenso",
+          "cnt": 2
+        }
+      ],
+      "top_stars": [
+        {
+          "star_name": "Rigel",
+          "aspect_name": "Trígono",
+          "cnt": 8
+        },
+        {
+          "star_name": "Capella",
+          "aspect_name": "Oposição",
+          "cnt": 7
+        },
+        {
+          "star_name": "Ras Alhague",
+          "aspect_name": "Quadratura",
+          "cnt": 6
+        },
+        {
+          "star_name": "Antares",
+          "aspect_name": "Quadratura",
+          "cnt": 6
+        }
+      ],
+      "modern_astrology_theory": "Na Astrologia Mundial Moderna, as crises econômicas e financeiras são fortemente correlacionadas a tensões envolvendo Plutão (crédito, dívida, colapso de solvência e transformações patrimoniais) e Netuno (desmanche de ilusões especulativas, contágios de liquidez e psicologia de manada em bolhas). A alta incidência de aspectos tensos (quadraturas e oposições) e a ativação de signos de Terra e Ar espelham a necessidade compulsória de readequar sistemas monetários desregulados."
+    },
+    "Guerra & Conflito": {
+      "total_events": 49,
+      "average_tension": 86.1,
+      "top_placements": [
+        {
+          "planet_name": "Plutão",
+          "sign_name": "Leão",
+          "cnt": 9
+        },
+        {
+          "planet_name": "Saturno",
+          "sign_name": "Gêmeos",
+          "cnt": 9
+        },
+        {
+          "planet_name": "Urano",
+          "sign_name": "Touro",
+          "cnt": 9
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Escorpião",
+          "cnt": 8
+        },
+        {
+          "planet_name": "Pallas",
+          "sign_name": "Libra",
+          "cnt": 8
+        }
+      ],
+      "top_aspects": [
+        {
+          "planet1_id": "neptune",
+          "planet2_id": "lilith",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 7
+        },
+        {
+          "planet1_id": "uranus",
+          "planet2_id": "vesta",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 6
+        },
+        {
+          "planet1_id": "venus",
+          "planet2_id": "jupiter",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 6
+        },
+        {
+          "planet1_id": "jupiter",
+          "planet2_id": "north_node",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 5
+        },
+        {
+          "planet1_id": "mars",
+          "planet2_id": "north_node",
+          "aspect_name": "Oposição",
+          "aspect_symbol": "☍",
+          "nature": "tenso",
+          "cnt": 5
+        }
+      ],
+      "top_stars": [
+        {
+          "star_name": "Castor",
+          "aspect_name": "Quadratura",
+          "cnt": 16
+        },
+        {
+          "star_name": "Bellatrix",
+          "aspect_name": "Quadratura",
+          "cnt": 15
+        },
+        {
+          "star_name": "Algol",
+          "aspect_name": "Trígono",
+          "cnt": 13
+        },
+        {
+          "star_name": "Betelgeuse",
+          "aspect_name": "Quadratura",
+          "cnt": 12
+        }
+      ],
+      "modern_astrology_theory": "Conflitos bélicos e guerras de grande escala coincidem com ciclos maiores de Saturno-Plutão (confrontos de poder estatal, endurecimento de fronteiras e contração autoritária) e ativações de Marte com planetas transpessoais. A incidência repetida de Plutão em signos de Fogo (como Leão) denota lutas pela supremacia e uso desmedido de armamentos de destruição em massa."
+    },
+    "Pandemia & Desastre": {
+      "total_events": 11,
+      "average_tension": 96.7,
+      "top_placements": [
+        {
+          "planet_name": "Urano",
+          "sign_name": "Peixes",
+          "cnt": 4
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Sagitário",
+          "cnt": 3
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Virgem",
+          "cnt": 3
+        },
+        {
+          "planet_name": "Júpiter",
+          "sign_name": "Libra",
+          "cnt": 3
+        },
+        {
+          "planet_name": "Netuno",
+          "sign_name": "Aquário",
+          "cnt": 3
+        }
+      ],
+      "top_aspects": [
+        {
+          "planet1_id": "jupiter",
+          "planet2_id": "pallas",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "lilith",
+          "planet2_id": "north_node",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "moon",
+          "planet2_id": "uranus",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "ceres",
+          "planet2_id": "north_node",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 2
+        },
+        {
+          "planet1_id": "chiron",
+          "planet2_id": "north_node",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 2
+        }
+      ],
+      "top_stars": [
+        {
+          "star_name": "Betelgeuse",
+          "aspect_name": "Oposição",
+          "cnt": 7
+        },
+        {
+          "star_name": "Polaris",
+          "aspect_name": "Oposição",
+          "cnt": 6
+        },
+        {
+          "star_name": "Algol",
+          "aspect_name": "Quadratura",
+          "cnt": 4
+        },
+        {
+          "star_name": "Alcyone",
+          "aspect_name": "Quadratura",
+          "cnt": 4
+        }
+      ],
+      "modern_astrology_theory": "Catástrofes epidemiológicas e calamidades naturais apresentam acentuada ativação de Netuno (vetor de contágios invisíveis, desmanche sanitário) associado a Quíron (a vulnerabilidade corporal da espécie) e estrelas fixas de advertência marítima ou toxicidade como Menkar e Scheat."
+    },
+    "Revolução Política": {
+      "total_events": 63,
+      "average_tension": 87.8,
+      "top_placements": [
+        {
+          "planet_name": "Pallas",
+          "sign_name": "Aquário",
+          "cnt": 13
+        },
+        {
+          "planet_name": "Netuno",
+          "sign_name": "Libra",
+          "cnt": 12
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Libra",
+          "cnt": 11
+        },
+        {
+          "planet_name": "Juno",
+          "sign_name": "Peixes",
+          "cnt": 10
+        },
+        {
+          "planet_name": "Júpiter",
+          "sign_name": "Virgem",
+          "cnt": 10
+        }
+      ],
+      "top_aspects": [
+        {
+          "planet1_id": "sun",
+          "planet2_id": "mercury",
+          "aspect_name": "Conjunção",
+          "aspect_symbol": "☌",
+          "nature": "intenso",
+          "cnt": 9
+        },
+        {
+          "planet1_id": "mars",
+          "planet2_id": "neptune",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 6
+        },
+        {
+          "planet1_id": "mars",
+          "planet2_id": "north_node",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 6
+        },
+        {
+          "planet1_id": "pallas",
+          "planet2_id": "chiron",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 6
+        },
+        {
+          "planet1_id": "venus",
+          "planet2_id": "uranus",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 6
+        }
+      ],
+      "top_stars": [
+        {
+          "star_name": "Bellatrix",
+          "aspect_name": "Quadratura",
+          "cnt": 17
+        },
+        {
+          "star_name": "Pollux",
+          "aspect_name": "Trígono",
+          "cnt": 16
+        },
+        {
+          "star_name": "Spica",
+          "aspect_name": "Quadratura",
+          "cnt": 15
+        },
+        {
+          "star_name": "Sirius",
+          "aspect_name": "Trígono",
+          "cnt": 15
+        }
+      ],
+      "modern_astrology_theory": "Revoluções populares e quedas de regimes absolutistas ou coloniais articulam o embate direto entre Urano (libertação, direitos dos povos, rebelião cívica) e Saturno/Plutão (o status quo e o aparelho repressor). Signos Cardinais e de Ar acentuam a urgência de constituições republicanas, sufrágio e reescrita das leis."
+    },
+    "Transformação Cultural": {
+      "total_events": 17,
+      "average_tension": 85.9,
+      "top_placements": [
+        {
+          "planet_name": "Júpiter",
+          "sign_name": "Capricórnio",
+          "cnt": 5
+        },
+        {
+          "planet_name": "Netuno",
+          "sign_name": "Escorpião",
+          "cnt": 5
+        },
+        {
+          "planet_name": "Pallas",
+          "sign_name": "Sagitário",
+          "cnt": 5
+        },
+        {
+          "planet_name": "Ceres",
+          "sign_name": "Capricórnio",
+          "cnt": 4
+        },
+        {
+          "planet_name": "Ceres",
+          "sign_name": "Peixes",
+          "cnt": 4
+        }
+      ],
+      "top_aspects": [
+        {
+          "planet1_id": "jupiter",
+          "planet2_id": "uranus",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "jupiter",
+          "planet2_id": "vesta",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "moon",
+          "planet2_id": "mercury",
+          "aspect_name": "Trígono",
+          "aspect_symbol": "△",
+          "nature": "harmonico",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "sun",
+          "planet2_id": "ceres",
+          "aspect_name": "Conjunção",
+          "aspect_symbol": "☌",
+          "nature": "intenso",
+          "cnt": 3
+        },
+        {
+          "planet1_id": "uranus",
+          "planet2_id": "juno",
+          "aspect_name": "Quadratura",
+          "aspect_symbol": "□",
+          "nature": "tenso",
+          "cnt": 3
+        }
+      ],
+      "top_stars": [
+        {
+          "star_name": "Spica",
+          "aspect_name": "Trígono",
+          "cnt": 6
+        },
+        {
+          "star_name": "Pollux",
+          "aspect_name": "Oposição",
+          "cnt": 5
+        },
+        {
+          "star_name": "Polaris",
+          "aspect_name": "Trígono",
+          "cnt": 5
+        },
+        {
+          "star_name": "Alphard",
+          "aspect_name": "Trígono",
+          "cnt": 5
+        }
+      ],
+      "modern_astrology_theory": "Transformações culturais profundas refletem as grandes mudanças de signo de planetas lentos, em especial as transições geracionais de Plutão e Netuno que inauguram novos paradigmas na arte, filosofia e religiosidade coletiva."
+    }
+  }
+}

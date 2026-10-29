@@ -1,0 +1,569 @@
+{% extends "base.html" %}
+
+{% block title %}Linha do Tempo Cosmológica & Simulador Histórico (1800–2100) | Escala 0 a 1000 Pontos{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header Banner & Automatic Simulation Trigger -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden glow-gold">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Varredura Contínua de 301 Anos • Escala de Alta Resolução (0 a 1000 Pontos)
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+                    Linha do Tempo Cosmológica & Simulador (1800–2100)
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Mapeamento analítico ano a ano dos últimos dois séculos e das próximas décadas. 
+                    O motor utiliza <strong class="text-amber-400">amostragem sazonal quádrupla (Equinócios e Solstícios)</strong> 
+                    e calcula a tensão na <strong class="text-rose-400">escala de alta precisão de 0 a 1000 pontos</strong>. 
+                    Integra os <strong class="text-emerald-300">{{ future_data.historical_events_count }} fatos históricos reais</strong> (1800–2025 da base de 300 fatos) e projeta 
+                    cenários prospectivos e gatilhos cósmicos até 2100.
+                </p>
+            </div>
+
+            <!-- Botão de Recálculo Automático -->
+            <div class="flex flex-col items-start lg:items-end gap-2">
+                <form action="/simulator/recalculate" method="POST">
+                    <button type="submit" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-sm tracking-wide shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2">
+                        <span>⚡ Recalcular Linha do Tempo (1800–2100)</span>
+                    </button>
+                </form>
+                <span class="text-xs text-slate-400 font-mono">
+                    301 anos (1800–2100) • {{ future_data.historical_events_count }} fatos reais integrados
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Long-term KPI Highlights Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Maior Ruptura do Passado -->
+        <div class="glass-panel p-5 rounded-xl border-l-4 border-rose-500">
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-1">Maior Ruptura do Passado (1800-2025)</div>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black text-rose-400 font-mono">{{ future_data.highest_past_rupture.year }}</span>
+                <span class="text-sm font-bold text-white font-mono">{{ future_data.highest_past_rupture.tension }}/1000</span>
+            </div>
+            <div class="text-xs font-semibold text-amber-300 mt-1 truncate">{{ future_data.highest_past_rupture.title }}</div>
+            <div class="text-xs text-slate-400 mt-0.5 truncate">{{ future_data.highest_past_rupture.trigger }}</div>
+        </div>
+
+        <!-- Maior Pico Futuro -->
+        <div class="glass-panel p-5 rounded-xl border-l-4 border-amber-500">
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-1">Maior Pico Futuro (2026–2100)</div>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black text-amber-300 font-mono">{{ future_data.highest_future_year.year }}</span>
+                <span class="text-sm font-bold text-white font-mono">{{ future_data.highest_future_year.tension }}/1000</span>
+            </div>
+            <div class="text-xs text-slate-300 mt-1">Gatilho Transpessoal:</div>
+            <div class="text-xs text-slate-400 mt-0.5 truncate">{{ future_data.highest_future_year.trigger }}</div>
+        </div>
+
+        <!-- Médias Comparadas -->
+        <div class="glass-panel p-5 rounded-xl border-l-4 border-purple-400">
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-1">Média Cósmica Comparada</div>
+            <div class="text-xs text-slate-300 mt-1">
+                Passado (1800-2025): <strong class="text-emerald-300 font-mono">{{ future_data.avg_past_tension }}/1000</strong>
+            </div>
+            <div class="text-xs text-slate-300 mt-1">
+                Futuro (2026-2100): <strong class="text-sky-300 font-mono">{{ future_data.avg_future_tension }}/1000</strong>
+            </div>
+            <div class="text-xs text-slate-400 mt-1 font-mono">Resolução: 0 a 1000 pts</div>
+        </div>
+
+        <!-- Pico Tecnológico -->
+        <div class="glass-panel p-5 rounded-xl border-l-4 border-sky-400">
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-1">Auge de Inovação & Ciência</div>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black text-sky-300 font-mono">{{ future_data.highest_tech_year.year }}</span>
+                <span class="text-sm font-bold text-white font-mono">{{ future_data.highest_tech_year.index }}/1000</span>
+            </div>
+            <div class="text-xs text-slate-300 mt-1 truncate">{{ future_data.highest_tech_year.trigger }}</div>
+        </div>
+    </div>
+
+    <!-- Gráfico Interativo de Linha do Tempo (Chart.js 1800-2100 na Escala 0-1000) -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span>📈</span> Gráfico de Tensão Cósmica & Rupturas Históricas (1800–2100)
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">
+                    Escala de alta resolução de <strong>0 a 1000 pontos</strong>. 
+                    <span class="text-amber-400">★ Pontos dourados</span> representam eventos históricos reais cadastrados; 
+                    <span class="text-sky-400">● Linha contínua</span> representa a evolução prospectiva e de fundo.
+                </p>
+            </div>
+
+            <!-- Filtros de Época para o Gráfico -->
+            <div class="flex flex-wrap items-center gap-1.5 text-xs bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
+                <span class="text-slate-400 px-2 font-semibold">Época:</span>
+                <button onclick="setChartRange(1800, 2100, this)" class="chart-era-btn px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition">
+                    Todos (1800–2100)
+                </button>
+                <button onclick="setChartRange(1800, 1899, this)" class="chart-era-btn px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    Século XIX (1800–1899)
+                </button>
+                <button onclick="setChartRange(1900, 1999, this)" class="chart-era-btn px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    Século XX (1900–1999)
+                </button>
+                <button onclick="setChartRange(2000, 2025, this)" class="chart-era-btn px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    Contemporâneo (2000–2025)
+                </button>
+                <button onclick="setChartRange(2026, 2100, this)" class="chart-era-btn px-2.5 py-1 rounded-lg font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    Futuro (2026–2100)
+                </button>
+            </div>
+        </div>
+
+        <!-- Legenda Visual das Faixas de Alerta -->
+        <div class="flex flex-wrap items-center justify-between text-xs py-2 px-3 bg-slate-900/50 rounded-xl border border-slate-800 gap-2">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500"></span> <strong>Tensão de Pico (0–1000)</strong></span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400"></span> <strong>Risco Bélico (0–1000)</strong></span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-400"></span> <strong>Inovação Científica (0–1000)</strong></span>
+            </div>
+            <div class="flex items-center gap-3 font-mono text-[11px] text-slate-400">
+                <span class="text-emerald-400">● 0–349: Calmo</span>
+                <span class="text-amber-300">● 350–549: Moderado</span>
+                <span class="text-orange-400">● 550–749: Alto</span>
+                <span class="text-rose-400">● 750–1000: Crítico</span>
+            </div>
+        </div>
+
+        <div class="h-96 w-full">
+            <canvas id="historicalFutureChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Tabela Analítica Detalhada (1800–2100) -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span>📑</span> Tabela Analítica de 1800 a 2100 (301 Anos)
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">
+                    Fatos históricos reais com links diretos, gatilhos astronômicos e projeção prospectiva detalhada.
+                </p>
+            </div>
+
+            <!-- Controles de Filtro e Busca -->
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+                <!-- Campo de Busca Rápida -->
+                <div class="relative">
+                    <input type="text" id="tableSearchInput" onkeyup="handleSearch()" placeholder="Buscar ano, evento ou gatilho..."
+                        class="px-3 py-1.5 pl-8 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 w-56">
+                    <span class="absolute left-2.5 top-2 text-slate-500">🔍</span>
+                </div>
+
+                <button onclick="filterTable('todos')" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-amber-500 text-slate-950 transition" data-filter="todos">
+                    Todos os 301 Anos
+                </button>
+                <button onclick="filterTable('historico')" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-filter="historico">
+                    🏛️ Fatos Reais (1800–2025)
+                </button>
+                <button onclick="filterTable('futuro')" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-filter="futuro">
+                    🔮 Projeção Futura (2026–2100)
+                </button>
+                <button onclick="filterTable('critico')" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-filter="critico">
+                    🚨 Alerta Crítico (≥ 750)
+                </button>
+                <button onclick="filterTable('alto')" class="filter-btn px-3 py-1.5 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-filter="alto">
+                    ⚠️ Alerta Alto (≥ 550)
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela com 301 linhas estruturadas -->
+        <div class="overflow-x-auto max-h-[750px] overflow-y-auto border border-slate-800 rounded-xl">
+            <table class="w-full text-left text-xs sm:text-sm" id="timelineTable">
+                <thead class="sticky top-0 bg-slate-900/95 backdrop-blur z-10 border-b border-slate-700 text-slate-400 font-semibold">
+                    <tr>
+                        <th class="py-3 px-3">Ano</th>
+                        <th class="py-3 px-3">Tipo</th>
+                        <th class="py-3 px-3 min-w-[150px]">Tensão Cósmica (0–1000)</th>
+                        <th class="py-3 px-3">Alerta</th>
+                        <th class="py-3 px-3 min-w-[200px]">Gatilho Cósmico Central</th>
+                        <th class="py-3 px-3 min-w-[140px]">Sub-Índices</th>
+                        <th class="py-3 px-3 min-w-[220px]">Fato Histórico / Precedente</th>
+                        <th class="py-3 px-3 min-w-[300px]">Síntese Analítica & Cenários</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/80">
+                    {% for row in future_data.timeline %}
+                    <tr class="hover:bg-slate-800/40 transition timeline-row" 
+                        data-alert="{{ row.alert_level }}"
+                        data-is-historical="{{ 'true' if row.is_historical else 'false' }}"
+                        data-year="{{ row.year }}"
+                        data-tension="{{ row.tension_index_1000 }}">
+                        
+                        <!-- Ano -->
+                        <td class="py-3.5 px-3 font-mono font-black text-base {% if row.is_historical %}text-amber-300{% else %}text-sky-300{% endif %}">
+                            {{ row.year }}
+                        </td>
+
+                        <!-- Tipo -->
+                        <td class="py-3.5 px-3">
+                            {% if row.is_historical %}
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                <span>🏛️</span> Fato Real
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                                <span>🔮</span> Projeção
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Tensão Cósmica (0-1000) com Barra de Progresso -->
+                        <td class="py-3.5 px-3 font-mono text-xs">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm {% if row.tension_index_1000 >= 750 %}text-rose-400{% elif row.tension_index_1000 >= 550 %}text-amber-300{% else %}text-emerald-400{% endif %}">
+                                    {{ row.tension_index_1000 }}
+                                </span>
+                                <span class="text-[10px] text-slate-500">/ 1000</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div class="h-2 rounded-full {% if row.tension_index_1000 >= 750 %}bg-rose-500{% elif row.tension_index_1000 >= 550 %}bg-amber-400{% else %}bg-emerald-400{% endif %}"
+                                     style="width: {{ (row.tension_index_1000 / 10.0) }}%"></div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 mt-1">Média Anual: {{ row.avg_tension_1000 }}</div>
+                        </td>
+
+                        <!-- Alerta -->
+                        <td class="py-3.5 px-3">
+                            <span class="px-2 py-0.5 rounded text-[11px] font-bold
+                                {% if 'Crítico' in row.alert_level %}bg-rose-500/20 text-rose-300 border border-rose-500/30
+                                {% elif 'Alto' in row.alert_level %}bg-amber-500/20 text-amber-300 border border-amber-500/30
+                                {% elif 'Moderado' in row.alert_level %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30
+                                {% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% endif %}">
+                                {{ row.alert_level }}
+                            </span>
+                        </td>
+
+                        <!-- Gatilho Cósmico -->
+                        <td class="py-3.5 px-3 text-xs text-slate-300">
+                            <div class="font-medium text-white">{{ row.cosmic_trigger }}</div>
+                            <div class="text-slate-400 text-[11px] mt-0.5">Aspectos: {{ row.key_aspects_count }} • Estrelas ativas: {{ row.star_contacts_count }}</div>
+                        </td>
+
+                        <!-- Sub-Índices (0-1000) -->
+                        <td class="py-3.5 px-3 font-mono text-[11px] space-y-0.5">
+                            <div class="text-amber-300">Bélico: <strong>{{ row.conflict_risk_index_1000 }}</strong></div>
+                            <div class="text-rose-300">Crise: <strong>{{ row.crisis_risk_index_1000 }}</strong></div>
+                            <div class="text-sky-300">Ciência: <strong>{{ row.tech_innovation_index_1000 }}</strong></div>
+                        </td>
+
+                        <!-- Fato Histórico Real ou Precedente -->
+                        <td class="py-3.5 px-3 text-xs">
+                            {% if row.is_historical and row.historical_events %}
+                                {% for ev in row.historical_events %}
+                                <div class="mb-2 last:mb-0">
+                                    <a href="/events/{{ ev.id }}" class="font-bold text-amber-300 hover:text-amber-200 hover:underline flex items-center gap-1">
+                                        <span>🔗</span> {{ ev.title }}
+                                    </a>
+                                    <div class="text-slate-400 text-[11px]">({{ ev.date }}) • {{ ev.category }}</div>
+                                </div>
+                                {% endfor %}
+                            {% elif row.top_matches %}
+                                <div class="font-bold text-white">{{ row.top_matches[0].title }}</div>
+                                <div class="text-amber-400 font-mono text-[11px]">({{ row.top_matches[0].date }}) • {{ row.top_matches[0].match_percent }}% similaridade</div>
+                            {% else %}
+                                <span class="text-slate-500">Mapeando...</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Síntese Analítica / Cenários -->
+                        <td class="py-3.5 px-3 text-xs text-slate-300 leading-relaxed bg-slate-900/40 rounded-xl p-3 border border-slate-800/80">
+                            {{ row.scenarios_and_possibilities }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Simulação Manual Opcional de Data Específica -->
+    <div class="glass-panel p-6 rounded-2xl">
+        <details class="group" {% if results %}open{% endif %}>
+            <summary class="cursor-pointer text-sm font-bold text-slate-300 hover:text-amber-300 transition flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span>🗓️</span> Deseja simular um dia e horário específico com correlação histórica? (Clique para expandir)
+                </span>
+                <span class="text-amber-400 group-open:rotate-180 transition-transform">&darr;</span>
+            </summary>
+
+            <form action="/simulator" method="POST" class="mt-6 pt-4 border-t border-slate-800 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="lg:col-span-2">
+                        <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Título do Evento</label>
+                        <input type="text" name="title" required value="{{ input_data.title if input_data else 'Marco Geopolítico / Tecnológico Personalizado' }}"
+                            class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Data Específica</label>
+                        <input type="date" name="date" required value="{{ input_data.date if input_data else '2030-05-15' }}"
+                            class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Hora</label>
+                        <input type="text" name="time" value="{{ input_data.time if input_data else '12:00' }}"
+                            class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div class="lg:col-span-2">
+                        <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Cidade</label>
+                        <input type="text" name="city" required value="{{ input_data.city if input_data else 'Genebra' }}"
+                            class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">País</label>
+                        <input type="text" name="country" required value="{{ input_data.country if input_data else 'Suíça' }}"
+                            class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Lat</label>
+                            <input type="number" step="0.0001" name="latitude" value="{{ input_data.latitude if input_data else '46.2044' }}"
+                                class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Lon</label>
+                            <input type="number" step="0.0001" name="longitude" value="{{ input_data.longitude if input_data else '6.1432' }}"
+                                class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition">
+                        Calcular Carta Natal Específica &rarr;
+                    </button>
+                </div>
+            </form>
+
+            {% if results %}
+            <div class="mt-6 pt-6 border-t border-slate-800 space-y-4">
+                <div class="p-4 bg-slate-900/90 rounded-xl border border-amber-500/40">
+                    <h4 class="font-bold text-amber-300 text-base mb-2">Resultado da Data Específica: {{ input_data.title }}</h4>
+                    <p class="text-xs text-slate-200 leading-relaxed">{{ results.similarity.historical_synthesis }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </details>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Séries completas de dados de 1800 a 2100 injetadas pelo backend
+    const fullSeries = {{ chart_series | tojson }};
+
+    // Criar dataset dinâmico baseado no filtro de época
+    let currentStart = 1800;
+    let currentEnd = 2100;
+    let chartInstance = null;
+
+    function buildChartData(startYear, endYear) {
+        const filteredIndices = [];
+        fullSeries.years.forEach((yr, idx) => {
+            if (yr >= startYear && yr <= endYear) {
+                filteredIndices.push(idx);
+            }
+        });
+
+        const years = filteredIndices.map(i => fullSeries.years[i]);
+        const tension = filteredIndices.map(i => fullSeries.tension_1000[i]);
+        const conflict = filteredIndices.map(i => fullSeries.conflict_risk_1000[i]);
+        const tech = filteredIndices.map(i => fullSeries.tech_innovation_1000[i]);
+
+        // Cores dos pontos: dourado para fatos históricos reais, ciano para projeção
+        const pointColors = filteredIndices.map(i => fullSeries.is_historical[i] ? '#fbbf24' : 'rgba(56, 189, 248, 0.4)');
+        const pointRadii = filteredIndices.map(i => fullSeries.is_historical[i] ? 4.5 : 2);
+
+        return {
+            indices: filteredIndices,
+            labels: years,
+            datasets: [
+                {
+                    label: 'Tensão Cósmica de Pico (0–1000)',
+                    data: tension,
+                    borderColor: '#f43f5e',
+                    backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.25,
+                    pointBackgroundColor: pointColors,
+                    pointBorderColor: pointColors,
+                    pointRadius: pointRadii,
+                    pointHoverRadius: 7,
+                    fill: false
+                },
+                {
+                    label: 'Risco Bélico (0–1000)',
+                    data: conflict,
+                    borderColor: '#fbbf24',
+                    backgroundColor: 'rgba(251, 191, 36, 0.05)',
+                    borderWidth: 1.5,
+                    tension: 0.25,
+                    pointRadius: 1,
+                    pointHoverRadius: 5,
+                    fill: false
+                },
+                {
+                    label: 'Inovação Científica (0–1000)',
+                    data: tech,
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.05)',
+                    borderWidth: 1.5,
+                    borderDash: [4, 4],
+                    tension: 0.25,
+                    pointRadius: 1,
+                    pointHoverRadius: 5,
+                    fill: false
+                }
+            ]
+        };
+    }
+
+    const ctx = document.getElementById('historicalFutureChart').getContext('2d');
+    const initialData = buildChartData(1800, 2100);
+
+    chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: initialData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: { color: '#94a3b8', font: { size: 10 } },
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                },
+                y: {
+                    min: 0,
+                    max: 1000,
+                    ticks: { color: '#94a3b8', stepSize: 200 },
+                    grid: { color: 'rgba(255, 255, 255, 0.07)' }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    titleColor: '#fbbf24',
+                    bodyColor: '#f1f5f9',
+                    borderColor: 'rgba(251, 191, 36, 0.4)',
+                    borderWidth: 1,
+                    padding: 12,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const dataIdx = initialData.indices[tooltipItems[0].dataIndex];
+                            const yr = fullSeries.years[dataIdx];
+                            const isHist = fullSeries.is_historical[dataIdx];
+                            return isHist ? `★ ANO ${yr} (Fato Histórico Real)` : `🔮 ANO ${yr} (Projeção Futura)`;
+                        },
+                        afterBody: function(tooltipItems) {
+                            const dataIdx = initialData.indices[tooltipItems[0].dataIndex];
+                            const trigger = fullSeries.triggers[dataIdx];
+                            const topEvent = fullSeries.top_events[dataIdx];
+                            const isHist = fullSeries.is_historical[dataIdx];
+                            const histTitle = fullSeries.hist_titles[dataIdx];
+
+                            const lines = [
+                                '',
+                                '🪐 Gatilho Cósmico: ' + trigger
+                            ];
+
+                            if (isHist && histTitle) {
+                                lines.push('🏛️ Fato Cadastrado: ' + histTitle);
+                            } else if (topEvent) {
+                                lines.push('🏛️ Precedente Correlato: ' + topEvent);
+                            }
+
+                            return lines;
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Alternador de Faixas de Época no Gráfico
+    function setChartRange(start, end, btnElement) {
+        currentStart = start;
+        currentEnd = end;
+
+        document.querySelectorAll('.chart-era-btn').forEach(btn => {
+            btn.classList.remove('bg-amber-500', 'text-slate-950');
+            btn.classList.add('bg-slate-800', 'text-slate-300');
+        });
+        if (btnElement) {
+            btnElement.classList.remove('bg-slate-800', 'text-slate-300');
+            btnElement.classList.add('bg-amber-500', 'text-slate-950');
+        }
+
+        const updatedData = buildChartData(start, end);
+        chartInstance.data = updatedData;
+        chartInstance.update();
+    }
+
+    // Busca Rápida na Tabela
+    function handleSearch() {
+        const query = document.getElementById('tableSearchInput').value.toLowerCase().trim();
+        const rows = document.querySelectorAll('.timeline-row');
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            if (!query || text.includes(query)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Filtros Rápidos da Tabela
+    function filterTable(filter) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            if (btn.getAttribute('data-filter') === filter) {
+                btn.classList.remove('bg-slate-800', 'text-slate-300');
+                btn.classList.add('bg-amber-500', 'text-slate-950');
+            } else {
+                btn.classList.remove('bg-amber-500', 'text-slate-950');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            }
+        });
+
+        // Limpar busca de texto
+        document.getElementById('tableSearchInput').value = '';
+
+        const rows = document.querySelectorAll('.timeline-row');
+        rows.forEach(row => {
+            const alert = row.getAttribute('data-alert');
+            const isHist = row.getAttribute('data-is-historical') === 'true';
+            const yr = parseInt(row.getAttribute('data-year'), 10);
+            const tension = parseFloat(row.getAttribute('data-tension'));
+
+            if (filter === 'todos') {
+                row.style.display = '';
+            } else if (filter === 'historico') {
+                row.style.display = (isHist || yr < 2026) ? '' : 'none';
+            } else if (filter === 'futuro') {
+                row.style.display = (yr >= 2026) ? '' : 'none';
+            } else if (filter === 'critico') {
+                row.style.display = (tension >= 750.0 || alert.includes('Crítico')) ? '' : 'none';
+            } else if (filter === 'alto') {
+                row.style.display = (tension >= 550.0 || alert.includes('Alto') || alert.includes('Crítico')) ? '' : 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

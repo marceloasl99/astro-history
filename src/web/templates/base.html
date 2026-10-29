@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AstroHistory | Astrologia Moderna & Fatos Históricos{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        astro: {
+                            900: '#070b14',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            gold: '#fbbf24',
+                            cyan: '#38bdf8',
+                            purple: '#a855f7',
+                            rose: '#f43f5e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at 50% 0%, #172554 0%, #070b14 70%);
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-gold {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-slate-100 flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-700/60 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-3 group">
+                <span class="text-3xl filter drop-shadow group-hover:scale-110 transition-transform">🌌</span>
+                <div>
+                    <span class="font-bold text-xl tracking-wider bg-gradient-to-r from-amber-300 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
+                        AstroHistory
+                    </span>
+                    <span class="block text-xs text-slate-400 font-mono">Swiss Ephemeris & 300 Fatos Históricos</span>
+                </div>
+            </a>
+            
+            <div class="flex items-center space-x-1 sm:space-x-4">
+                <a href="/" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
+                    Dashboard
+                </a>
+                <a href="/events" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
+                    Catálogo dos 300 Fatos
+                </a>
+                <a href="/correlations" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
+                    Hub de Correlações
+                </a>
+                <a href="/simulator" class="px-3.5 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md transition transform hover:-translate-y-0.5">
+                    🔮 Linha do Tempo & Simulador
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel border-t border-slate-800 py-6 px-6 mt-12 text-center text-sm text-slate-400">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>
+                AstroHistory • Motor de Astrologia Moderna com <span class="text-amber-400 font-mono">Swiss Ephemeris (pyswisseph)</span>
+            </p>
+            <p class="text-xs text-slate-500">
+                Porta 81 • Servidor Ubuntu 24.04 • 300 Grandes Fatos da Humanidade
+            </p>
+        </div>
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

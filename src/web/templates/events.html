@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo dos 300 Grandes Fatos Históricos{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Top Filter & Search Bar -->
+    <div class="glass-panel p-6 rounded-2xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white">
+                    Catálogo dos 300 Fatos Históricos
+                </h1>
+                <p class="text-sm text-slate-400 mt-1">
+                    Eventos cruciais da humanidade com cálculo natal completo, efemérides e parágrafo de consequências.
+                </p>
+            </div>
+
+            <!-- Search Input -->
+            <div class="w-full md:w-80 relative">
+                <input type="text" id="searchInput" placeholder="Pesquisar por evento, país ou consequência..." 
+                    class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-10">
+                <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
+            </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-slate-700/60">
+            <span class="text-xs text-slate-400 mr-2 font-medium">Categorias:</span>
+            <button onclick="filterCategory('Todas')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition" data-cat="Todas">
+                Todas ({{ events|length }})
+            </button>
+            <button onclick="filterCategory('Crise Econômica')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Crise Econômica">
+                Crises Econômicas
+            </button>
+            <button onclick="filterCategory('Guerra & Conflito')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Guerra & Conflito">
+                Guerras & Conflitos
+            </button>
+            <button onclick="filterCategory('Revolução Política')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Revolução Política">
+                Revoluções Políticas
+            </button>
+            <button onclick="filterCategory('Ciência & Tecnologia')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Ciência & Tecnologia">
+                Ciência & Tecnologia
+            </button>
+            <button onclick="filterCategory('Pandemia & Desastre')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Pandemia & Desastre">
+                Pandemias & Desastres
+            </button>
+            <button onclick="filterCategory('Transformação Cultural')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Transformação Cultural">
+                Transformações Culturais
+            </button>
+        </div>
+    </div>
+
+    <!-- Events List / Table -->
+    <div class="space-y-4" id="eventsContainer">
+        {% for ev in events %}
+        <div class="event-card glass-panel p-5 sm:p-6 rounded-2xl hover:border-slate-500/50 transition-all" 
+             data-title="{{ ev.title|lower }}" 
+             data-category="{{ ev.category }}" 
+             data-consequence="{{ ev.consequence|lower }}"
+             data-location="{{ ev.city|lower }} {{ ev.country|lower }}">
+            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+                <div class="space-y-2 flex-grow">
+                    <!-- Badges -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                            #{{ "%03d"|format(ev.id) }}
+                        </span>
+                        <span class="px-2.5 py-0.5 rounded text-xs font-semibold 
+                            {% if ev.category == 'Crise Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
+                            {% elif ev.category == 'Guerra & Conflito' %}bg-amber-500/20 text-amber-300 border border-amber-500/30
+                            {% elif ev.category == 'Ciência & Tecnologia' %}bg-sky-500/20 text-sky-300 border border-sky-500/30
+                            {% elif ev.category == 'Revolução Política' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
+                            {% elif ev.category == 'Pandemia & Desastre' %}bg-red-500/20 text-red-300 border border-red-500/30
+                            {% else %}bg-slate-500/20 text-slate-300 border border-slate-500/30{% endif %}">
+                            {{ ev.category }}
+                        </span>
+                        <span class="text-xs font-mono text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded">
+                            📅 {{ ev.date }} {% if ev.time != 'desconhecido' %}• ⏰ {{ ev.time }}{% else %}• ⏰ Hora desconhecida{% endif %}
+                        </span>
+                        <span class="text-xs text-slate-400">
+                            📍 {{ ev.city }}, {{ ev.country }}
+                        </span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-xl font-bold text-white hover:text-amber-300 transition-colors">
+                        <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
+                    </h3>
+
+                    <!-- 1-Paragraph Consequence -->
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 text-sm text-slate-300 leading-relaxed">
+                        <span class="text-amber-400 font-semibold text-xs block mb-1">Impacto & Consequências Históricas:</span>
+                        {{ ev.consequence }}
+                    </div>
+                </div>
+
+                <!-- Astrology Info Column & CTA -->
+                <div class="flex lg:flex-col items-center lg:items-end justify-between lg:justify-start gap-4 min-w-[200px] border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-6">
+                    <div class="text-right space-y-1">
+                        <div class="text-xs text-slate-400">Sol em <strong class="text-amber-300 font-medium">{{ ev.sun_sign or 'Calculado' }}</strong></div>
+                        <div class="text-xs text-slate-400">Lua em <strong class="text-sky-300 font-medium">{{ ev.moon_sign or 'Calculado' }}</strong></div>
+                        <div class="text-xs text-slate-400">
+                            Tensão: 
+                            <span class="font-mono font-bold {% if ev.tension_index > 75 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+                                {{ ev.tension_index }}/100
+                            </span>
+                        </div>
+                    </div>
+
+                    <a href="/events/{{ ev.id }}" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all transform hover:scale-105 shadow-md flex items-center gap-1">
+                        Ver Mapa Astral 🪐
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Empty State -->
+    <div id="noResults" class="hidden glass-panel p-12 text-center rounded-2xl">
+        <span class="text-4xl block mb-2">🔭</span>
+        <h4 class="text-lg font-bold text-white">Nenhum evento correspondente encontrado</h4>
+        <p class="text-sm text-slate-400 mt-1">Tente ajustar o termo de pesquisa ou selecionar outra categoria.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let currentCategory = 'Todas';
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.event-card');
+    const noResults = document.getElementById('noResults');
+
+    function filterEvents() {
+        const query = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const title = card.getAttribute('data-title');
+            const category = card.getAttribute('data-category');
+            const consequence = card.getAttribute('data-consequence');
+            const location = card.getAttribute('data-location');
+
+            const matchesCat = (currentCategory === 'Todas' || category === currentCategory);
+            const matchesSearch = (!query || title.includes(query) || consequence.includes(query) || location.includes(query));
+
+            if (matchesCat && matchesSearch) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (visibleCount === 0) {
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+        }
+    }
+
+    function filterCategory(cat) {
+        currentCategory = cat;
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            if (btn.getAttribute('data-cat') === cat) {
+                btn.classList.remove('bg-slate-800', 'text-slate-300');
+                btn.classList.add('bg-amber-500', 'text-slate-950');
+            } else {
+                btn.classList.remove('bg-amber-500', 'text-slate-950');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            }
+        });
+        filterEvents();
+    }
+
+    searchInput.addEventListener('input', filterEvents);
+</script>
+{% endblock %}
