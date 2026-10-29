@@ -59,6 +59,18 @@
                 {{ event.consequence }}
             </p>
         </div>
+
+        <!-- Botão Ver Controle Aleatório (Fase 6) -->
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+            <div>
+                <span class="text-xs uppercase font-mono tracking-wider text-sky-400 font-bold block">Verificação de Controle Nulo</span>
+                <span class="text-xs text-slate-300">Compare a geometria deste evento com datas aleatórias do grupo de controle que apresentaram tensão geométrica similar ou superior.</span>
+            </div>
+            <button onclick="fetchRandomControl({{ event.id }})" class="px-4 py-2 rounded-lg text-xs font-bold bg-sky-600 hover:bg-sky-500 text-white transition flex items-center gap-2 shadow-sm">
+                <span>🎲</span> Ver Controle Aleatório
+            </button>
+        </div>
+        <div id="controlComparisonResult" class="hidden mt-3 p-4 bg-slate-950/90 rounded-xl border border-sky-500/40 text-xs"></div>
     </div>
 
     {% if emphasis %}
@@ -424,4 +436,37 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function fetchRandomControl(eventId) {
+    const box = document.getElementById('controlComparisonResult');
+    box.classList.remove('hidden');
+    box.innerHTML = '<span class="text-slate-400 animate-pulse font-mono">Consultando grupo de controle estratificado (10.000 datas)...</span>';
+    fetch(`/api/random-control-comparison/${eventId}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                box.innerHTML = `<span class="text-rose-400">${data.error}</span>`;
+                return;
+            }
+            let listHtml = data.random_control_matches.map(m => 
+                `<li class="font-mono text-slate-200">📅 <strong>${m.date}</strong> — Tensão Cósmica: <span class="text-amber-300 font-bold">${m.score_1000}/1000</span> (Percentil ${m.score_percentile})</li>`
+            ).join('');
+            box.innerHTML = `
+                <div class="space-y-2">
+                    <div class="font-bold text-sky-300 flex items-center gap-1.5">
+                        <span>⚖️</span> Datas Aleatórias de Controle com Tensão Geométrica Equivalente ou Superior:
+                    </div>
+                    <ul class="space-y-1.5 ml-4 list-disc">${listHtml || '<li class="text-slate-400">Nenhuma data acima do limiar sorteada nesta amostra.</li>'}</ul>
+                    <p class="text-slate-400 text-[11px] pt-2 border-t border-slate-800">${data.explanation}</p>
+                </div>
+            `;
+        })
+        .catch(err => {
+            box.innerHTML = `<span class="text-rose-400">Erro ao consultar controle: ${err}</span>`;
+        });
+}
+</script>
 {% endblock %}

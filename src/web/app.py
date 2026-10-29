@@ -16,7 +16,8 @@ from src.db import (
     get_events_stats,
     get_all_events,
     get_event_by_id,
-    init_db
+    init_db,
+    get_connection
 )
 from src.astro_engine import calculate_event_chart
 from src.correlation_engine import get_category_correlations, find_similar_events
@@ -300,6 +301,55 @@ async def simulator_post_view(
     )
 
 # --- Rotas da API REST ---
+
+@app.get("/methodology", response_class=HTMLResponse)
+async def methodology_view(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="methodology.html",
+        context={}
+    )
+
+@app.get("/api/random-control-comparison/{event_id}")
+async def api_random_control_comparison(event_id: int):
+    conn = get_connection()
+    row = conn.execute("SELECT id, title, date, tension_index, chart_json FROM events WHERE id = ?", (event_id,)).fetchone()
+    if not row:
+        conn.close()
+        return JSONResponse(content={"error": "Event not found"}, status_code=404)
+
+    target_score = row["tension_index"] * 10.0
+    if row["chart_json"]:
+        cj = json.loads(row["chart_json"])
+        target_score = cj.get("summary", {}).get("tension_index_1000", target_score)
+
+    ctrl_rows = conn.execute("SELECT control_date FROM control_dates ORDER BY RANDOM() LIMIT 200").fetchall()
+    conn.close()
+
+    from datetime import date
+    from src.core.ephemeris_grid import get_score_for_date
+    matched_controls = []
+    for cr in ctrl_rows:
+        d_parts = [int(p) for p in cr[0].split("-")]
+        cd = date(d_parts[0], d_parts[1], d_parts[2])
+        score = get_score_for_date(cd)
+        if score >= (target_score - 50.0):
+            matched_controls.append({
+                "date": cr[0],
+                "score_1000": score,
+                "score_percentile": f"{score / 10.0:.1f}%"
+            })
+            if len(matched_controls) >= 3:
+                break
+
+    return JSONResponse(content={
+        "event_id": event_id,
+        "event_title": row["title"],
+        "event_date": row["date"],
+        "event_score_1000": round(target_score, 1),
+        "random_control_matches": matched_controls,
+        "explanation": "Datas aleatórias do grupo de controle que apresentaram intensidade geométrica similar ou superior por mera probabilidade temporal."
+    })
 
 @app.get("/api/future-timeline")
 async def api_future_timeline():
