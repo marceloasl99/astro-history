@@ -1,0 +1,500 @@
+{% extends "base.html" %}
+
+{% block title %}Cenários Prospectivos 2027–2060 | AstroHistory{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header Banner -->
+    <div class="glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-br from-amber-500/10 via-sky-500/10 to-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10">
+            <div class="flex flex-wrap items-center gap-3 mb-2">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    Projeção Prospectiva Swiss Ephemeris
+                </span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                    Horizonte 2027–2060 (34 Anos)
+                </span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    Amostragem Quádrupla Sazonal
+                </span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                📅 Tabela de Cenários & Portais Cósmicos (2027–2060)
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base mt-2 max-w-4xl leading-relaxed">
+                Mapeamento cosmológico contínuo ano a ano com identificação da data exata do pico sazonal (Equinócios e Solstícios), 
+                cálculo de tensão em alta resolução (0 a 1000 pontos e porcentagem), vetores de risco bélico, financeiro e tecnológico, 
+                além de precedentes históricos análogos cruzados com o catálogo de 300 fatos reais.
+            </p>
+        </div>
+    </div>
+
+    <!-- KPI Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <!-- Card 1: Maior Tensão -->
+        <div class="glass-panel p-5 rounded-2xl border-l-4 border-rose-500 flex flex-col justify-between">
+            <div>
+                <span class="text-xs uppercase tracking-wider text-rose-400 font-semibold">Ápice de Tensão Cósmica</span>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-rose-200">{{ data.kpis.highest_tension.year }}</span>
+                    <span class="text-sm font-bold text-rose-400">{{ data.kpis.highest_tension.tension_percent_str }}</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-1">
+                    {{ data.kpis.highest_tension.tension_1000 }} / 1000 pts
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
+                <span>Data do Pico:</span>
+                <span class="font-mono text-amber-300 font-semibold">{{ data.kpis.highest_tension.peak_date }}</span>
+            </div>
+        </div>
+
+        <!-- Card 2: Maior Risco Bélico -->
+        <div class="glass-panel p-5 rounded-2xl border-l-4 border-amber-500 flex flex-col justify-between">
+            <div>
+                <span class="text-xs uppercase tracking-wider text-amber-400 font-semibold">Pico de Risco Bélico</span>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-amber-200">{{ data.kpis.highest_war.year }}</span>
+                    <span class="text-sm font-bold text-amber-400">{{ data.kpis.highest_war.conflict_risk_percent_str }}</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-1">
+                    {{ data.kpis.highest_war.conflict_risk_1000 }} / 1000 pts
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
+                <span>Data do Pico:</span>
+                <span class="font-mono text-amber-300 font-semibold">{{ data.kpis.highest_war.peak_date }}</span>
+            </div>
+        </div>
+
+        <!-- Card 3: Maior Risco de Crise -->
+        <div class="glass-panel p-5 rounded-2xl border-l-4 border-sky-500 flex flex-col justify-between">
+            <div>
+                <span class="text-xs uppercase tracking-wider text-sky-400 font-semibold">Pico de Crise Financeira</span>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-sky-200">{{ data.kpis.highest_crisis.year }}</span>
+                    <span class="text-sm font-bold text-sky-400">{{ data.kpis.highest_crisis.crisis_risk_percent_str }}</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-1">
+                    {{ data.kpis.highest_crisis.crisis_risk_1000 }} / 1000 pts
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
+                <span>Data do Pico:</span>
+                <span class="font-mono text-amber-300 font-semibold">{{ data.kpis.highest_crisis.peak_date }}</span>
+            </div>
+        </div>
+
+        <!-- Card 4: Maior Inovação Tech -->
+        <div class="glass-panel p-5 rounded-2xl border-l-4 border-purple-500 flex flex-col justify-between">
+            <div>
+                <span class="text-xs uppercase tracking-wider text-purple-400 font-semibold">Pico de Disrupção Tech</span>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-purple-200">{{ data.kpis.highest_tech.year }}</span>
+                    <span class="text-sm font-bold text-purple-400">{{ data.kpis.highest_tech.tech_innovation_percent_str }}</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-1">
+                    {{ data.kpis.highest_tech.tech_innovation_1000 }} / 1000 pts
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
+                <span>Data do Pico:</span>
+                <span class="font-mono text-amber-300 font-semibold">{{ data.kpis.highest_tech.peak_date }}</span>
+            </div>
+        </div>
+
+        <!-- Card 5: Média Geral do Período -->
+        <div class="glass-panel p-5 rounded-2xl border-l-4 border-emerald-500 flex flex-col justify-between">
+            <div>
+                <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Média Geral (2027–2060)</span>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-3xl font-black text-emerald-200">{{ data.kpis.avg_tension_percent }}%</span>
+                    <span class="text-sm font-bold text-emerald-400">{{ data.kpis.avg_tension_1000 }} pts</span>
+                </div>
+                <div class="text-xs text-slate-400 mt-1">
+                    34 Anos Monitorados
+                </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
+                <span>Críticos: <strong class="text-rose-400">{{ data.kpis.critical_count }}</strong></span>
+                <span>Altos: <strong class="text-amber-400">{{ data.kpis.high_count }}</strong></span>
+                <span>Moderados: <strong class="text-yellow-400">{{ data.kpis.moderate_count }}</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls & Filters Bar -->
+    <div class="glass-panel p-6 rounded-2xl space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <!-- Search Input -->
+            <div class="w-full md:w-96 relative">
+                <input type="text" id="tableSearchInput" placeholder="Buscar por ano, data, signo, aspecto ou cenário..." 
+                    class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-10"
+                    onkeyup="filterTable()">
+                <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
+            </div>
+
+            <!-- Global Action Buttons -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleAllPortals()" id="toggleAllBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700 flex items-center gap-2">
+                    <span>↕️ Expandir Todos os Portais Sazonais</span>
+                </button>
+                <a href="/api/projections-2027-2060" target="_blank" class="px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 transition border border-indigo-700/50 flex items-center gap-1.5">
+                    <span>{ } JSON da API</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter Badges: Decades & Alert Levels -->
+        <div class="pt-3 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-4">
+            <!-- Decades -->
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs text-slate-400 font-medium mr-1">Décadas:</span>
+                <button onclick="setDecadeFilter('Todas')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition" data-decade="Todas">
+                    Todas (34)
+                </button>
+                <button onclick="setDecadeFilter('2020s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2020s">
+                    2020s (2027–2029)
+                </button>
+                <button onclick="setDecadeFilter('2030s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2030s">
+                    2030s (10 anos)
+                </button>
+                <button onclick="setDecadeFilter('2040s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2040s">
+                    2040s (10 anos)
+                </button>
+                <button onclick="setDecadeFilter('2050s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2050s">
+                    2050s (10 anos)
+                </button>
+                <button onclick="setDecadeFilter('2060s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2060s">
+                    2060 (1 ano)
+                </button>
+            </div>
+
+            <!-- Alert Level Filters -->
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs text-slate-400 font-medium mr-1">Nível de Alerta:</span>
+                <button onclick="setAlertFilter('Todos')" class="alert-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-700 text-white transition" data-alert="Todos">
+                    Todos
+                </button>
+                <button onclick="setAlertFilter('red')" class="alert-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-rose-400 hover:bg-rose-950/40 transition border border-rose-900/40" data-alert="red">
+                    🔴 Crítico
+                </button>
+                <button onclick="setAlertFilter('orange')" class="alert-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-amber-400 hover:bg-amber-950/40 transition border border-amber-900/40" data-alert="orange">
+                    🟠 Alto
+                </button>
+                <button onclick="setAlertFilter('yellow')" class="alert-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-yellow-300 hover:bg-yellow-950/40 transition border border-yellow-900/40" data-alert="yellow">
+                    🟡 Moderado
+                </button>
+                <button onclick="setAlertFilter('green')" class="alert-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-emerald-400 hover:bg-emerald-950/40 transition border border-emerald-900/40" data-alert="green">
+                    🟢 Estável
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Prospective Table -->
+    <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border border-slate-700/60">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse" id="projectionsTable">
+                <thead>
+                    <tr class="bg-slate-900/95 border-b border-slate-700 text-xs font-bold text-slate-300 uppercase tracking-wider">
+                        <th class="py-4 px-4 whitespace-nowrap">Ano & Data do Pico</th>
+                        <th class="py-4 px-4 whitespace-nowrap">Tensão Cósmica</th>
+                        <th class="py-4 px-4 whitespace-nowrap">Riscos Multidimensionais</th>
+                        <th class="py-4 px-4 min-w-[200px]">Gatilho Astronômico</th>
+                        <th class="py-4 px-4 min-w-[220px]">Precedente Histórico</th>
+                        <th class="py-4 px-5 min-w-[320px]">Cenário Prospectivo</th>
+                        <th class="py-4 px-3 text-center whitespace-nowrap">Portais</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 text-sm">
+                    {% for row in data.projections %}
+                    <tr class="projection-row hover:bg-slate-800/60 transition-colors group"
+                        data-year="{{ row.year }}"
+                        data-decade="{{ row.decade }}"
+                        data-alert="{{ row.alert_color }}"
+                        data-search="{{ row.year }} {{ row.peak_date }} {{ row.cosmic_trigger|lower }} {{ row.top_precedent.title|lower }} {{ row.dominant_category|lower }} {{ row.scenarios_and_possibilities|lower }}">
+                        
+                        <!-- Coluna 1: Ano e Data Exata do Pico -->
+                        <td class="py-4 px-4 align-top">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl font-extrabold text-white tracking-wide font-mono">{{ row.year }}</span>
+                                <span class="text-xs px-2 py-0.5 rounded font-mono bg-slate-800 text-slate-400">
+                                    {{ row.decade }}
+                                </span>
+                            </div>
+                            <div class="mt-2 flex items-center gap-1.5">
+                                <span class="text-amber-400 text-xs">📅</span>
+                                <span class="font-mono text-xs font-bold text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/40">
+                                    {{ row.peak_date }}
+                                </span>
+                            </div>
+                            <div class="text-[11px] text-slate-400 mt-1 leading-tight">
+                                {{ row.peak_season }}
+                            </div>
+                        </td>
+
+                        <!-- Coluna 2: Tensão Cósmica & Nível de Alerta -->
+                        <td class="py-4 px-4 align-top">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg font-black font-mono
+                                    {% if row.alert_color == 'red' %}text-rose-400
+                                    {% elif row.alert_color == 'orange' %}text-amber-400
+                                    {% elif row.alert_color == 'yellow' %}text-yellow-300
+                                    {% else %}text-emerald-400{% endif %}">
+                                    {{ row.tension_percent_str }}
+                                </span>
+                                <span class="text-xs text-slate-400 font-mono">
+                                    ({{ row.tension_1000 }}/1000)
+                                </span>
+                            </div>
+
+                            <!-- Barra de Tensão -->
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+                                <div class="h-1.5 rounded-full transition-all duration-500
+                                    {% if row.alert_color == 'red' %}bg-rose-500
+                                    {% elif row.alert_color == 'orange' %}bg-amber-500
+                                    {% elif row.alert_color == 'yellow' %}bg-yellow-400
+                                    {% else %}bg-emerald-400{% endif %}"
+                                    style="width: {{ row.tension_percent }}%">
+                                </div>
+                            </div>
+
+                            <!-- Badge de Alerta -->
+                            <div class="mt-2">
+                                <span class="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-md
+                                    {% if row.alert_color == 'red' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
+                                    {% elif row.alert_color == 'orange' %}bg-amber-500/20 text-amber-300 border border-amber-500/30
+                                    {% elif row.alert_color == 'yellow' %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30
+                                    {% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% endif %}">
+                                    {{ row.alert_level }}
+                                </span>
+                            </div>
+                            <div class="text-[11px] text-slate-400 mt-1">
+                                Média Anual: <strong class="text-slate-300">{{ row.avg_tension_1000 }}</strong>
+                            </div>
+                        </td>
+
+                        <!-- Coluna 3: Riscos Multidimensionais -->
+                        <td class="py-4 px-4 align-top">
+                            <div class="space-y-1.5 text-xs font-mono">
+                                <!-- Risco Bélico -->
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-slate-400 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Bélico:
+                                    </span>
+                                    <span class="font-bold {% if row.conflict_risk_1000 >= 700 %}text-rose-400{% else %}text-slate-200{% endif %}">
+                                        {{ row.conflict_risk_percent_str }}
+                                    </span>
+                                </div>
+                                <!-- Risco Crise -->
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-slate-400 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Crise:
+                                    </span>
+                                    <span class="font-bold {% if row.crisis_risk_1000 >= 700 %}text-amber-400{% else %}text-slate-200{% endif %}">
+                                        {{ row.crisis_risk_percent_str }}
+                                    </span>
+                                </div>
+                                <!-- Disrupção Tech -->
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-slate-400 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Tech:
+                                    </span>
+                                    <span class="font-bold {% if row.tech_innovation_1000 >= 600 %}text-sky-300{% else %}text-slate-200{% endif %}">
+                                        {{ row.tech_innovation_percent_str }}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Coluna 4: Gatilho Astronômico -->
+                        <td class="py-4 px-4 align-top">
+                            <div class="text-xs text-slate-200 leading-relaxed font-sans">
+                                {{ row.cosmic_trigger }}
+                            </div>
+                            <div class="mt-2 flex flex-wrap gap-1 text-[11px] font-mono">
+                                <span class="bg-slate-800/90 text-indigo-300 px-1.5 py-0.5 rounded border border-slate-700">♇ {{ row.pluto_sign }}</span>
+                                <span class="bg-slate-800/90 text-sky-300 px-1.5 py-0.5 rounded border border-slate-700">♆ {{ row.neptune_sign }}</span>
+                                <span class="bg-slate-800/90 text-amber-300 px-1.5 py-0.5 rounded border border-slate-700">♅ {{ row.uranus_sign }}</span>
+                                <span class="bg-slate-800/90 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700">♄ {{ row.saturn_sign }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Coluna 5: Precedente Histórico -->
+                        <td class="py-4 px-4 align-top">
+                            <div class="text-xs font-bold text-amber-300">
+                                {{ row.top_precedent.title }}
+                            </div>
+                            <div class="mt-1 flex items-center gap-2">
+                                <span class="text-[11px] px-2 py-0.5 rounded font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                    {{ row.dominant_category }}
+                                </span>
+                                <span class="text-xs font-mono font-bold text-sky-400">
+                                    {{ row.top_precedent.match_percent }}% match
+                                </span>
+                            </div>
+                            {% if row.top_precedent.consequence %}
+                            <div class="text-[11px] text-slate-400 mt-1.5 italic line-clamp-2">
+                                "{{ row.top_precedent.consequence[:140] }}..."
+                            </div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Coluna 6: Cenário Prospectivo Detalhado -->
+                        <td class="py-4 px-5 align-top">
+                            <div class="text-xs text-slate-200 leading-relaxed">
+                                {{ row.scenarios_and_possibilities }}
+                            </div>
+                        </td>
+
+                        <!-- Coluna 7: Ação / Detalhes dos Portais Sazonais -->
+                        <td class="py-4 px-3 align-top text-center">
+                            <button onclick="togglePortalRow({{ row.year }})" 
+                                    id="btn-portal-{{ row.year }}"
+                                    class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition"
+                                    title="Exibir os 4 portais sazonais deste ano">
+                                <span>📅</span>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <!-- Linha Expansível: 4 Portais Sazonais do Ano -->
+                    <tr id="portal-row-{{ row.year }}" class="hidden bg-slate-900/90 border-b border-slate-800/80">
+                        <td colspan="7" class="py-4 px-6">
+                            <div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-amber-400 text-sm font-bold">Portais Cardinais de {{ row.year }}:</span>
+                                        <span class="text-xs text-slate-400">Amostragem sazonal exata nos 4 portais astrológicos do ano</span>
+                                    </div>
+                                    <span class="text-xs font-mono text-slate-400">Pico Anual: <strong class="text-amber-300">{{ row.peak_date }}</strong></span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                    {% for gate in row.seasonal_gates %}
+                                    <div class="p-3 rounded-lg bg-slate-900 border {% if gate.date == row.peak_date %}border-amber-500/70 shadow-lg shadow-amber-500/10{% else %}border-slate-800{% endif %}">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-bold text-white">{{ gate.short_season }}</span>
+                                            {% if gate.date == row.peak_date %}
+                                            <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-500 text-slate-950">PICO</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="font-mono text-xs font-semibold text-amber-300 mt-0.5">
+                                            {{ gate.date }}
+                                        </div>
+                                        <div class="mt-2 pt-2 border-t border-slate-800 text-[11px] font-mono space-y-1">
+                                            <div class="flex justify-between">
+                                                <span class="text-slate-400">Tensão:</span>
+                                                <span class="font-bold text-slate-100">{{ gate.tension_percent }}% ({{ gate.tension_1000 }})</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-slate-400">Bélico:</span>
+                                                <span class="font-bold text-rose-300">{{ gate.conflict_risk_1000 }}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-slate-400">Crise:</span>
+                                                <span class="font-bold text-amber-300">{{ gate.crisis_risk_1000 }}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-slate-400">Tech:</span>
+                                                <span class="font-bold text-sky-300">{{ gate.tech_innovation_1000 }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let currentDecade = 'Todas';
+    let currentAlert = 'Todos';
+
+    function setDecadeFilter(decade) {
+        currentDecade = decade;
+        document.querySelectorAll('.decade-btn').forEach(btn => {
+            if (btn.getAttribute('data-decade') === decade) {
+                btn.className = 'decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition';
+            } else {
+                btn.className = 'decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+            }
+        });
+        filterTable();
+    }
+
+    function setAlertFilter(alert) {
+        currentAlert = alert;
+        document.querySelectorAll('.alert-btn').forEach(btn => {
+            if (btn.getAttribute('data-alert') === alert) {
+                btn.classList.add('ring-2', 'ring-amber-400');
+            } else {
+                btn.classList.remove('ring-2', 'ring-amber-400');
+            }
+        });
+        filterTable();
+    }
+
+    function filterTable() {
+        const query = document.getElementById('tableSearchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('.projection-row');
+
+        rows.forEach(row => {
+            const rowDecade = row.getAttribute('data-decade');
+            const rowAlert = row.getAttribute('data-alert');
+            const rowSearch = row.getAttribute('data-search');
+            const yr = row.getAttribute('data-year');
+            const portalRow = document.getElementById('portal-row-' + yr);
+
+            const matchesDecade = (currentDecade === 'Todas' || rowDecade === currentDecade);
+            const matchesAlert = (currentAlert === 'Todos' || rowAlert === currentAlert);
+            const matchesSearch = (!query || rowSearch.includes(query));
+
+            if (matchesDecade && matchesAlert && matchesSearch) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+                if (portalRow) portalRow.classList.add('hidden');
+            }
+        });
+    }
+
+    function togglePortalRow(year) {
+        const row = document.getElementById('portal-row-' + year);
+        if (!row) return;
+        const btn = document.getElementById('btn-portal-' + year);
+        if (row.classList.contains('hidden')) {
+            row.classList.remove('hidden');
+            if (btn) btn.classList.add('bg-amber-500', 'text-slate-950');
+        } else {
+            row.classList.add('hidden');
+            if (btn) btn.classList.remove('bg-amber-500', 'text-slate-950');
+        }
+    }
+
+    let allExpanded = false;
+    function toggleAllPortals() {
+        allExpanded = !allExpanded;
+        const btn = document.getElementById('toggleAllBtn');
+        document.querySelectorAll('[id^="portal-row-"]').forEach(row => {
+            if (allExpanded) {
+                row.classList.remove('hidden');
+            } else {
+                row.classList.add('hidden');
+            }
+        });
+        if (btn) {
+            btn.innerHTML = allExpanded ? '<span>↕️ Recolher Portais Sazonais</span>' : '<span>↕️ Expandir Todos os Portais Sazonais</span>';
+        }
+    }
+</script>
+{% endblock %}

@@ -46,6 +46,12 @@ Comparative statistical analysis showing planetary distributions, element balanc
 
 ---
 
+### 6. Prospective 2027–2060 Gateways & Scenario Matrix Table
+Dedicated analytical tab providing year-by-year and seasonal solstice/equinox gateway dates, multi-dimensional risk scores (War, Financial Crisis, Technological Innovation), historical archetype precedents, and comprehensive scenario projections:
+![Prospective 2027–2060 Matrix](docs/screenshots/06_projections_2027_2060.png)
+
+---
+
 ## Table of Contents
 1. [Overview & Theoretical Foundations](#1-overview--theoretical-foundations)
 2. [System Architecture](#2-system-architecture)
@@ -483,6 +489,12 @@ The FastAPI web service is bound to `0.0.0.0:81`:
   - Strict 30 fixed stars contact list ($0.3^\circ$ orb).
   - Modern Astrological Corroboration card with historical consequence analysis.
 - **`/correlations` (Correlation Hub)**: Macro statistical rankings across categories.
+- **`/projections` (2027–2060 Prospective Scenarios & Seasonal Gateways)**:
+  - 34-year prospective scenario table with decade filters (2020s, 2030s, 2040s, 2050s, 2060).
+  - Exact peak date calculation for every year based on equinoxes and solstices.
+  - Multi-dimensional risk breakdowns: Cosmic Tension (0–1000 & %), War/Conflict %, Financial Crisis %, Tech Innovation %.
+  - Expandable cardinal gateways drawer detailing individual quarterly equinox & solstice metrics.
+  - Correlated historical precedents from the 300-event catalog with similarity resonance %.
 - **`/simulator` (Prospective Simulator)**:
   - 301-year high-resolution line chart (0–1000 scale) with era filtering.
   - Interactive table with historical cross-references.
@@ -495,6 +507,7 @@ The FastAPI web service is bound to `0.0.0.0:81`:
 | `/api/events` | `GET` | JSON | List of 300 events with filtering (`?category=` and `?search=`). |
 | `/api/events/{id}` | `GET` | JSON | Complete natal chart coordinates, fixed stars, and aspect matrices. |
 | `/api/future-timeline`| `GET` | JSON | Full continuous 301-year timeline (1800–2100) data array. |
+| `/api/projections-2027-2060`| `GET` | JSON | Dedicated 34-year prospective dataset (2027–2060) with 4 seasonal gates per year, alert levels, and KPI metrics. |
 | `/api/simulate` | `POST`| JSON | Computes custom chart on-demand and returns top 5 archetypal matches. |
 
 ---

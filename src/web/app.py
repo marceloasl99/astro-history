@@ -22,7 +22,11 @@ from src.astro_engine import calculate_event_chart
 from src.correlation_engine import get_category_correlations, find_similar_events
 from src.web.mandala import generate_mandala_svg
 from src.analyze_correlations import calculate_event_emphasis
-from src.future_engine import generate_future_timeline_1800_2100, generate_future_timeline_2026_2060
+from src.future_engine import (
+    generate_future_timeline_1800_2100,
+    generate_future_timeline_2026_2060,
+    get_projections_2027_2060
+)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -190,6 +194,39 @@ async def simulator_get_view(request: Request):
         }
     )
 
+@app.api_route("/projections", methods=["GET", "HEAD"], response_class=HTMLResponse)
+async def projections_view(request: Request, decade: str = "Todas", alert: str = "Todos", search: str = ""):
+    data = get_projections_2027_2060(force_refresh=False)
+    
+    # Filtragem opcional no servidor (a interface também conta com filtro dinâmico em JS)
+    filtered = data["projections"]
+    if decade != "Todas":
+        filtered = [p for p in filtered if p["decade"] == decade]
+    if alert != "Todos":
+        filtered = [p for p in filtered if alert.lower() in p["alert_level"].lower() or alert.lower() == p["alert_color"].lower()]
+    if search:
+        s_lower = search.lower()
+        filtered = [
+            p for p in filtered
+            if s_lower in str(p["year"])
+            or s_lower in p["cosmic_trigger"].lower()
+            or s_lower in p["scenarios_and_possibilities"].lower()
+            or s_lower in p["top_precedent"]["title"].lower()
+            or s_lower in p["dominant_category"].lower()
+        ]
+
+    return templates.TemplateResponse(
+        request=request,
+        name="projections.html",
+        context={
+            "data": data,
+            "projections": filtered,
+            "selected_decade": decade,
+            "selected_alert": alert,
+            "search_query": search
+        }
+    )
+
 @app.post("/simulator/recalculate")
 async def simulator_recalculate_view(request: Request):
     # Forçar recálculo completo da linha do tempo contínua 1800-2100
@@ -267,6 +304,10 @@ async def simulator_post_view(
 @app.get("/api/future-timeline")
 async def api_future_timeline():
     return JSONResponse(content=generate_future_timeline_1800_2100())
+
+@app.get("/api/projections-2027-2060")
+async def api_projections_2027_2060():
+    return JSONResponse(content=get_projections_2027_2060(force_refresh=False))
 
 @app.get("/api/stats")
 async def api_stats():

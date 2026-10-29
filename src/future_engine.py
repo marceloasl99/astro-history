@@ -71,8 +71,16 @@ TRANSIT_CONTEXT = {
     2048: "Auge da quadratura Urano-Plutão. Rupturas nos paradigmas médicos e farmacêuticos e novos modelos de propriedade intelectual.",
     2049: "Júpiter conjunto a Netuno em Peixes. Renascimento humanitário, grandes tratados de proteção aos oceanos e cooperação ecológica planetária.",
     2050: "Marco do meio do século: Netuno ingressa em Touro e Plutão consolida Peixes. Transição histórica da economia de escassez para economia de abundância circular.",
-    2055: "Urano em Escorpião. Saltos drásticos em tecnologias de regeneração celular, fusão homem-máquina e segurança contra bioameaças.",
-    2060: "Netuno consolidado em Touro e Plutão no meio de Peixes. Síntese ecológica e harmonização tecnológica global.",
+    2051: "Saturno em Aquário conjunto ao retorno institucional e Netuno em Touro. Estabilização de novas moedas ecológicas e novos padrões de liquidez global descentralizada.",
+    2052: "Júpiter em oposição a Urano em Libra. Disputas regulatórias sobre tratados orbitais, telecomunicações espaciais e partilha de mineração de asteroides.",
+    2053: "Saturno em Peixes conjunto a Plutão. Reestruturação profunda dos tratados marítimos internacionais e governança ética de biosferas sintéticas.",
+    2054: "Trígono de Terra Netuno em Touro com planetas em Virgem. Aceleração da infraestrutura agrotech regenerativa e estabilização de cadeias de suprimentos alimentares.",
+    2055: "Urano em Escorpião. Saltos drásticos em tecnologias de regeneração celular, fusão homem-máquina e protocolos de biossegurança contra bioameaças.",
+    2056: "Saturno em Áries em sextil com Plutão em Peixes. Reconfiguração da cibersegurança quântica autônoma e defesa contra sistemas cognitivos descentralizados.",
+    2057: "Júpiter em Leão em trígono com Netuno. Florescimento de novas correntes artísticas globais e síntese de patrimônio cultural com IA senciente.",
+    2058: "Urano ingressa em Sagitário. Rupturas e saltos pioneiros em propulsão espacial de longo alcance e telecomunicações subespaciais.",
+    2059: "Saturno em Touro conjunto a Netuno. Consolidação de protocolos climáticos mundiais vinculantes e auditoria ambiental automatizada por satélites.",
+    2060: "Netuno consolidado em Touro e Plutão no meio de Peixes. Síntese ecológica, fusão quântica madura e harmonização tecnológica global.",
     2065: "Urano em Sagitário em trígono com planetas em Fogo. Nova onda de exploração espacial comercial e expansão lunar/marciana.",
     2070: "Grande alinhamento transpessoal em signos de Ar e Terra. Padronização de governança para inteligências pós-humanas e inteligência artificial geral.",
     2075: "Netuno ingressa em Gêmeos. Revolução na transmissão mental de dados, interfaces neurais de banda larga e reformulação da linguagem humana.",
@@ -390,6 +398,163 @@ def generate_future_timeline_1800_2100(force_refresh: bool = False) -> Dict[str,
         legacy_result["timeline_2026_2060"] = [t for t in timeline if 2026 <= t["year"] <= 2060]
         with open(OLD_CACHE_FILE, "w", encoding="utf-8") as f:
             json.dump(legacy_result, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+    return result
+
+PROJECTIONS_CACHE_FILE = "/home/astro/data/projections_2027_2060.json"
+
+def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
+    """
+    Retorna as projeções anuais e sazonais detalhadas de 2027 a 2060 (34 anos)
+    com datas exatas dos portais sazonais, picos de tensão, riscos calculados,
+    precedentes históricos análogos e cenários prospectivos completos.
+    """
+    if not force_refresh and os.path.exists(PROJECTIONS_CACHE_FILE):
+        try:
+            with open(PROJECTIONS_CACHE_FILE, "r", encoding="utf-8") as f:
+                cached = json.load(f)
+                if len(cached.get("projections", [])) == 34:
+                    return cached
+        except Exception:
+            pass
+
+    timeline_data = generate_future_timeline_1800_2100(force_refresh=force_refresh)
+    years_dict = {t["year"]: t for t in timeline_data.get("timeline", [])}
+
+    projections = []
+    season_labels = [
+        ("03-20", "Equinócio de Março (Outono Sul / Prim Norte)"),
+        ("06-21", "Solstício de Junho (Inverno Sul / Verão Norte)"),
+        ("09-22", "Equinócio de Setembro (Primavera Sul / Outono Norte)"),
+        ("12-21", "Solstício de Dezembro (Verão Sul / Inverno Norte)"),
+    ]
+
+    for yr in range(2027, 2061):
+        base_item = years_dict.get(yr)
+        if not base_item:
+            base_item = calculate_single_year(yr)
+
+        # Amostragem das 4 datas sazonais para determinar o portal exato de pico
+        seasonal_gates = []
+        for s_date_suf, s_name in season_labels:
+            full_date = f"{yr}-{s_date_suf}"
+            try:
+                ch = calculate_event_chart({
+                    "date": full_date,
+                    "time": "12:00",
+                    "latitude": 0.0,
+                    "longitude": 0.0,
+                    "title": f"Portal {full_date}"
+                })
+                s_metrics = calculate_chart_tension_1000(ch)
+                t_score = s_metrics["tension_index_1000"]
+                seasonal_gates.append({
+                    "date": full_date,
+                    "season_label": s_name,
+                    "short_season": s_name.split(" ")[0] + " " + s_name.split(" ")[2],
+                    "tension_1000": t_score,
+                    "tension_percent": round(t_score / 10.0, 1),
+                    "conflict_risk_1000": s_metrics["conflict_risk_index_1000"],
+                    "crisis_risk_1000": s_metrics["crisis_risk_index_1000"],
+                    "tech_innovation_1000": s_metrics["tech_innovation_index_1000"],
+                })
+            except Exception:
+                continue
+
+        if seasonal_gates:
+            peak_gate = max(seasonal_gates, key=lambda g: g["tension_1000"])
+            peak_date = peak_gate["date"]
+            peak_season = peak_gate["season_label"]
+        else:
+            peak_date = f"{yr}-06-21"
+            peak_season = "Solstício de Junho"
+
+        # Década
+        decade = f"{yr // 10 * 10}s"
+
+        # Precedente de maior correlação
+        top_m = base_item.get("top_matches", [])
+        top_prec = top_m[0] if top_m else {
+            "title": "Marcos da História Moderna",
+            "category": base_item.get("dominant_category", "Transformação Cultural"),
+            "match_percent": base_item.get("resonance_index", 50.0),
+            "consequence": ""
+        }
+
+        # Formatações percentuais
+        tension_val = base_item.get("tension_index_1000", 500.0)
+        conflict_val = base_item.get("conflict_risk_index_1000", 500.0)
+        crisis_val = base_item.get("crisis_risk_index_1000", 500.0)
+        tech_val = base_item.get("tech_innovation_index_1000", 500.0)
+
+        proj_row = {
+            "year": yr,
+            "decade": decade,
+            "peak_date": peak_date,
+            "peak_season": peak_season,
+            "seasonal_gates": seasonal_gates,
+            "tension_1000": tension_val,
+            "tension_percent": round(tension_val / 10.0, 1),
+            "tension_percent_str": f"{tension_val / 10.0:.1f}%",
+            "avg_tension_1000": base_item.get("avg_tension_1000", round(tension_val * 0.8, 1)),
+            "conflict_risk_1000": conflict_val,
+            "conflict_risk_percent": round(conflict_val / 10.0, 1),
+            "conflict_risk_percent_str": f"{conflict_val / 10.0:.1f}%",
+            "crisis_risk_1000": crisis_val,
+            "crisis_risk_percent": round(crisis_val / 10.0, 1),
+            "crisis_risk_percent_str": f"{crisis_val / 10.0:.1f}%",
+            "tech_innovation_1000": tech_val,
+            "tech_innovation_percent": round(tech_val / 10.0, 1),
+            "tech_innovation_percent_str": f"{tech_val / 10.0:.1f}%",
+            "social_transformation_1000": base_item.get("social_transformation_index_1000", 500.0),
+            "resonance_index": base_item.get("resonance_index", 50.0),
+            "alert_level": base_item.get("alert_level", "Moderado"),
+            "alert_color": base_item.get("alert_color", "yellow"),
+            "dominant_category": base_item.get("dominant_category", "Transformação Cultural"),
+            "cosmic_trigger": base_item.get("cosmic_trigger", ""),
+            "pluto_sign": base_item.get("pluto_sign", ""),
+            "neptune_sign": base_item.get("neptune_sign", ""),
+            "uranus_sign": base_item.get("uranus_sign", ""),
+            "saturn_sign": base_item.get("saturn_sign", ""),
+            "top_precedent": top_prec,
+            "top_matches": top_m,
+            "scenarios_and_possibilities": base_item.get("scenarios_and_possibilities", "")
+        }
+        projections.append(proj_row)
+
+    # Métricas agregadas do horizonte 2027-2060
+    highest_tension = max(projections, key=lambda p: p["tension_1000"])
+    highest_war = max(projections, key=lambda p: p["conflict_risk_1000"])
+    highest_crisis = max(projections, key=lambda p: p["crisis_risk_1000"])
+    highest_tech = max(projections, key=lambda p: p["tech_innovation_1000"])
+    avg_tension = round(sum(p["tension_1000"] for p in projections) / len(projections), 1)
+
+    result = {
+        "start_year": 2027,
+        "end_year": 2060,
+        "total_years": len(projections),
+        "kpis": {
+            "highest_tension": highest_tension,
+            "highest_war": highest_war,
+            "highest_crisis": highest_crisis,
+            "highest_tech": highest_tech,
+            "avg_tension_1000": avg_tension,
+            "avg_tension_percent": round(avg_tension / 10.0, 1),
+            "critical_count": sum(1 for p in projections if p["alert_color"] == "red"),
+            "high_count": sum(1 for p in projections if p["alert_color"] == "orange"),
+            "moderate_count": sum(1 for p in projections if p["alert_color"] == "yellow"),
+            "stable_count": sum(1 for p in projections if p["alert_color"] == "green"),
+        },
+        "projections": projections
+    }
+
+    # Salvar em cache
+    try:
+        os.makedirs(os.path.dirname(PROJECTIONS_CACHE_FILE), exist_ok=True)
+        with open(PROJECTIONS_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
     except Exception:
         pass
 
