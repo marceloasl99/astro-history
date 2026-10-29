@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this research platform, dataset, or statistical null models, please cite it as below."
+authors:
+  - family-names: "AstroHistory Research Group"
+    given-names: "Contributors"
+title: "AstroHistory: An Empirical, Reproducible, and Open Statistical Investigation into Astrological Alignments and Historical Events"
+version: 1.0.0
+date-released: 2026-10-29
+url: "https://github.com/marceloasl99/astro-history"
+license: "AGPL-3.0-or-later"
+keywords:
+  - astrology
+  - historical-events
+  - statistics
+  - null-models
+  - false-discovery-rate
+  - swiss-ephemeris
+  - reproducibility
