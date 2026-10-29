@@ -7,7 +7,7 @@
     <!-- Header Banner -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden glow-gold">
         <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl select-none">✨</div>
-        <div class="max-w-3xl">
+        <div class="max-w-5xl">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-4">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 Swiss Ephemeris Ativo • Banco Sincronizado com 300 Eventos
@@ -111,7 +111,7 @@
             </div>
         </div>
 
-        <div class="h-96 w-full">
+        <div class="h-[440px] w-full">
             <canvas id="historicalFutureChart"></canvas>
         </div>
 
@@ -130,7 +130,7 @@
             <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
                 <span>📊</span> Distribuição dos 300 Fatos por Categoria
             </h3>
-            <div class="h-64 flex items-center justify-center">
+            <div class="h-80 flex items-center justify-center">
                 <canvas id="categoryChart"></canvas>
             </div>
         </div>
@@ -140,7 +140,7 @@
             <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
                 <span>☀️</span> Posição do Sol nos 300 Grandes Eventos Históricos
             </h3>
-            <div class="h-64 flex items-center justify-center">
+            <div class="h-80 flex items-center justify-center">
                 <canvas id="sunSignChart"></canvas>
             </div>
         </div>
@@ -160,7 +160,7 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-5">
             {% for ev in featured_events %}
             <div class="bg-slate-800/60 rounded-xl p-5 border border-slate-700/80 hover:border-amber-400/50 hover:bg-slate-800 transition flex flex-col justify-between group">
                 <div>

@@ -49,8 +49,8 @@
 </head>
 <body class="font-sans antialiased text-slate-100 flex flex-col min-h-screen">
     <!-- Navbar -->
-    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-700/60 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-700/60 px-4 sm:px-8 py-4">
+        <div class="w-full max-w-[1920px] mx-auto flex items-center justify-between">
             <a href="/" class="flex items-center space-x-3 group">
                 <span class="text-3xl filter drop-shadow group-hover:scale-110 transition-transform">🌌</span>
                 <div>
@@ -82,13 +82,13 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+    <main class="flex-grow w-full max-w-[1920px] mx-auto px-4 sm:px-8 xl:px-10 py-8">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="glass-panel border-t border-slate-800 py-6 px-6 mt-12 text-center text-sm text-slate-400">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer class="glass-panel border-t border-slate-800 py-6 px-4 sm:px-8 mt-12 text-center text-sm text-slate-400">
+        <div class="w-full max-w-[1920px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>
                 AstroHistory • Motor de Astrologia Moderna com <span class="text-amber-400 font-mono">Swiss Ephemeris (pyswisseph)</span>
             </p>
