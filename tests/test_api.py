@@ -68,3 +68,16 @@ async def test_api_routes():
         assert data["total_events"] == 300
         assert data["calculated_events"] == 300
         assert data["progress_percent"] == 100.0
+
+        # Methodology page
+        res = await ac.get("/methodology")
+        assert res.status_code == 200
+        assert "Modelos Nulos" in res.text
+        assert "CAMINHO A" in res.text
+
+        # Random control comparison API
+        res = await ac.get("/api/random-control-comparison/93")
+        assert res.status_code == 200
+        ctrl_data = res.json()
+        assert "random_control_matches" in ctrl_data
+        assert "explanation" in ctrl_data
