@@ -144,6 +144,8 @@ astro-history/
 ├── Dockerfile                # Production container specification
 ├── docker-compose.yml        # Multi-container app + Caddy proxy
 ├── Caddyfile                 # Secure reverse proxy configuration
+├── ci/
+│   └── ci.yml                # CI/CD pipeline automation specification
 ├── pyproject.toml            # Tool configurations (pytest, ruff, mypy)
 ├── requirements.lock         # Exact frozen dependencies
 ├── config/

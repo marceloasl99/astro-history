@@ -109,6 +109,8 @@ astro-history/
 ├── Dockerfile                # Especificação de container de produção
 ├── docker-compose.yml        # Orquestração da aplicação + proxy Caddy
 ├── Caddyfile                 # Configuração de proxy reverso seguro
+├── ci/
+│   └── ci.yml                # Especificação de automação de CI/CD
 ├── pyproject.toml            # Configuração de ferramentas (pytest, ruff, mypy)
 ├── requirements.lock         # Dependências congeladas exatas
 ├── config/
