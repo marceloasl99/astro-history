@@ -1,0 +1,248 @@
+{
+  "dataset_name": "historical_events_v0",
+  "total_events": 300,
+  "overall_score_stats": {
+    "count": 300,
+    "mean": 305.77,
+    "std": 160.26,
+    "min": 71.0,
+    "p25": 180.12,
+    "median": 276.85,
+    "p75": 383.95,
+    "p90": 536.18,
+    "max": 990.0
+  },
+  "saturation": {
+    "events_tension_ge_990": 1,
+    "events_conflict_ge_990": 4,
+    "events_crisis_ge_990": 6
+  },
+  "star_contacts_stats": {
+    "total_star_contacts": 1467,
+    "mean_per_chart": 4.89,
+    "std_per_chart": 2.14,
+    "top_10_stars": [
+      {
+        "star": "Bellatrix",
+        "hits": 61
+      },
+      {
+        "star": "Betelgeuse",
+        "hits": 59
+      },
+      {
+        "star": "Polaris",
+        "hits": 57
+      },
+      {
+        "star": "Castor",
+        "hits": 55
+      },
+      {
+        "star": "Altair",
+        "hits": 55
+      },
+      {
+        "star": "Deneb",
+        "hits": 54
+      },
+      {
+        "star": "Algol",
+        "hits": 54
+      },
+      {
+        "star": "Fomalhaut",
+        "hits": 53
+      },
+      {
+        "star": "Capella",
+        "hits": 53
+      },
+      {
+        "star": "Rigel",
+        "hits": 52
+      }
+    ]
+  },
+  "aspect_stats": {
+    "total_aspects": 3940,
+    "mean_per_chart": 13.13
+  },
+  "category_stats": {
+    "Revolução Política": {
+      "count": 96,
+      "mean": 320.69,
+      "std": 185.42,
+      "min": 82.5,
+      "p25": 179.82,
+      "median": 268.45,
+      "p75": 379.05,
+      "p90": 570.2,
+      "max": 990.0
+    },
+    "Guerra & Conflito": {
+      "count": 91,
+      "mean": 315.42,
+      "std": 142.79,
+      "min": 71.0,
+      "p25": 201.0,
+      "median": 296.9,
+      "p75": 395.55,
+      "p90": 493.2,
+      "max": 718.6
+    },
+    "Pandemia & Desastre": {
+      "count": 13,
+      "mean": 342.05,
+      "std": 164.74,
+      "min": 113.1,
+      "p25": 218.1,
+      "median": 364.9,
+      "p75": 411.5,
+      "p90": 564.98,
+      "max": 616.7
+    },
+    "Transformação Cultural": {
+      "count": 17,
+      "mean": 269.24,
+      "std": 144.35,
+      "min": 100.3,
+      "p25": 178.4,
+      "median": 237.7,
+      "p75": 310.0,
+      "p90": 355.48,
+      "max": 747.8
+    },
+    "Ciência & Tecnologia": {
+      "count": 58,
+      "mean": 279.38,
+      "std": 132.96,
+      "min": 83.5,
+      "p25": 179.18,
+      "median": 257.95,
+      "p75": 336.1,
+      "p90": 510.32,
+      "max": 577.5
+    },
+    "Crise Econômica": {
+      "count": 25,
+      "mean": 280.49,
+      "std": 180.9,
+      "min": 91.9,
+      "p25": 146.1,
+      "median": 222.5,
+      "p75": 383.3,
+      "p90": 434.34,
+      "max": 868.2
+    }
+  },
+  "era_stats": {
+    "Antiguidade / Medieval (<1500)": {
+      "count": 26,
+      "mean": 322.13,
+      "std": 139.38,
+      "min": 101.5,
+      "p25": 225.57,
+      "median": 301.6,
+      "p75": 391.05,
+      "p90": 497.55,
+      "max": 716.1
+    },
+    "Moderna (1500-1799)": {
+      "count": 36,
+      "mean": 298.89,
+      "std": 173.96,
+      "min": 100.3,
+      "p25": 171.4,
+      "median": 253.75,
+      "p75": 371.15,
+      "p90": 535.35,
+      "max": 922.4
+    },
+    "Século XIX (1800-1899)": {
+      "count": 42,
+      "mean": 318.11,
+      "std": 160.66,
+      "min": 83.5,
+      "p25": 188.07,
+      "median": 289.5,
+      "p75": 398.2,
+      "p90": 534.07,
+      "max": 789.2
+    },
+    "Século XX (1900-1999)": {
+      "count": 166,
+      "mean": 301.88,
+      "std": 163.23,
+      "min": 71.0,
+      "p25": 175.93,
+      "median": 270.4,
+      "p75": 373.32,
+      "p90": 534.3,
+      "max": 990.0
+    },
+    "Século XXI (2000-2025)": {
+      "count": 30,
+      "mean": 304.05,
+      "std": 151.12,
+      "min": 135.8,
+      "p25": 183.68,
+      "median": 279.4,
+      "p75": 391.6,
+      "p90": 502.11,
+      "max": 747.8
+    }
+  },
+  "histogram": [
+    {
+      "bin_start": 0.0,
+      "bin_end": 100.0,
+      "count": 7
+    },
+    {
+      "bin_start": 100.0,
+      "bin_end": 200.0,
+      "count": 82
+    },
+    {
+      "bin_start": 200.0,
+      "bin_end": 300.0,
+      "count": 79
+    },
+    {
+      "bin_start": 300.0,
+      "bin_end": 400.0,
+      "count": 66
+    },
+    {
+      "bin_start": 400.0,
+      "bin_end": 500.0,
+      "count": 31
+    },
+    {
+      "bin_start": 500.0,
+      "bin_end": 600.0,
+      "count": 20
+    },
+    {
+      "bin_start": 600.0,
+      "bin_end": 700.0,
+      "count": 6
+    },
+    {
+      "bin_start": 700.0,
+      "bin_end": 800.0,
+      "count": 5
+    },
+    {
+      "bin_start": 800.0,
+      "bin_end": 900.0,
+      "count": 2
+    },
+    {
+      "bin_start": 900.0,
+      "bin_end": 1000.0,
+      "count": 2
+    }
+  ]
+}

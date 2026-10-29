@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Metodologia e Validação Estatística | AstroHistory{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60 shadow-xl">
+        <div class="flex items-center gap-3 mb-2">
+            <span class="text-3xl">🔬</span>
+            <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-sky-300 via-indigo-300 to-amber-300 bg-clip-text text-transparent">
+                Metodologia, Modelos Nulos & Validação Científica
+            </h1>
+        </div>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-4xl">
+            Esta plataforma foi reconstruída para seguir o padrão ouro da pesquisa empírica: <strong>pré-registro público de hipóteses</strong>,
+            grupos de controle pareados, modelos nulos de deslocamento circular e controle rigoroso de falsas descobertas (FDR).
+        </p>
+    </div>
+
+    <!-- Card de Decisão M2 -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-amber-500/30 bg-amber-950/20 shadow-lg">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+            <div>
+                <span class="text-xs uppercase font-mono tracking-wider px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    Marco de Decisão M2
+                </span>
+                <h2 class="text-xl font-bold text-slate-100 mt-2">Veredito: CAMINHO A (Pivô Metodológico)</h2>
+            </div>
+            <div class="text-right font-mono text-sm">
+                <span class="text-slate-400">Score vs N3:</span> <span class="text-amber-400 font-bold">z = -0.506 (p = 0.694)</span><br/>
+                <span class="text-slate-400">Teste Fora da Amostra (1951–2025):</span> <span class="text-amber-400 font-bold">z = -0.851 (p = 0.800)</span>
+            </div>
+        </div>
+        <p class="text-sm text-slate-300 leading-relaxed">
+            Após a remoção do viés de seleção retrospectivo, do vazamento de dados no matcher e da saturação artificial em 990,
+            os testes estatísticos revelaram que <strong>as assinaturas astrológicas dos eventos históricos não se distinguem do acaso estratificado</strong>.
+            Em cumprimento estrito aos princípios da honestidade científica, <strong>não são exibidas previsões determinísticas</strong>,
+            e o projeto atua como instrumento pedagógico de literacia estatística e pensamento crítico.
+        </p>
+    </div>
+
+    <!-- Tabela de Hipóteses e Modelos Nulos -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60">
+        <h2 class="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
+            <span>📊</span> Resultados Empíricos dos Testes de Hipótese (Fase 3)
+        </h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-700 text-slate-400 text-xs font-mono uppercase">
+                        <th class="py-3 px-4">Hipótese / Modelo</th>
+                        <th class="py-3 px-3 text-center">N</th>
+                        <th class="py-3 px-3 text-center">Score Obs.</th>
+                        <th class="py-3 px-4 text-center">Nulo (Média ± DP)</th>
+                        <th class="py-3 px-3 text-center">Efeito (z)</th>
+                        <th class="py-3 px-3 text-center">p-valor</th>
+                        <th class="py-3 px-3 text-center">q (FDR)</th>
+                        <th class="py-3 px-4 text-center">Veredito</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="py-3 px-4 font-semibold text-slate-100">H1 Geral vs N3 Deslocamento Circular</td>
+                        <td class="py-3 px-3 text-center">59</td>
+                        <td class="py-3 px-3 text-center font-mono">481.1</td>
+                        <td class="py-3 px-4 text-center font-mono">500.6 ± 38.5</td>
+                        <td class="py-3 px-3 text-center font-mono text-slate-400">-0.506</td>
+                        <td class="py-3 px-3 text-center font-mono">0.6941</td>
+                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="py-3 px-4 font-semibold text-slate-100">H1 Geral vs N2 Estratificado por Década</td>
+                        <td class="py-3 px-3 text-center">61</td>
+                        <td class="py-3 px-3 text-center font-mono">477.6</td>
+                        <td class="py-3 px-4 text-center font-mono">493.7 ± 35.9</td>
+                        <td class="py-3 px-3 text-center font-mono text-slate-400">-0.450</td>
+                        <td class="py-3 px-3 text-center font-mono">0.6715</td>
+                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Nulo não rejeitado</span></td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="py-3 px-4 font-semibold text-slate-100">H2 Fora da Amostra (1951–2025)</td>
+                        <td class="py-3 px-3 text-center">33</td>
+                        <td class="py-3 px-3 text-center font-mono">456.5</td>
+                        <td class="py-3 px-4 text-center font-mono">501.6 ± 53.0</td>
+                        <td class="py-3 px-3 text-center font-mono text-slate-400">-0.851</td>
+                        <td class="py-3 px-3 text-center font-mono">0.7996</td>
+                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-slate-400">Sem sinal preditivo</span></td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="py-3 px-4 font-semibold text-slate-100">Controle Negativo (Ruído Sintético)</td>
+                        <td class="py-3 px-3 text-center">61</td>
+                        <td class="py-3 px-3 text-center font-mono">427.8</td>
+                        <td class="py-3 px-4 text-center font-mono">501.5 ± 37.2</td>
+                        <td class="py-3 px-3 text-center font-mono text-slate-400">-1.982</td>
+                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
+                        <td class="py-3 px-3 text-center font-mono">0.9772</td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs bg-emerald-950 text-emerald-400 border border-emerald-800/50">Pipeline Íntegra</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Os 5 Princípios da Reforma Metodológica -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
+            <h3 class="text-base font-bold text-amber-300">1. Erradicação de Vazamento (Leave-One-Out)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Ao comparar qualquer ano ou evento com a base histórica, exclui-se estritamente o próprio evento e qualquer marco ocorrido na janela de ±1 ano.
+                Isso impede a auto-combinação artificial de 98.5% que gerava a ilusão de concordância perfeita.
+            </p>
+        </div>
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
+            <h3 class="text-base font-bold text-sky-300">2. Estrelas Fixas sem Inflação Combinatória</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Contatos estelares foram restritos estritamente a <strong>Conjunções ($0^\circ \pm 0.3^\circ$)</strong>.
+                A inclusão de 4 aspectos (quadraturas e trígonos) anteriormente inflava o número de contatos para ~5 por mapa por mero ruído geométrico aleatório.
+            </p>
+        </div>
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
+            <h3 class="text-base font-bold text-indigo-300">3. Tratamento da Incerteza Temporal</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                A Lua percorre ~13° por dia. Para eventos históricos sem hora e fuso horário documentados, a Lua é excluída dos aspectos e do score,
+                evitando que aspectos fictícios criem correlações ilusórias.
+            </p>
+        </div>
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-3">
+            <h3 class="text-base font-bold text-emerald-300">4. Grade Diária Vetorizada & Percentil Empírico</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                O teto artificial de 990 pontos foi eliminado. A pontuação agora mapeia para a distribuição empírica contínua dos 109.938 dias entre 1800 e 2100,
+                permitindo interpretação direta: score 850 significa dia mais tenso que 85% de todos os dias da era moderna.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

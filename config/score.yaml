@@ -1,0 +1,33 @@
+# Configurações do Algoritmo de Tensão Astrológica e Orbes
+
+aspects:
+  conjunction:
+    angle: 0.0
+    orb: 3.0
+    nature: "intenso"
+    tension: 1.0
+  square:
+    angle: 90.0
+    orb: 3.0
+    nature: "tenso"
+    tension: 2.0
+  trine:
+    angle: 120.0
+    orb: 3.0
+    nature: "harmonico"
+    tension: -1.5
+  opposition:
+    angle: 180.0
+    orb: 3.0
+    nature: "tenso"
+    tension: 2.5
+
+fixed_stars:
+  orb: 0.3 # 18 minutos de arco
+  aspect_allowed: "conjunction" # Estritamente conjunções (0.0°)
+
+scoring:
+  base_score: 60.0
+  decay: "linear" # (max_orb - orb) / max_orb
+  require_known_time_for_moon: true
+  require_known_time_for_houses: true
