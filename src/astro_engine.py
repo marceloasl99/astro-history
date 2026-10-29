@@ -544,8 +544,9 @@ def calculate_fixed_stars(tjd_ut: float) -> List[Dict[str, Any]]:
 
 def calculate_fixed_star_aspects(bodies: List[Dict[str, Any]], fixed_stars: List[Dict[str, Any]], max_orb: float = 0.3) -> List[Dict[str, Any]]:
     """
-    Identifica aspectos (principalmente conjunções, oposições, quadraturas e trígonos)
-    entre planetas/asteroides e as 30 estrelas fixas dentro do orbe estrito de 0.3 graus (18 minutos).
+    Identifica contatos por Conjunção estrita (0° ± 0.3° / 18 minutos) entre corpos
+    celestes e as estrelas fixas.
+    Restringe estritamente a conjunções para eliminar a taxa de aspectos falsos ao acaso.
     """
     star_contacts = []
 
@@ -555,29 +556,24 @@ def calculate_fixed_star_aspects(bodies: List[Dict[str, Any]], fixed_stars: List
             if diff > 180.0:
                 diff = 360.0 - diff
 
-            for asp in STRICT_ASPECT_DEFINITIONS:
-                orb_diff = abs(diff - asp["angle"])
-                if orb_diff <= max_orb:
-                    exactness = round(100.0 * (1.0 - (orb_diff / max_orb)), 1)
-                    
-                    # Conjunção é o aspecto de maior peso histórico com estrelas fixas
-                    star_contacts.append({
-                        "body_id": b["id"],
-                        "body_name": b["name"],
-                        "body_symbol": b["symbol"],
-                        "star_key": s["key"],
-                        "star_name": s["key"],
-                        "star_bayer": s["bayer"],
-                        "star_significance": s["significance"],
-                        "aspect_name": asp["name"],
-                        "aspect_symbol": asp["symbol"],
-                        "target_angle": asp["angle"],
-                        "exact_angle": round(diff, 3),
-                        "orb": round(orb_diff, 3),
-                        "exactness_percent": exactness,
-                        "nature": asp["nature"]
-                    })
-                    break
+            if diff <= max_orb:
+                exactness = round(100.0 * (1.0 - (diff / max_orb)), 1)
+                star_contacts.append({
+                    "body_id": b["id"],
+                    "body_name": b["name"],
+                    "body_symbol": b["symbol"],
+                    "star_key": s["key"],
+                    "star_name": s["key"],
+                    "star_bayer": s["bayer"],
+                    "star_significance": s["significance"],
+                    "aspect_name": "Conjunção",
+                    "aspect_symbol": "☌",
+                    "target_angle": 0.0,
+                    "exact_angle": round(diff, 3),
+                    "orb": round(diff, 3),
+                    "exactness_percent": exactness,
+                    "nature": "intenso"
+                })
 
     return star_contacts
 
@@ -818,15 +814,18 @@ def calculate_chart_tension_1000(chart: Dict[str, Any]) -> Dict[str, float]:
 
     raw_total = base_score + tension_pts + star_pts - (harmony_pts * 0.2)
 
-    # Curva de contraste dinâmico calibrada (para gerar discrepância ampla 0-1000)
-    excess = max(0.0, raw_total - 140.0)
-    expanded = 70.0 + (min(1.0, excess / 640.0) ** 1.35) * 920.0
-    tension_1000 = round(min(1000.0, max(50.0, expanded)), 1)
+    # Conversão para Percentil Empírico (sem saturação em 990)
+    try:
+        from src.core.ephemeris_grid import raw_score_to_percentile_1000
+        tension_1000 = raw_score_to_percentile_1000(raw_total)
+    except Exception:
+        # Fallback se a grade ainda não estiver carregada
+        tension_1000 = round(min(1000.0, max(1.0, raw_total * 1.5)), 1)
 
-    conflict_1000 = round(min(1000.0, max(50.0, 70.0 + (min(1.0, (conflict_accum + star_pts * 0.8) / 550.0) ** 1.3) * 920.0)), 1)
-    crisis_1000 = round(min(1000.0, max(50.0, 60.0 + (min(1.0, (economic_accum + tension_pts * 0.5) / 520.0) ** 1.3) * 930.0)), 1)
-    tech_1000 = round(min(1000.0, max(50.0, 80.0 + (min(1.0, (tech_accum + harmony_pts * 1.5) / 480.0) ** 1.2) * 910.0)), 1)
-    social_1000 = round(min(1000.0, max(50.0, 70.0 + (min(1.0, (social_accum + tension_pts * 0.6) / 520.0) ** 1.3) * 920.0)), 1)
+    conflict_1000 = round(min(1000.0, max(10.0, ((conflict_accum + star_pts * 0.8) / 550.0) * 1000.0)), 1)
+    crisis_1000 = round(min(1000.0, max(10.0, ((economic_accum + tension_pts * 0.5) / 520.0) * 1000.0)), 1)
+    tech_1000 = round(min(1000.0, max(10.0, ((tech_accum + harmony_pts * 1.5) / 480.0) * 1000.0)), 1)
+    social_1000 = round(min(1000.0, max(10.0, ((social_accum + tension_pts * 0.6) / 520.0) * 1000.0)), 1)
 
     return {
         "tension_index_1000": tension_1000,
@@ -850,21 +849,26 @@ def calculate_event_chart(event: Dict[str, Any]) -> Dict[str, Any]:
     
     # 1. Planetas, Luminares, Asteroides e Pontos
     bodies = calculate_natal_bodies(tjd_ut)
+    for b in bodies:
+        b["is_time_uncertain"] = (not is_time_known and b["id"] == "moon")
+    
+    # Para eventos sem hora exata, excluir a Lua do score e dos aspectos (P1-1: ~13°/dia = ruído)
+    scoring_bodies = [b for b in bodies if not (not is_time_known and b["id"] == "moon")]
     
     # 2. Aspectos estritos entre corpos (orbe 3.0°)
-    aspects = calculate_strict_aspects(bodies, max_orb=3.0)
+    aspects = calculate_strict_aspects(scoring_bodies, max_orb=3.0)
     
     # 3. 30 Principais Estrelas Fixas
     fixed_stars = calculate_fixed_stars(tjd_ut)
     
-    # 4. Aspectos e Conjunções com Estrelas Fixas (orbe 0.3°)
-    star_contacts = calculate_fixed_star_aspects(bodies, fixed_stars, max_orb=0.3)
+    # 4. Aspectos e Conjunções com Estrelas Fixas (orbe 0.3° estrito)
+    star_contacts = calculate_fixed_star_aspects(scoring_bodies, fixed_stars, max_orb=0.3)
     
     # 5. Casas e Eixos
     houses = calculate_houses(tjd_ut, lat, lon, is_time_known)
     
     # 6. Sumário Analítico
-    summary = calculate_chart_summary(bodies, aspects, star_contacts)
+    summary = calculate_chart_summary(scoring_bodies, aspects, star_contacts)
 
     return {
         "event_id": event.get("id"),
