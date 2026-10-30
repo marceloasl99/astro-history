@@ -155,6 +155,13 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
     alert_level = tier_label
     alert_color = "red" if tier_color == "indigo" else ("yellow" if tier_color == "sky" else "green")
 
+    # v3: índices anuais derivados da grade de features (Risco Bélico, Inovação, Concentração Barbault)
+    try:
+        from src.analysis.annual_indices import get_year as _annual_get_year
+        annual_idx = _annual_get_year(year)
+    except Exception:
+        annual_idx = {"conflict_1000": 0.0, "innovation_1000": 0.0, "barbault_1000": 0.0}
+
     # v3: o pico REAL do ano vem da grade diária (365 dias), não dos 4 portais sazonais.
     peak_date_str = None
     try:
@@ -258,12 +265,13 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
         "tier_label": tier_label,
         "tier_color": tier_color,
         "peak_tension_1000": peak_tension,
-        "conflict_risk_index": 0.0,
-        "conflict_risk_index_1000": 0.0,
+        "conflict_risk_index": round(annual_idx["conflict_1000"] / 10.0, 1),
+        "conflict_risk_index_1000": annual_idx["conflict_1000"],
         "crisis_risk_index": 0.0,
         "crisis_risk_index_1000": 0.0,
-        "tech_innovation_index": 0.0,
-        "tech_innovation_index_1000": 0.0,
+        "tech_innovation_index": round(annual_idx["innovation_1000"] / 10.0, 1),
+        "tech_innovation_index_1000": annual_idx["innovation_1000"],
+        "barbault_concentration_1000": annual_idx["barbault_1000"],
         "social_transformation_index_1000": 0.0,
         "resonance_index": round(resonance, 1),
         "alert_level": alert_level,

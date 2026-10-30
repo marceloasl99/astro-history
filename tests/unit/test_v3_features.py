@@ -98,3 +98,18 @@ async def test_forecast_api_routes():
             assert r2.status_code == 200 and "years" in r2.json()
             r3 = await client.get("/api/forecast/year/2032")
             assert r3.status_code == 200 and "calendar" in r3.json()
+
+
+def test_annual_indices_series_and_history_correlation():
+    from src.analysis.annual_indices import build, get_year, SERIES
+    d = build()
+    assert d["years"][0] == 1800 and d["years"][-1] == 2100
+    for key in SERIES:
+        pct = d["series"][key]["percentile_1000"]
+        assert len(pct) == 301 and min(pct) > 0 and max(pct) == 1000.0
+        corr = d["history_correlation"][key]
+        assert "Catálogo objetivo v2 (N=59)" in corr
+        r = corr["Catálogo objetivo v2 (N=59)"]
+        assert 0.0 <= r["p_two_sided"] <= 1.0 and 0.0 <= r["q_fdr"] <= 1.0
+    y = get_year(1914)
+    assert set(y) == set(SERIES)

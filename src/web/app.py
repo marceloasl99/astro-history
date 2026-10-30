@@ -81,6 +81,7 @@ def build_chart_series(future_data: dict) -> dict:
         "conflict_risk_1000": [t["conflict_risk_index_1000"] for t in tl],
         "crisis_risk_1000": [t["crisis_risk_index_1000"] for t in tl],
         "tech_innovation_1000": [t["tech_innovation_index_1000"] for t in tl],
+        "barbault_1000": [t.get("barbault_concentration_1000", 0.0) for t in tl],
         "is_historical": [t["is_historical"] for t in tl],
         "hist_titles": [t["historical_events"][0]["title"] if t.get("historical_events") else "" for t in tl],
         "hist_ids": [t["historical_events"][0]["id"] if t.get("historical_events") else None for t in tl],
@@ -108,6 +109,11 @@ async def index_view(request: Request):
     future_data = generate_future_timeline_1800_2100(force_refresh=False)
     chart_series = build_chart_series(future_data)
 
+    try:
+        from src.analysis.annual_indices import build as build_annual_indices
+        annual_indices = build_annual_indices()
+    except Exception:
+        annual_indices = None
     forecast = load_forecast()
     forecast_summary = None
     if forecast:
@@ -124,7 +130,8 @@ async def index_view(request: Request):
             "featured_events": featured_events,
             "future_data": future_data,
             "chart_series": chart_series,
-            "forecast_summary": forecast_summary
+            "forecast_summary": forecast_summary,
+            "annual_indices": annual_indices
         }
     )
 

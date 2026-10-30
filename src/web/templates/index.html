@@ -61,6 +61,36 @@
         </div>
     </div>
 
+    {% if annual_indices %}
+    <!-- v3: Índices anuais e correlação com a história -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2"><span>🧭</span> Índices anuais do gráfico e correlação com a história</h3>
+        <p class="text-xs text-slate-400 mt-1 max-w-4xl">
+            <span class="text-amber-400">Risco Bélico</span>: aspectos duros entre planetas externos ·
+            <span class="text-sky-400">Inovação</span>: aspectos harmônicos entre os 9 corpos ·
+            <span class="text-purple-400">Concentração Planetária (Barbault)</span>: nova categoria, 1800° − Índice Cíclico de Barbault (alto = externos concentrados; Barbault associava os mínimos do índice a crises coletivas).
+            Cada série é o percentil (0–1000) da média anual em 1800–2100. A correlação compara a média do índice nos anos com evento contra o nulo de deslocamento circular (10.000 permutações), com q-valor FDR (Benjamini-Hochberg) sobre toda a família de testes.
+        </p>
+        <div class="overflow-x-auto mt-4">
+        <table class="w-full text-xs">
+            <thead class="text-slate-400 text-left"><tr><th class="py-1 pr-3">Categoria histórica</th>
+                {% for key, ser in annual_indices.series.items() %}<th class="py-1 pr-3 text-right">{{ ser.label }}<br><span class="font-normal text-slate-500">z · p · q · lift Q4</span></th>{% endfor %}</tr></thead>
+            <tbody>
+            {% set cats = annual_indices.history_correlation[annual_indices.series.keys()|list|first].keys() %}
+            {% for cat in cats %}
+            <tr class="border-t border-slate-700/60"><td class="py-1.5 pr-3 {% if 'v2' in cat %}text-emerald-300 font-semibold{% endif %}">{{ cat }}</td>
+                {% for key in annual_indices.series.keys() %}{% set r = annual_indices.history_correlation[key][cat] %}
+                <td class="py-1.5 pr-3 text-right font-mono {% if r and r.significant_q05 %}text-emerald-300{% elif r and r.p_two_sided < 0.05 %}text-amber-300{% else %}text-slate-400{% endif %}" title="n={{ r.n_event_years if r else '—' }} anos; obs={{ r.observed_mean if r else '—' }} vs nulo {{ r.null_mean if r else '—' }}±{{ r.null_sd if r else '—' }}">
+                    {% if r %}{{ '%+.2f' % r.z }} · {{ '%.3f' % r.p_two_sided }} · {{ '%.2f' % r.q_fdr }} · {{ '%.2f' % r.top_quartile_lift }}×{% else %}—{% endif %}</td>
+                {% endfor %}</tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-2">Âmbar = p &lt; 0,05 sem sobreviver ao FDR; verde = q &lt; 0,05. O catálogo dos 300 marcos é curado em retrospecto (viés de seleção); a linha <span class="text-emerald-300">catálogo objetivo v2</span> é a referência pré-registrada.</p>
+    </div>
+    {% endif %}
+
     {% if forecast_summary %}
     <!-- v3: Previsão probabilística com skill medido -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-emerald-500/20">
@@ -252,6 +282,7 @@
         const tension = filteredIndices.map(i => fullSeries.tension_1000[i]);
         const conflict = filteredIndices.map(i => fullSeries.conflict_risk_1000[i]);
         const tech = filteredIndices.map(i => fullSeries.tech_innovation_1000[i]);
+        const barbault = filteredIndices.map(i => (fullSeries.barbault_1000 || [])[i]);
 
         // Cores dos pontos: dourado para fatos históricos reais, ciano para projeção
         const pointColors = filteredIndices.map(i => fullSeries.is_historical[i] ? '#fbbf24' : 'rgba(56, 189, 248, 0.4)');
@@ -313,6 +344,17 @@
                     backgroundColor: 'rgba(56, 189, 248, 0.05)',
                     borderWidth: 1.5,
                     borderDash: [4, 4],
+                    tension: 0.25,
+                    pointRadius: 1,
+                    pointHoverRadius: 5,
+                    fill: false
+                },
+                {
+                    label: 'Concentração Planetária — Barbault (0–1000)',
+                    data: barbault,
+                    borderColor: '#a855f7',
+                    backgroundColor: 'rgba(168, 85, 247, 0.05)',
+                    borderWidth: 1.5,
                     tension: 0.25,
                     pointRadius: 1,
                     pointHoverRadius: 5,
