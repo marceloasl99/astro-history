@@ -4,7 +4,7 @@ authors:
   - family-names: "AstroHistory Research Group"
     given-names: "Contributors"
 title: "AstroHistory: An Empirical, Reproducible, and Open Statistical Investigation into Astrological Alignments and Historical Events"
-version: 1.0.0
+version: 3.0.0
 date-released: 2026-10-29
 url: "https://github.com/marceloasl99/astro-history"
 license: "AGPL-3.0-or-later"

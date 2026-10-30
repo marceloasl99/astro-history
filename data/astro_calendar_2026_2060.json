@@ -1,0 +1,4864 @@
+{
+ "2026": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 0.0,
+    "label": "Saturno ☌ Netuno",
+    "aspect": "Conjunção",
+    "jd": 2461092.20419,
+    "date": "2026-02-20",
+    "datetime_ut": "2026-02-20 16:54 UT",
+    "pass_number": 1,
+    "total_passes": 1,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2461242.11436,
+    "date": "2026-07-20",
+    "datetime_ut": "2026-07-20 14:45 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2461221.7447,
+    "date": "2026-06-30",
+    "datetime_ut": "2026-06-30 05:52 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Áries",
+    "from_sign": "Peixes",
+    "to_sign": "Áries",
+    "retrograde": false,
+    "jd": 2461085.50809,
+    "date": "2026-02-14",
+    "datetime_ut": "2026-02-14 00:12 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2461156.53579,
+    "date": "2026-04-26",
+    "datetime_ut": "2026-04-26 00:52 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Áries",
+    "from_sign": "Peixes",
+    "to_sign": "Áries",
+    "retrograde": false,
+    "jd": 2461067.23228,
+    "date": "2026-01-26",
+    "datetime_ut": "2026-01-26 17:34 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 28.8° de Aquário",
+    "sun_longitude": 328.836,
+    "max_point": {
+     "lon": 87.06,
+     "lat": -64.68
+    },
+    "jd": 2461089.00826,
+    "date": "2026-02-17",
+    "datetime_ut": "2026-02-17 12:12 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 12.9° de Peixes",
+    "sun_longitude": 342.895,
+    "max_point": null,
+    "jd": 2461102.98173,
+    "date": "2026-03-03",
+    "datetime_ut": "2026-03-03 11:34 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 20.0° de Leão",
+    "sun_longitude": 140.039,
+    "max_point": {
+     "lon": -25.1,
+     "lat": 65.17
+    },
+    "jd": 2461265.24027,
+    "date": "2026-08-12",
+    "datetime_ut": "2026-08-12 17:46 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 4.9° de Virgem",
+    "sun_longitude": 154.898,
+    "max_point": null,
+    "jd": 2461280.67567,
+    "date": "2026-08-28",
+    "datetime_ut": "2026-08-28 04:13 UT"
+   }
+  ]
+ },
+ "2027": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2461659.19509,
+    "date": "2027-09-10",
+    "datetime_ut": "2027-09-10 16:41 UT",
+    "pass_number": 1,
+    "total_passes": 7,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2461612.70082,
+    "date": "2027-07-26",
+    "datetime_ut": "2027-07-26 04:49 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 17.6° de Aquário",
+    "sun_longitude": 317.63,
+    "max_point": {
+     "lon": -48.48,
+     "lat": -31.29
+    },
+    "jd": 2461443.16642,
+    "date": "2027-02-06",
+    "datetime_ut": "2027-02-06 16:00 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 2.1° de Peixes",
+    "sun_longitude": 332.086,
+    "max_point": null,
+    "jd": 2461457.46728,
+    "date": "2027-02-20",
+    "datetime_ut": "2027-02-20 23:13 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 25.8° de Câncer",
+    "sun_longitude": 115.825,
+    "max_point": null,
+    "jd": 2461605.16876,
+    "date": "2027-07-18",
+    "datetime_ut": "2027-07-18 16:03 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 9.9° de Leão",
+    "sun_longitude": 129.918,
+    "max_point": {
+     "lon": 33.17,
+     "lat": 25.49
+    },
+    "jd": 2461619.92131,
+    "date": "2027-08-02",
+    "datetime_ut": "2027-08-02 10:07 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 24.2° de Leão",
+    "sun_longitude": 144.187,
+    "max_point": null,
+    "jd": 2461634.80129,
+    "date": "2027-08-17",
+    "datetime_ut": "2027-08-17 07:14 UT"
+   }
+  ]
+ },
+ "2028": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Saturno □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2461946.62471,
+    "date": "2028-06-24",
+    "datetime_ut": "2028-06-24 03:00 UT",
+    "pass_number": 1,
+    "total_passes": 4,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2462043.30275,
+    "date": "2028-09-28",
+    "datetime_ut": "2028-09-28 19:16 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Saturno □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2462091.03966,
+    "date": "2028-11-15",
+    "datetime_ut": "2028-11-15 12:57 UT",
+    "pass_number": 2,
+    "total_passes": 4,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2462007.71422,
+    "date": "2028-08-24",
+    "datetime_ut": "2028-08-24 05:08 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2461874.6526,
+    "date": "2028-04-13",
+    "datetime_ut": "2028-04-13 03:40 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 21.5° de Capricórnio",
+    "sun_longitude": 291.466,
+    "max_point": null,
+    "jd": 2461782.67578,
+    "date": "2028-01-12",
+    "datetime_ut": "2028-01-12 04:13 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 6.2° de Aquário",
+    "sun_longitude": 306.18,
+    "max_point": {
+     "lon": -51.58,
+     "lat": 2.96
+    },
+    "jd": 2461797.13044,
+    "date": "2028-01-26",
+    "datetime_ut": "2028-01-26 15:08 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 15.2° de Câncer",
+    "sun_longitude": 105.192,
+    "max_point": null,
+    "jd": 2461959.26371,
+    "date": "2028-07-06",
+    "datetime_ut": "2028-07-06 18:20 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 29.8° de Câncer",
+    "sun_longitude": 119.842,
+    "max_point": {
+     "lon": 126.68,
+     "lat": -15.58
+    },
+    "jd": 2461974.62187,
+    "date": "2028-07-22",
+    "datetime_ut": "2028-07-22 02:55 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 10.5° de Capricórnio",
+    "sun_longitude": 280.55,
+    "max_point": null,
+    "jd": 2462137.20287,
+    "date": "2028-12-31",
+    "datetime_ut": "2028-12-31 16:52 UT"
+   }
+  ]
+ },
+ "2029": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Saturno □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2462225.46448,
+    "date": "2029-03-29",
+    "datetime_ut": "2029-03-29 23:09 UT",
+    "pass_number": 3,
+    "total_passes": 4,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2462441.53001,
+    "date": "2029-11-01",
+    "datetime_ut": "2029-11-01 00:43 UT",
+    "pass_number": 1,
+    "total_passes": 10,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2462492.79394,
+    "date": "2029-12-22",
+    "datetime_ut": "2029-12-22 07:03 UT",
+    "pass_number": 1,
+    "total_passes": 8,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2462403.76674,
+    "date": "2029-09-24",
+    "datetime_ut": "2029-09-24 06:24 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 24.8° de Capricórnio",
+    "sun_longitude": 294.831,
+    "max_point": {
+     "lon": -114.05,
+     "lat": 63.69
+    },
+    "jd": 2462151.21716,
+    "date": "2029-01-14",
+    "datetime_ut": "2029-01-14 17:13 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 21.5° de Gêmeos",
+    "sun_longitude": 81.495,
+    "max_point": {
+     "lon": -66.04,
+     "lat": 66.69
+    },
+    "jd": 2462299.67011,
+    "date": "2029-06-12",
+    "datetime_ut": "2029-06-12 04:05 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 4.8° de Câncer",
+    "sun_longitude": 94.831,
+    "max_point": null,
+    "jd": 2462313.64042,
+    "date": "2029-06-26",
+    "datetime_ut": "2029-06-26 03:22 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 19.6° de Câncer",
+    "sun_longitude": 109.619,
+    "max_point": {
+     "lon": -85.57,
+     "lat": -64.19
+    },
+    "jd": 2462329.15001,
+    "date": "2029-07-11",
+    "datetime_ut": "2029-07-11 15:36 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 13.8° de Sagitário",
+    "sun_longitude": 253.765,
+    "max_point": {
+     "lon": 135.54,
+     "lat": -67.44
+    },
+    "jd": 2462476.12698,
+    "date": "2029-12-05",
+    "datetime_ut": "2029-12-05 15:03 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 29.3° de Sagitário",
+    "sun_longitude": 269.341,
+    "max_point": null,
+    "jd": 2462491.44588,
+    "date": "2029-12-20",
+    "datetime_ut": "2029-12-20 22:42 UT"
+   }
+  ]
+ },
+ "2030": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2462615.58087,
+    "date": "2030-04-24",
+    "datetime_ut": "2030-04-24 01:56 UT",
+    "pass_number": 2,
+    "total_passes": 8,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2462825.5456,
+    "date": "2030-11-20",
+    "datetime_ut": "2030-11-20 01:06 UT",
+    "pass_number": 3,
+    "total_passes": 8,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2462797.46828,
+    "date": "2030-10-22",
+    "datetime_ut": "2030-10-22 23:14 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2462653.60708,
+    "date": "2030-06-01",
+    "datetime_ut": "2030-06-01 02:34 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 10.8° de Gêmeos",
+    "sun_longitude": 70.837,
+    "max_point": {
+     "lon": 80.04,
+     "lat": 56.49
+    },
+    "jd": 2462653.76948,
+    "date": "2030-06-01",
+    "datetime_ut": "2030-06-01 06:28 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 24.7° de Gêmeos",
+    "sun_longitude": 84.712,
+    "max_point": null,
+    "jd": 2462668.27318,
+    "date": "2030-06-15",
+    "datetime_ut": "2030-06-15 18:33 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 3.0° de Sagitário",
+    "sun_longitude": 243.037,
+    "max_point": {
+     "lon": 71.2,
+     "lat": -43.58
+    },
+    "jd": 2462830.78504,
+    "date": "2030-11-25",
+    "datetime_ut": "2030-11-25 06:50 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 17.9° de Sagitário",
+    "sun_longitude": 257.891,
+    "max_point": null,
+    "jd": 2462845.43589,
+    "date": "2030-12-09",
+    "datetime_ut": "2030-12-09 22:28 UT"
+   }
+  ]
+ },
+ "2031": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2462887.00246,
+    "date": "2031-01-20",
+    "datetime_ut": "2031-01-20 12:04 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2463038.4077,
+    "date": "2031-06-20",
+    "datetime_ut": "2031-06-20 21:47 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2463079.85182,
+    "date": "2031-08-01",
+    "datetime_ut": "2031-08-01 08:27 UT",
+    "pass_number": 4,
+    "total_passes": 8,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2463146.41285,
+    "date": "2031-10-06",
+    "datetime_ut": "2031-10-06 21:55 UT",
+    "pass_number": 5,
+    "total_passes": 8,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2463170.25724,
+    "date": "2031-10-30",
+    "datetime_ut": "2031-10-30 18:10 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2463185.9372,
+    "date": "2031-11-15",
+    "datetime_ut": "2031-11-15 10:30 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 16.4° de Touro",
+    "sun_longitude": 46.423,
+    "max_point": null,
+    "jd": 2462993.66037,
+    "date": "2031-05-07",
+    "datetime_ut": "2031-05-07 03:51 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 0.1° de Gêmeos",
+    "sun_longitude": 60.072,
+    "max_point": {
+     "lon": 71.71,
+     "lat": 8.92
+    },
+    "jd": 2463007.80202,
+    "date": "2031-05-21",
+    "datetime_ut": "2031-05-21 07:15 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 14.6° de Gêmeos",
+    "sun_longitude": 74.647,
+    "max_point": null,
+    "jd": 2463022.98902,
+    "date": "2031-06-05",
+    "datetime_ut": "2031-06-05 11:44 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 6.7° de Escorpião",
+    "sun_longitude": 216.686,
+    "max_point": null,
+    "jd": 2463169.82324,
+    "date": "2031-10-30",
+    "datetime_ut": "2031-10-30 07:45 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 22.3° de Escorpião",
+    "sun_longitude": 232.29,
+    "max_point": {
+     "lon": -137.67,
+     "lat": -0.63
+    },
+    "jd": 2463185.37941,
+    "date": "2031-11-14",
+    "datetime_ut": "2031-11-14 21:06 UT"
+   }
+  ]
+ },
+ "2032": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2463243.58007,
+    "date": "2032-01-12",
+    "datetime_ut": "2032-01-12 01:55 UT",
+    "pass_number": 1,
+    "total_passes": 11,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Saturno ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2463412.00127,
+    "date": "2032-06-28",
+    "datetime_ut": "2032-06-28 12:02 UT",
+    "pass_number": 1,
+    "total_passes": 1,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Aquário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Aquário",
+    "retrograde": false,
+    "jd": 2463334.54089,
+    "date": "2032-04-12",
+    "datetime_ut": "2032-04-12 00:59 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Aquário",
+    "to_sign": "Capricórnio",
+    "retrograde": true,
+    "jd": 2463410.03923,
+    "date": "2032-06-26",
+    "datetime_ut": "2032-06-26 12:56 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Aquário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Aquário",
+    "retrograde": false,
+    "jd": 2463566.64714,
+    "date": "2032-11-30",
+    "datetime_ut": "2032-11-30 03:32 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2463427.59445,
+    "date": "2032-07-14",
+    "datetime_ut": "2032-07-14 02:16 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2463448.26567,
+    "date": "2032-08-03",
+    "datetime_ut": "2032-08-03 18:23 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Gêmeos",
+    "from_sign": "Câncer",
+    "to_sign": "Gêmeos",
+    "retrograde": true,
+    "jd": 2463578.76339,
+    "date": "2032-12-12",
+    "datetime_ut": "2032-12-12 06:19 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 6.0° de Touro",
+    "sun_longitude": 35.97,
+    "max_point": null,
+    "jd": 2463348.13452,
+    "date": "2032-04-25",
+    "datetime_ut": "2032-04-25 15:14 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 19.5° de Touro",
+    "sun_longitude": 49.477,
+    "max_point": {
+     "lon": -7.01,
+     "lat": -51.32
+    },
+    "jd": 2463362.05944,
+    "date": "2032-05-09",
+    "datetime_ut": "2032-05-09 13:26 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 26.0° de Libra",
+    "sun_longitude": 205.953,
+    "max_point": null,
+    "jd": 2463524.29339,
+    "date": "2032-10-18",
+    "datetime_ut": "2032-10-18 19:02 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 11.4° de Escorpião",
+    "sun_longitude": 221.35,
+    "max_point": {
+     "lon": 132.37,
+     "lat": 70.43
+    },
+    "jd": 2463539.73124,
+    "date": "2032-11-03",
+    "datetime_ut": "2032-11-03 05:33 UT"
+   }
+  ]
+ },
+ "2033": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Plutão",
+    "aspect": "Conjunção",
+    "jd": 2463633.40879,
+    "date": "2033-02-04",
+    "datetime_ut": "2033-02-04 21:49 UT",
+    "pass_number": 1,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Saturno □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2463856.92698,
+    "date": "2033-09-16",
+    "datetime_ut": "2033-09-16 10:15 UT",
+    "pass_number": 1,
+    "total_passes": 6,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2463702.44786,
+    "date": "2033-04-14",
+    "datetime_ut": "2033-04-14 22:45 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Aquário",
+    "from_sign": "Peixes",
+    "to_sign": "Aquário",
+    "retrograde": true,
+    "jd": 2463853.43604,
+    "date": "2033-09-12",
+    "datetime_ut": "2033-09-12 22:28 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2463933.4407,
+    "date": "2033-12-01",
+    "datetime_ut": "2033-12-01 22:35 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2463740.05329,
+    "date": "2033-05-22",
+    "datetime_ut": "2033-05-22 13:17 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 10.3° de Áries",
+    "sun_longitude": 10.349,
+    "max_point": {
+     "lon": -156.12,
+     "lat": 71.3
+    },
+    "jd": 2463687.251,
+    "date": "2033-03-30",
+    "datetime_ut": "2033-03-30 18:01 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 25.2° de Áries",
+    "sun_longitude": 25.152,
+    "max_point": null,
+    "jd": 2463702.30049,
+    "date": "2033-04-14",
+    "datetime_ut": "2033-04-14 19:13 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 0.9° de Libra",
+    "sun_longitude": 180.858,
+    "max_point": {
+     "lon": -121.35,
+     "lat": -72.27
+    },
+    "jd": 2463864.07873,
+    "date": "2033-09-23",
+    "datetime_ut": "2033-09-23 13:53 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 15.5° de Libra",
+    "sun_longitude": 195.48,
+    "max_point": null,
+    "jd": 2463878.95501,
+    "date": "2033-10-08",
+    "datetime_ut": "2033-10-08 10:55 UT"
+   }
+  ]
+ },
+ "2034": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Saturno □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2463976.17041,
+    "date": "2034-01-13",
+    "datetime_ut": "2034-01-13 16:05 UT",
+    "pass_number": 2,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2464089.83386,
+    "date": "2034-05-07",
+    "datetime_ut": "2034-05-07 08:01 UT",
+    "pass_number": 2,
+    "total_passes": 7,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Saturno □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2464139.12939,
+    "date": "2034-06-25",
+    "datetime_ut": "2034-06-25 15:06 UT",
+    "pass_number": 3,
+    "total_passes": 6,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2464227.11358,
+    "date": "2034-09-21",
+    "datetime_ut": "2034-09-21 14:44 UT",
+    "pass_number": 3,
+    "total_passes": 7,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Áries",
+    "from_sign": "Peixes",
+    "to_sign": "Áries",
+    "retrograde": false,
+    "jd": 2464073.90253,
+    "date": "2034-04-21",
+    "datetime_ut": "2034-04-21 09:40 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2464201.61559,
+    "date": "2034-08-27",
+    "datetime_ut": "2034-08-27 02:46 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 29.9° de Peixes",
+    "sun_longitude": 359.876,
+    "max_point": {
+     "lon": 22.19,
+     "lat": 16.06
+    },
+    "jd": 2464041.92888,
+    "date": "2034-03-20",
+    "datetime_ut": "2034-03-20 10:18 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 14.1° de Áries",
+    "sun_longitude": 14.097,
+    "max_point": null,
+    "jd": 2464056.29568,
+    "date": "2034-04-03",
+    "datetime_ut": "2034-04-03 19:06 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 20.0° de Virgem",
+    "sun_longitude": 169.984,
+    "max_point": {
+     "lon": -72.65,
+     "lat": -18.24
+    },
+    "jd": 2464218.17937,
+    "date": "2034-09-12",
+    "datetime_ut": "2034-09-12 16:18 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 5.1° de Libra",
+    "sun_longitude": 185.065,
+    "max_point": null,
+    "jd": 2464233.61564,
+    "date": "2034-09-28",
+    "datetime_ut": "2034-09-28 02:47 UT"
+   }
+  ]
+ },
+ "2035": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2464343.99782,
+    "date": "2035-01-16",
+    "datetime_ut": "2035-01-16 11:57 UT",
+    "pass_number": 4,
+    "total_passes": 7,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Netuno",
+    "aspect": "Conjunção",
+    "jd": 2464411.1896,
+    "date": "2035-03-24",
+    "datetime_ut": "2035-03-24 16:33 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2464443.31639,
+    "date": "2035-04-25",
+    "datetime_ut": "2035-04-25 19:36 UT",
+    "pass_number": 1,
+    "total_passes": 9,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2464545.11497,
+    "date": "2035-08-05",
+    "datetime_ut": "2035-08-05 14:46 UT",
+    "pass_number": 2,
+    "total_passes": 10,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Saturno ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2464618.00504,
+    "date": "2035-10-17",
+    "datetime_ut": "2035-10-17 12:07 UT",
+    "pass_number": 1,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2464622.82386,
+    "date": "2035-10-22",
+    "datetime_ut": "2035-10-22 07:46 UT",
+    "pass_number": 2,
+    "total_passes": 9,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2464625.88814,
+    "date": "2035-10-25",
+    "datetime_ut": "2035-10-25 09:19 UT",
+    "pass_number": 3,
+    "total_passes": 10,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2464447.28972,
+    "date": "2035-04-29",
+    "datetime_ut": "2035-04-29 18:57 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Câncer",
+    "from_sign": "Leão",
+    "to_sign": "Câncer",
+    "retrograde": true,
+    "jd": 2464374.31596,
+    "date": "2035-02-15",
+    "datetime_ut": "2035-02-15 19:35 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2464459.36437,
+    "date": "2035-05-11",
+    "datetime_ut": "2035-05-11 20:45 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 3.6° de Peixes",
+    "sun_longitude": 333.561,
+    "max_point": null,
+    "jd": 2464380.87842,
+    "date": "2035-02-22",
+    "datetime_ut": "2035-02-22 09:05 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 19.2° de Peixes",
+    "sun_longitude": 349.201,
+    "max_point": {
+     "lon": -154.99,
+     "lat": -29.04
+    },
+    "jd": 2464396.4616,
+    "date": "2035-03-09",
+    "datetime_ut": "2035-03-09 23:05 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 25.9° de Leão",
+    "sun_longitude": 145.928,
+    "max_point": null,
+    "jd": 2464558.5494,
+    "date": "2035-08-19",
+    "datetime_ut": "2035-08-19 01:11 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 9.5° de Virgem",
+    "sun_longitude": 159.463,
+    "max_point": {
+     "lon": 158.0,
+     "lat": 29.09
+    },
+    "jd": 2464572.58028,
+    "date": "2035-09-02",
+    "datetime_ut": "2035-09-02 01:56 UT"
+   }
+  ]
+ },
+ "2036": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Saturno ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2464694.27462,
+    "date": "2036-01-01",
+    "datetime_ut": "2036-01-01 18:35 UT",
+    "pass_number": 2,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2464745.94771,
+    "date": "2036-02-22",
+    "datetime_ut": "2036-02-22 10:45 UT",
+    "pass_number": 3,
+    "total_passes": 9,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2464781.30749,
+    "date": "2036-03-28",
+    "datetime_ut": "2036-03-28 19:23 UT",
+    "pass_number": 4,
+    "total_passes": 10,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Saturno ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2464902.535,
+    "date": "2036-07-28",
+    "datetime_ut": "2036-07-28 00:50 UT",
+    "pass_number": 3,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2464823.1195,
+    "date": "2036-05-09",
+    "datetime_ut": "2036-05-09 14:52 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2464982.81562,
+    "date": "2036-10-16",
+    "datetime_ut": "2036-10-16 07:34 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 22.8° de Aquário",
+    "sun_longitude": 322.76,
+    "max_point": null,
+    "jd": 2464735.42494,
+    "date": "2036-02-11",
+    "datetime_ut": "2036-02-11 22:12 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 8.2° de Peixes",
+    "sun_longitude": 338.164,
+    "max_point": {
+     "lon": -131.2,
+     "lat": -71.71
+    },
+    "jd": 2464750.69831,
+    "date": "2036-02-27",
+    "datetime_ut": "2036-02-27 04:46 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 1.2° de Leão",
+    "sun_longitude": 121.16,
+    "max_point": {
+     "lon": 3.6,
+     "lat": -68.82
+    },
+    "jd": 2464897.93813,
+    "date": "2036-07-23",
+    "datetime_ut": "2036-07-23 10:31 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 15.2° de Leão",
+    "sun_longitude": 135.201,
+    "max_point": null,
+    "jd": 2464912.619,
+    "date": "2036-08-07",
+    "datetime_ut": "2036-08-07 02:51 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 29.2° de Leão",
+    "sun_longitude": 149.232,
+    "max_point": {
+     "lon": 47.18,
+     "lat": 71.13
+    },
+    "jd": 2464927.22541,
+    "date": "2036-08-21",
+    "datetime_ut": "2036-08-21 17:25 UT"
+   }
+  ]
+ },
+ "2037": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2465309.93928,
+    "date": "2037-09-08",
+    "datetime_ut": "2037-09-08 10:33 UT",
+    "pass_number": 1,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2465344.26188,
+    "date": "2037-10-12",
+    "datetime_ut": "2037-10-12 18:17 UT",
+    "pass_number": 2,
+    "total_passes": 11,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2465202.59221,
+    "date": "2037-05-24",
+    "datetime_ut": "2037-05-24 02:13 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Leão",
+    "from_sign": "Virgem",
+    "to_sign": "Leão",
+    "retrograde": true,
+    "jd": 2465100.78223,
+    "date": "2037-02-11",
+    "datetime_ut": "2037-02-11 06:46 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2465246.60475,
+    "date": "2037-07-07",
+    "datetime_ut": "2037-07-07 02:31 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 26.6° de Capricórnio",
+    "sun_longitude": 296.601,
+    "max_point": {
+     "lon": 20.89,
+     "lat": 68.46
+    },
+    "jd": 2465074.90819,
+    "date": "2037-01-16",
+    "datetime_ut": "2037-01-16 09:48 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 12.0° de Aquário",
+    "sun_longitude": 312.034,
+    "max_point": null,
+    "jd": 2465090.08366,
+    "date": "2037-01-31",
+    "datetime_ut": "2037-01-31 14:00 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 21.1° de Câncer",
+    "sun_longitude": 111.071,
+    "max_point": {
+     "lon": 139.02,
+     "lat": -24.78
+    },
+    "jd": 2465252.61069,
+    "date": "2037-07-13",
+    "datetime_ut": "2037-07-13 02:39 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 4.5° de Leão",
+    "sun_longitude": 124.493,
+    "max_point": null,
+    "jd": 2465266.67268,
+    "date": "2037-07-27",
+    "datetime_ut": "2037-07-27 04:09 UT"
+   }
+  ]
+ },
+ "2038": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2465426.49024,
+    "date": "2038-01-02",
+    "datetime_ut": "2038-01-02 23:46 UT",
+    "pass_number": 3,
+    "total_passes": 11,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2465474.20579,
+    "date": "2038-02-19",
+    "datetime_ut": "2038-02-19 16:56 UT",
+    "pass_number": 2,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2465513.40246,
+    "date": "2038-03-30",
+    "datetime_ut": "2038-03-30 21:40 UT",
+    "pass_number": 3,
+    "total_passes": 6,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2465590.92306,
+    "date": "2038-06-16",
+    "datetime_ut": "2038-06-16 10:09 UT",
+    "pass_number": 4,
+    "total_passes": 11,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2465692.25663,
+    "date": "2038-09-25",
+    "datetime_ut": "2038-09-25 18:10 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2465587.14283,
+    "date": "2038-06-12",
+    "datetime_ut": "2038-06-12 15:26 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2465744.38953,
+    "date": "2038-11-16",
+    "datetime_ut": "2038-11-16 21:21 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2465565.50864,
+    "date": "2038-05-22",
+    "datetime_ut": "2038-05-22 00:12 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Áries",
+    "from_sign": "Touro",
+    "to_sign": "Áries",
+    "retrograde": true,
+    "jd": 2465718.01809,
+    "date": "2038-10-21",
+    "datetime_ut": "2038-10-21 12:26 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 15.3° de Capricórnio",
+    "sun_longitude": 285.311,
+    "max_point": {
+     "lon": -25.49,
+     "lat": 2.09
+    },
+    "jd": 2465429.07361,
+    "date": "2038-01-05",
+    "datetime_ut": "2038-01-05 13:46 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 1.2° de Aquário",
+    "sun_longitude": 301.187,
+    "max_point": null,
+    "jd": 2465444.65886,
+    "date": "2038-01-21",
+    "datetime_ut": "2038-01-21 03:49 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 26.0° de Gêmeos",
+    "sun_longitude": 86.046,
+    "max_point": null,
+    "jd": 2465591.61372,
+    "date": "2038-06-17",
+    "datetime_ut": "2038-06-17 02:44 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 10.8° de Câncer",
+    "sun_longitude": 100.787,
+    "max_point": {
+     "lon": -21.94,
+     "lat": 25.41
+    },
+    "jd": 2465607.0637,
+    "date": "2038-07-02",
+    "datetime_ut": "2038-07-02 13:32 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 24.1° de Câncer",
+    "sun_longitude": 114.06,
+    "max_point": null,
+    "jd": 2465620.98239,
+    "date": "2038-07-16",
+    "datetime_ut": "2038-07-16 11:35 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 19.8° de Sagitário",
+    "sun_longitude": 259.772,
+    "max_point": null,
+    "jd": 2465769.2388,
+    "date": "2038-12-11",
+    "datetime_ut": "2038-12-11 17:44 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 4.3° de Capricórnio",
+    "sun_longitude": 274.328,
+    "max_point": {
+     "lon": 163.9,
+     "lat": -40.25
+    },
+    "jd": 2465783.54095,
+    "date": "2038-12-26",
+    "datetime_ut": "2038-12-26 00:59 UT"
+   }
+  ]
+ },
+ "2039": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2465851.48867,
+    "date": "2039-03-03",
+    "datetime_ut": "2039-03-03 23:44 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2465950.90094,
+    "date": "2039-06-11",
+    "datetime_ut": "2039-06-11 09:37 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Urano □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2466064.56075,
+    "date": "2039-10-03",
+    "datetime_ut": "2039-10-03 01:27 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Leão",
+    "from_sign": "Virgem",
+    "to_sign": "Leão",
+    "retrograde": true,
+    "jd": 2465805.12143,
+    "date": "2039-01-16",
+    "datetime_ut": "2039-01-16 14:55 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2465977.51701,
+    "date": "2039-07-08",
+    "datetime_ut": "2039-07-08 00:24 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2466135.42029,
+    "date": "2039-12-12",
+    "datetime_ut": "2039-12-12 22:05 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2466037.13525,
+    "date": "2039-09-05",
+    "datetime_ut": "2039-09-05 15:15 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2466006.91846,
+    "date": "2039-08-06",
+    "datetime_ut": "2039-08-06 10:03 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2465871.35832,
+    "date": "2039-03-23",
+    "datetime_ut": "2039-03-23 20:36 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 15.9° de Gêmeos",
+    "sun_longitude": 75.942,
+    "max_point": null,
+    "jd": 2465946.28696,
+    "date": "2039-06-06",
+    "datetime_ut": "2039-06-06 18:53 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 0.2° de Câncer",
+    "sun_longitude": 90.208,
+    "max_point": {
+     "lon": -102.22,
+     "lat": 78.85
+    },
+    "jd": 2465961.21645,
+    "date": "2039-06-21",
+    "datetime_ut": "2039-06-21 17:12 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 8.3° de Sagitário",
+    "sun_longitude": 248.332,
+    "max_point": null,
+    "jd": 2466123.20503,
+    "date": "2039-11-30",
+    "datetime_ut": "2039-11-30 16:55 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 23.5° de Sagitário",
+    "sun_longitude": 263.539,
+    "max_point": {
+     "lon": 172.65,
+     "lat": -80.82
+    },
+    "jd": 2466138.18234,
+    "date": "2039-12-15",
+    "datetime_ut": "2039-12-15 16:23 UT"
+   }
+  ]
+ },
+ "2040": {
+  "aspects": [
+   {
+    "body_a": "uranus",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Urano □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2466185.54114,
+    "date": "2040-02-01",
+    "datetime_ut": "2040-02-01 00:59 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Urano □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2466396.05116,
+    "date": "2040-08-29",
+    "datetime_ut": "2040-08-29 13:14 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Saturno",
+    "aspect": "Conjunção",
+    "jd": 2466458.99159,
+    "date": "2040-10-31",
+    "datetime_ut": "2040-10-31 11:48 UT",
+    "pass_number": 1,
+    "total_passes": 2,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Libra",
+    "to_sign": "Virgem",
+    "retrograde": true,
+    "jd": 2466204.73292,
+    "date": "2040-02-20",
+    "datetime_ut": "2040-02-20 05:35 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2466372.41899,
+    "date": "2040-08-05",
+    "datetime_ut": "2040-08-05 22:03 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Câncer",
+    "from_sign": "Leão",
+    "to_sign": "Câncer",
+    "retrograde": true,
+    "jd": 2466209.81564,
+    "date": "2040-02-25",
+    "datetime_ut": "2040-02-25 07:35 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2466290.42846,
+    "date": "2040-05-15",
+    "datetime_ut": "2040-05-15 22:17 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 21.1° de Touro",
+    "sun_longitude": 51.07,
+    "max_point": {
+     "lon": 174.24,
+     "lat": -62.75
+    },
+    "jd": 2466285.65412,
+    "date": "2040-05-11",
+    "datetime_ut": "2040-05-11 03:42 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 5.8° de Gêmeos",
+    "sun_longitude": 65.839,
+    "max_point": null,
+    "jd": 2466300.9897,
+    "date": "2040-05-26",
+    "datetime_ut": "2040-05-26 11:45 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 13.0° de Escorpião",
+    "sun_longitude": 222.979,
+    "max_point": {
+     "lon": -53.59,
+     "lat": 62.26
+    },
+    "jd": 2466463.29705,
+    "date": "2040-11-04",
+    "datetime_ut": "2040-11-04 19:08 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 27.1° de Escorpião",
+    "sun_longitude": 237.055,
+    "max_point": null,
+    "jd": 2466477.29407,
+    "date": "2040-11-18",
+    "datetime_ut": "2040-11-18 19:03 UT"
+   }
+  ]
+ },
+ "2041": {
+  "aspects": [
+   {
+    "body_a": "uranus",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Urano □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2466597.0868,
+    "date": "2041-03-18",
+    "datetime_ut": "2041-03-18 14:05 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Urano □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2466726.42888,
+    "date": "2041-07-25",
+    "datetime_ut": "2041-07-25 22:18 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2466804.58593,
+    "date": "2041-10-12",
+    "datetime_ut": "2041-10-12 02:04 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2466829.94107,
+    "date": "2041-11-06",
+    "datetime_ut": "2041-11-06 10:35 UT",
+    "pass_number": 5,
+    "total_passes": 7,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2466531.31479,
+    "date": "2041-01-11",
+    "datetime_ut": "2041-01-11 19:33 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Escorpião",
+    "to_sign": "Libra",
+    "retrograde": true,
+    "jd": 2466599.50092,
+    "date": "2041-03-21",
+    "datetime_ut": "2041-03-21 00:01 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2466768.50866,
+    "date": "2041-09-06",
+    "datetime_ut": "2041-09-06 00:12 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2466834.95696,
+    "date": "2041-11-11",
+    "datetime_ut": "2041-11-11 10:58 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 10.5° de Touro",
+    "sun_longitude": 40.509,
+    "max_point": {
+     "lon": 12.14,
+     "lat": -9.62
+    },
+    "jd": 2466639.99385,
+    "date": "2041-04-30",
+    "datetime_ut": "2041-04-30 11:51 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 25.5° de Touro",
+    "sun_longitude": 55.541,
+    "max_point": null,
+    "jd": 2466655.52911,
+    "date": "2041-05-16",
+    "datetime_ut": "2041-05-16 00:42 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 2.0° de Escorpião",
+    "sun_longitude": 212.016,
+    "max_point": {
+     "lon": 162.8,
+     "lat": 9.94
+    },
+    "jd": 2466817.56608,
+    "date": "2041-10-25",
+    "datetime_ut": "2041-10-25 01:35 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 16.1° de Escorpião",
+    "sun_longitude": 226.143,
+    "max_point": null,
+    "jd": 2466831.69014,
+    "date": "2041-11-08",
+    "datetime_ut": "2041-11-08 04:34 UT"
+   }
+  ]
+ },
+ "2042": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Saturno ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2466890.76972,
+    "date": "2042-01-06",
+    "datetime_ut": "2042-01-06 06:28 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2466903.74415,
+    "date": "2042-01-19",
+    "datetime_ut": "2042-01-19 05:52 UT",
+    "pass_number": 5,
+    "total_passes": 10,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Saturno ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2466953.61144,
+    "date": "2042-03-10",
+    "datetime_ut": "2042-03-10 02:40 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2467001.78035,
+    "date": "2042-04-27",
+    "datetime_ut": "2042-04-27 06:44 UT",
+    "pass_number": 6,
+    "total_passes": 10,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2467151.03756,
+    "date": "2042-09-23",
+    "datetime_ut": "2042-09-23 12:54 UT",
+    "pass_number": 7,
+    "total_passes": 10,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Saturno ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2467187.13206,
+    "date": "2042-10-29",
+    "datetime_ut": "2042-10-29 15:10 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2466924.49507,
+    "date": "2042-02-08",
+    "datetime_ut": "2042-02-08 23:53 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Sagitário",
+    "to_sign": "Escorpião",
+    "retrograde": true,
+    "jd": 2466999.02813,
+    "date": "2042-04-24",
+    "datetime_ut": "2042-04-24 12:41 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2467161.91628,
+    "date": "2042-10-04",
+    "datetime_ut": "2042-10-04 09:59 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Libra",
+    "from_sign": "Escorpião",
+    "to_sign": "Libra",
+    "retrograde": true,
+    "jd": 2467056.93483,
+    "date": "2042-06-21",
+    "datetime_ut": "2042-06-21 10:26 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2467080.0828,
+    "date": "2042-07-14",
+    "datetime_ut": "2042-07-14 13:59 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 15.9° de Áries",
+    "sun_longitude": 15.936,
+    "max_point": null,
+    "jd": 2466980.10348,
+    "date": "2042-04-05",
+    "datetime_ut": "2042-04-05 14:29 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 0.1° de Touro",
+    "sun_longitude": 30.147,
+    "max_point": {
+     "lon": 137.25,
+     "lat": 26.95
+    },
+    "jd": 2466994.59465,
+    "date": "2042-04-20",
+    "datetime_ut": "2042-04-20 02:16 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 6.4° de Libra",
+    "sun_longitude": 186.432,
+    "max_point": null,
+    "jd": 2467156.94764,
+    "date": "2042-09-29",
+    "datetime_ut": "2042-09-29 10:45 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 20.9° de Libra",
+    "sun_longitude": 200.863,
+    "max_point": {
+     "lon": 137.75,
+     "lat": -23.74
+    },
+    "jd": 2467171.58298,
+    "date": "2042-10-14",
+    "datetime_ut": "2042-10-14 01:59 UT"
+   }
+  ]
+ },
+ "2043": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Saturno □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2467257.55391,
+    "date": "2043-01-08",
+    "datetime_ut": "2043-01-08 01:18 UT",
+    "pass_number": 1,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Saturno □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2467394.3458,
+    "date": "2043-05-24",
+    "datetime_ut": "2043-05-24 20:18 UT",
+    "pass_number": 2,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Saturno ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2467430.64816,
+    "date": "2043-06-30",
+    "datetime_ut": "2043-06-30 03:33 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Saturno ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2467477.39176,
+    "date": "2043-08-15",
+    "datetime_ut": "2043-08-15 21:24 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Saturno □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2467575.25901,
+    "date": "2043-11-21",
+    "datetime_ut": "2043-11-21 18:13 UT",
+    "pass_number": 3,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2467310.2126,
+    "date": "2043-03-01",
+    "datetime_ut": "2043-03-01 17:06 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Sagitário",
+    "retrograde": true,
+    "jd": 2467410.40425,
+    "date": "2043-06-09",
+    "datetime_ut": "2043-06-09 21:42 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2467548.97957,
+    "date": "2043-10-26",
+    "datetime_ut": "2043-10-26 11:31 UT"
+   },
+   {
+    "body": "pluto",
+    "label": "Plutão ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2467317.54343,
+    "date": "2043-03-09",
+    "datetime_ut": "2043-03-09 01:03 UT"
+   },
+   {
+    "body": "pluto",
+    "label": "Plutão ingressa em Aquário",
+    "from_sign": "Peixes",
+    "to_sign": "Aquário",
+    "retrograde": true,
+    "jd": 2467493.63269,
+    "date": "2043-09-01",
+    "datetime_ut": "2043-09-01 03:11 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 4.8° de Áries",
+    "sun_longitude": 4.839,
+    "max_point": null,
+    "jd": 2467334.10474,
+    "date": "2043-03-25",
+    "datetime_ut": "2043-03-25 14:31 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 19.8° de Áries",
+    "sun_longitude": 19.823,
+    "max_point": {
+     "lon": 151.74,
+     "lat": 61.38
+    },
+    "jd": 2467349.2893,
+    "date": "2043-04-09",
+    "datetime_ut": "2043-04-09 18:57 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 26.0° de Virgem",
+    "sun_longitude": 176.041,
+    "max_point": null,
+    "jd": 2467511.57684,
+    "date": "2043-09-19",
+    "datetime_ut": "2043-09-19 01:51 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 9.8° de Libra",
+    "sun_longitude": 189.807,
+    "max_point": {
+     "lon": 35.04,
+     "lat": -61.09
+    },
+    "jd": 2467525.62546,
+    "date": "2043-10-03",
+    "datetime_ut": "2043-10-03 03:01 UT"
+   }
+  ]
+ },
+ "2044": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Saturno □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2467924.09026,
+    "date": "2044-11-04",
+    "datetime_ut": "2044-11-04 14:10 UT",
+    "pass_number": 4,
+    "total_passes": 4,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Aquário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Aquário",
+    "retrograde": false,
+    "jd": 2467689.68567,
+    "date": "2044-03-15",
+    "datetime_ut": "2044-03-15 04:27 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Aquário",
+    "to_sign": "Capricórnio",
+    "retrograde": true,
+    "jd": 2467837.02922,
+    "date": "2044-08-09",
+    "datetime_ut": "2044-08-09 12:42 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Aquário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Aquário",
+    "retrograde": false,
+    "jd": 2467924.23122,
+    "date": "2044-11-04",
+    "datetime_ut": "2044-11-04 17:33 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2467667.09796,
+    "date": "2044-02-21",
+    "datetime_ut": "2044-02-21 14:21 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Escorpião",
+    "from_sign": "Sagitário",
+    "to_sign": "Escorpião",
+    "retrograde": true,
+    "jd": 2467699.91781,
+    "date": "2044-03-25",
+    "datetime_ut": "2044-03-25 10:02 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2467920.03638,
+    "date": "2044-10-31",
+    "datetime_ut": "2044-10-31 12:52 UT"
+   },
+   {
+    "body": "pluto",
+    "label": "Plutão ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2467633.90964,
+    "date": "2044-01-19",
+    "datetime_ut": "2044-01-19 09:50 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 9.9° de Peixes",
+    "sun_longitude": 339.893,
+    "max_point": {
+     "lon": -24.46,
+     "lat": -62.05
+    },
+    "jd": 2467674.34957,
+    "date": "2044-02-28",
+    "datetime_ut": "2044-02-28 20:23 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 23.9° de Peixes",
+    "sun_longitude": 353.874,
+    "max_point": null,
+    "jd": 2467688.31757,
+    "date": "2044-03-13",
+    "datetime_ut": "2044-03-13 19:37 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 0.6° de Virgem",
+    "sun_longitude": 150.576,
+    "max_point": {
+     "lon": -120.27,
+     "lat": 64.26
+    },
+    "jd": 2467850.55268,
+    "date": "2044-08-23",
+    "datetime_ut": "2044-08-23 01:16 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 15.5° de Virgem",
+    "sun_longitude": 165.487,
+    "max_point": null,
+    "jd": 2467865.97191,
+    "date": "2044-09-07",
+    "datetime_ut": "2044-09-07 11:20 UT"
+   }
+  ]
+ },
+ "2045": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2467988.79774,
+    "date": "2045-01-08",
+    "datetime_ut": "2045-01-08 07:09 UT",
+    "pass_number": 5,
+    "total_passes": 11,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2468039.99688,
+    "date": "2045-02-28",
+    "datetime_ut": "2045-02-28 11:56 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Plutão",
+    "aspect": "Conjunção",
+    "jd": 2468082.8735,
+    "date": "2045-04-12",
+    "datetime_ut": "2045-04-12 08:58 UT",
+    "pass_number": 2,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2468118.37571,
+    "date": "2045-05-17",
+    "datetime_ut": "2045-05-17 21:01 UT",
+    "pass_number": 4,
+    "total_passes": 9,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2468233.23948,
+    "date": "2045-09-09",
+    "datetime_ut": "2045-09-09 17:45 UT",
+    "pass_number": 5,
+    "total_passes": 9,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2468065.7141,
+    "date": "2045-03-26",
+    "datetime_ut": "2045-03-26 05:08 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2468259.80149,
+    "date": "2045-10-06",
+    "datetime_ut": "2045-10-06 07:14 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 28.7° de Aquário",
+    "sun_longitude": 328.719,
+    "max_point": {
+     "lon": -166.26,
+     "lat": -28.25
+    },
+    "jd": 2468028.49645,
+    "date": "2045-02-16",
+    "datetime_ut": "2045-02-16 23:55 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 13.1° de Peixes",
+    "sun_longitude": 343.133,
+    "max_point": null,
+    "jd": 2468042.82093,
+    "date": "2045-03-03",
+    "datetime_ut": "2045-03-03 07:42 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 20.4° de Leão",
+    "sun_longitude": 140.424,
+    "max_point": {
+     "lon": -78.6,
+     "lat": 25.9
+    },
+    "jd": 2468205.2371,
+    "date": "2045-08-12",
+    "datetime_ut": "2045-08-12 17:41 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 4.7° de Virgem",
+    "sun_longitude": 154.71,
+    "max_point": null,
+    "jd": 2468220.0789,
+    "date": "2045-08-27",
+    "datetime_ut": "2045-08-27 13:54 UT"
+   }
+  ]
+ },
+ "2046": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2468409.46516,
+    "date": "2046-03-04",
+    "datetime_ut": "2046-03-04 23:10 UT",
+    "pass_number": 6,
+    "total_passes": 9,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Urano ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2468611.25875,
+    "date": "2046-09-22",
+    "datetime_ut": "2046-09-22 18:13 UT",
+    "pass_number": 1,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Áries",
+    "from_sign": "Peixes",
+    "to_sign": "Áries",
+    "retrograde": false,
+    "jd": 2468440.17425,
+    "date": "2046-04-04",
+    "datetime_ut": "2046-04-04 16:11 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Leão",
+    "from_sign": "Virgem",
+    "to_sign": "Leão",
+    "retrograde": true,
+    "jd": 2468385.28392,
+    "date": "2046-02-08",
+    "datetime_ut": "2046-02-08 18:49 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2468549.4395,
+    "date": "2046-07-22",
+    "datetime_ut": "2046-07-22 22:33 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 2.7° de Aquário",
+    "sun_longitude": 302.66,
+    "max_point": null,
+    "jd": 2468368.04267,
+    "date": "2046-01-22",
+    "datetime_ut": "2046-01-22 13:01 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 17.3° de Aquário",
+    "sun_longitude": 317.306,
+    "max_point": {
+     "lon": -171.46,
+     "lat": 4.78
+    },
+    "jd": 2468382.46195,
+    "date": "2046-02-05",
+    "datetime_ut": "2046-02-05 23:05 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 25.6° de Câncer",
+    "sun_longitude": 115.625,
+    "max_point": null,
+    "jd": 2468544.545,
+    "date": "2046-07-18",
+    "datetime_ut": "2046-07-18 01:05 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 10.3° de Leão",
+    "sun_longitude": 130.322,
+    "max_point": {
+     "lon": 15.11,
+     "lat": -12.73
+    },
+    "jd": 2468559.93055,
+    "date": "2046-08-02",
+    "datetime_ut": "2046-08-02 10:20 UT"
+   }
+  ]
+ },
+ "2047": {
+  "aspects": [
+   {
+    "body_a": "uranus",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Urano ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2468756.56353,
+    "date": "2047-02-15",
+    "datetime_ut": "2047-02-15 01:31 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Netuno",
+    "aspect": "Conjunção",
+    "jd": 2468914.34198,
+    "date": "2047-07-22",
+    "datetime_ut": "2047-07-22 20:12 UT",
+    "pass_number": 2,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Urano ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2468938.80132,
+    "date": "2047-08-16",
+    "datetime_ut": "2047-08-16 07:14 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Netuno",
+    "aspect": "Conjunção",
+    "jd": 2469031.47773,
+    "date": "2047-11-16",
+    "datetime_ut": "2047-11-16 23:28 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2468814.37764,
+    "date": "2047-04-13",
+    "datetime_ut": "2047-04-13 21:04 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2468735.15327,
+    "date": "2047-01-24",
+    "datetime_ut": "2047-01-24 15:41 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Sagitário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Sagitário",
+    "retrograde": true,
+    "jd": 2468902.62419,
+    "date": "2047-07-11",
+    "datetime_ut": "2047-07-11 02:59 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2469005.96507,
+    "date": "2047-10-22",
+    "datetime_ut": "2047-10-22 11:10 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 21.7° de Capricórnio",
+    "sun_longitude": 291.737,
+    "max_point": null,
+    "jd": 2468722.55906,
+    "date": "2047-01-12",
+    "datetime_ut": "2047-01-12 01:25 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 6.0° de Aquário",
+    "sun_longitude": 305.994,
+    "max_point": {
+     "lon": 111.86,
+     "lat": 62.89
+    },
+    "jd": 2468736.56398,
+    "date": "2047-01-26",
+    "datetime_ut": "2047-01-26 01:32 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 1.9° de Câncer",
+    "sun_longitude": 91.941,
+    "max_point": {
+     "lon": -177.83,
+     "lat": 65.7
+    },
+    "jd": 2468884.9522,
+    "date": "2047-06-23",
+    "datetime_ut": "2047-06-23 10:51 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 15.3° de Câncer",
+    "sun_longitude": 105.281,
+    "max_point": null,
+    "jd": 2468898.94064,
+    "date": "2047-07-07",
+    "datetime_ut": "2047-07-07 10:35 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 0.1° de Leão",
+    "sun_longitude": 120.066,
+    "max_point": {
+     "lon": 160.21,
+     "lat": -63.39
+    },
+    "jd": 2468914.44092,
+    "date": "2047-07-22",
+    "datetime_ut": "2047-07-22 22:35 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 24.9° de Sagitário",
+    "sun_longitude": 264.938,
+    "max_point": {
+     "lon": -6.66,
+     "lat": -66.36
+    },
+    "jd": 2469061.49237,
+    "date": "2047-12-16",
+    "datetime_ut": "2047-12-16 23:49 UT"
+   }
+  ]
+ },
+ "2048": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Netuno",
+    "aspect": "Conjunção",
+    "jd": 2469131.18485,
+    "date": "2048-02-24",
+    "datetime_ut": "2048-02-24 16:26 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Urano ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2469178.43392,
+    "date": "2048-04-11",
+    "datetime_ut": "2048-04-11 22:25 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2469220.28846,
+    "date": "2048-05-23",
+    "datetime_ut": "2048-05-23 18:55 UT",
+    "pass_number": 6,
+    "total_passes": 7,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2469224.55895,
+    "date": "2048-05-28",
+    "datetime_ut": "2048-05-28 01:25 UT",
+    "pass_number": 8,
+    "total_passes": 10,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "uranus",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Urano ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2469257.66795,
+    "date": "2048-06-30",
+    "datetime_ut": "2048-06-30 04:02 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2469189.57198,
+    "date": "2048-04-23",
+    "datetime_ut": "2048-04-23 01:44 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2469343.04004,
+    "date": "2048-09-23",
+    "datetime_ut": "2048-09-23 12:58 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Gêmeos",
+    "from_sign": "Câncer",
+    "to_sign": "Gêmeos",
+    "retrograde": true,
+    "jd": 2469393.0871,
+    "date": "2048-11-12",
+    "datetime_ut": "2048-11-12 14:05 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 10.5° de Capricórnio",
+    "sun_longitude": 280.516,
+    "max_point": null,
+    "jd": 2469076.7866,
+    "date": "2048-01-01",
+    "datetime_ut": "2048-01-01 06:53 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 21.3° de Gêmeos",
+    "sun_longitude": 81.286,
+    "max_point": {
+     "lon": -11.58,
+     "lat": 63.65
+    },
+    "jd": 2469239.04003,
+    "date": "2048-06-11",
+    "datetime_ut": "2048-06-11 12:58 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 5.2° de Câncer",
+    "sun_longitude": 95.171,
+    "max_point": null,
+    "jd": 2469253.58418,
+    "date": "2048-06-26",
+    "datetime_ut": "2048-06-26 02:01 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 14.2° de Sagitário",
+    "sun_longitude": 254.177,
+    "max_point": {
+     "lon": -56.45,
+     "lat": -46.1
+    },
+    "jd": 2469416.14875,
+    "date": "2048-12-05",
+    "datetime_ut": "2048-12-05 15:34 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 29.0° de Sagitário",
+    "sun_longitude": 269.042,
+    "max_point": null,
+    "jd": 2469430.76843,
+    "date": "2048-12-20",
+    "datetime_ut": "2048-12-20 06:27 UT"
+   }
+  ]
+ },
+ "2049": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2469668.43412,
+    "date": "2049-08-14",
+    "datetime_ut": "2049-08-14 22:25 UT",
+    "pass_number": 6,
+    "total_passes": 8,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2469567.25895,
+    "date": "2049-05-05",
+    "datetime_ut": "2049-05-05 18:13 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2469711.93688,
+    "date": "2049-09-27",
+    "datetime_ut": "2049-09-27 10:29 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 27.0° de Touro",
+    "sun_longitude": 57.006,
+    "max_point": null,
+    "jd": 2469578.97603,
+    "date": "2049-05-17",
+    "datetime_ut": "2049-05-17 11:25 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 10.6° de Gêmeos",
+    "sun_longitude": 70.564,
+    "max_point": {
+     "lon": -29.93,
+     "lat": 15.3
+    },
+    "jd": 2469593.08246,
+    "date": "2049-05-31",
+    "datetime_ut": "2049-05-31 13:59 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 25.1° de Gêmeos",
+    "sun_longitude": 85.125,
+    "max_point": null,
+    "jd": 2469608.3007,
+    "date": "2049-06-15",
+    "datetime_ut": "2049-06-15 19:13 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 17.7° de Escorpião",
+    "sun_longitude": 227.684,
+    "max_point": null,
+    "jd": 2469755.1603,
+    "date": "2049-11-09",
+    "datetime_ut": "2049-11-09 15:51 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 3.4° de Sagitário",
+    "sun_longitude": 243.379,
+    "max_point": {
+     "lon": 95.17,
+     "lat": -3.8
+    },
+    "jd": 2469770.73094,
+    "date": "2049-11-25",
+    "datetime_ut": "2049-11-25 05:33 UT"
+   }
+  ]
+ },
+ "2050": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2469824.21757,
+    "date": "2050-01-17",
+    "datetime_ut": "2050-01-17 17:13 UT",
+    "pass_number": 7,
+    "total_passes": 8,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Saturno",
+    "aspect": "Oposição",
+    "jd": 2469989.1832,
+    "date": "2050-07-01",
+    "datetime_ut": "2050-07-01 16:24 UT",
+    "pass_number": 8,
+    "total_passes": 8,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2470086.70385,
+    "date": "2050-10-07",
+    "datetime_ut": "2050-10-07 04:54 UT",
+    "pass_number": 6,
+    "total_passes": 11,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Câncer",
+    "from_sign": "Leão",
+    "to_sign": "Câncer",
+    "retrograde": true,
+    "jd": 2469820.8081,
+    "date": "2050-01-14",
+    "datetime_ut": "2050-01-14 07:24 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Leão",
+    "from_sign": "Câncer",
+    "to_sign": "Leão",
+    "retrograde": false,
+    "jd": 2469949.40884,
+    "date": "2050-05-22",
+    "datetime_ut": "2050-05-22 21:49 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2470098.03191,
+    "date": "2050-10-18",
+    "datetime_ut": "2050-10-18 12:46 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Aquário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Aquário",
+    "retrograde": false,
+    "jd": 2469828.05259,
+    "date": "2050-01-21",
+    "datetime_ut": "2050-01-21 13:16 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 16.6° de Touro",
+    "sun_longitude": 46.593,
+    "max_point": null,
+    "jd": 2469933.43807,
+    "date": "2050-05-06",
+    "datetime_ut": "2050-05-06 22:31 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 0.0° de Gêmeos",
+    "sun_longitude": 60.034,
+    "max_point": {
+     "lon": -123.76,
+     "lat": -40.13
+    },
+    "jd": 2469947.36225,
+    "date": "2050-05-20",
+    "datetime_ut": "2050-05-20 20:42 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 6.9° de Escorpião",
+    "sun_longitude": 216.901,
+    "max_point": null,
+    "jd": 2470109.63924,
+    "date": "2050-10-30",
+    "datetime_ut": "2050-10-30 03:21 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 22.4° de Escorpião",
+    "sun_longitude": 232.368,
+    "max_point": {
+     "lon": 0.75,
+     "lat": 69.5
+    },
+    "jd": 2470125.0622,
+    "date": "2050-11-14",
+    "datetime_ut": "2050-11-14 13:30 UT"
+   }
+  ]
+ },
+ "2051": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2470263.93523,
+    "date": "2051-04-02",
+    "datetime_ut": "2051-04-02 10:27 UT",
+    "pass_number": 7,
+    "total_passes": 11,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2470328.15562,
+    "date": "2051-06-05",
+    "datetime_ut": "2051-06-05 15:44 UT",
+    "pass_number": 8,
+    "total_passes": 11,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Plutão",
+    "aspect": "Oposição",
+    "jd": 2470399.39133,
+    "date": "2051-08-15",
+    "datetime_ut": "2051-08-15 21:24 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2470484.78461,
+    "date": "2051-11-09",
+    "datetime_ut": "2051-11-09 06:50 UT",
+    "pass_number": 4,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Leão",
+    "from_sign": "Virgem",
+    "to_sign": "Leão",
+    "retrograde": true,
+    "jd": 2470228.95908,
+    "date": "2051-02-26",
+    "datetime_ut": "2051-02-26 11:01 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Leão",
+    "to_sign": "Virgem",
+    "retrograde": false,
+    "jd": 2470337.97697,
+    "date": "2051-06-15",
+    "datetime_ut": "2051-06-15 11:27 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2470491.1138,
+    "date": "2051-11-15",
+    "datetime_ut": "2051-11-15 14:44 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2470514.36652,
+    "date": "2051-12-08",
+    "datetime_ut": "2051-12-08 20:48 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2470368.99465,
+    "date": "2051-07-16",
+    "datetime_ut": "2051-07-16 11:52 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Touro",
+    "from_sign": "Gêmeos",
+    "to_sign": "Touro",
+    "retrograde": true,
+    "jd": 2470467.49493,
+    "date": "2051-10-22",
+    "datetime_ut": "2051-10-22 23:53 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 21.2° de Áries",
+    "sun_longitude": 21.163,
+    "max_point": {
+     "lon": 31.88,
+     "lat": 71.67
+    },
+    "jd": 2470272.58987,
+    "date": "2051-04-11",
+    "datetime_ut": "2051-04-11 02:09 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 5.8° de Touro",
+    "sun_longitude": 35.833,
+    "max_point": null,
+    "jd": 2470287.59391,
+    "date": "2051-04-26",
+    "datetime_ut": "2051-04-26 02:15 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 11.6° de Libra",
+    "sun_longitude": 191.597,
+    "max_point": {
+     "lon": 117.47,
+     "lat": -72.11
+    },
+    "jd": 2470449.37571,
+    "date": "2051-10-04",
+    "datetime_ut": "2051-10-04 21:01 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 26.4° de Libra",
+    "sun_longitude": 206.356,
+    "max_point": null,
+    "jd": 2470464.29901,
+    "date": "2051-10-19",
+    "datetime_ut": "2051-10-19 19:11 UT"
+   }
+  ]
+ },
+ "2052": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Saturno □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2470628.86323,
+    "date": "2052-04-01",
+    "datetime_ut": "2052-04-01 08:43 UT",
+    "pass_number": 4,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2470667.51699,
+    "date": "2052-05-10",
+    "datetime_ut": "2052-05-10 00:24 UT",
+    "pass_number": 5,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Urano",
+    "aspect": "Conjunção",
+    "jd": 2470683.75903,
+    "date": "2052-05-26",
+    "datetime_ut": "2052-05-26 06:13 UT",
+    "pass_number": 6,
+    "total_passes": 6,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Saturno □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2470725.46678,
+    "date": "2052-07-06",
+    "datetime_ut": "2052-07-06 23:12 UT",
+    "pass_number": 5,
+    "total_passes": 6,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Virgem",
+    "from_sign": "Libra",
+    "to_sign": "Virgem",
+    "retrograde": true,
+    "jd": 2470627.35385,
+    "date": "2052-03-30",
+    "datetime_ut": "2052-03-30 20:30 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2470732.51591,
+    "date": "2052-07-14",
+    "datetime_ut": "2052-07-14 00:23 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2470886.78668,
+    "date": "2052-12-15",
+    "datetime_ut": "2052-12-15 06:53 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2470644.07944,
+    "date": "2052-04-16",
+    "datetime_ut": "2052-04-16 13:54 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Aquário",
+    "from_sign": "Peixes",
+    "to_sign": "Aquário",
+    "retrograde": true,
+    "jd": 2470758.64904,
+    "date": "2052-08-09",
+    "datetime_ut": "2052-08-09 03:35 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Virgem",
+    "from_sign": "Libra",
+    "to_sign": "Virgem",
+    "retrograde": true,
+    "jd": 2470568.62611,
+    "date": "2052-02-01",
+    "datetime_ut": "2052-02-01 03:02 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Libra",
+    "from_sign": "Virgem",
+    "to_sign": "Libra",
+    "retrograde": false,
+    "jd": 2470791.84011,
+    "date": "2052-09-11",
+    "datetime_ut": "2052-09-11 08:10 UT"
+   },
+   {
+    "body": "neptune",
+    "label": "Netuno ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2470669.92161,
+    "date": "2052-05-12",
+    "datetime_ut": "2052-05-12 10:07 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 10.8° de Áries",
+    "sun_longitude": 10.76,
+    "max_point": {
+     "lon": -102.63,
+     "lat": 22.38
+    },
+    "jd": 2470627.27127,
+    "date": "2052-03-30",
+    "datetime_ut": "2052-03-30 18:31 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 24.9° de Áries",
+    "sun_longitude": 24.851,
+    "max_point": null,
+    "jd": 2470641.595,
+    "date": "2052-04-14",
+    "datetime_ut": "2052-04-14 02:17 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 0.7° de Libra",
+    "sun_longitude": 180.668,
+    "max_point": {
+     "lon": 174.89,
+     "lat": -25.69
+    },
+    "jd": 2470803.48466,
+    "date": "2052-09-22",
+    "datetime_ut": "2052-09-22 23:38 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 15.9° de Libra",
+    "sun_longitude": 195.867,
+    "max_point": null,
+    "jd": 2470818.94776,
+    "date": "2052-10-08",
+    "datetime_ut": "2052-10-08 10:45 UT"
+   }
+  ]
+ },
+ "2053": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Saturno □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2470916.00173,
+    "date": "2053-01-13",
+    "datetime_ut": "2053-01-13 12:02 UT",
+    "pass_number": 6,
+    "total_passes": 6,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 0.0,
+    "label": "Saturno ☌ Plutão",
+    "aspect": "Conjunção",
+    "jd": 2471069.03307,
+    "date": "2053-06-15",
+    "datetime_ut": "2053-06-15 12:48 UT",
+    "pass_number": 1,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 0.0,
+    "label": "Saturno ☌ Plutão",
+    "aspect": "Conjunção",
+    "jd": 2471093.94328,
+    "date": "2053-07-10",
+    "datetime_ut": "2053-07-10 10:38 UT",
+    "pass_number": 2,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Libra",
+    "from_sign": "Escorpião",
+    "to_sign": "Libra",
+    "retrograde": true,
+    "jd": 2471022.68904,
+    "date": "2053-04-30",
+    "datetime_ut": "2053-04-30 04:32 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2471128.81234,
+    "date": "2053-08-14",
+    "datetime_ut": "2053-08-14 07:30 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2470913.61923,
+    "date": "2053-01-11",
+    "datetime_ut": "2053-01-11 02:52 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 14.6° de Peixes",
+    "sun_longitude": 344.595,
+    "max_point": null,
+    "jd": 2470966.22278,
+    "date": "2053-03-04",
+    "datetime_ut": "2053-03-04 17:21 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 0.1° de Áries",
+    "sun_longitude": 0.138,
+    "max_point": {
+     "lon": 82.86,
+     "lat": -23.02
+    },
+    "jd": 2470981.79657,
+    "date": "2053-03-20",
+    "datetime_ut": "2053-03-20 07:07 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 6.5° de Virgem",
+    "sun_longitude": 156.467,
+    "max_point": null,
+    "jd": 2471143.83656,
+    "date": "2053-08-29",
+    "datetime_ut": "2053-08-29 08:05 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 20.1° de Virgem",
+    "sun_longitude": 170.098,
+    "max_point": {
+     "lon": 41.62,
+     "lat": 21.47
+    },
+    "jd": 2471157.89784,
+    "date": "2053-09-12",
+    "datetime_ut": "2053-09-12 09:33 UT"
+   }
+  ]
+ },
+ "2054": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2471295.75141,
+    "date": "2054-01-28",
+    "datetime_ut": "2054-01-28 06:02 UT",
+    "pass_number": 3,
+    "total_passes": 5,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "pluto",
+    "angle": 0.0,
+    "label": "Saturno ☌ Plutão",
+    "aspect": "Conjunção",
+    "jd": 2471300.78889,
+    "date": "2054-02-02",
+    "datetime_ut": "2054-02-02 06:56 UT",
+    "pass_number": 3,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2471390.56901,
+    "date": "2054-05-03",
+    "datetime_ut": "2054-05-03 01:39 UT",
+    "pass_number": 4,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Netuno",
+    "aspect": "Oposição",
+    "jd": 2471562.31281,
+    "date": "2054-10-21",
+    "datetime_ut": "2054-10-21 19:30 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2471593.75241,
+    "date": "2054-11-22",
+    "datetime_ut": "2054-11-22 06:03 UT",
+    "pass_number": 9,
+    "total_passes": 10,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2471627.38052,
+    "date": "2054-12-25",
+    "datetime_ut": "2054-12-25 21:08 UT",
+    "pass_number": 7,
+    "total_passes": 9,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2471280.8328,
+    "date": "2054-01-13",
+    "datetime_ut": "2054-01-13 07:59 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Escorpião",
+    "from_sign": "Sagitário",
+    "to_sign": "Escorpião",
+    "retrograde": true,
+    "jd": 2471422.76854,
+    "date": "2054-06-04",
+    "datetime_ut": "2054-06-04 06:27 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Escorpião",
+    "to_sign": "Sagitário",
+    "retrograde": false,
+    "jd": 2471521.27099,
+    "date": "2054-09-10",
+    "datetime_ut": "2054-09-10 18:30 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 3.9° de Peixes",
+    "sun_longitude": 333.862,
+    "max_point": null,
+    "jd": 2471320.78484,
+    "date": "2054-02-22",
+    "datetime_ut": "2054-02-22 06:50 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 19.2° de Peixes",
+    "sun_longitude": 349.156,
+    "max_point": {
+     "lon": 98.01,
+     "lat": -72.12
+    },
+    "jd": 2471336.02246,
+    "date": "2054-03-09",
+    "datetime_ut": "2054-03-09 12:32 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 11.6° de Leão",
+    "sun_longitude": 131.644,
+    "max_point": {
+     "lon": -121.33,
+     "lat": -69.73
+    },
+    "jd": 2471483.2519,
+    "date": "2054-08-03",
+    "datetime_ut": "2054-08-03 18:03 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 25.7° de Leão",
+    "sun_longitude": 145.688,
+    "max_point": null,
+    "jd": 2471497.89252,
+    "date": "2054-08-18",
+    "datetime_ut": "2054-08-18 09:25 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 9.8° de Virgem",
+    "sun_longitude": 159.823,
+    "max_point": {
+     "lon": -82.27,
+     "lat": 71.71
+    },
+    "jd": 2471512.54744,
+    "date": "2054-09-02",
+    "datetime_ut": "2054-09-02 01:08 UT"
+   }
+  ]
+ },
+ "2055": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2471776.35837,
+    "date": "2055-05-23",
+    "datetime_ut": "2055-05-23 20:36 UT",
+    "pass_number": 8,
+    "total_passes": 9,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 90.0,
+    "label": "Júpiter □ Saturno",
+    "aspect": "Quadratura",
+    "jd": 2471933.58869,
+    "date": "2055-10-28",
+    "datetime_ut": "2055-10-28 02:08 UT",
+    "pass_number": 9,
+    "total_passes": 9,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2471669.85827,
+    "date": "2055-02-06",
+    "datetime_ut": "2055-02-06 08:36 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Sagitário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Sagitário",
+    "retrograde": true,
+    "jd": 2471836.69201,
+    "date": "2055-07-23",
+    "datetime_ut": "2055-07-23 04:36 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Capricórnio",
+    "from_sign": "Sagitário",
+    "to_sign": "Capricórnio",
+    "retrograde": false,
+    "jd": 2471902.7519,
+    "date": "2055-09-27",
+    "datetime_ut": "2055-09-27 06:03 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Áries",
+    "from_sign": "Peixes",
+    "to_sign": "Áries",
+    "retrograde": false,
+    "jd": 2471714.27101,
+    "date": "2055-03-22",
+    "datetime_ut": "2055-03-22 18:30 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 7.8° de Aquário",
+    "sun_longitude": 307.761,
+    "max_point": {
+     "lon": -112.19,
+     "lat": 69.51
+    },
+    "jd": 2471660.24505,
+    "date": "2055-01-27",
+    "datetime_ut": "2055-01-27 17:53 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 23.2° de Aquário",
+    "sun_longitude": 323.18,
+    "max_point": null,
+    "jd": 2471675.44794,
+    "date": "2055-02-11",
+    "datetime_ut": "2055-02-11 22:45 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 1.5° de Leão",
+    "sun_longitude": 121.528,
+    "max_point": {
+     "lon": 25.65,
+     "lat": -33.31
+    },
+    "jd": 2471837.91426,
+    "date": "2055-07-24",
+    "datetime_ut": "2055-07-24 09:57 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 15.0° de Leão",
+    "sun_longitude": 134.954,
+    "max_point": null,
+    "jd": 2471851.95278,
+    "date": "2055-08-07",
+    "datetime_ut": "2055-08-07 10:52 UT"
+   }
+  ]
+ },
+ "2056": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 90.0,
+    "label": "Júpiter □ Urano",
+    "aspect": "Quadratura",
+    "jd": 2472005.81225,
+    "date": "2056-01-08",
+    "datetime_ut": "2056-01-08 07:30 UT",
+    "pass_number": 7,
+    "total_passes": 7,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Saturno ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2472121.0549,
+    "date": "2056-05-02",
+    "datetime_ut": "2056-05-02 13:19 UT",
+    "pass_number": 1,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Saturno ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2472279.30481,
+    "date": "2056-10-07",
+    "datetime_ut": "2056-10-07 19:19 UT",
+    "pass_number": 2,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Aquário",
+    "from_sign": "Capricórnio",
+    "to_sign": "Aquário",
+    "retrograde": false,
+    "jd": 2472052.95778,
+    "date": "2056-02-24",
+    "datetime_ut": "2056-02-24 10:59 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 26.5° de Capricórnio",
+    "sun_longitude": 296.507,
+    "max_point": {
+     "lon": -153.65,
+     "lat": 3.92
+    },
+    "jd": 2472014.42742,
+    "date": "2056-01-16",
+    "datetime_ut": "2056-01-16 22:15 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 12.4° de Aquário",
+    "sun_longitude": 312.363,
+    "max_point": null,
+    "jd": 2472030.0173,
+    "date": "2056-02-01",
+    "datetime_ut": "2056-02-01 12:25 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 6.5° de Câncer",
+    "sun_longitude": 96.499,
+    "max_point": null,
+    "jd": 2472176.91791,
+    "date": "2056-06-27",
+    "datetime_ut": "2056-06-27 10:02 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 21.2° de Câncer",
+    "sun_longitude": 111.212,
+    "max_point": {
+     "lon": -123.86,
+     "lat": 19.43
+    },
+    "jd": 2472192.34772,
+    "date": "2056-07-12",
+    "datetime_ut": "2056-07-12 20:21 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 4.5° de Leão",
+    "sun_longitude": 124.508,
+    "max_point": null,
+    "jd": 2472206.27919,
+    "date": "2056-07-26",
+    "datetime_ut": "2056-07-26 18:42 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 0.9° de Capricórnio",
+    "sun_longitude": 270.93,
+    "max_point": null,
+    "jd": 2472354.5748,
+    "date": "2056-12-22",
+    "datetime_ut": "2056-12-22 01:48 UT"
+   }
+  ]
+ },
+ "2057": {
+  "aspects": [
+   {
+    "body_a": "saturn",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Saturno ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2472446.66864,
+    "date": "2057-03-24",
+    "datetime_ut": "2057-03-24 04:03 UT",
+    "pass_number": 3,
+    "total_passes": 3,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2472479.62291,
+    "date": "2057-04-26",
+    "datetime_ut": "2057-04-26 02:57 UT",
+    "pass_number": 9,
+    "total_passes": 11,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2472599.47616,
+    "date": "2057-08-23",
+    "datetime_ut": "2057-08-23 23:26 UT",
+    "pass_number": 10,
+    "total_passes": 11,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 90.0,
+    "label": "Júpiter □ Netuno",
+    "aspect": "Quadratura",
+    "jd": 2472723.39114,
+    "date": "2057-12-25",
+    "datetime_ut": "2057-12-25 21:23 UT",
+    "pass_number": 11,
+    "total_passes": 11,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Peixes",
+    "from_sign": "Aquário",
+    "to_sign": "Peixes",
+    "retrograde": false,
+    "jd": 2472431.36933,
+    "date": "2057-03-08",
+    "datetime_ut": "2057-03-08 20:52 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2472503.75031,
+    "date": "2057-05-20",
+    "datetime_ut": "2057-05-20 06:00 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Áries",
+    "from_sign": "Touro",
+    "to_sign": "Áries",
+    "retrograde": true,
+    "jd": 2472697.28463,
+    "date": "2057-11-29",
+    "datetime_ut": "2057-11-29 18:50 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 15.5° de Capricórnio",
+    "sun_longitude": 285.536,
+    "max_point": {
+     "lon": 35.07,
+     "lat": -39.19
+    },
+    "jd": 2472368.90735,
+    "date": "2057-01-05",
+    "datetime_ut": "2057-01-05 09:47 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 26.4° de Gêmeos",
+    "sun_longitude": 86.425,
+    "max_point": null,
+    "jd": 2472531.60073,
+    "date": "2057-06-17",
+    "datetime_ut": "2057-06-17 02:25 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 10.6° de Câncer",
+    "sun_longitude": 100.626,
+    "max_point": {
+     "lon": -176.35,
+     "lat": 71.46
+    },
+    "jd": 2472546.48539,
+    "date": "2057-07-01",
+    "datetime_ut": "2057-07-01 23:39 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 19.5° de Sagitário",
+    "sun_longitude": 259.454,
+    "max_point": null,
+    "jd": 2472708.53634,
+    "date": "2057-12-11",
+    "datetime_ut": "2057-12-11 00:52 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 4.7° de Capricórnio",
+    "sun_longitude": 274.733,
+    "max_point": {
+     "lon": 21.66,
+     "lat": -84.83
+    },
+    "jd": 2472723.5509,
+    "date": "2057-12-26",
+    "datetime_ut": "2057-12-26 01:13 UT"
+   }
+  ]
+ },
+ "2058": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Plutão",
+    "aspect": "Conjunção",
+    "jd": 2472754.59764,
+    "date": "2058-01-26",
+    "datetime_ut": "2058-01-26 02:21 UT",
+    "pass_number": 3,
+    "total_passes": 3,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Áries",
+    "from_sign": "Peixes",
+    "to_sign": "Áries",
+    "retrograde": false,
+    "jd": 2472806.76259,
+    "date": "2058-03-19",
+    "datetime_ut": "2058-03-19 06:18 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2472759.88636,
+    "date": "2058-01-31",
+    "datetime_ut": "2058-01-31 09:16 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2473035.89368,
+    "date": "2058-11-03",
+    "datetime_ut": "2058-11-03 09:27 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 1.6° de Gêmeos",
+    "sun_longitude": 61.614,
+    "max_point": {
+     "lon": 60.89,
+     "lat": -63.48
+    },
+    "jd": 2472870.94323,
+    "date": "2058-05-22",
+    "datetime_ut": "2058-05-22 10:38 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 16.3° de Gêmeos",
+    "sun_longitude": 76.349,
+    "max_point": null,
+    "jd": 2472886.30175,
+    "date": "2058-06-06",
+    "datetime_ut": "2058-06-06 19:15 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 29.9° de Gêmeos",
+    "sun_longitude": 89.93,
+    "max_point": {
+     "lon": 9.55,
+     "lat": 65.88
+    },
+    "jd": 2472900.51277,
+    "date": "2058-06-21",
+    "datetime_ut": "2058-06-21 00:18 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "parcial",
+    "label": "Eclipse solar parcial a 24.0° de Escorpião",
+    "sun_longitude": 234.01,
+    "max_point": {
+     "lon": 173.85,
+     "lat": 62.93
+    },
+    "jd": 2473048.64011,
+    "date": "2058-11-16",
+    "datetime_ut": "2058-11-16 03:22 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "total",
+    "label": "Eclipse lunar total a 8.1° de Sagitário",
+    "sun_longitude": 248.149,
+    "max_point": null,
+    "jd": 2473062.63541,
+    "date": "2058-11-30",
+    "datetime_ut": "2058-11-30 03:15 UT"
+   }
+  ]
+ },
+ "2059": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "uranus",
+    "angle": 180.0,
+    "label": "Júpiter ☍ Urano",
+    "aspect": "Oposição",
+    "jd": 2473189.89963,
+    "date": "2059-04-06",
+    "datetime_ut": "2059-04-06 09:35 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Touro",
+    "from_sign": "Áries",
+    "to_sign": "Touro",
+    "retrograde": false,
+    "jd": 2473180.49046,
+    "date": "2059-03-27",
+    "datetime_ut": "2059-03-27 23:46 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2473333.29364,
+    "date": "2059-08-27",
+    "datetime_ut": "2059-08-27 19:03 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Touro",
+    "from_sign": "Gêmeos",
+    "to_sign": "Touro",
+    "retrograde": true,
+    "jd": 2473378.64777,
+    "date": "2059-10-12",
+    "datetime_ut": "2059-10-12 03:33 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2473287.33212,
+    "date": "2059-07-12",
+    "datetime_ut": "2059-07-12 19:58 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Touro",
+    "from_sign": "Gêmeos",
+    "to_sign": "Touro",
+    "retrograde": true,
+    "jd": 2473418.9304,
+    "date": "2059-11-21",
+    "datetime_ut": "2059-11-21 10:20 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Libra",
+    "from_sign": "Escorpião",
+    "to_sign": "Libra",
+    "retrograde": true,
+    "jd": 2473246.30159,
+    "date": "2059-06-01",
+    "datetime_ut": "2059-06-01 19:14 UT"
+   },
+   {
+    "body": "uranus",
+    "label": "Urano ingressa em Escorpião",
+    "from_sign": "Libra",
+    "to_sign": "Escorpião",
+    "retrograde": false,
+    "jd": 2473317.2848,
+    "date": "2059-08-11",
+    "datetime_ut": "2059-08-11 18:50 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 21.1° de Touro",
+    "sun_longitude": 51.128,
+    "max_point": {
+     "lon": -100.54,
+     "lat": -10.72
+    },
+    "jd": 2473225.30623,
+    "date": "2059-05-11",
+    "datetime_ut": "2059-05-11 19:21 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 6.1° de Gêmeos",
+    "sun_longitude": 66.08,
+    "max_point": null,
+    "jd": 2473240.82942,
+    "date": "2059-05-27",
+    "datetime_ut": "2059-05-27 07:54 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 13.0° de Escorpião",
+    "sun_longitude": 222.96,
+    "max_point": {
+     "lon": 46.94,
+     "lat": 8.75
+    },
+    "jd": 2473402.88677,
+    "date": "2059-11-05",
+    "datetime_ut": "2059-11-05 09:17 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "parcial",
+    "label": "Eclipse lunar parcial a 27.2° de Escorpião",
+    "sun_longitude": 237.193,
+    "max_point": null,
+    "jd": 2473417.04183,
+    "date": "2059-11-19",
+    "datetime_ut": "2059-11-19 13:00 UT"
+   }
+  ]
+ },
+ "2060": {
+  "aspects": [
+   {
+    "body_a": "jupiter",
+    "body_b": "saturn",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Saturno",
+    "aspect": "Conjunção",
+    "jd": 2473557.43861,
+    "date": "2060-04-07",
+    "datetime_ut": "2060-04-07 22:32 UT",
+    "pass_number": 2,
+    "total_passes": 2,
+    "direction": "retrógrado"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "neptune",
+    "angle": 0.0,
+    "label": "Júpiter ☌ Netuno",
+    "aspect": "Conjunção",
+    "jd": 2473638.08921,
+    "date": "2060-06-27",
+    "datetime_ut": "2060-06-27 14:08 UT",
+    "pass_number": 5,
+    "total_passes": 5,
+    "direction": "aplicativo→separativo"
+   },
+   {
+    "body_a": "jupiter",
+    "body_b": "pluto",
+    "angle": 90.0,
+    "label": "Júpiter □ Plutão",
+    "aspect": "Quadratura",
+    "jd": 2473656.01676,
+    "date": "2060-07-15",
+    "datetime_ut": "2060-07-15 12:24 UT",
+    "pass_number": 10,
+    "total_passes": 10,
+    "direction": "retrógrado"
+   }
+  ],
+  "ingresses": [
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2473553.57841,
+    "date": "2060-04-04",
+    "datetime_ut": "2060-04-04 01:53 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Câncer",
+    "from_sign": "Gêmeos",
+    "to_sign": "Câncer",
+    "retrograde": false,
+    "jd": 2473692.25903,
+    "date": "2060-08-20",
+    "datetime_ut": "2060-08-20 18:13 UT"
+   },
+   {
+    "body": "jupiter",
+    "label": "Júpiter ingressa em Gêmeos",
+    "from_sign": "Câncer",
+    "to_sign": "Gêmeos",
+    "retrograde": true,
+    "jd": 2473821.88511,
+    "date": "2060-12-28",
+    "datetime_ut": "2060-12-28 09:15 UT"
+   },
+   {
+    "body": "saturn",
+    "label": "Saturno ingressa em Gêmeos",
+    "from_sign": "Touro",
+    "to_sign": "Gêmeos",
+    "retrograde": false,
+    "jd": 2473549.99326,
+    "date": "2060-03-31",
+    "datetime_ut": "2060-03-31 11:50 UT"
+   }
+  ],
+  "eclipses": [
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 26.7° de Áries",
+    "sun_longitude": 26.672,
+    "max_point": null,
+    "jd": 2473565.39987,
+    "date": "2060-04-15",
+    "datetime_ut": "2060-04-15 21:36 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "total",
+    "label": "Eclipse solar total a 10.8° de Touro",
+    "sun_longitude": 40.832,
+    "max_point": {
+     "lon": 20.76,
+     "lat": 27.95
+    },
+    "jd": 2473579.92271,
+    "date": "2060-04-30",
+    "datetime_ut": "2060-04-30 10:09 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 17.2° de Libra",
+    "sun_longitude": 197.247,
+    "max_point": null,
+    "jd": 2473742.2863,
+    "date": "2060-10-09",
+    "datetime_ut": "2060-10-09 18:52 UT"
+   },
+   {
+    "type": "solar",
+    "kind": "anular",
+    "label": "Eclipse solar anular a 1.7° de Escorpião",
+    "sun_longitude": 211.735,
+    "max_point": {
+     "lon": 27.96,
+     "lat": -25.78
+    },
+    "jd": 2473756.89088,
+    "date": "2060-10-24",
+    "datetime_ut": "2060-10-24 09:23 UT"
+   },
+   {
+    "type": "lunar",
+    "kind": "penumbral",
+    "label": "Eclipse lunar penumbral a 16.5° de Escorpião",
+    "sun_longitude": 226.514,
+    "max_point": null,
+    "jd": 2473771.66868,
+    "date": "2060-11-08",
+    "datetime_ut": "2060-11-08 04:03 UT"
+   }
+  ]
+ }
+}

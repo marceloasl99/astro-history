@@ -76,6 +76,22 @@ Em cumprimento aos critérios pré-registrados, o projeto executou o **CAMINHO A
 
 ---
 
+## 3b. v3 — Previsão probabilística com skill medido (2026–2060)
+
+A v3 redefine "precisão da estimativa do futuro" como **skill fora da amostra + incerteza calibrada** (ver [`docs/hipoteses_v3.md`](docs/hipoteses_v3.md)):
+
+- **Cálculo:** fuso horário histórico real (IANA; Hora Média Local exata antes de 1883; virada de dia), função de score única lida de `config/score.yaml` com teste de paridade grade↔carta, calendário juliano/gregoriano por região, fallback de casas em latitude polar, estrelas fixas filtradas por latitude eclíptica.
+- **Sinal:** 409 features diárias 1750–2150 (fases sinódicas, Índice Cíclico de Barbault, ativação gaussiana de aspectos, harmônicos, declinação, estações/ingressos, meios-pontos, eclipses) e datas exatas por busca de raiz.
+- **Alvos:** séries mensais do COW Guerras Interestatais v4, NBER, UCDP/PRIO v24.1 e catálogo v2.
+- **Hindcast walk-forward** desde 1951 com Brier Skill Score, AUC, log-loss e IC por bootstrap em blocos anuais → `reports/hindcast_v3.md`.
+- **Forecast** em `/forecast` e `/api/forecast`: p(evento) por ano com intervalo p10–p90, razão contra a taxa-base, drivers com datas exatas, análogos por fase dos ciclos e selo de skill.
+
+```bash
+make v3   # features -> hindcast -> forecast -> caches da UI
+```
+
+**Primeiro resultado:** nenhum modelo astrológico supera a climatologia com IC positivo; a página recomenda a taxa-base onde não há skill.
+
 ## 4. Como Executar e Reproduzir
 
 ### Pré-requisitos

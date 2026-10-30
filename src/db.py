@@ -265,6 +265,19 @@ def get_all_events(category: Optional[str] = None, search: Optional[str] = None)
     conn.close()
     return [dict(r) for r in rows]
 
+def get_validated_sample_dates() -> set:
+    """Datas (YYYY-MM-DD) dos eventos do catálogo objetivo v2 usados na validação (N=59, 1800–2025)."""
+    conn = get_connection()
+    try:
+        rows = conn.execute("""
+            SELECT event_date FROM events_v2
+            WHERE date_precision = 'day' AND event_date >= '1800-01-01' AND event_date <= '2025-12-31'
+        """).fetchall()
+    except Exception:
+        rows = []
+    conn.close()
+    return {r[0] for r in rows}
+
 def get_events_stats() -> Dict[str, Any]:
     """Retorna estatísticas globais para o dashboard com estrelas fixas e asteroides."""
     conn = get_connection()

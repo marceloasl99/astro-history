@@ -23,3 +23,6 @@ Thumbs.db
 
 # Local Logs
 *.log
+
+# v3: grade de features (reconstruída em ~20s com `make features`)
+data/features/

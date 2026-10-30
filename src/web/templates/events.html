@@ -30,6 +30,10 @@
             <button onclick="filterCategory('Todas')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition" data-cat="Todas">
                 Todas ({{ events|length }})
             </button>
+            <a href="/events{% if not validated_only %}?validated=1{% endif %}" title="Eventos do catálogo objetivo v2 usados na validação estatística (N=59)"
+               class="px-3 py-1.5 rounded-lg text-xs font-semibold transition border {% if validated_only %}bg-emerald-500 text-slate-950 border-emerald-400{% else %}bg-slate-800 text-emerald-300 border-emerald-500/40 hover:bg-slate-700{% endif %}">
+                ✓ Amostra validada ({{ validated_count }})
+            </a>
             <button onclick="filterCategory('Crise Econômica')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Crise Econômica">
                 Crises Econômicas
             </button>
@@ -56,7 +60,7 @@
         {% for ev in events %}
         <div class="event-card glass-panel p-5 sm:p-6 rounded-2xl hover:border-slate-500/50 transition-all" 
              data-title="{{ ev.title|lower }}" 
-             data-category="{{ ev.category }}" 
+             data-category="{{ ev.category }}" data-validated="{{ 1 if ev.in_validated_sample else 0 }}" 
              data-consequence="{{ ev.consequence|lower }}"
              data-location="{{ ev.city|lower }} {{ ev.country|lower }}">
             <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
@@ -75,6 +79,11 @@
                             {% else %}bg-slate-500/20 text-slate-300 border border-slate-500/30{% endif %}">
                             {{ ev.category }}
                         </span>
+                        {% if ev.in_validated_sample %}
+                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" title="Na amostra validada (N=59, testes nulos N1–N3)">
+                            ✓ N=59
+                        </span>
+                        {% endif %}
                         <span class="text-xs font-mono text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded">
                             📅 {{ ev.date }} {% if ev.time != 'desconhecido' %}• ⏰ {{ ev.time }}{% else %}• ⏰ Hora desconhecida{% endif %}
                         </span>

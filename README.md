@@ -4,7 +4,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-29_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-44_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
 ![Milestone M2](https://img.shields.io/badge/Milestone_M2-Path_A_(Methodological_Pivot)-blue)
 
@@ -110,6 +110,25 @@ flowchart TD
 - Exhaustive Final Report: [`reports/final_report_v2.md`](reports/final_report_v2.md)
 
 ---
+
+## 4b. v3 — Probabilistic Forecasting with Measured Skill (2026–2060)
+
+v3 reframes "forecast precision" as **out-of-sample skill plus calibrated uncertainty**, and fixes the computation-level noise found in v2 (see [`docs/hipoteses_v3.md`](docs/hipoteses_v3.md)).
+
+| Layer | What v3 adds | Where |
+| :--- | :--- | :--- |
+| Computation | Real historical time zones (IANA via `timezonefinder`, exact LMT before 1883, day rollover), single scoring function read from `config/score.yaml` with a grid↔chart parity test, per-region Julian/Gregorian switch, polar house fallback, fixed stars filtered by ecliptic latitude, no silent `except: pass` | `src/core/scoring.py`, `src/core/timezones.py`, `src/astro_engine.py` |
+| Signal | 409 daily features 1750–2150: synodic cycle phases (sin/cos, geo + helio), **Barbault Cyclic Index**, Gaussian aspect activations, harmonics 4/8, declination & out-of-bounds, stations/ingresses/retrogrades, Ebertin midpoints, eclipse proximity | `src/features/astro_features.py` |
+| Exact dates | Root-finding on the Swiss Ephemeris for exact aspects (with pass numbers), ingresses, stations, solar/lunar eclipses | `src/features/astro_events.py` |
+| Targets | Monthly series from **COW Inter-State Wars v4 (1816–2007)**, **NBER (1857–2024)**, **UCDP/PRIO v24.1 (1946–2023)** and the objective v2 catalogue — thousands of months instead of 59 events | `src/features/targets.py`, `data/external/` |
+| Hindcast | Walk-forward from 1951 (12-month gap), Brier Skill Score vs expanding climatology with annual-block bootstrap CIs, AUC, log-loss, reliability; baselines: climatology and autoregressive | `src/analysis/hindcast.py` → `reports/hindcast_v3.md` |
+| Forecast | Per target and year: p(event) with p10–p90 interval, ratio to base rate, model drivers with exact dates, analogs by cycle-phase distance (one per decade, with lift), and a **skill badge** | `src/analysis/forecast_v3.py` → `data/forecast_v3.json`, page `/forecast`, API `/api/forecast` |
+
+```bash
+make v3   # features -> hindcast -> forecast -> UI caches
+```
+
+**First result:** no astrological model beats climatology with a positive CI on any objective target; the autoregressive baseline dominates persistent targets. The `/forecast` page therefore labels every curve with its measured skill and recommends the base rate where skill is absent.
 
 ## 5. Quickstart & Reproducibility
 

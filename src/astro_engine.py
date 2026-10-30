@@ -7,10 +7,21 @@ Versão Refinada:
 - 30 Principais Estrelas Fixas com orbe estrito de 0.3° (18 minutos de arco).
 """
 
+import logging
 import math
 import os
 from typing import Dict, List, Optional, Tuple, Any
 import swisseph as swe
+
+from src.core.scoring import (
+    aspect_definitions,
+    raw_tension_from_longitudes,
+    core_body_ids,
+    fixed_star_config,
+)
+from src.core.timezones import local_to_ut
+
+logger = logging.getLogger(__name__)
 
 # Configuração do caminho das efemérides suíças
 EPHE_PATHS = [
@@ -66,13 +77,23 @@ BODIES_DEFINITIONS = [
     {"id": "north_node", "name": "Nodo Norte", "symbol": "☊", "swe_id": swe.TRUE_NODE, "category": "nodo", "weight": 1.0}
 ]
 
-# Aspectos Maiores Estritos com Orbe de 3.0 Graus
-STRICT_ASPECT_DEFINITIONS = [
-    {"name": "Conjunção", "angle": 0.0, "orb": 3.0, "symbol": "☌", "nature": "intenso", "tension": 1.0},
-    {"name": "Quadratura", "angle": 90.0, "orb": 3.0, "symbol": "□", "nature": "tenso", "tension": 2.0},
-    {"name": "Trígono", "angle": 120.0, "orb": 3.0, "symbol": "△", "nature": "harmonico", "tension": -1.5},
-    {"name": "Oposição", "angle": 180.0, "orb": 3.0, "symbol": "☍", "nature": "tenso", "tension": 2.5}
-]
+# Aspectos Maiores Estritos (orbe e pesos lidos de config/score.yaml)
+STRICT_ASPECT_DEFINITIONS = aspect_definitions()
+
+# Adoção do calendário Gregoriano por país (primeira data gregoriana). Padrão: 1582-10-15.
+# Usado quando o evento informa `calendar_region`; sem isso, mantém-se o padrão histórico do projeto.
+GREGORIAN_ADOPTION = {
+    "default": (1582, 10, 15),
+    "britain": (1752, 9, 14),      # Reino Unido e colônias (EUA, Canadá, Índia)
+    "russia": (1918, 2, 14),
+    "greece": (1923, 3, 1),
+    "ottoman": (1917, 3, 1),
+    "japan": (1873, 1, 1),
+    "china": (1912, 1, 1),
+    "sweden": (1753, 3, 1),
+    "prussia": (1700, 3, 1),
+    "protestant_germany": (1700, 3, 1),
+}
 
 # Catálogo das 30 Principais Estrelas Fixas (Swiss Ephemeris Fixstar)
 FIXED_STARS_CATALOG = [
@@ -348,8 +369,20 @@ FIXED_STARS_CATALOG = [
     }
 ]
 
-def parse_date_to_julian_day(date_str: str, time_str: str = "desconhecido", longitude: float = 0.0) -> Tuple[float, bool]:
-    """Converte data e hora em Dia Juliano UT com calendário Gregoriano ou Juliano."""
+def resolve_event_instant(
+    date_str: str,
+    time_str: str = "desconhecido",
+    longitude: float = 0.0,
+    latitude: Optional[float] = None,
+    calendar_region: str = "default",
+    calendar: Optional[str] = None,
+) -> Dict[str, Any]:
+    """
+    Converte data e hora civis em Dia Juliano UT.
+    - Fuso horário histórico real (IANA) quando há lat/lon e ano >= 1883; senão Hora Média Local exata.
+    - Calendário Juliano/Gregoriano pela data de adoção regional (`calendar_region`) ou forçado por `calendar`.
+    Retorna dict com tjd_ut, is_time_known, tz_source, utc_offset_hours, calendar.
+    """
     parts = date_str.strip().split("-")
     if len(parts) == 4 and date_str.startswith("-"):
         year = -int(parts[1])
@@ -364,30 +397,46 @@ def parse_date_to_julian_day(date_str: str, time_str: str = "desconhecido", long
 
     is_time_known = False
     hour_decimal = 12.0
+    tz_source = "noon_ut"
+    utc_offset = 0.0
 
     if time_str and time_str.lower() != "desconhecido" and ":" in time_str:
         try:
             h, m = time_str.strip().split(":")
             local_hour = int(h) + int(m) / 60.0
-            tz_offset_hours = round(longitude / 15.0)
-            ut_hour = local_hour - tz_offset_hours
-            while ut_hour < 0:
-                ut_hour += 24
-            while ut_hour >= 24:
-                ut_hour -= 24
-            hour_decimal = ut_hour
+            conv = local_to_ut(year, month, day, local_hour, latitude, longitude)
+            year, month, day = conv["year"], conv["month"], conv["day"]
+            hour_decimal = conv["ut_hour"]
+            tz_source = conv["tz_source"]
+            utc_offset = conv["utc_offset_hours"]
             is_time_known = True
-        except Exception:
+        except Exception as e:
+            logger.warning("Hora inválida '%s' em %s: %s; usando 12:00 UT.", time_str, date_str, e)
             hour_decimal = 12.0
             is_time_known = False
 
-    if year > 1582 or (year == 1582 and (month > 10 or (month == 10 and day >= 15))):
-        cal_flag = swe.GREG_CAL
+    if calendar in ("julian", "gregorian"):
+        cal_flag = swe.GREG_CAL if calendar == "gregorian" else swe.JUL_CAL
     else:
-        cal_flag = swe.JUL_CAL
+        ay, am, ad = GREGORIAN_ADOPTION.get(calendar_region, GREGORIAN_ADOPTION["default"])
+        cal_flag = swe.GREG_CAL if (year, month, day) >= (ay, am, ad) else swe.JUL_CAL
 
     tjd_ut = swe.julday(year, month, day, hour_decimal, cal_flag)
-    return tjd_ut, is_time_known
+    return {
+        "tjd_ut": tjd_ut,
+        "is_time_known": is_time_known,
+        "tz_source": tz_source,
+        "utc_offset_hours": utc_offset,
+        "calendar": "gregorian" if cal_flag == swe.GREG_CAL else "julian",
+    }
+
+
+def parse_date_to_julian_day(
+    date_str: str, time_str: str = "desconhecido", longitude: float = 0.0, latitude: Optional[float] = None
+) -> Tuple[float, bool]:
+    """Compatibilidade: retorna (tjd_ut, is_time_known). Ver `resolve_event_instant`."""
+    r = resolve_event_instant(date_str, time_str, longitude, latitude)
+    return r["tjd_ut"], r["is_time_known"]
 
 def degree_to_sign_info(abs_deg: float) -> Dict[str, Any]:
     """Converte graus absolutos (0..360) em dados zodiacais formatados."""
@@ -457,8 +506,8 @@ def calculate_natal_bodies(tjd_ut: float) -> List[Dict[str, Any]]:
                 "modality": sign_info["modality"],
                 "ruler": sign_info["ruler"]
             })
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Corpo %s não calculado em JD %.4f: %s", b["id"], tjd_ut, e)
 
     return bodies_data
 
@@ -537,8 +586,8 @@ def calculate_fixed_stars(tjd_ut: float) -> List[Dict[str, Any]]:
                 "degree_in_sign": sign_info["degree_in_sign"],
                 "formatted": sign_info["formatted"]
             })
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Estrela %s não calculada: %s", s["key"], e)
 
     return stars_data
 
@@ -549,6 +598,7 @@ def calculate_fixed_star_aspects(bodies: List[Dict[str, Any]], fixed_stars: List
     Restringe estritamente a conjunções para eliminar a taxa de aspectos falsos ao acaso.
     """
     star_contacts = []
+    max_lat = float(fixed_star_config().get("max_latitude", 90.0))
 
     for b in bodies:
         for s in fixed_stars:
@@ -558,7 +608,10 @@ def calculate_fixed_star_aspects(bodies: List[Dict[str, Any]], fixed_stars: List
 
             if diff <= max_orb:
                 exactness = round(100.0 * (1.0 - (diff / max_orb)), 1)
+                star_lat = abs(float(s.get("latitude", 0.0)))
                 star_contacts.append({
+                    "star_latitude": round(float(s.get("latitude", 0.0)), 3),
+                    "near_ecliptic": star_lat <= max_lat,
                     "body_id": b["id"],
                     "body_name": b["name"],
                     "body_symbol": b["symbol"],
@@ -589,7 +642,19 @@ def calculate_houses(tjd_ut: float, latitude: float, longitude: float, is_time_k
         }
 
     try:
-        cusps_tuple, ascmc_tuple = swe.houses(tjd_ut, latitude, longitude, b'P')
+        # Placidus falha acima do círculo polar; fallback para Porphyry e Signos Inteiros.
+        system_name = "Placidus"
+        try:
+            cusps_tuple, ascmc_tuple = swe.houses_ex2(tjd_ut, 0, latitude, longitude, b'P')[:2]
+            if any(c != c for c in cusps_tuple) or len(set(round(c, 3) for c in cusps_tuple)) < 12:
+                raise ValueError("cúspides degeneradas")
+        except Exception:
+            try:
+                cusps_tuple, ascmc_tuple = swe.houses(tjd_ut, latitude, longitude, b'O')
+                system_name = "Porphyry (fallback polar)"
+            except Exception:
+                cusps_tuple, ascmc_tuple = swe.houses(tjd_ut, latitude, longitude, b'W')
+                system_name = "Signos Inteiros (fallback polar)"
         asc_deg = ascmc_tuple[0]
         mc_deg = ascmc_tuple[1]
         
@@ -610,7 +675,7 @@ def calculate_houses(tjd_ut: float, latitude: float, longitude: float, is_time_k
 
         return {
             "houses_available": True,
-            "system": "Placidus",
+            "system": system_name,
             "ascendant": {
                 "degree": round(asc_deg, 4),
                 "formatted": asc_info["formatted"],
@@ -667,6 +732,8 @@ def calculate_chart_summary(bodies: List[Dict[str, Any]], aspects: List[Dict[str
 
     # Contatos com estrelas fixas intensas aumentam peso
     for sc in star_contacts:
+        if not sc.get("near_ecliptic", True):
+            continue
         if sc["star_key"] in ["Algol", "Antares", "Menkar", "Scheat"]:
             weighted_tension += 2.0
         elif sc["star_key"] in ["Sirius", "Spica", "Regulus"]:
@@ -679,7 +746,7 @@ def calculate_chart_summary(bodies: List[Dict[str, Any]], aspects: List[Dict[str
     dominant_modality = max(modalities, key=modalities.get)
 
     # Calcular versão de alta resolução 0-1000 pontos
-    score_1000_data = calculate_chart_tension_1000({"aspects": aspects, "star_contacts": star_contacts})
+    score_1000_data = calculate_chart_tension_1000({"planets": bodies, "aspects": aspects, "star_contacts": star_contacts})
 
     return {
         "elements": elements,
@@ -801,6 +868,8 @@ def calculate_chart_tension_1000(chart: Dict[str, Any]) -> Dict[str, float]:
         star_factor = max(0.0, (0.3 - orb) / 0.3)
         sk = s.get("star_key")
         body_id = s.get("body_id")
+        if not s.get("near_ecliptic", True):
+            continue  # estrelas longe da eclíptica não formam conjunção real
 
         if sk in WAR_DESTRUCTIVE_STARS:
             m = 160.0 if (body_id in OUTER_BODIES or body_id in ("mars", "sun")) else 80.0
@@ -812,8 +881,15 @@ def calculate_chart_tension_1000(chart: Dict[str, Any]) -> Dict[str, float]:
         else:
             star_pts += 20.0 * star_factor
 
-    # O score de tensão calibrado contra a grade de efemérides (9 corpos)
-    raw_core = base_score + tension_pts - (harmony_pts * 0.2)
+    # Score de tensão calibrado: MESMA função da grade diária (9 corpos centrais, config/score.yaml).
+    # Garante paridade entre a carta do evento e o percentil empírico da grade.
+    planets = chart.get("planets", [])
+    core_lons = {p["id"]: float(p["longitude"]) for p in planets if p.get("id") in core_body_ids()}
+    if len(core_lons) == len(core_body_ids()):
+        raw_core = raw_tension_from_longitudes(core_lons)
+    else:
+        # Fallback legado (sem posições): soma dos aspectos recebidos
+        raw_core = base_score + tension_pts - (harmony_pts * 0.2)
 
     # Conversão para Percentil Empírico na grade diária de 113.596 dias (sem saturação)
     try:
@@ -847,7 +923,12 @@ def calculate_event_chart(event: Dict[str, Any]) -> Dict[str, Any]:
     lat = float(event.get("latitude", 0.0))
     lon = float(event.get("longitude", 0.0))
 
-    tjd_ut, is_time_known = parse_date_to_julian_day(date_str, time_str, lon)
+    instant = resolve_event_instant(
+        date_str, time_str, lon, lat,
+        calendar_region=event.get("calendar_region", "default"),
+        calendar=event.get("calendar"),
+    )
+    tjd_ut, is_time_known = instant["tjd_ut"], instant["is_time_known"]
     
     # 1. Planetas, Luminares, Asteroides e Pontos
     bodies = calculate_natal_bodies(tjd_ut)
@@ -876,6 +957,9 @@ def calculate_event_chart(event: Dict[str, Any]) -> Dict[str, Any]:
         "event_id": event.get("id"),
         "tjd_ut": round(tjd_ut, 5),
         "is_time_known": is_time_known,
+        "tz_source": instant["tz_source"],
+        "utc_offset_hours": instant["utc_offset_hours"],
+        "calendar": instant["calendar"],
         "planets": bodies,             # Contém os 17 corpos celestes (planetas + asteroides)
         "aspects": aspects,             # Aspectos maiores estritos com orbe 3.0°
         "fixed_stars": fixed_stars,     # Posições das 30 estrelas fixas

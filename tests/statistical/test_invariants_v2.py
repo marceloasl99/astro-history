@@ -126,6 +126,10 @@ def test_invariant_3_text_ephemeris_consistency():
             sign_start = get_planet_sign(planet_id, year, 1, 1)
             sign_end = get_planet_sign(planet_id, year, 12, 31)
             valid_signs = {sign_start, sign_mid, sign_end}
+            # v3: o texto descreve o céu do dia de pico real do ano
+            if p.get("peak_date"):
+                py, pm, pd = [int(x) for x in p["peak_date"].split("-")]
+                valid_signs.add(get_planet_sign(planet_id, py, pm, pd))
 
             # Buscar no texto afirmações como "Netuno em [Signo]"
             pattern = re.compile(rf"{planet_name}\s+em\s+([A-ZÁÉÍÓÚÂÊÔãõa-záéíóúâêôãõ]+)", re.IGNORECASE)
@@ -154,7 +158,13 @@ def test_invariant_3_text_ephemeris_consistency():
     # 2060: Saturno no pico (22 de Setembro de 2060) deve estar em Gêmeos
     p2060 = next(p for p in proj_data["projections"] if p["year"] == 2060)
     assert p2060["saturn_sign"] == "Gêmeos", f"Saturno em 2060 deveria ser Gêmeos, obtido: {p2060['saturn_sign']}"
-    assert p2060["peak_date"] == "2060-09-22"
+    # v3: o pico é o dia real de maior tensão da grade diária (não mais um portal sazonal)
+    from datetime import date as _date, timedelta as _td
+    from src.core.ephemeris_grid import get_daily_grid, get_day_index
+    g = get_daily_grid()
+    i0, i1 = get_day_index(_date(2060, 1, 1)), get_day_index(_date(2060, 12, 31))
+    expected_peak = _date(2060, 1, 1) + _td(days=int(g["raw_scores"][i0:i1 + 1].argmax()))
+    assert p2060["peak_date"] == expected_peak.isoformat()
 
     assert len(divergences) == 0, f"Divergências encontradas entre texto e efeméride: {divergences}"
 

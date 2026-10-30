@@ -61,6 +61,31 @@
         </div>
     </div>
 
+    {% if forecast_summary %}
+    <!-- v3: Previsão probabilística com skill medido -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-emerald-500/20">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+                <h3 class="text-xl font-bold text-white flex items-center gap-2"><span>📈</span> Previsão Probabilística v3 (2026–2060)</h3>
+                <p class="text-xs text-slate-400 mt-1 max-w-3xl">
+                    Probabilidade anual com intervalo contra a taxa-base, treinada em bases objetivas (COW, NBER, UCDP/PRIO) com 409 features da astrologia mundana moderna.
+                    O skill de cada alvo foi medido por hindcast walk-forward e é exibido antes de qualquer número.
+                </p>
+            </div>
+            <a href="/forecast" class="shrink-0 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold text-center">Abrir Previsão v3 →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-4">
+            {% for f in forecast_summary %}
+            <a href="/forecast?target={{ f.key }}" class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition">
+                <div class="text-[11px] text-slate-400 leading-tight h-8 overflow-hidden">{{ f.label }}</div>
+                <div class="font-mono text-lg {% if f.verdict == 'skill positivo' %}text-emerald-300{% else %}text-slate-300{% endif %}">BSS {{ '%+.3f' % f.bss if f.bss is not none else '—' }}</div>
+                <div class="text-[10px] text-slate-500">{{ f.verdict }}</div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Gráfico Interativo de Linha do Tempo (Chart.js 1800-2100 na Escala 0-1000) -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl space-y-4">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">

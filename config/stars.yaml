@@ -169,3 +169,15 @@ stars:
     constellation: "Erídano"
     magnitude: 0.45
     nature: "Júpiter"
+  - key: "Markab"
+    search_name: "Markab"
+    bayer: "Alpha Pegasi"
+    constellation: "Pégaso"
+    magnitude: 2.49
+    nature: "Marte / Mercúrio"
+  - key: "Scheat"
+    search_name: "Scheat"
+    bayer: "Beta Pegasi"
+    constellation: "Pégaso"
+    magnitude: 2.44
+    nature: "Marte / Mercúrio"

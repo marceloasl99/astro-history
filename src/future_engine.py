@@ -155,9 +155,22 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
     alert_level = tier_label
     alert_color = "red" if tier_color == "indigo" else ("yellow" if tier_color == "sky" else "green")
 
-    # Gráfico do portal sazonal de maior score para extrair os gatilhos astronômicos
-    peak_idx = scores_1000.index(max(scores_1000)) if scores_1000 else 0
-    peak_chart = charts[peak_idx]
+    # v3: o pico REAL do ano vem da grade diária (365 dias), não dos 4 portais sazonais.
+    peak_date_str = None
+    try:
+        from datetime import timedelta
+        from src.core.ephemeris_grid import get_daily_grid, get_day_index
+        grid = get_daily_grid()
+        i0, i1 = get_day_index(date(year, 1, 1)), get_day_index(date(year, 12, 31))
+        if i0 is not None and i1 is not None:
+            peak_day = date(year, 1, 1) + timedelta(days=int(grid["raw_scores"][i0:i1 + 1].argmax()))
+            peak_date_str = peak_day.isoformat()
+            peak_chart = calculate_event_chart({"date": peak_date_str, "time": "12:00", "latitude": 0.0, "longitude": 0.0, "title": f"Pico {year}"})
+    except Exception:
+        peak_chart = None
+    if peak_chart is None:
+        peak_idx = scores_1000.index(max(scores_1000)) if scores_1000 else 0
+        peak_chart = charts[peak_idx]
 
     # Posições dos planetas geracionais no pico
     planets_map = {p["id"]: p for p in peak_chart.get("planets", [])}
@@ -255,6 +268,7 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
         "resonance_index": round(resonance, 1),
         "alert_level": alert_level,
         "alert_color": alert_color,
+        "peak_date": peak_date_str,
         "dominant_category": dom_cat,
         "cosmic_trigger": cosmic_trigger,
         "pluto_sign": pluto_sign,
@@ -403,7 +417,10 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
             except Exception:
                 continue
 
-        if seasonal_gates:
+        if base_item.get("peak_date"):
+            peak_date = base_item["peak_date"]
+            peak_season = "Pico diário real do ano (grade 1800–2100)"
+        elif seasonal_gates:
             peak_gate = max(seasonal_gates, key=lambda g: g["tension_1000"])
             peak_date = peak_gate["date"]
             peak_season = peak_gate["season_label"]

@@ -5,7 +5,9 @@ visualização de mapas astrais em mandala SVG e simulador de correlações futu
 """
 
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from pydantic import BaseModel, Field
+from typing import Optional
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
@@ -17,7 +19,8 @@ from src.db import (
     get_all_events,
     get_event_by_id,
     init_db,
-    get_connection
+    get_connection,
+    get_validated_sample_dates
 )
 from src.astro_engine import calculate_event_chart
 from src.correlation_engine import get_category_correlations, find_similar_events
@@ -28,6 +31,9 @@ from src.future_engine import (
     generate_future_timeline_2026_2060,
     get_projections_2027_2060
 )
+from src.analysis.forecast_v3 import load_forecast
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -37,17 +43,54 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="AstroHistory - Astrologia Moderna & 300 Fatos Históricos",
     description="Plataforma de Correlação Astrológica Histórica com Swiss Ephemeris",
-    version="1.0.0",
+    version="3.0.0",
     lifespan=lifespan
 )
 
+class SimulationInput(BaseModel):
+    """Entrada validada do simulador (API e formulário)."""
+    title: str = Field(default="Simulação", max_length=200)
+    date: str = Field(pattern=r"^-?\d{1,4}-\d{2}-\d{2}$", description="YYYY-MM-DD")
+    time: str = Field(default="12:00", max_length=12)
+    city: str = Field(default="", max_length=120)
+    country: str = Field(default="", max_length=120)
+    latitude: float = Field(default=0.0, ge=-90.0, le=90.0)
+    longitude: float = Field(default=0.0, ge=-180.0, le=180.0)
+
+def _mark_validated(events: list) -> list:
+    validated = get_validated_sample_dates()
+    for e in events:
+        e["in_validated_sample"] = e.get("date") in validated
+    return events
+
 # Configuração de templates e estáticos
-TEMPLATES_DIR = "/home/astro/src/web/templates"
-STATIC_DIR = "/home/astro/src/web/static"
+TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
+STATIC_DIR = os.path.join(BASE_DIR, "src", "web", "static")
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 if os.path.exists(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+def build_chart_series(future_data: dict) -> dict:
+    """Séries 1800–2100 (escala 0–1000) para o Chart.js do dashboard, simulador e linha do tempo."""
+    tl = future_data["timeline"]
+    return {
+        "years": [t["year"] for t in tl],
+        "tension_1000": [t["tension_index_1000"] for t in tl],
+        "avg_tension_1000": [t["avg_tension_1000"] for t in tl],
+        "conflict_risk_1000": [t["conflict_risk_index_1000"] for t in tl],
+        "crisis_risk_1000": [t["crisis_risk_index_1000"] for t in tl],
+        "tech_innovation_1000": [t["tech_innovation_index_1000"] for t in tl],
+        "is_historical": [t["is_historical"] for t in tl],
+        "hist_titles": [t["historical_events"][0]["title"] if t.get("historical_events") else "" for t in tl],
+        "hist_ids": [t["historical_events"][0]["id"] if t.get("historical_events") else None for t in tl],
+        "triggers": [t["cosmic_trigger"] for t in tl],
+        "top_events": [
+            t["historical_events"][0]["title"] if t.get("historical_events")
+            else (t["top_matches"][0]["title"] if t.get("top_matches") else "")
+            for t in tl
+        ],
+    }
 
 # --- Rotas HTML ---
 
@@ -63,29 +106,15 @@ async def index_view(request: Request):
 
     # Carregar dados da linha do tempo contínua 1800-2100 na escala 0-1000
     future_data = generate_future_timeline_1800_2100(force_refresh=False)
-    chart_series = {
-        "years": [t["year"] for t in future_data["timeline"]],
-        "tension_1000": [t["tension_index_1000"] for t in future_data["timeline"]],
-        "avg_tension_1000": [t["avg_tension_1000"] for t in future_data["timeline"]],
-        "conflict_risk_1000": [t["conflict_risk_index_1000"] for t in future_data["timeline"]],
-        "crisis_risk_1000": [t["crisis_risk_index_1000"] for t in future_data["timeline"]],
-        "tech_innovation_1000": [t["tech_innovation_index_1000"] for t in future_data["timeline"]],
-        "is_historical": [t["is_historical"] for t in future_data["timeline"]],
-        "hist_titles": [
-            t["historical_events"][0]["title"] if t.get("historical_events") else ""
-            for t in future_data["timeline"]
-        ],
-        "hist_ids": [
-            t["historical_events"][0]["id"] if t.get("historical_events") else None
-            for t in future_data["timeline"]
-        ],
-        "triggers": [t["cosmic_trigger"] for t in future_data["timeline"]],
-        "top_events": [
-            t["historical_events"][0]["title"] if t.get("historical_events")
-            else (t["top_matches"][0]["title"] if t.get("top_matches") else "")
-            for t in future_data["timeline"]
+    chart_series = build_chart_series(future_data)
+
+    forecast = load_forecast()
+    forecast_summary = None
+    if forecast:
+        forecast_summary = [
+            {"key": k, "label": v["label"], "bss": v["skill"].get("bss"), "verdict": v["skill"].get("verdict"), "model": v["model"]}
+            for k, v in forecast["targets"].items()
         ]
-    }
 
     return templates.TemplateResponse(
         request=request,
@@ -94,20 +123,26 @@ async def index_view(request: Request):
             "stats": stats,
             "featured_events": featured_events,
             "future_data": future_data,
-            "chart_series": chart_series
+            "chart_series": chart_series,
+            "forecast_summary": forecast_summary
         }
     )
 
 @app.get("/events", response_class=HTMLResponse)
-async def events_catalog_view(request: Request, category: str = "Todas", search: str = ""):
-    events = get_all_events(category=category if category != "Todas" else None, search=search if search else None)
+async def events_catalog_view(request: Request, category: str = "Todas", search: str = "", validated: int = 0):
+    events = _mark_validated(get_all_events(category=category if category != "Todas" else None, search=search if search else None))
+    validated_count = sum(1 for e in events if e["in_validated_sample"])
+    if validated:
+        events = [e for e in events if e["in_validated_sample"]]
     return templates.TemplateResponse(
         request=request,
         name="events.html",
         context={
             "events": events,
             "selected_category": category,
-            "search_term": search
+            "search_term": search,
+            "validated_only": bool(validated),
+            "validated_count": validated_count
         }
     )
 
@@ -126,10 +161,13 @@ async def event_detail_view(request: Request, event_id: int):
     except Exception:
         emphasis = None
 
+    # Navegação cronológica (get_all_events já ordena por data), não por id
     all_evs = get_all_events()
-    total_evs = len(all_evs) if all_evs else 300
-    prev_id = event_id - 1 if event_id > 1 else None
-    next_id = event_id + 1 if event_id < total_evs else None
+    ids = [e["id"] for e in all_evs]
+    pos = ids.index(event_id) if event_id in ids else -1
+    prev_id = ids[pos - 1] if pos > 0 else None
+    next_id = ids[pos + 1] if 0 <= pos < len(ids) - 1 else None
+    event["in_validated_sample"] = event.get("date") in get_validated_sample_dates()
 
     return templates.TemplateResponse(
         request=request,
@@ -156,33 +194,20 @@ async def correlations_view(request: Request):
     )
 
 @app.get("/simulator", response_class=HTMLResponse)
-async def simulator_get_view(request: Request):
+async def simulator_get_view(request: Request, title: Optional[str] = None, date: Optional[str] = None, time: str = "12:00",
+                             city: str = "", country: str = "", latitude: float = 0.0, longitude: float = 0.0):
+    """Simulador com URL compartilhável: /simulator?date=2030-05-15&time=12:00&latitude=..&longitude=.."""
     future_data = generate_future_timeline_1800_2100(force_refresh=False)
-    
-    # Preparar séries temporais de alta resolução (0-1000) para Chart.js
-    chart_series = {
-        "years": [t["year"] for t in future_data["timeline"]],
-        "tension_1000": [t["tension_index_1000"] for t in future_data["timeline"]],
-        "avg_tension_1000": [t["avg_tension_1000"] for t in future_data["timeline"]],
-        "conflict_risk_1000": [t["conflict_risk_index_1000"] for t in future_data["timeline"]],
-        "crisis_risk_1000": [t["crisis_risk_index_1000"] for t in future_data["timeline"]],
-        "tech_innovation_1000": [t["tech_innovation_index_1000"] for t in future_data["timeline"]],
-        "is_historical": [t["is_historical"] for t in future_data["timeline"]],
-        "hist_titles": [
-            t["historical_events"][0]["title"] if t.get("historical_events") else ""
-            for t in future_data["timeline"]
-        ],
-        "hist_ids": [
-            t["historical_events"][0]["id"] if t.get("historical_events") else None
-            for t in future_data["timeline"]
-        ],
-        "triggers": [t["cosmic_trigger"] for t in future_data["timeline"]],
-        "top_events": [
-            t["historical_events"][0]["title"] if t.get("historical_events")
-            else (t["top_matches"][0]["title"] if t.get("top_matches") else "")
-            for t in future_data["timeline"]
-        ]
-    }
+    chart_series = build_chart_series(future_data)
+    results, sim_event, error = None, None, None
+    if date:
+        try:
+            sim = SimulationInput(title=title or "Simulação", date=date, time=time, city=city, country=country, latitude=latitude, longitude=longitude)
+            sim_event = sim.model_dump()
+            chart = calculate_event_chart(sim_event)
+            results = {"chart": chart, "similarity": find_similar_events(chart, top_k=5)}
+        except Exception as e:
+            error = f"Parâmetros inválidos: {e}"
 
     return templates.TemplateResponse(
         request=request,
@@ -190,8 +215,10 @@ async def simulator_get_view(request: Request):
         context={
             "future_data": future_data,
             "chart_series": chart_series,
-            "results": None,
-            "input_data": None
+            "results": results,
+            "input_data": sim_event,
+            "error": error,
+            "share_url": str(request.url) if results else None
         }
     )
 
@@ -246,65 +273,17 @@ async def simulator_post_view(
     latitude: float = Form(-23.5505),
     longitude: float = Form(-46.6333)
 ):
-    future_data = generate_future_timeline_1800_2100(force_refresh=False)
-    chart_series = {
-        "years": [t["year"] for t in future_data["timeline"]],
-        "tension_1000": [t["tension_index_1000"] for t in future_data["timeline"]],
-        "avg_tension_1000": [t["avg_tension_1000"] for t in future_data["timeline"]],
-        "conflict_risk_1000": [t["conflict_risk_index_1000"] for t in future_data["timeline"]],
-        "crisis_risk_1000": [t["crisis_risk_index_1000"] for t in future_data["timeline"]],
-        "tech_innovation_1000": [t["tech_innovation_index_1000"] for t in future_data["timeline"]],
-        "is_historical": [t["is_historical"] for t in future_data["timeline"]],
-        "hist_titles": [
-            t["historical_events"][0]["title"] if t.get("historical_events") else ""
-            for t in future_data["timeline"]
-        ],
-        "hist_ids": [
-            t["historical_events"][0]["id"] if t.get("historical_events") else None
-            for t in future_data["timeline"]
-        ],
-        "triggers": [t["cosmic_trigger"] for t in future_data["timeline"]],
-        "top_events": [
-            t["historical_events"][0]["title"] if t.get("historical_events")
-            else (t["top_matches"][0]["title"] if t.get("top_matches") else "")
-            for t in future_data["timeline"]
-        ]
-    }
-
-    sim_event = {
-        "title": title,
-        "date": date,
-        "time": time,
-        "city": city,
-        "country": country,
-        "latitude": latitude,
-        "longitude": longitude
-    }
-
-    chart = calculate_event_chart(sim_event)
-    similarity = find_similar_events(chart, top_k=5)
-
-    results = {
-        "chart": chart,
-        "similarity": similarity
-    }
-
-    return templates.TemplateResponse(
-        request=request,
-        name="simulator.html",
-        context={
-            "future_data": future_data,
-            "chart_series": chart_series,
-            "results": results,
-            "input_data": sim_event
-        }
-    )
+    # POST -> redireciona para a URL GET equivalente (resultado compartilhável e recarregável)
+    from urllib.parse import urlencode
+    params = urlencode({"title": title, "date": date, "time": time, "city": city, "country": country,
+                        "latitude": latitude, "longitude": longitude})
+    return RedirectResponse(url=f"/simulator?{params}#resultado", status_code=303)
 
 # --- Rotas da API REST ---
 
 @app.get("/methodology", response_class=HTMLResponse)
 async def methodology_view(request: Request):
-    results_file = "/home/astro/data/results.json"
+    results_file = os.path.join(BASE_DIR, "data", "results.json")
     results_data = {}
     if os.path.exists(results_file):
         try:
@@ -312,11 +291,56 @@ async def methodology_view(request: Request):
                 results_data = json.load(f)
         except Exception as e:
             print(f"Error loading results.json: {e}")
+    hindcast = {}
+    hc_file = os.path.join(BASE_DIR, "reports", "hindcast_v3.json")
+    if os.path.exists(hc_file):
+        with open(hc_file, "r", encoding="utf-8") as f:
+            hindcast = json.load(f)
     return templates.TemplateResponse(
         request=request,
         name="methodology.html",
-        context={"results": results_data}
+        context={"results": results_data, "hindcast": hindcast}
     )
+
+@app.get("/forecast", response_class=HTMLResponse)
+async def forecast_view(request: Request, target: str = "cow_war_onset"):
+    data = load_forecast()
+    hindcast = {}
+    hc_file = os.path.join(BASE_DIR, "reports", "hindcast_v3.json")
+    if os.path.exists(hc_file):
+        with open(hc_file, "r", encoding="utf-8") as f:
+            hindcast = json.load(f)
+    if data and target not in data["targets"]:
+        target = next(iter(data["targets"]))
+    return templates.TemplateResponse(
+        request=request,
+        name="forecast.html",
+        context={"forecast": data, "hindcast": hindcast, "selected_target": target}
+    )
+
+@app.get("/api/forecast")
+async def api_forecast(target: str = None):
+    data = load_forecast()
+    if not data:
+        return JSONResponse(content={"error": "forecast_v3.json não gerado. Rode: make forecast"}, status_code=503)
+    if target:
+        if target not in data["targets"]:
+            return JSONResponse(content={"error": "target desconhecido", "available": list(data["targets"].keys())}, status_code=404)
+        return JSONResponse(content={"target": target, **data["targets"][target]})
+    slim = {k: v for k, v in data.items() if k not in ("calendar", "analogs")}
+    return JSONResponse(content=slim)
+
+@app.get("/api/forecast/year/{year}")
+async def api_forecast_year(year: int):
+    data = load_forecast()
+    if not data or str(year) not in data["calendar"]:
+        return JSONResponse(content={"error": "ano fora do horizonte 2026–2060"}, status_code=404)
+    return JSONResponse(content={
+        "year": year,
+        "calendar": data["calendar"][str(year)],
+        "analogs": data["analogs"].get(str(year)),
+        "targets": {k: next((r for r in v["years"] if r["year"] == year), None) for k, v in data["targets"].items()}
+    })
 
 @app.get("/api/random-control-comparison/{event_id}")
 async def api_random_control_comparison(event_id: int):
@@ -384,8 +408,8 @@ async def api_event_detail(event_id: int):
     return JSONResponse(content=ev)
 
 @app.post("/api/simulate")
-async def api_simulate(data: dict):
-    chart = calculate_event_chart(data)
+async def api_simulate(data: SimulationInput):
+    chart = calculate_event_chart(data.model_dump())
     similarity = find_similar_events(chart, top_k=5)
     return JSONResponse(content={
         "chart": chart,

@@ -27,7 +27,7 @@
         }
     </script>
     <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         body {
             background: radial-gradient(circle at 50% 0%, #172554 0%, #070b14 70%);
@@ -68,27 +68,47 @@
                 </div>
             </a>
             
-            <div class="flex items-center space-x-1 sm:space-x-4">
-                <a href="/" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
-                    Dashboard
+            {% set nav_items = [
+                ("/", "Dashboard", ""),
+                ("/events", "Catálogo", ""),
+                ("/correlations", "Correlações", ""),
+                ("/methodology", "🔬 Metodologia", "text-sky-300"),
+                ("/forecast", "📈 Previsão v3", "text-emerald-300"),
+                ("/projections", "📅 Cenários", ""),
+                ("/simulator", "🔮 Linha do Tempo", "")
+            ] %}
+            {% set current_path = request.url.path if request else "/" %}
+            <!-- Navegação desktop -->
+            <div class="hidden lg:flex items-center space-x-1 xl:space-x-3">
+                {% for href, label, extra in nav_items %}
+                {% set active = (current_path == href) or (href != "/" and current_path.startswith(href)) %}
+                <a href="{{ href }}" aria-current="{{ 'page' if active else 'false' }}"
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition {{ extra }} {% if active %}bg-slate-800 text-amber-300 ring-1 ring-amber-400/40{% else %}hover:bg-slate-800 text-slate-200 hover:text-amber-300{% endif %}">
+                    {{ label }}
                 </a>
-                <a href="/events" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
-                    Catálogo de Eventos
-                </a>
-                <a href="/correlations" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
-                    Hub de Correlações
-                </a>
-                <a href="/methodology" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-sky-300 hover:text-sky-200 transition">
-                    🔬 Metodologia & Nulos
-                </a>
-                <a href="/projections" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 text-slate-200 hover:text-amber-300 transition">
-                    📅 Cenários 2027–2060
-                </a>
-                <a href="/simulator" class="px-3.5 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md transition transform hover:-translate-y-0.5">
-                    🔮 Linha do Tempo
-                </a>
+                {% endfor %}
             </div>
+            <!-- Botão hambúrguer (mobile) -->
+            <button id="nav-toggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-800 text-slate-200" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
+        <!-- Menu mobile -->
+        <div id="nav-mobile" class="lg:hidden hidden mt-3 flex flex-col gap-1 border-t border-slate-700/60 pt-3">
+            {% for href, label, extra in nav_items %}
+            {% set active = (current_path == href) or (href != "/" and current_path.startswith(href)) %}
+            <a href="{{ href }}" class="px-3 py-2 rounded-lg text-sm font-medium {{ extra }} {% if active %}bg-slate-800 text-amber-300{% else %}text-slate-200 hover:bg-slate-800{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </div>
+        <script>
+            (function () {
+                var btn = document.getElementById('nav-toggle'), menu = document.getElementById('nav-mobile');
+                if (btn && menu) btn.addEventListener('click', function () {
+                    var open = menu.classList.toggle('hidden') === false;
+                    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                });
+            })();
+        </script>
     </nav>
 
     <!-- Main Content -->

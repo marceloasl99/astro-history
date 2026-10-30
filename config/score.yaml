@@ -1,4 +1,7 @@
 # Configurações do Algoritmo de Tensão Astrológica e Orbes
+# Este arquivo é a ÚNICA fonte de verdade para o score de tensão.
+# É lido por src/core/scoring.py e usado tanto pela grade diária (1800-2100)
+# quanto pelas cartas de eventos, garantindo paridade entre os dois caminhos.
 
 aspects:
   conjunction:
@@ -25,9 +28,44 @@ aspects:
 fixed_stars:
   orb: 0.3 # 18 minutos de arco
   aspect_allowed: "conjunction" # Estritamente conjunções (0.0°)
+  max_latitude: 30.0 # Estrelas acima desta latitude eclíptica não pontuam (ex.: Vega 62°, Polaris 66°)
 
 scoring:
   base_score: 60.0
   decay: "linear" # (max_orb - orb) / max_orb
+  harmony_factor: 0.2 # peso subtrativo dos trígonos
   require_known_time_for_moon: true
   require_known_time_for_houses: true
+
+  # Corpos que entram no score de tensão calibrado (mesmos 9 corpos da grade diária).
+  core_bodies: [sun, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto]
+  outer_bodies: [saturn, uranus, neptune, pluto]
+  luminaries: [sun, moon]
+
+  # Pesos por classe de par. A classe é resolvida na ordem listada em `pair_class_order`.
+  pair_class_order:
+    [saturn_pluto, uranus_pluto, saturn_uranus, saturn_neptune, outer_outer, mars_outer, luminary_outer, other]
+
+  hard: # Quadratura (90°) e Oposição (180°)
+    saturn_pluto: 260.0
+    uranus_pluto: 220.0
+    saturn_uranus: 220.0
+    saturn_neptune: 200.0
+    outer_outer: 170.0
+    mars_outer: 130.0
+    luminary_outer: 75.0
+    other: 40.0
+
+  conjunction: # 0°
+    saturn_pluto: 250.0
+    uranus_pluto: 200.0
+    saturn_uranus: 160.0
+    saturn_neptune: 220.0
+    outer_outer: 160.0
+    mars_outer: 110.0
+    luminary_outer: 60.0
+    other: 30.0
+
+  trine: # 120° (harmonia, subtrai harmony_factor * valor)
+    outer_outer: 35.0
+    other: 15.0

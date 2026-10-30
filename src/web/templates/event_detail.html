@@ -26,6 +26,15 @@
     <!-- Header Card -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden">
         <div class="flex flex-wrap items-center gap-3 mb-3">
+            {% if event.in_validated_sample %}
+            <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" title="Este evento integra o catálogo objetivo v2 (N=59) usado na validação pré-registrada">
+                ✓ Amostra validada (N=59)
+            </span>
+            {% else %}
+            <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700" title="Evento do catálogo curado de 300 marcos; exibição e narrativa, fora do treino estatístico">
+                Catálogo curado (fora da amostra N=59)
+            </span>
+            {% endif %}
             <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
                 Evento #{{ "%03d"|format(event.id) }}
             </span>

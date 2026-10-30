@@ -42,84 +42,16 @@ OUTER_BODIES = {"pluto", "neptune", "uranus", "saturn"}
 
 ASPECT_ANGLES = [(0.0, 1.0, "Conjunção"), (90.0, 2.0, "Quadratura"), (120.0, -1.5, "Trígono"), (180.0, 2.5, "Oposição")]
 
+from src.core.scoring import raw_tension_from_longitudes, raw_tension_from_array  # noqa: E402
+
 def compute_raw_tension_from_longitudes(longitudes: np.ndarray, max_orb: float = 3.0) -> float:
     """
-    Calcula a tensão cósmica bruta contínua (sem saturação) entre os 9 corpos principais
-    a partir de suas longitudes zodiacais.
+    Tensão cósmica bruta contínua (sem saturação) entre os 9 corpos principais.
+    Delega para a função única em src/core/scoring.py (config/score.yaml).
     """
-    n = len(longitudes)
-    base_score = 60.0
-    tension_pts = 0.0
-    harmony_pts = 0.0
-
     body_names = [b[0] for b in BODIES_CORE]
-
-    for i in range(n):
-        b1_name = body_names[i]
-        lon1 = longitudes[i]
-        for j in range(i + 1, n):
-            b2_name = body_names[j]
-            lon2 = longitudes[j]
-
-            diff = abs(lon1 - lon2)
-            if diff > 180.0:
-                diff = 360.0 - diff
-
-            is_outer_outer = (b1_name in OUTER_BODIES and b2_name in OUTER_BODIES)
-            is_saturn_pluto = (b1_name == "saturn" and b2_name == "pluto") or (b2_name == "saturn" and b1_name == "pluto")
-            is_uranus_pluto = (b1_name == "uranus" and b2_name == "pluto") or (b2_name == "uranus" and b1_name == "pluto")
-            is_saturn_uranus = (b1_name == "saturn" and b2_name == "uranus") or (b2_name == "saturn" and b1_name == "uranus")
-            is_saturn_neptune = (b1_name == "saturn" and b2_name == "neptune") or (b2_name == "saturn" and b1_name == "neptune")
-            mars_outer = ("mars" in (b1_name, b2_name)) and (b1_name in OUTER_BODIES or b2_name in OUTER_BODIES)
-            luminary_outer = ("sun" in (b1_name, b2_name)) and (b1_name in OUTER_BODIES or b2_name in OUTER_BODIES)
-
-            for target_angle, _, asp_name in ASPECT_ANGLES:
-                orb = abs(diff - target_angle)
-                if orb <= max_orb:
-                    orb_factor = (max_orb - orb) / max_orb
-
-                    if asp_name in ("Quadratura", "Oposição"):
-                        if is_saturn_pluto:
-                            val = 260.0
-                        elif is_uranus_pluto or is_saturn_uranus:
-                            val = 220.0
-                        elif is_saturn_neptune:
-                            val = 200.0
-                        elif is_outer_outer:
-                            val = 170.0
-                        elif mars_outer:
-                            val = 130.0
-                        elif luminary_outer:
-                            val = 75.0
-                        else:
-                            val = 40.0
-                        tension_pts += val * orb_factor
-
-                    elif asp_name == "Conjunção":
-                        if is_saturn_pluto:
-                            val = 250.0
-                        elif is_saturn_neptune:
-                            val = 220.0
-                        elif is_uranus_pluto:
-                            val = 200.0
-                        elif is_outer_outer:
-                            val = 160.0
-                        elif mars_outer:
-                            val = 110.0
-                        elif luminary_outer:
-                            val = 60.0
-                        else:
-                            val = 30.0
-                        tension_pts += val * orb_factor
-
-                    elif asp_name == "Trígono":
-                        val = 35.0 if is_outer_outer else 15.0
-                        harmony_pts += val * orb_factor
-
-                    break
-
-    raw_total = base_score + tension_pts - (harmony_pts * 0.2)
-    return float(raw_total)
+    lons = {name: float(longitudes[i]) for i, name in enumerate(body_names)}
+    return raw_tension_from_longitudes(lons, max_orb=max_orb)
 
 _GRID_CACHE: Optional[Dict[str, Any]] = None
 
@@ -152,8 +84,9 @@ def build_daily_grid(start_year: int = 1800, end_year: int = 2100) -> Dict[str, 
             lons[b_i] = res[0]
 
         longitudes[idx] = lons
-        raw_scores[idx] = compute_raw_tension_from_longitudes(lons)
         curr += timedelta(days=1)
+
+    raw_scores[:] = raw_tension_from_array(longitudes, [b[0] for b in BODIES_CORE]).astype(np.float32)
 
     # Ordenar scores para rank percentil empírico exato
     sorted_scores = np.sort(raw_scores)

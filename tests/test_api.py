@@ -39,9 +39,10 @@ async def test_api_routes():
             "country": "Brasil",
             "latitude": -15.79,
             "longitude": -47.88
-        })
+        }, follow_redirects=True)  # v3: POST redireciona para a URL GET compartilhável
         assert res.status_code == 200
         assert "Simulação de Teste Automatizado" in res.text
+        assert "/simulator?" in str(res.url) and "date=2026-11-20" in str(res.url)
 
         # Projections 2027-2060 page
         res = await ac.get("/projections")

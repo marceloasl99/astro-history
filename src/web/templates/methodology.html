@@ -330,4 +330,32 @@
         </div>
     </div>
 </div>
+
+    <!-- v3: Hindcast walk-forward -->
+    <section id="hindcast" class="glass-panel rounded-xl p-6 mt-8">
+        <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">📈 v3 — Hindcast walk-forward (skill de previsão)</h2>
+        <p class="text-sm text-slate-300 mt-2 max-w-4xl">
+            Para cada ano de teste a partir de {{ hindcast.test_start if hindcast else 1951 }}, cada modelo é ajustado apenas com meses anteriores
+            (intervalo de segurança de {{ hindcast.gap_months if hindcast else 12 }} meses) e prevê os 12 meses seguintes. As previsões acumuladas são avaliadas
+            com Brier Skill Score (BSS) contra a climatologia expansiva, AUC e log-loss, com IC 95% por bootstrap em blocos anuais.
+            Alvos: bases objetivas (COW Guerras Interestatais v4, NBER, UCDP/PRIO v24.1 e o catálogo v2). Detalhes em <code>reports/hindcast_v3.md</code>.
+        </p>
+        {% if hindcast and hindcast.targets %}
+        <div class="overflow-x-auto mt-4">
+        <table class="w-full text-xs">
+            <thead class="text-slate-400 text-left"><tr><th class="py-1 pr-3">Alvo</th><th class="py-1 pr-3">Taxa-base</th>
+            {% for m in hindcast.targets[hindcast.targets.keys()|list|first].models.keys() %}<th class="py-1 pr-3 text-right font-mono">{{ m }}</th>{% endfor %}</tr></thead>
+            <tbody>
+            {% for name, t in hindcast.targets.items() %}
+            <tr class="border-t border-slate-700/60"><td class="py-1 pr-3 font-mono">{{ name }}</td><td class="py-1 pr-3 font-mono">{{ t.base_rate_test }}</td>
+            {% for m, v in t.models.items() %}<td class="py-1 pr-3 text-right font-mono {% if v.bss_ci95[0] > 0 %}text-emerald-300{% elif v.bss < 0 %}text-slate-500{% endif %}" title="IC 95%: [{{ v.bss_ci95[0] }}, {{ v.bss_ci95[1] }}]">{{ '%+.3f' % v.bss }}</td>{% endfor %}</tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <p class="text-xs text-slate-400 mt-2">Verde = IC 95% do BSS inteiramente acima de zero. Cinza = pior que a taxa-base. Ver a <a href="/forecast" class="text-sky-300 underline">Previsão v3</a>.</p>
+        {% else %}
+        <p class="text-xs text-amber-300 mt-2">Hindcast ainda não executado (<code>make hindcast</code>).</p>
+        {% endif %}
+    </section>
 {% endblock %}

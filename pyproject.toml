@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "astro-history"
-version = "1.0.0"
+version = "3.0.0"
 description = "Plataforma de pesquisa estatística, astronômica e histórica sobre alinhamentos e eventos"
 readme = "README.md"
 requires-python = ">=3.12"
