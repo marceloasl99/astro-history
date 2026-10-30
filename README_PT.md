@@ -92,6 +92,17 @@ make v3   # features -> hindcast -> forecast -> caches da UI
 
 **Primeiro resultado:** nenhum modelo astrológico supera a climatologia com IC positivo; a página recomenda a taxa-base onde não há skill.
 
+## 3c. Capturas de tela (v3)
+
+| | |
+|:---:|:---:|
+| ![Dashboard](docs/screenshots/01_dashboard_timeline.png)<br>**Dashboard** — gráfico 1800–2100 com séries selecionáveis (pico de tensão, faixa nula, risco bélico, inovação, concentração Barbault) | ![Previsão v3](docs/screenshots/07_forecast_v3.png)<br>**Previsão v3** — selo de skill antes da curva; p(evento) com banda p10–p90 vs taxa-base |
+| ![Metodologia](docs/screenshots/08_methodology_hindcast.png)<br>**Metodologia** — tabela do hindcast walk-forward | ![Simulador](docs/screenshots/02_simulator_timeline.png)<br>**Linha do tempo e simulador** — URLs compartilháveis |
+| ![Evento](docs/screenshots/03_event_mandala.png)<br>**Detalhe do evento** — selo da amostra validada, navegação cronológica | ![Catálogo](docs/screenshots/04_events_catalog.png)<br>**Catálogo** — filtro "✓ N=59" |
+| ![Correlações](docs/screenshots/05_correlations_hub.png)<br>**Hub de correlações** | ![Cenários](docs/screenshots/06_projections_2027_2060.png)<br>**Tabela 2027–2060** — tiers de geometria com aviso de skill |
+
+Mecanismo completo e considerações de projeto: [`docs/mecanismo_site.md`](docs/mecanismo_site.md).
+
 ## 4. Como Executar e Reproduzir
 
 ### Pré-requisitos

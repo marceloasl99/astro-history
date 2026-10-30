@@ -130,6 +130,17 @@ make v3   # features -> hindcast -> forecast -> UI caches
 
 **First result:** no astrological model beats climatology with a positive CI on any objective target; the autoregressive baseline dominates persistent targets. The `/forecast` page therefore labels every curve with its measured skill and recommends the base rate where skill is absent.
 
+## 4c. Screenshots (v3)
+
+| | |
+|:---:|:---:|
+| ![Dashboard](docs/screenshots/01_dashboard_timeline.png)<br>**Dashboard** — 1800–2100 chart with selectable series (tension peak, null band, war risk, innovation, Barbault concentration) | ![Forecast v3](docs/screenshots/07_forecast_v3.png)<br>**Forecast v3** — skill badge first, then p(event) with p10–p90 band vs base rate |
+| ![Methodology](docs/screenshots/08_methodology_hindcast.png)<br>**Methodology** — walk-forward hindcast table (BSS per model and target) | ![Simulator](docs/screenshots/02_simulator_timeline.png)<br>**Timeline & simulator** — shareable GET URLs |
+| ![Event](docs/screenshots/03_event_mandala.png)<br>**Event detail** — validated-sample badge, chronological navigation | ![Catalogue](docs/screenshots/04_events_catalog.png)<br>**Catalogue** — "✓ N=59" filter |
+| ![Correlations](docs/screenshots/05_correlations_hub.png)<br>**Correlations hub** | ![Projections](docs/screenshots/06_projections_2027_2060.png)<br>**2027–2060 table** — geometry tiers with skill notice |
+
+Full mechanism and design considerations (Portuguese): [`docs/mecanismo_site.md`](docs/mecanismo_site.md).
+
 ## 5. Quickstart & Reproducibility
 
 ### Prerequisites

@@ -157,7 +157,7 @@ function toggleYear(y) { document.getElementById('year-' + y).classList.toggle('
             plugins: { legend: { labels: { color: '#cbd5e1', filter: i => !['p90', 'p10'].includes(i.text) } },
                        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` } } },
             scales: { x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
-                      y: { ticks: { color: '#94a3b8', callback: v => v + '%' }, grid: { color: 'rgba(148,163,184,0.1)' }, title: { display: true, text: 'probabilidade mensal média', color: '#94a3b8' } } }
+                      y: { ticks: { color: '#94a3b8', callback: v => Number(v).toFixed(1) + '%' }, grid: { color: 'rgba(148,163,184,0.1)' }, title: { display: true, text: 'probabilidade mensal média', color: '#94a3b8' } } }
         }
     });
 })();

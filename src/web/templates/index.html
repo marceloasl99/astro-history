@@ -124,7 +124,7 @@
                     <span>📈</span> Gráfico de Tensão Cósmica & Rupturas Históricas (1800–2100)
                 </h3>
                 <p class="text-xs text-slate-400 mt-1">
-                    Escala de alta resolução de <strong>0 a 1000 pontos</strong> com amostragem sazonal quádrupla. 
+                    Escala de alta resolução de <strong>0 a 1000 pontos</strong>; a linha vermelha é o percentil do dia de pico real de cada ano (grade diária). 
                     <span class="text-amber-400">★ Pontos dourados</span> representam eventos históricos reais cadastrados; 
                     <span class="text-sky-400">● Linha contínua</span> representa a evolução prospectiva e de fundo.
                 </p>
@@ -151,18 +151,13 @@
             </div>
         </div>
 
-        <!-- Legenda Visual das Faixas de Alerta -->
+        <!-- Faixas de percentil (escala uniforme 0–1000 = percentil empírico da grade diária 1800–2100) -->
         <div class="flex flex-wrap items-center justify-between text-xs py-2 px-3 bg-slate-900/50 rounded-xl border border-slate-800 gap-2">
-            <div class="flex items-center gap-4">
-                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500"></span> <strong>Tensão de Pico (0–1000)</strong></span>
-                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400"></span> <strong>Risco Bélico (0–1000)</strong></span>
-                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-400"></span> <strong>Inovação Científica (0–1000)</strong></span>
-            </div>
+            <span class="text-slate-400">Escala: percentil empírico (0–1000) sobre 109.938 dias; selecione as séries na legenda ou na barra abaixo do gráfico.</span>
             <div class="flex items-center gap-3 font-mono text-[11px] text-slate-400">
-                <span class="text-emerald-400">● 0–349: Calmo</span>
-                <span class="text-amber-300">● 350–549: Moderado</span>
-                <span class="text-orange-400">● 550–749: Alto</span>
-                <span class="text-rose-400">● 750–1000: Crítico</span>
+                <span class="text-emerald-400">● 0–299: Percentil Basal</span>
+                <span class="text-sky-300">● 300–799: Percentil Moderado</span>
+                <span class="text-indigo-300">● 800–1000: Percentil Superior</span>
             </div>
         </div>
 
