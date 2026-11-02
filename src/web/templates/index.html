@@ -392,6 +392,138 @@
             {% endfor %}
         </div>
     </div>
+
+    <!-- Resumo Prospectivo dos Picos de Energia & Cenários por País (2026–2060) -->
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6">
+        <!-- Header -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+            <div class="space-y-2">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-3 py-0.5 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/30">
+                        ⚡ Horizonte 2026–2060
+                    </span>
+                    <span class="px-3 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/30">
+                        Picos de Alta Ativação Filtrados
+                    </span>
+                    <span class="px-3 py-0.5 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
+                        Mundial & Potências Soberanas
+                    </span>
+                </div>
+                <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
+                    Resumo Prospectivo: Picos de Energia Cósmica & Cenários por País (2026–2060)
+                </h3>
+                <p class="text-sm text-slate-300 max-w-4xl leading-relaxed">
+                    Síntese cronológica das maiores ativações astronômicas mundiais e trânsitos planetários nos mapas de fundação das nações soberanas. 
+                    Mapeamento exclusivo dos <strong>picos de energia</strong> categorizados por cenários geopolíticos (Guerra, Quebra Financeira, Crise de Poder, Comoção Social e Saltos Tecnológicos).
+                </p>
+            </div>
+            <a href="/projections" class="shrink-0 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-amber-400/10">
+                <span>⚡ Ver Catálogo Completo (148 Picos)</span>
+                <span>&rarr;</span>
+            </a>
+        </div>
+
+        <!-- KPI Summary Pills -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
+                <div class="text-[11px] text-slate-400 uppercase font-semibold">Total de Picos</div>
+                <div class="text-xl font-bold font-mono text-white mt-1">{{ peaks_catalog.kpis.total_peaks }}</div>
+                <div class="text-[10px] text-slate-500">2026–2060</div>
+            </div>
+            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-rose-900/30">
+                <div class="text-[11px] text-rose-400 uppercase font-semibold flex items-center gap-1"><span>⚔️</span> Guerra</div>
+                <div class="text-xl font-bold font-mono text-rose-300 mt-1">{{ peaks_catalog.kpis.by_scenario.WAR_CONFLICT }}</div>
+                <div class="text-[10px] text-slate-500">conflitos e tensão</div>
+            </div>
+            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-purple-900/30">
+                <div class="text-[11px] text-purple-400 uppercase font-semibold flex items-center gap-1"><span>🏛️</span> Crise Poder</div>
+                <div class="text-xl font-bold font-mono text-purple-300 mt-1">{{ peaks_catalog.kpis.by_scenario.REGIME_CRISIS }}</div>
+                <div class="text-[10px] text-slate-500">rupturas de regime</div>
+            </div>
+            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-amber-900/30">
+                <div class="text-[11px] text-amber-400 uppercase font-semibold flex items-center gap-1"><span>📉</span> Quebra Econ</div>
+                <div class="text-xl font-bold font-mono text-amber-300 mt-1">{{ peaks_catalog.kpis.by_scenario.ECONOMIC_CRASH }}</div>
+                <div class="text-[10px] text-slate-500">crises financeiras</div>
+            </div>
+            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-sky-900/30">
+                <div class="text-[11px] text-sky-400 uppercase font-semibold flex items-center gap-1"><span>🌊</span> Comoção</div>
+                <div class="text-xl font-bold font-mono text-sky-300 mt-1">{{ peaks_catalog.kpis.by_scenario.SOCIAL_UPHEAVAL }}</div>
+                <div class="text-[10px] text-slate-500">clamor popular</div>
+            </div>
+            <div class="bg-slate-900/90 p-3.5 rounded-xl border border-emerald-900/30">
+                <div class="text-[11px] text-emerald-400 uppercase font-semibold flex items-center gap-1"><span>🚀</span> Inovação</div>
+                <div class="text-xl font-bold font-mono text-emerald-300 mt-1">{{ peaks_catalog.kpis.by_scenario.TECH_INNOVATION }}</div>
+                <div class="text-[10px] text-slate-500">salto espacial e IA</div>
+            </div>
+        </div>
+
+        <!-- Tabela / Cards Resumo Cronológico dos Principais Picos -->
+        <div class="space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 class="text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <span>📅</span> Principais Picos de Energia Cronológicos (Destaques da Era)
+                </h4>
+                <span class="text-xs text-slate-500 font-mono">Ordenados por ano e energia</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for p in peaks_catalog.peaks[:12] %}
+                <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/40 transition-all flex flex-col justify-between group space-y-3">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-display font-black text-lg text-white">{{ p.year }}</span>
+                                <span class="text-[11px] font-mono text-slate-400">({{ p.peak_date }})</span>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono uppercase tracking-wider
+                                         {% if p.alert_level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% endif %}">
+                                {{ p.alert_level }}
+                            </span>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded-lg bg-slate-800 text-xs font-semibold text-slate-200 flex items-center gap-1">
+                                <span>{{ p.country_flag }}</span>
+                                <span>{{ p.country_name_pt }}</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded-lg border text-[11px] font-bold {{ p.badge_class }} flex items-center gap-1">
+                                <span>{{ p.scenario_icon }}</span>
+                                <span>{{ p.scenario_label_pt }}</span>
+                            </span>
+                        </div>
+
+                        <div class="text-xs font-mono text-amber-300 font-bold pt-1">
+                            {{ p.cosmic_signature }}
+                        </div>
+
+                        <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                            {{ p.prospective_synthesis }}
+                        </p>
+                    </div>
+
+                    <div class="pt-2.5 border-t border-slate-800 flex items-center justify-between text-[11px]">
+                        <span class="text-slate-500 font-mono">
+                            Precedente: <strong class="text-slate-300 font-sans">{{ p.historical_precedent_year }}</strong>
+                        </span>
+                        <div class="font-mono font-bold {% if p.alert_level == 'Crítico' %}text-rose-300{% else %}text-amber-300{% endif %}">
+                            {{ p.energy_score_1000 }} <span class="text-[10px] text-slate-600 font-normal">/1000</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Footer Callout -->
+        <div class="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+            <span>
+                Mapeamento auditado segundo o Swiss Ephemeris 2.10 sobre 12 potências mundiais e a linha do tempo global de 301 anos.
+            </span>
+            <a href="/projections" class="text-amber-300 hover:text-amber-200 font-bold flex items-center gap-1">
+                Explorar todos os 148 picos de energia com filtros por país &rarr;
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

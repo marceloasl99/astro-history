@@ -40,6 +40,8 @@ def test_base_html_renders_theme_and_lang_controls():
     assert 'data-theme="oled"' in html
     assert 'data-lang="pt"' in html
     assert 'data-lang="en"' in html
+    assert "Resumo Prospectivo: Picos de Energia Cósmica" in html
+    assert "Total de Picos" in html
 
 def test_simulator_alerta_column_styling():
     response = client.get("/simulator")

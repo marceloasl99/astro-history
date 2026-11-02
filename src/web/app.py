@@ -154,6 +154,7 @@ async def index_view(request: Request):
             {"key": k, "label": v["label"], "bss": v["skill"].get("bss"), "verdict": v["skill"].get("verdict"), "model": v["model"]}
             for k, v in forecast["targets"].items()
         ]
+    peaks_catalog = load_energy_peaks_catalog()
 
     return templates.TemplateResponse(
         request=request,
@@ -164,7 +165,8 @@ async def index_view(request: Request):
             "future_data": future_data,
             "chart_series": chart_series,
             "forecast_summary": forecast_summary,
-            "annual_indices": annual_indices
+            "annual_indices": annual_indices,
+            "peaks_catalog": peaks_catalog
         }
     )
 
