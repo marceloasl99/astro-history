@@ -368,28 +368,6 @@
                 </button>
             </div>
         </div>
-
-        <!-- Resultados Dinâmicos AJAX -->
-        <div id="cosmicSearchResults" class="mt-6 space-y-6 hidden">
-            <!-- Grid Barbault & Oshop -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <!-- Barbault Box -->
-                <div id="boxBarbault" class="bg-slate-900/90 p-5 rounded-xl border border-sky-500/30 space-y-3"></div>
-                <!-- Oshop Box -->
-                <div id="boxOshop" class="bg-slate-900/90 p-5 rounded-xl border border-purple-500/30 space-y-3"></div>
-            </div>
-
-            <!-- Top Análogos Cards -->
-            <div class="space-y-3">
-                <h4 class="text-sm font-bold text-white flex items-center justify-between">
-                    <span class="flex items-center gap-2">
-                        <span>🏛️</span> Fatos Históricos Ocorridos sob Céus Mais Semelhantes
-                    </span>
-                    <span id="cosmicEvaluatedCount" class="text-xs font-mono text-slate-400 font-normal"></span>
-                </h4>
-                <div id="cosmicAnaloguesCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5"></div>
-            </div>
-        </div>
     </div>
 
     <!-- Simulação Manual Opcional de Data Específica -->
@@ -755,17 +733,10 @@
         });
     }
 
-    // Cosmic History Search (Pesquisa Instantânea de Análogos & Métricas)
-    async function runCosmicHistorySearch() {
+    // Cosmic History Search (Redirecionamento para renderização segura no servidor)
+    function runCosmicHistorySearch() {
         const date = document.getElementById('cosmicDateInput').value;
-        const category = document.getElementById('cosmicCategoryInput').value;
-        const minYearDiff = document.getElementById('cosmicMinYearDiff').value;
         const btn = document.getElementById('btnCosmicSearch');
-        const resultsContainer = document.getElementById('cosmicSearchResults');
-        const boxBarbault = document.getElementById('boxBarbault');
-        const boxOshop = document.getElementById('boxOshop');
-        const analoguesCards = document.getElementById('cosmicAnaloguesCards');
-        const evaluatedCount = document.getElementById('cosmicEvaluatedCount');
 
         if (!date) {
             alert('Por favor, selecione uma data válida.');
@@ -773,120 +744,8 @@
         }
 
         btn.disabled = true;
-        btn.innerHTML = '<span>⏳ Calculando...</span>';
-
-        try {
-            let analoguesUrl = `/api/historical-analogues?date=${date}&top_k=5`;
-            if (category) analoguesUrl += `&category=${encodeURIComponent(category)}`;
-            if (minYearDiff && minYearDiff !== '0') analoguesUrl += `&min_year_diff=${minYearDiff}`;
-
-            const [resAnalogues, resBarbault, resOshop] = await Promise.all([
-                fetch(analoguesUrl).then(r => r.json()),
-                fetch(`/api/features/barbault?date=${date}`).then(r => r.json()),
-                fetch(`/api/features/oshop?date=${date}`).then(r => r.json())
-            ]);
-
-            if (resBarbault && resBarbault.ci5) {
-                const b5 = resBarbault.ci5;
-                const b4 = resBarbault.ci4;
-                boxBarbault.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                            <span>🌀</span> Índice Cíclico de André Barbault (CI-4 vs CI-5)
-                        </span>
-                        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30">
-                            ${b5.trend || 'Calculado'}
-                        </span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
-                            <span class="text-slate-400 block text-[11px]">CI-5 (com Plutão):</span>
-                            <strong class="text-amber-300 text-base">${b5.sum_degrees}°</strong>
-                            <span class="text-slate-500 text-[10px] block">(${b5.normalized_pct}% do máx de 1800°)</span>
-                        </div>
-                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
-                            <span class="text-slate-400 block text-[11px]">CI-4 (Júpiter a Netuno):</span>
-                            <strong class="text-emerald-300 text-base">${b4.sum_degrees}°</strong>
-                            <span class="text-slate-500 text-[10px] block">(${b4.normalized_pct}% do máx de 1080°)</span>
-                        </div>
-                    </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">
-                        Derivada anual: <strong class="text-slate-200">${b5.annual_slope > 0 ? '+' : ''}${b5.annual_slope.toFixed(1)}°/ano</strong>. 
-                        Mínimos de Barbault indicam máxima concentração dos ciclos lentos associada a momentos de crise sistêmica.
-                    </p>
-                `;
-            }
-
-            if (resOshop && resOshop.geo_outer_5) {
-                const o = resOshop.geo_outer_5;
-                boxOshop.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
-                            <span>📐</span> Métrica Sum of Cosines (Renay Oshop)
-                        </span>
-                        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30">
-                            5 Planetas Lentos
-                        </span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
-                            <span class="text-slate-400 block text-[11px]">Σ cos (Exteriores):</span>
-                            <strong class="text-purple-300 text-base">${o.sum_of_cosines.toFixed(3)}</strong>
-                            <span class="text-slate-500 text-[10px] block">Índice: ${o.clustering_index.toFixed(3)}</span>
-                        </div>
-                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
-                            <span class="text-slate-400 block text-[11px]">Variância Circular:</span>
-                            <strong class="text-amber-300 text-base">${o.circular_variance.toFixed(3)}</strong>
-                            <span class="text-slate-500 text-[10px] block">R̄: ${o.mean_resultant_length.toFixed(3)}</span>
-                        </div>
-                    </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">
-                        Mede a dispersão angular simultânea no espaço geocêntrico segundo o Big Astrology Book of Research.
-                    </p>
-                `;
-            }
-
-            analoguesCards.innerHTML = '';
-            if (resAnalogues && resAnalogues.top_analogues && resAnalogues.top_analogues.length > 0) {
-                evaluatedCount.textContent = `Avaliados ${resAnalogues.evaluated_historical_events} fatos da base`;
-                resAnalogues.top_analogues.forEach(a => {
-                    const card = document.createElement('a');
-                    card.href = `/events/${a.event_id}`;
-                    card.className = 'bg-slate-950/90 p-3.5 rounded-xl border border-slate-800 hover:border-amber-400/50 hover:bg-slate-900 transition flex flex-col justify-between group';
-                    card.innerHTML = `
-                        <div>
-                            <div class="flex items-center justify-between gap-1 mb-1.5">
-                                <span class="text-[10px] font-mono font-bold text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
-                                    ${a.score_pct}% similar
-                                </span>
-                                <span class="text-[10px] font-mono text-slate-400">${a.date}</span>
-                            </div>
-                            <h5 class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2 mb-1">
-                                ${a.title}
-                            </h5>
-                            <div class="text-[10px] text-slate-400 mb-2 truncate">📍 ${a.city || ''}, ${a.country || ''}</div>
-                            <p class="text-[10px] text-slate-300 line-clamp-3 leading-relaxed">
-                                ${a.consequence || ''}
-                            </p>
-                        </div>
-                        <div class="pt-2 mt-2 border-t border-slate-800 text-[10px] text-sky-400 font-semibold flex items-center justify-between">
-                            <span class="truncate">${a.category}</span>
-                            <span>Ver Mapa &rarr;</span>
-                        </div>
-                    `;
-                    analoguesCards.appendChild(card);
-                });
-            } else {
-                analoguesCards.innerHTML = '<div class="col-span-full text-center text-slate-400 text-xs py-4">Nenhum evento histórico encontrado com os filtros selecionados.</div>';
-            }
-
-            resultsContainer.classList.remove('hidden');
-        } catch (err) {
-            alert('Erro ao buscar análogos cósmicos: ' + err.message);
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '<span>✨ Buscar Análogos Cósmicos</span>';
-        }
+        btn.innerHTML = '<span>⏳ Processando Simulação...</span>';
+        window.location.href = `/simulator?date=${encodeURIComponent(date)}&title=${encodeURIComponent('Análise ' + date)}#resultado`;
     }
 </script>
 {% endblock %}

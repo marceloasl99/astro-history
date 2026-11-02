@@ -53,22 +53,11 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-def _is_private_or_local_ip(ip_str: str) -> bool:
-    """Verifica se um endereço IP é loopback, rede interna privada ou cliente de teste."""
-    if not ip_str or ip_str in ("testclient", "localhost", "testserver"):
-        return True
-    try:
-        ip = ipaddress.ip_address(ip_str.strip())
-        return ip.is_private or ip.is_loopback
-    except ValueError:
-        return False
-
-def _is_external_request(request: Request) -> bool:
+def _is_internal_client(request: Request) -> bool:
     """
-    Detecta se a requisição originou-se da internet pública externa:
-    1. Headers de proxy do Cloudflare (CF-Connecting-IP, CF-Ray, CF-Visitor, CF-IPCountry).
-    2. Header X-Forwarded-For com IP público de cliente.
-    3. Conexão direta com IP de cliente que não seja loopback nem rede privada interna.
+    Verifica se a requisição originou-se estritamente de processo local (loopback ou testclient).
+    Qualquer requisição com headers de proxy externo (Cloudflare, XFF externo) ou IP não-loopback
+    é tratada como externa.
     """
     # 1. Cloudflare Proxy Headers
     if (
@@ -77,27 +66,51 @@ def _is_external_request(request: Request) -> bool:
         or request.headers.get("cf-ipcountry")
         or request.headers.get("cf-visitor")
     ):
-        return True
+        return False
 
     # 2. X-Forwarded-For
     xff = request.headers.get("x-forwarded-for")
     if xff:
         client_ip = xff.split(",")[0].strip()
-        if not _is_private_or_local_ip(client_ip):
-            return True
+        if client_ip not in ("testclient", "localhost", "127.0.0.1", "::1"):
+            try:
+                ip = ipaddress.ip_address(client_ip)
+                if not ip.is_loopback:
+                    return False
+            except ValueError:
+                return False
 
     # 3. Direct client connection host
     client_host = request.client.host if request.client else "127.0.0.1"
     if client_host in ("testclient", "localhost", "127.0.0.1", "::1", "testserver"):
+        return True
+
+    try:
+        ip = ipaddress.ip_address(client_host)
+        return ip.is_loopback
+    except ValueError:
         return False
 
-    return not _is_private_or_local_ip(client_host)
+def _is_external_request(request: Request) -> bool:
+    """Compatibilidade reversa: retorna True se não for cliente estritamente interno."""
+    return not _is_internal_client(request)
+
+@app.middleware("http")
+async def security_headers_middleware(request: Request, call_next):
+    """Adiciona headers de segurança recomendados (OWASP / Defesa em Profundidade)."""
+    response = await call_next(request)
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    return response
 
 @app.middleware("http")
 async def block_external_api_middleware(request: Request, call_next):
     """
-    Bloqueia todo acesso a endpoints de API, Swagger e OpenAPI para tráfego externo.
-    Acesso permitido estritamente de forma interna (localhost, testes in-process e rede privada).
+    Bloqueia todo acesso a endpoints de API, Swagger, OpenAPI e recálculo pesado para tráfego externo.
+    Acesso permitido estritamente de forma interna (localhost e testes in-process).
     """
     path = request.url.path
     is_api_or_docs_path = (
@@ -106,9 +119,10 @@ async def block_external_api_middleware(request: Request, call_next):
         or path.startswith("/docs")
         or path.startswith("/redoc")
         or path == "/openapi.json"
+        or path == "/simulator/recalculate"
     )
 
-    if is_api_or_docs_path and _is_external_request(request):
+    if is_api_or_docs_path and not _is_internal_client(request):
         return JSONResponse(
             status_code=404,
             content={"detail": "Not Found"}

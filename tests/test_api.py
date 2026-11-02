@@ -129,3 +129,18 @@ async def test_external_api_access_is_blocked_and_internal_is_allowed():
 
         res_simulator = await ac.get("/simulator", headers=external_headers)
         assert res_simulator.status_code == 200
+
+        # 4. Bloqueio de rota de recálculo pesado para tráfego externo
+        res_recalc = await ac.post("/simulator/recalculate", headers=external_headers)
+        assert res_recalc.status_code == 404
+
+        # 5. Validação de Headers de Segurança (OWASP / Defesa em Profundidade)
+        assert res_home.headers.get("x-frame-options") == "SAMEORIGIN"
+        assert res_home.headers.get("x-content-type-options") == "nosniff"
+        assert "1; mode=block" in res_home.headers.get("x-xss-protection", "")
+        assert res_home.headers.get("referrer-policy") == "strict-origin-when-cross-origin"
+        assert "camera=()" in res_home.headers.get("permissions-policy", "")
+
+        # 6. Teste de IP externo via X-Forwarded-For
+        res_xff = await ac.get("/api/stats", headers={"X-Forwarded-For": "198.51.100.25"})
+        assert res_xff.status_code == 404

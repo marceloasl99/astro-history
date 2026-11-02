@@ -58,9 +58,9 @@ def test_projections_page_renders_cleanly():
     assert "Percentil Anual" in html
     assert "whitespace-nowrap" in html
     assert "Picos de Energia" in html
-    assert "/api/energy-peaks-2026-2060" in html
+    assert "148 Picos Mapeados" in html
 
-    # Test new API endpoint
+    # Test internal API endpoint (allowed for testclient / localhost)
     api_res = client.get("/api/energy-peaks-2026-2060")
     assert api_res.status_code == 200
     api_data = api_res.json()
