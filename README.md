@@ -4,7 +4,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-99_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-100_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
 ![Version](https://img.shields.io/badge/Version-5.0.0-blue)
 
@@ -60,7 +60,9 @@ The `v5.0.0` release introduces major structural, methodological, and UI/UX adva
 5. **Cosmic History Search (Historical Analogues Engine):** Multi-dimensional geometric matching across all 1,342 events to identify the closest celestial precedents for any past, present, or simulated date.
 6. **Triple-Theme Modern UI:** Light, Dark, and OLED Pitch Black (`theme-oled`) design with zero Flash of Unstyled Content (FOUC), fully synced Chart.js dynamic palettes, and streamlined navigation adhering to modern Vercel / UI-UX design principles.
 7. **Complete Bilingual Engine (EN / PT):** Native client-side internationalization system (`i18n.js`) providing instant switching between English and Portuguese across all views and data tables.
-8. **100% Test Coverage:** Comprehensive test suite with 99 automated tests passing across astronomical routines, API endpoints, statistical validation, and UI systems.
+8. **100% Test Coverage:** Comprehensive test suite with 100 automated tests passing across astronomical routines, API endpoints, statistical validation, and UI systems.
+9. **Geopolitical Energy Peaks & Sovereign Intelligence Dossiers (2026–2060):** In-depth mapping of 148 planetary energy peaks categorized into 7 pivotal turning point years (2026, 2028, 2029, 2032, 2034, 2036, 2040), complete with interactive intelligence dossiers for 12 sovereign powers and a geopolitical risk matrix heatmap.
+10. **Hardened Security Architecture & Cloudflare Edge Lockdown:** Public exposure of all API routes (`/api/*`) and Swagger/OpenAPI documentation (`/docs`, `/redoc`, `/openapi.json`) is blocked with HTTP `404 Not Found` for external traffic, preserving API functionality strictly for internal loopback processes and automated test suites. Full OWASP defense-in-depth headers are enforced.
 
 ---
 
@@ -331,7 +333,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# Run full test suite (99 automated tests)
+# Run full test suite (100 automated tests)
 pytest tests/
 ```
 
@@ -357,9 +359,27 @@ The entire platform is also compiled into a **100% self-contained, standalone si
 
 ---
 
-## 16. HTTP API reference
+## 16. Security model & internal API architecture
 
-| Method | Endpoint | Description |
+Because the server is deployed to the public internet fronted by Cloudflare proxy (`history.skyastrum.com`), **all external API exposure has been locked down by design**:
+
+- **External API & Swagger Lockdown:**
+  All interactive documentation endpoints (`/docs`, `/redoc`, `/openapi.json`) are completely disabled. Any external request (identified by Cloudflare headers `CF-Connecting-IP`, `CF-Ray`, or non-loopback IP addresses) attempting to query `/api/*` or trigger CPU-intensive operations (such as `POST /simulator/recalculate`) is intercepted and returns **`404 Not Found`**.
+- **Internal Loopback API:**
+  API endpoints remain strictly accessible to local server processes (`127.0.0.1`, `::1`, `localhost`, `testclient`) to power automated continuous integration tests (`pytest`), offline CLI batch jobs, and internal validation suites.
+- **Server-Side Pre-Rendering (Zero Client API Calls):**
+  All interactive web pages—including event detail control comparisons, live simulations, Barbault indices, and historical analogue matches—are rendered dynamically on the server via Jinja2 templates, ensuring full user functionality with zero client-side `/api/` fetch dependencies.
+- **OWASP Defense-in-Depth Headers:**
+  The application attaches strict HTTP security headers to every response:
+  - `X-Frame-Options: SAMEORIGIN` (prevents clickjacking)
+  - `X-Content-Type-Options: nosniff` (prevents MIME confusion attacks)
+  - `X-XSS-Protection: 1; mode=block` (reflects legacy XSS filters)
+  - `Referrer-Policy: strict-origin-when-cross-origin` (protects query metadata)
+  - `Permissions-Policy: camera=(), microphone=(), geolocation=()` (restricts unused browser hardware APIs)
+
+### Internal API Endpoint Reference (Local Loopback / CI Only)
+
+| Method | Endpoint | Internal Description |
 | :--- | :--- | :--- |
 | `GET` | `/api/stats` | Global database summary (1,342 events, categories, time span) |
 | `GET` | `/api/events?category=&search=` | Filtered list of historical events |
@@ -368,13 +388,14 @@ The entire platform is also compiled into a **100% self-contained, standalone si
 | `GET` | `/api/historical-analogues?date=&category=&top_k=` | Multidimensional Cosmic History Search across 1,342 events |
 | `GET` | `/api/features/barbault?date=` | André Barbault CI-4 and CI-5 indices and first derivative |
 | `GET` | `/api/features/oshop?date=` | Renay Oshop Sum of Cosines ($\Sigma \cos$), variance, and permutation test |
-| `GET` | `/api/countries` | Sovereign national mundane database (20 nations) |
+| `GET` | `/api/countries` | Sovereign national mundane database (107 nations) |
 | `GET` | `/api/countries/{iso_code}` | Country foundation chart, active transits, and future outlook |
 | `GET` | `/api/countries/{iso_code}/chart` | High-precision Swiss Ephemeris natal chart for a sovereign nation |
 | `GET` | `/api/countries/{iso_code}/transits` | Active transits for a sovereign nation on a given date |
 | `GET` | `/api/countries/{iso_code}/energy-peaks` | Projected transit energy peaks for a country (2026–2050) |
 | `GET` | `/api/future-timeline` | 1800–2100 annual timeline and empirical percentiles |
 | `GET` | `/api/projections-2027-2060` | Annual tension tiers and geometric configurations |
+| `GET` | `/api/energy-peaks-2026-2060` | Geopolitical energy peaks catalog (148 peaks) |
 | `GET` | `/api/forecast` | Probabilistic forecasts and skill badges across all targets |
 | `GET` | `/api/forecast/year/{year}` | Astronomical calendar, exact aspects, and analogues for a given year |
 
@@ -439,7 +460,7 @@ astro-history/
 │       └── templates/             # Jinja2 templates (triple-theme enabled)
 ├── web/
 │   └── index.html                 # Standalone single-file application for GitHub Pages (zero backend)
-└── tests/                         # 99 automated tests (astronomy, stats, mundane, API, UI)
+└── tests/                         # 100 automated tests (astronomy, stats, mundane, API, UI)
 ```
 
 ---

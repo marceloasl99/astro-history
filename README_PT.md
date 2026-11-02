@@ -4,7 +4,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-99_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-100_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
 ![Version](https://img.shields.io/badge/Version-5.0.0-blue)
 
@@ -29,7 +29,7 @@
 13. [Decisões de projeto e suas justificativas](#13-decisões-de-projeto-e-suas-justificativas)
 14. [Capturas de tela](#14-capturas-de-tela)
 15. [Instalação, reprodução e deploy](#15-instalação-reprodução-e-deploy)
-16. [API HTTP](#16-api-http)
+16. [Modelo de segurança e API interna](#16-modelo-de-segurança-e-api-interna)
 17. [Estrutura do repositório](#17-estrutura-do-repositório)
 18. [Limitações conhecidas e roadmap](#18-limitações-conhecidas-e-roadmap)
 19. [Citação, licença e atribuição](#19-citação-licença-e-atribuição)
@@ -348,27 +348,43 @@ Tudo é determinístico (sementes fixas em `config/analysis.yaml` e nos scripts)
 
 ---
 
-## 16. API HTTP
+## 16. Modelo de segurança e API interna
 
-| Endpoint | Método | Descrição |
+Como o servidor está publicado na internet sob proxy reverso do Cloudflare (`history.skyastrum.com`), **toda a superfície de exposição externa de APIs foi bloqueada por design**:
+
+- **Bloqueio de APIs Externas & Swagger/OpenAPI:**
+  Todas as rotas interativas de documentação (`/docs`, `/redoc`, `/openapi.json`) estão desativadas. Qualquer requisição externa (identificada pelos cabeçalhos Cloudflare `CF-Connecting-IP`, `CF-Ray` ou IPs que não sejam de loopback) que tente acessar `/api/*` ou acionar recálculos de alto consumo de CPU (`POST /simulator/recalculate`) é interceptada pelo middleware e responde imediatamente com **`404 Not Found`**.
+- **API Exclusivamente Interna (Loopback / CI):**
+  Os endpoints de API permanecem acessíveis apenas para processos locais da máquina (`127.0.0.1`, `::1`, `localhost`, `testclient`), garantindo a execução dos testes automatizados (`pytest`), ferramentas CLI de lote e scripts analíticos sem qualquer exposição à internet pública.
+- **Renderização Total no Servidor (Zero Dependência de API no Navegador):**
+  Todas as telas interativas—incluindo a comparação com dados-controle em detalhes de evento, o simulador de cartas, o comparativo Barbault e os análogos históricos—são renderizadas diretamente no servidor via Jinja2, eliminando requisições assíncronas `fetch('/api/...')` no navegador do cliente.
+- **Headers de Defesa em Profundidade (OWASP):**
+  O middleware anexa em todas as respostas os cabeçalhos de segurança:
+  - `X-Frame-Options: SAMEORIGIN` (proteção contra clickjacking)
+  - `X-Content-Type-Options: nosniff` (proteção contra MIME sniffing)
+  - `X-XSS-Protection: 1; mode=block` (filtro XSS de navegadores)
+  - `Referrer-Policy: strict-origin-when-cross-origin` (privacidade de metadados)
+  - `Permissions-Policy: camera=(), microphone=(), geolocation=()` (restrição de hardware)
+
+### Referência de Endpoints Internos (Uso Local / Testes Apenas)
+
+| Endpoint | Método | Descrição Interna |
 | :--- | :---: | :--- |
-| `/api/stats` | GET | Estatísticas do catálogo |
+| `/api/stats` | GET | Estatísticas do catálogo (1.342 eventos) |
 | `/api/events?category=&search=` | GET | Lista de eventos com filtros |
 | `/api/events/{id}` | GET | Evento completo com o JSON do mapa |
-| `/api/simulate` | POST | Mapa + eventos similares para um corpo JSON `{title, date, time, city, country, latitude, longitude}` (validado; 422 em entrada inválida) |
-| `/api/random-control-comparison/{id}` | GET | Datas-controle aleatórias com intensidade geométrica ≥ à do evento |
+| `/api/simulate` | POST | Cálculo de mapa e busca de eventos similares |
+| `/api/random-control-comparison/{id}` | GET | Datas-controle aleatórias com intensidade geométrica |
 | `/api/future-timeline` | GET | Linha do tempo anual 1800–2100 |
 | `/api/projections-2027-2060` | GET | Tabela de projeções ano a ano |
-| `/api/forecast` | GET | Resumo da previsão (todos os alvos, sem calendário/análogos) |
-| `/api/forecast?target=cow_war_onset` | GET | Um alvo: skill, taxa-base, probabilidades por ano, drivers |
-| `/api/forecast/year/{ano}` | GET | Calendário exato, análogos e a linha de cada alvo para um ano (2026–2060) |
-| `/api/historical-analogues?date=&category=&top_k=` | GET | Cosmic History Search: top análogos históricos para qualquer data na base de 1.342 fatos |
-| `/api/features/barbault?date=` | GET | Comparativo formal André Barbault CI-4 vs CI-5 com derivada anual e tendência do ciclo |
-| `/api/features/oshop?date=` | GET | Métrica Sum of Cosines ($\Sigma \cos$), agrupamento de planetas lentos/clássicos e variância circular |
-| `/api/countries` | GET | Base de Astrologia Mundana Nacional: nações soberanas com certidões de fundação (Campion) |
-| `/api/countries/{iso_code}` | GET | Detalhes do país, carta natal de fundação, trânsitos históricos e panorama 2026–2050 |
-| `/api/countries/{iso_code}/chart` | GET | Carta natal exata Swiss Ephemeris do momento de fundação da nação |
-| `/api/countries/{iso_code}/transits` | GET | Trânsitos mundanos sobre a carta do país para qualquer data específica |
+| `/api/energy-peaks-2026-2060` | GET | Catálogo dos 148 picos de energia mundiais e por país |
+| `/api/forecast` | GET | Resumo da previsão com métricas de skill |
+| `/api/forecast/year/{ano}` | GET | Calendário astronômico exato e análogos por ano |
+| `/api/historical-analogues?date=&category=&top_k=` | GET | Cosmic History Search na base de 1.342 fatos |
+| `/api/features/barbault?date=` | GET | Índice Cíclico Barbault CI-4 vs CI-5 com derivada |
+| `/api/features/oshop?date=` | GET | Métrica Sum of Cosines ($\Sigma \cos$) e variância circular |
+| `/api/countries` | GET | Base mundana nacional com 107 cartas de fundação |
+| `/api/countries/{iso_code}` | GET | Carta natal de fundação, trânsitos e panorama do país |
 | `/api/countries/{iso_code}/energy-peaks` | GET | Picos energéticos de trânsito futuro no país (2026–2050) |
 
 ---

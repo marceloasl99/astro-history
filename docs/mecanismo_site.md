@@ -17,9 +17,9 @@ Swiss Ephemeris (pyswisseph)
    │  (COW Wars, UCDP, Powell & Thyne, USGS, NBER, Marcos)
    │
    ├─ Módulos de Pesquisa Internacional (Fase 4)
-   │  ├─ André Barbault Cyclic Index (CI-4 vs CI-5, derivadas) ──► /api/features/barbault
-   │  ├─ Renay Oshop Sum of Cosines (agrupamento e variância circular) ──► /api/features/oshop
-   │  └─ Cosmic History Search (análogos celestes na base 1.342) ──► /api/historical-analogues
+   │  ├─ André Barbault Cyclic Index (CI-4 vs CI-5, derivadas) ──► src.features.barbault_ci
+   │  ├─ Renay Oshop Sum of Cosines (agrupamento e variância circular) ──► src.features.sum_of_cosines
+   │  └─ Cosmic History Search (análogos celestes na base 1.342) ──► src.analysis.historical_analogues
    │
    ├─ Astrologia Mundana dos Países (National Horoscopes) ──► /countries
    │  └─ Mapas soberanos (Campion), trânsitos históricos passados e projeções 2026–2050
@@ -132,10 +132,10 @@ make features   # grade de features 1750–2150 (~20 s)
 make hindcast   # walk-forward completo (~15 min)
 make forecast   # data/forecast_v3.json
 make timeline   # timeline e projeções (pico diário real, índices anuais)
-make test       # 48 testes automatizados aprovados (100%)
+make test       # 100 testes automatizados aprovados (100%)
 ```
 
-Produção: `uvicorn src.web.app:app` na porta 81 atrás do nginx (serviço `astro-history.service`). `data/features/` está no `.gitignore` (18 MB, reconstruído em segundos); os demais caches são versionados para que o site suba sem recálculo.
+Produção: `uvicorn src.web.app:app` na porta 81 atrás do proxy reverso (serviço `astro-history.service`). `data/features/` está no `.gitignore` (18 MB, reconstruído em segundos); os demais caches são versionados para que o site suba sem recálculo.
 
 ## 11. Limites conhecidos e arquitetura de pesquisa
 
@@ -143,3 +143,13 @@ Produção: `uvicorn src.web.app:app` na porta 81 atrás do nginx (serviço `ast
 - O baseline de processo pontual (Hawkes) para dependência temporal mútua entre conflitos ainda pode ser refinado.
 - Os mapas nacionais cobrem atualmente as principais potências e países do sistema internacional com base em Campion (1988); novos países podem ser expandidos conforme documentação histórica.
 - Tailwind CSS é carregado via CDN para facilitar renderização leve em produção.
+
+## 12. Modelo de segurança, bloqueio de API externa e proteção de borda
+
+Com a exposição do site a um domínio proxied no Cloudflare (`history.skyastrum.com`), foram implementadas políticas defensivas rigorosas:
+
+- **Ocultação e Bloqueio de API Pública**: O middleware `block_external_api_middleware` intercepta todo tráfego originado fora de `localhost` (identificado por cabeçalhos Cloudflare ou IPs não-loopback) e responde com `404 Not Found` para `/api/*`, `/docs`, `/redoc` e `/openapi.json`.
+- **Renderização Total no Backend**: Nenhuma tela pública do frontend depende de chamadas `fetch('/api/...')`. Os dados comparativos, índices e análogos são injetados diretamente nas views Jinja2 no servidor.
+- **Proteção contra DoS de CPU**: Rotas que forçam recálculo de efemérides completas (ex: `/simulator/recalculate`) foram bloqueadas para chamadas externas.
+- **Headers OWASP**: Injeção obrigatória de `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block`, `Referrer-Policy: strict-origin-when-cross-origin` e `Permissions-Policy`.
+- **Versão Standalone Compilada**: Para distribuição sem dependência de servidor Python ou banco de dados, o script `scripts/build_standalone_web.py` empacota a plataforma completa em um único arquivo HTML estático em `web/index.html` e `docs/index.html` (pronto para GitHub Pages).
