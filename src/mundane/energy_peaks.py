@@ -8,9 +8,24 @@ em tendências temáticas que tendem a se manifestar novamente:
 - 🌊 Comoção Social / Movimentos de Massa / Choque Coletivo
 """
 
+import json
+import os
 from typing import Dict, List, Any, Optional
 from src.mundane.transits_engine import calculate_transits_for_date
 from src.mundane.historical_analyzer import get_country_analyzed_history
+
+PEAKS_CATALOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "energy_peaks_2026_2060.json"))
+
+def load_energy_peaks_catalog() -> Dict[str, Any]:
+    """Carrega o catálogo completo de picos de energia 2026–2060 com cache em memória."""
+    if os.path.exists(PEAKS_CATALOG_FILE):
+        try:
+            with open(PEAKS_CATALOG_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"peaks": [], "kpis": {}, "scenario_meta": ENERGY_CATEGORIES, "countries_meta": []}
+
 
 ENERGY_CATEGORIES = {
     "WAR_CONFLICT": {

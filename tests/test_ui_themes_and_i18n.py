@@ -55,6 +55,16 @@ def test_projections_page_renders_cleanly():
     html = response.text
     assert "Percentil Anual" in html
     assert "whitespace-nowrap" in html
+    assert "Picos de Energia" in html
+    assert "/api/energy-peaks-2026-2060" in html
+
+    # Test new API endpoint
+    api_res = client.get("/api/energy-peaks-2026-2060")
+    assert api_res.status_code == 200
+    api_data = api_res.json()
+    assert api_data["total"] >= 140
+    assert len(api_data["peaks"]) >= 140
+    assert api_data["peaks"][0]["year"] == 2026
 
 def test_footer_version_and_no_v2_v3_mentions():
     # Footer version v5.0.0

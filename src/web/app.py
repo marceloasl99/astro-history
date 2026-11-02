@@ -32,6 +32,7 @@ from src.future_engine import (
     get_projections_2027_2060
 )
 from src.analysis.forecast_v3 import load_forecast
+from src.mundane.energy_peaks import load_energy_peaks_catalog
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
@@ -300,6 +301,7 @@ async def simulator_get_view(request: Request, title: Optional[str] = None, date
 @app.api_route("/projections", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def projections_view(request: Request, decade: str = "Todas", alert: str = "Todos", search: str = ""):
     data = get_projections_2027_2060(force_refresh=False)
+    peaks_catalog = load_energy_peaks_catalog()
     
     # Filtragem opcional no servidor (a interface também conta com filtro dinâmico em JS)
     filtered = data["projections"]
@@ -324,6 +326,7 @@ async def projections_view(request: Request, decade: str = "Todas", alert: str =
         context={
             "data": data,
             "projections": filtered,
+            "peaks_catalog": peaks_catalog,
             "selected_decade": decade,
             "selected_alert": alert,
             "search_query": search
@@ -465,6 +468,30 @@ async def api_future_timeline():
 @app.get("/api/projections-2027-2060")
 async def api_projections_2027_2060():
     return JSONResponse(content=get_projections_2027_2060(force_refresh=False))
+
+@app.get("/api/energy-peaks-2026-2060")
+async def api_energy_peaks_2026_2060(
+    scenario: Optional[str] = None,
+    scope: Optional[str] = None,
+    country: Optional[str] = None,
+    decade: Optional[str] = None
+):
+    """Retorna os picos de energia mundiais e por país para os anos 2026–2060 em ordem cronológica."""
+    data = load_energy_peaks_catalog()
+    peaks = data.get("peaks", [])
+    if scenario and scenario != "Todos":
+        peaks = [p for p in peaks if p.get("scenario_key") == scenario]
+    if scope and scope != "Todos":
+        peaks = [p for p in peaks if p.get("scope_type") == scope]
+    if country and country != "Todos":
+        peaks = [p for p in peaks if p.get("country_iso") == country.upper()]
+    if decade and decade != "Todas":
+        peaks = [p for p in peaks if p.get("decade") == decade]
+    return JSONResponse(content={
+        "total": len(peaks),
+        "kpis": data.get("kpis", {}),
+        "peaks": peaks
+    })
 
 @app.get("/api/stats")
 async def api_stats():
