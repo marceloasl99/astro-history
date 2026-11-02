@@ -7,5 +7,12 @@
         Referrer-Policy "strict-origin-when-cross-origin"
     }
 
+    # Bloqueio de APIs externas e documentação Swagger/OpenAPI
+    @blocked_external_api {
+        path /api/* /docs* /redoc* /openapi.json
+        not remote_ip 127.0.0.1 ::1 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
+    }
+    respond @blocked_external_api "Not Found" 404
+
     reverse_proxy app:8000
 }

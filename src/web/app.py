@@ -41,12 +41,80 @@ async def lifespan(app: FastAPI):
     init_db()
     yield
 
+import ipaddress
+
 app = FastAPI(
     title="AstroHistory - Astrologia Moderna & 1.342 Fatos Históricos Mundiais",
     description="Plataforma Internacional de Correlação Astrológica Histórica com Swiss Ephemeris",
-    version="4.0.0",
+    version="5.0.0",
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
     lifespan=lifespan
 )
+
+def _is_private_or_local_ip(ip_str: str) -> bool:
+    """Verifica se um endereço IP é loopback, rede interna privada ou cliente de teste."""
+    if not ip_str or ip_str in ("testclient", "localhost", "testserver"):
+        return True
+    try:
+        ip = ipaddress.ip_address(ip_str.strip())
+        return ip.is_private or ip.is_loopback
+    except ValueError:
+        return False
+
+def _is_external_request(request: Request) -> bool:
+    """
+    Detecta se a requisição originou-se da internet pública externa:
+    1. Headers de proxy do Cloudflare (CF-Connecting-IP, CF-Ray, CF-Visitor, CF-IPCountry).
+    2. Header X-Forwarded-For com IP público de cliente.
+    3. Conexão direta com IP de cliente que não seja loopback nem rede privada interna.
+    """
+    # 1. Cloudflare Proxy Headers
+    if (
+        request.headers.get("cf-connecting-ip")
+        or request.headers.get("cf-ray")
+        or request.headers.get("cf-ipcountry")
+        or request.headers.get("cf-visitor")
+    ):
+        return True
+
+    # 2. X-Forwarded-For
+    xff = request.headers.get("x-forwarded-for")
+    if xff:
+        client_ip = xff.split(",")[0].strip()
+        if not _is_private_or_local_ip(client_ip):
+            return True
+
+    # 3. Direct client connection host
+    client_host = request.client.host if request.client else "127.0.0.1"
+    if client_host in ("testclient", "localhost", "127.0.0.1", "::1", "testserver"):
+        return False
+
+    return not _is_private_or_local_ip(client_host)
+
+@app.middleware("http")
+async def block_external_api_middleware(request: Request, call_next):
+    """
+    Bloqueia todo acesso a endpoints de API, Swagger e OpenAPI para tráfego externo.
+    Acesso permitido estritamente de forma interna (localhost, testes in-process e rede privada).
+    """
+    path = request.url.path
+    is_api_or_docs_path = (
+        path.startswith("/api/")
+        or path == "/api"
+        or path.startswith("/docs")
+        or path.startswith("/redoc")
+        or path == "/openapi.json"
+    )
+
+    if is_api_or_docs_path and _is_external_request(request):
+        return JSONResponse(
+            status_code=404,
+            content={"detail": "Not Found"}
+        )
+
+    return await call_next(request)
 
 class SimulationInput(BaseModel):
     """Entrada validada do simulador (API e formulário)."""
@@ -231,6 +299,9 @@ async def event_detail_view(request: Request, event_id: int):
     except Exception:
         pass
 
+    # Dados de Controle Aleatório Nulo pré-calculados no servidor
+    control_data = get_random_control_comparison_data(event_id)
+
     return templates.TemplateResponse(
         request=request,
         name="event_detail.html",
@@ -243,7 +314,8 @@ async def event_detail_view(request: Request, event_id: int):
             "next_id": next_id,
             "barbault_data": barbault_data,
             "oshop_data": oshop_data,
-            "analogues_data": analogues_data
+            "analogues_data": analogues_data,
+            "control_data": control_data
         }
     )
 
@@ -425,13 +497,13 @@ async def api_forecast_year(year: int):
         "targets": {k: next((r for r in v["years"] if r["year"] == year), None) for k, v in data["targets"].items()}
     })
 
-@app.get("/api/random-control-comparison/{event_id}")
-async def api_random_control_comparison(event_id: int):
+def get_random_control_comparison_data(event_id: int) -> dict:
+    """Busca datas do grupo de controle que apresentaram tensão equivalente ou superior."""
     conn = get_connection()
     row = conn.execute("SELECT id, title, date, tension_index, chart_json FROM events WHERE id = ?", (event_id,)).fetchone()
     if not row:
         conn.close()
-        return JSONResponse(content={"error": "Event not found"}, status_code=404)
+        return {"error": "Event not found", "random_control_matches": [], "explanation": ""}
 
     target_score = row["tension_index"] * 10.0
     if row["chart_json"]:
@@ -457,14 +529,21 @@ async def api_random_control_comparison(event_id: int):
             if len(matched_controls) >= 3:
                 break
 
-    return JSONResponse(content={
+    return {
         "event_id": event_id,
         "event_title": row["title"],
         "event_date": row["date"],
         "event_score_1000": round(target_score, 1),
         "random_control_matches": matched_controls,
         "explanation": "Datas aleatórias do grupo de controle que apresentaram intensidade geométrica similar ou superior por mera probabilidade temporal."
-    })
+    }
+
+@app.get("/api/random-control-comparison/{event_id}")
+async def api_random_control_comparison(event_id: int):
+    data = get_random_control_comparison_data(event_id)
+    if "error" in data and data["error"] == "Event not found":
+        return JSONResponse(content=data, status_code=404)
+    return JSONResponse(content=data)
 
 @app.get("/api/future-timeline")
 async def api_future_timeline():

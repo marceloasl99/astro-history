@@ -83,3 +83,49 @@ async def test_api_routes():
         ctrl_data = res.json()
         assert "random_control_matches" in ctrl_data
         assert "explanation" in ctrl_data
+
+@pytest.mark.anyio
+async def test_external_api_access_is_blocked_and_internal_is_allowed():
+    """Valida que acessos externos à API via Cloudflare ou IP público são bloqueados (404), enquanto HTML permanece acessível."""
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        external_headers = {
+            "CF-Connecting-IP": "203.0.113.195",
+            "CF-Ray": "8da76c891a2b001",
+            "CF-IPCountry": "US"
+        }
+
+        # 1. Endpoints de documentação Swagger/OpenAPI desabilitados
+        res_docs = await ac.get("/docs")
+        assert res_docs.status_code == 404
+
+        res_redoc = await ac.get("/redoc")
+        assert res_redoc.status_code == 404
+
+        res_openapi = await ac.get("/openapi.json")
+        assert res_openapi.status_code == 404
+
+        # 2. Requisições externas a endpoints de API são bloqueadas com 404
+        res_api_stats = await ac.get("/api/stats", headers=external_headers)
+        assert res_api_stats.status_code == 404
+
+        res_api_events = await ac.get("/api/events", headers=external_headers)
+        assert res_api_events.status_code == 404
+
+        res_api_peaks = await ac.get("/api/energy-peaks-2026-2060", headers=external_headers)
+        assert res_api_peaks.status_code == 404
+
+        res_api_sim = await ac.post("/api/simulate", json={"date": "2026-11-20"}, headers=external_headers)
+        assert res_api_sim.status_code == 404
+
+        # 3. Páginas HTML normais continuam 100% acessíveis externamente
+        res_home = await ac.get("/", headers=external_headers)
+        assert res_home.status_code == 200
+
+        res_events = await ac.get("/events", headers=external_headers)
+        assert res_events.status_code == 200
+
+        res_projections = await ac.get("/projections", headers=external_headers)
+        assert res_projections.status_code == 200
+
+        res_simulator = await ac.get("/simulator", headers=external_headers)
+        assert res_simulator.status_code == 200
