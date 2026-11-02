@@ -25,11 +25,14 @@ def test_static_i18n_js():
     assert "translations" in js
     assert "Guerra & Conflito" in js
     assert "War & Conflict" in js
+    assert "let currentTheme = localStorage.getItem('astro_theme') || 'oled'" in js
 
 def test_base_html_renders_theme_and_lang_controls():
     response = client.get("/")
     assert response.status_code == 200
     html = response.text
+    assert 'class="dark theme-oled"' in html
+    assert "savedTheme = localStorage.getItem('astro_theme') || 'oled'" in html
     assert "/static/css/themes.css" in html
     assert "/static/js/i18n.js" in html
     assert 'data-theme="light"' in html

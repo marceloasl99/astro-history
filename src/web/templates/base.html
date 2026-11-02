@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark theme-dark">
+<html lang="pt-BR" class="dark theme-oled">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <script>
         (function() {
             try {
-                var savedTheme = localStorage.getItem('astro_theme') || 'dark';
+                var savedTheme = localStorage.getItem('astro_theme') || 'oled';
                 var docEl = document.documentElement;
                 docEl.classList.remove('theme-light', 'theme-dark', 'theme-oled');
                 docEl.classList.add('theme-' + savedTheme);

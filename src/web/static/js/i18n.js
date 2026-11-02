@@ -344,10 +344,10 @@
     }
 
     // Theme Management
-    let currentTheme = localStorage.getItem('astro_theme') || 'dark';
+    let currentTheme = localStorage.getItem('astro_theme') || 'oled';
 
     function setTheme(theme) {
-        if (!['light', 'dark', 'oled'].includes(theme)) theme = 'dark';
+        if (!['light', 'dark', 'oled'].includes(theme)) theme = 'oled';
         currentTheme = theme;
         localStorage.setItem('astro_theme', theme);
         document.cookie = `astro_theme=${theme};path=/;max-age=31536000;SameSite=Lax`;
