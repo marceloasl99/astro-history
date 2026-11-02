@@ -394,7 +394,7 @@
     </div>
 
     <!-- Resumo Prospectivo dos Picos de Energia & Cenários por País (2026–2060) -->
-    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6">
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/80 shadow-2xl space-y-8">
         <!-- Header -->
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-6">
             <div class="space-y-2">
@@ -403,24 +403,46 @@
                         ⚡ Horizonte 2026–2060
                     </span>
                     <span class="px-3 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/30">
-                        Picos de Alta Ativação Filtrados
+                        148 Picos de Alta Ativação
                     </span>
                     <span class="px-3 py-0.5 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
-                        Mundial & Potências Soberanas
+                        12 Potências & Ciclos Mundiais
                     </span>
                 </div>
                 <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
                     Resumo Prospectivo: Picos de Energia Cósmica & Cenários por País (2026–2060)
                 </h3>
                 <p class="text-sm text-slate-300 max-w-4xl leading-relaxed">
-                    Síntese cronológica das maiores ativações astronômicas mundiais e trânsitos planetários nos mapas de fundação das nações soberanas. 
-                    Mapeamento exclusivo dos <strong>picos de energia</strong> categorizados por cenários geopolíticos (Guerra, Quebra Financeira, Crise de Poder, Comoção Social e Saltos Tecnológicos).
+                    Síntese cronológica das maiores ativações astronômicas mundiais e trânsitos mundanos nas cartas de fundação das nações soberanas. 
+                    Mapeamento exclusivo dos <strong>picos de energia</strong> categorizados por cenários geopolíticos (Guerra & Conflito, Ruptura Institucional, Quebra Financeira, Comoção Social e Saltos Tecnológicos).
                 </p>
             </div>
-            <a href="/projections" class="shrink-0 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-amber-400/10">
-                <span>⚡ Ver Catálogo Completo (148 Picos)</span>
+            <a href="/projections" class="shrink-0 px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-amber-400/20">
+                <span>📋 Abrir Dossiê Estratégico Completo</span>
                 <span>&rarr;</span>
             </a>
+        </div>
+
+        <!-- Destaques dos Anos de Inflexão Global (Pílulas Rápidas) -->
+        <div class="space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 class="text-xs uppercase font-bold tracking-wider text-amber-400 flex items-center gap-1.5">
+                    <span>🌟</span> Anos Decisivos da Era (Pontos de Inflexão)
+                </h4>
+                <span class="text-xs text-slate-500 font-mono">Convergência máxima de planetas lentos</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {% for m in peaks_catalog.milestone_years[:6] %}
+                <a href="/projections" class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/50 transition group flex flex-col justify-between space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-display font-black text-xl text-white group-hover:text-amber-300 transition-colors">{{ m.year }}</span>
+                        <span class="text-[10px] font-mono font-bold text-rose-300 bg-rose-500/10 px-1.5 py-0.5 rounded border border-rose-500/20">{{ m.energy_score|round|int }}</span>
+                    </div>
+                    <div class="text-[11px] font-bold text-slate-200 line-clamp-1">{{ m.title_pt }}</div>
+                    <div class="text-[10px] text-slate-400 line-clamp-1 font-mono">{{ m.cosmic_signature }}</div>
+                </a>
+                {% endfor %}
+            </div>
         </div>
 
         <!-- KPI Summary Pills -->
@@ -457,70 +479,91 @@
             </div>
         </div>
 
-        <!-- Tabela / Cards Resumo Cronológico dos Principais Picos -->
-        <div class="space-y-3">
-            <div class="flex items-center justify-between">
-                <h4 class="text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1.5">
-                    <span>📅</span> Principais Picos de Energia Cronológicos (Destaques da Era)
-                </h4>
-                <span class="text-xs text-slate-500 font-mono">Ordenados por ano e energia</span>
+        <!-- Seletor Rápido de Potências na Home -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-semibold text-slate-400 mr-1">Filtrar Destaques:</span>
+                <button type="button" onclick="filterHomePeaks('all')" class="home-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-400 text-slate-950 transition" data-actor="all">
+                    Todos os Destaques
+                </button>
+                <button type="button" onclick="filterHomePeaks('BRA')" class="home-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1" data-actor="BRA">
+                    <span>🇧🇷</span> Brasil
+                </button>
+                <button type="button" onclick="filterHomePeaks('USA')" class="home-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1" data-actor="USA">
+                    <span>🇺🇸</span> EUA
+                </button>
+                <button type="button" onclick="filterHomePeaks('CHN')" class="home-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1" data-actor="CHN">
+                    <span>🇨🇳</span> China
+                </button>
+                <button type="button" onclick="filterHomePeaks('RUS')" class="home-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1" data-actor="RUS">
+                    <span>🇷🇺</span> Rússia
+                </button>
+                <button type="button" onclick="filterHomePeaks('world')" class="home-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1" data-actor="world">
+                    <span>🌐</span> Mundiais
+                </button>
             </div>
+            <a href="/projections" class="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1">
+                Ver Todos os 148 Picos com Busca &rarr;
+            </a>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {% for p in peaks_catalog.peaks[:12] %}
-                <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/40 transition-all flex flex-col justify-between group space-y-3">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between gap-2">
-                            <div class="flex items-center gap-1.5">
-                                <span class="font-display font-black text-lg text-white">{{ p.year }}</span>
-                                <span class="text-[11px] font-mono text-slate-400">({{ p.peak_date }})</span>
-                            </div>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono uppercase tracking-wider
-                                         {% if p.alert_level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% endif %}">
-                                {{ p.alert_level }}
-                            </span>
+        <!-- Cards Resumo Cronológico dos Picos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="homePeaksGrid">
+            {% for p in peaks_catalog.peaks[:18] %}
+            <div class="home-peak-card p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/40 transition-all flex flex-col justify-between group space-y-3 shadow-lg"
+                 data-country="{{ p.country_iso or '' }}"
+                 data-scope="{{ p.scope_type }}">
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="font-display font-black text-xl text-white">{{ p.year }}</span>
+                            <span class="text-[11px] font-mono text-slate-400">({{ p.peak_date }})</span>
                         </div>
-
-                        <div class="flex flex-wrap items-center gap-1.5">
-                            <span class="px-2 py-0.5 rounded-lg bg-slate-800 text-xs font-semibold text-slate-200 flex items-center gap-1">
-                                <span>{{ p.country_flag }}</span>
-                                <span>{{ p.country_name_pt }}</span>
-                            </span>
-                            <span class="px-2 py-0.5 rounded-lg border text-[11px] font-bold {{ p.badge_class }} flex items-center gap-1">
-                                <span>{{ p.scenario_icon }}</span>
-                                <span>{{ p.scenario_label_pt }}</span>
-                            </span>
-                        </div>
-
-                        <div class="text-xs font-mono text-amber-300 font-bold pt-1">
-                            {{ p.cosmic_signature }}
-                        </div>
-
-                        <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                            {{ p.prospective_synthesis }}
-                        </p>
-                    </div>
-
-                    <div class="pt-2.5 border-t border-slate-800 flex items-center justify-between text-[11px]">
-                        <span class="text-slate-500 font-mono">
-                            Precedente: <strong class="text-slate-300 font-sans">{{ p.historical_precedent_year }}</strong>
+                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold font-mono uppercase tracking-wider
+                                     {% if p.alert_level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% endif %}">
+                            {{ p.alert_level }} ({{ p.energy_score_1000 }}/1000)
                         </span>
-                        <div class="font-mono font-bold {% if p.alert_level == 'Crítico' %}text-rose-300{% else %}text-amber-300{% endif %}">
-                            {{ p.energy_score_1000 }} <span class="text-[10px] text-slate-600 font-normal">/1000</span>
-                        </div>
                     </div>
+
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <span class="px-2.5 py-0.5 rounded-lg bg-slate-800 text-xs font-semibold text-slate-200 flex items-center gap-1">
+                            <span>{{ p.country_flag }}</span>
+                            <span>{{ p.country_name_pt }}</span>
+                        </span>
+                        <span class="px-2 py-0.5 rounded-lg border text-[11px] font-bold {{ p.badge_class }} flex items-center gap-1">
+                            <span>{{ p.scenario_icon }}</span>
+                            <span>{{ p.scenario_label_pt }}</span>
+                        </span>
+                    </div>
+
+                    <div class="text-xs font-mono text-amber-300 font-bold pt-0.5">
+                        {{ p.cosmic_signature }}
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {{ p.prospective_synthesis }}
+                    </p>
                 </div>
-                {% endfor %}
+
+                <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+                    <span class="line-clamp-1">
+                        Precedente: <strong class="text-sky-300 font-semibold">{{ p.historical_precedent_title }}</strong>
+                    </span>
+                    <a href="/projections" class="text-amber-300 hover:text-amber-200 shrink-0 font-bold ml-2">
+                        Dossiê &rarr;
+                    </a>
+                </div>
             </div>
+            {% endfor %}
         </div>
 
         <!-- Footer Callout -->
-        <div class="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+        <div class="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
             <span>
-                Mapeamento auditado segundo o Swiss Ephemeris 2.10 sobre 12 potências mundiais e a linha do tempo global de 301 anos.
+                Mapeamento auditado segundo o Swiss Ephemeris 2.10 sobre 12 potências mundiais e a linha do tempo contínua de 301 anos.
             </span>
             <a href="/projections" class="text-amber-300 hover:text-amber-200 font-bold flex items-center gap-1">
-                Explorar todos os 148 picos de energia com filtros por país &rarr;
+                Consultar Matriz de Risco e Dossiê por País &rarr;
             </a>
         </div>
     </div>
@@ -860,5 +903,30 @@
             }
         }
     });
+    // Filtro Rápido dos Picos de Energia na Home
+    function filterHomePeaks(actor) {
+        document.querySelectorAll('.home-filter-btn').forEach(btn => {
+            if (btn.getAttribute('data-actor') === actor) {
+                btn.classList.add('bg-amber-400', 'text-slate-950', 'font-bold');
+                btn.classList.remove('bg-slate-800', 'text-slate-300');
+            } else {
+                btn.classList.remove('bg-amber-400', 'text-slate-950', 'font-bold');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            }
+        });
+
+        const cards = document.querySelectorAll('.home-peak-card');
+        cards.forEach(card => {
+            const country = card.getAttribute('data-country');
+            const scope = card.getAttribute('data-scope');
+            if (actor === 'all') {
+                card.style.display = '';
+            } else if (actor === 'world') {
+                card.style.display = (scope === 'world') ? '' : 'none';
+            } else {
+                card.style.display = (country === actor) ? '' : 'none';
+            }
+        });
+    }
 </script>
 {% endblock %}

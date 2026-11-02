@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Cenários & Picos de Energia (2026–2060) | AstroHistory{% endblock %}
+{% block title %}Dossiê Prospectivo & Picos de Energia (2026–2060) | AstroHistory{% endblock %}
 
 {% block content %}
-<div class="space-y-8">
-    <!-- Header Banner -->
+<div class="space-y-8 print:space-y-4">
+    <!-- Header Banner Executivo -->
     <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
-        <div class="max-w-4xl space-y-4">
+        <div class="max-w-5xl space-y-4">
             <div class="flex flex-wrap items-center gap-2.5">
                 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
                     Swiss Ephemeris 2.10 em Alta Resolução
@@ -15,32 +15,46 @@
                     Horizonte 2026–2060 (35 Anos)
                 </span>
                 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/30">
-                    Picos de Alta Ativação Filtrados
+                    148 Picos de Alta Energia Filtrados
+                </span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/30">
+                    12 Potências Mundiais Auditadas
                 </span>
             </div>
             <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
-                Cenários Prospectivos & Picos de Energia Cósmica (2026–2060)
+                Relatório Prospectivo de Inteligência Geopolítica & Picos de Energia (2026–2060)
             </h1>
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Varredura cronológica de alta tensão cósmica e trânsitos mundanos estruturada por <strong>cenários geopolíticos</strong> (Conflitos Bélicos, Quebras Econômicas, Crises Institucionais, Comoção Social e Saltos Tecnológicos). 
-                Isolamento estrito dos <strong>picos de energia</strong> (ativações críticas $\ge 720$/1000 nos mapas nacionais e $\ge 960$/1000 mundiais), associados a precedentes históricos isomórficos na base de 1.342 fatos.
+                Varredura cronológica de alta tensão cósmica e trânsitos mundanos sobre as cartas de fundação das 12 principais potências soberanas e ciclos dos planetas lentos. 
+                Isolamento estrito dos <strong>picos de energia</strong> categorizados por cenários geopolíticos (Conflitos Bélicos, Rupturas de Poder, Quebras Financeiras, Comoção Social e Saltos Tecnológicos), com precedentes históricos isomórficos na base de 1.342 fatos.
             </p>
-            <div class="text-xs rounded-xl border border-amber-500/40 bg-amber-950/30 text-amber-200 p-3.5 leading-relaxed">
-                <span class="font-bold text-amber-300 mr-1">⚠️ Aviso Epistemológico:</span>
-                Os picos energéticos e tiers de percentil descrevem a <strong>geometria do céu e trânsitos astrológicos</strong>, não determinismo causal. No hindcast walk-forward os modelos astrológicos não superam os baselines autorregressivos. Para probabilidades calibradas com taxa-base e skill medido, consulte a <a href="/forecast" class="underline text-emerald-300 font-bold hover:text-emerald-200">Previsão</a>.
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+                <div class="text-xs rounded-xl border border-amber-500/40 bg-amber-950/30 text-amber-200 p-3 leading-relaxed max-w-3xl">
+                    <span class="font-bold text-amber-300 mr-1">⚠️ Aviso Epistemológico:</span>
+                    Os picos energéticos e tiers de percentil descrevem a <strong>geometria do céu e trânsitos astrológicos</strong>, não determinismo causal. No hindcast walk-forward os modelos astrológicos não superam os baselines autorregressivos. Para probabilidades calibradas com taxa-base e skill medido, consulte a <a href="/forecast" class="underline text-emerald-300 font-bold hover:text-emerald-200">Previsão</a>.
+                </div>
+                <button type="button" onclick="window.print()" class="shrink-0 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center gap-2 print:hidden self-start">
+                    <span>🖨️ Imprimir / Exportar Dossiê</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- View Switcher Tabs -->
-    <div class="flex flex-wrap items-center justify-between gap-4 p-2 bg-slate-900/90 rounded-2xl border border-slate-700/80 shadow-xl">
-        <div class="flex items-center gap-2">
-            <button type="button" onclick="switchProjectionTab('peaks')" id="tab-btn-peaks" class="px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md">
-                <span>⚡ Picos de Energia (2026–2060)</span>
-                <span class="px-2 py-0.5 rounded-full text-xs bg-slate-950/20 text-slate-950 font-mono font-black" id="peaksCounterBadge">{{ peaks_catalog.kpis.total_peaks }}</span>
+    <!-- View Switcher Tabs (4 Visualizações) -->
+    <div class="flex flex-wrap items-center justify-between gap-3 p-2 bg-slate-900/90 rounded-2xl border border-slate-700/80 shadow-xl print:hidden">
+        <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="switchProjectionTab('dossier')" id="tab-btn-dossier" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md">
+                <span>📋 Dossiê Executivo & Anos Decisivos</span>
             </button>
-            <button type="button" onclick="switchProjectionTab('table')" id="tab-btn-table" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white">
-                <span>📅 Série Anual & Portais Sazonais (2027–2060)</span>
+            <button type="button" onclick="switchProjectionTab('peaks')" id="tab-btn-peaks" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <span>⚡ Catálogo de Picos (148)</span>
+                <span class="px-2 py-0.5 rounded-full text-xs bg-slate-800 text-slate-300 font-mono font-bold">{{ peaks_catalog.kpis.total_peaks }}</span>
+            </button>
+            <button type="button" onclick="switchProjectionTab('matrix')" id="tab-btn-matrix" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <span>🗺️ Matriz de Risco (Heatmap)</span>
+            </button>
+            <button type="button" onclick="switchProjectionTab('table')" id="tab-btn-table" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <span>📅 Série Anual (2027–2060)</span>
                 <span class="px-2 py-0.5 rounded-full text-xs bg-slate-800 text-slate-400 font-mono">34</span>
             </button>
         </div>
@@ -52,9 +66,210 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 1: PICOS DE ENERGIA CÓSMICA (2026–2060) POR CENÁRIO & PAÍS (PADRÃO)  -->
+    <!-- ABA 1: DOSSIÊ EXECUTIVO & ANOS DECISIVOS (NOVA SEÇÃO PRINCIPAL)           -->
     <!-- ========================================================================= -->
-    <div id="section-peaks" class="space-y-6">
+    <div id="section-dossier" class="space-y-8">
+        <!-- Sub-seção A: Os Anos Mais Decisivos da Humanidade -->
+        <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-display font-extrabold text-white flex items-center gap-2">
+                        <span>🌟</span> Os Grandes Anos de Inflexão Global (2026–2060)
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        Momentos de máxima convergência geométrica planetária que definem as eras geopolíticas e saltos civilizatórios.
+                    </p>
+                </div>
+                <span class="text-xs font-mono text-amber-400 font-semibold bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 self-start sm:self-auto">
+                    7 Marcos Centrais
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for m in peaks_catalog.milestone_years %}
+                <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/50 transition-all flex flex-col justify-between space-y-4 shadow-lg group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="font-display font-black text-3xl text-white group-hover:text-amber-300 transition-colors">{{ m.year }}</span>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider
+                                         {% if 'Crítico' in m.impact_level %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% endif %}">
+                                {{ m.impact_level }}
+                            </span>
+                        </div>
+
+                        <h3 class="font-bold text-base text-slate-100 leading-snug">
+                            {{ m.title_pt }}
+                        </h3>
+
+                        <div class="text-xs font-mono text-amber-300/90 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                            {{ m.cosmic_signature }}
+                        </div>
+
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            {{ m.summary }}
+                        </p>
+                    </div>
+
+                    <div class="space-y-2 pt-3 border-t border-slate-800/80 text-xs">
+                        <div class="flex flex-wrap items-center gap-1 text-[11px] text-slate-400">
+                            <strong class="text-slate-300 font-semibold">Potências no Centro:</strong>
+                            {% for act in m.key_actors %}
+                            <span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">{{ act }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="text-[11px] text-slate-400">
+                            <strong class="text-sky-300 font-semibold">Precedente Isomórfico:</strong> {{ m.historical_precedent }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Sub-seção B: Dossiê de Inteligência por País (Seletor Interativo) -->
+        <div class="space-y-4 pt-4">
+            <div class="border-b border-slate-800 pb-3">
+                <h2 class="text-xl sm:text-2xl font-display font-extrabold text-white flex items-center gap-2">
+                    <span>🏛️</span> Dossiê Estratégico por Potência Soberana
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400">
+                    Selecione um país para consultar seu panorama estratégico completo (2026–2060), vulnerabilidades natais e histórico cronológico dos picos de energia.
+                </p>
+            </div>
+
+            <!-- Grade de Seletor de Países -->
+            <div class="flex flex-wrap items-center gap-2 p-3 bg-slate-900/80 rounded-2xl border border-slate-800">
+                <span class="text-xs font-semibold text-slate-400 mr-1 hidden sm:inline">Selecionar Potência:</span>
+                {% for c in peaks_catalog.countries_meta %}
+                <button type="button" onclick="selectCountryDossier('{{ c.iso }}')" id="dossier-btn-{{ c.iso }}" class="country-dossier-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center gap-1.5" data-iso="{{ c.iso }}">
+                    <span class="text-sm">{{ c.flag }}</span>
+                    <span>{{ c.name_pt }}</span>
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- Painéis de Dossiê por País -->
+            {% for iso, dos in peaks_catalog.countries_dossiers.items() %}
+            <div id="dossier-panel-{{ iso }}" class="country-dossier-panel glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6 {% if iso != 'BRA' %}hidden{% endif %}">
+                <!-- Cabeçalho do País -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+                    <div class="flex items-center gap-3">
+                        <span class="text-4xl sm:text-5xl">{{ dos.flag }}</span>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-2xl sm:text-3xl font-display font-extrabold text-white">{{ dos.name_pt }}</h3>
+                                <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">{{ dos.iso }}</span>
+                            </div>
+                            <div class="text-xs text-slate-400 flex flex-wrap items-center gap-2 mt-1">
+                                <span>Capital: <strong class="text-slate-300">{{ dos.capital }}</strong></span>
+                                <span>•</span>
+                                <span>Certidão: <strong class="text-slate-300">{{ dos.foundation_event }} ({{ dos.foundation_date }})</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 text-right">
+                        <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-center">
+                            <div class="text-[10px] uppercase font-semibold text-slate-400">Total de Picos</div>
+                            <div class="text-xl font-bold font-mono text-amber-300">{{ dos.total_peaks_count }}</div>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-rose-900/40 text-center">
+                            <div class="text-[10px] uppercase font-semibold text-rose-400">Picos Críticos</div>
+                            <div class="text-xl font-bold font-mono text-rose-300">{{ dos.critical_peaks_count }}</div>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-center">
+                            <div class="text-[10px] uppercase font-semibold text-slate-400">Maior Energia</div>
+                            <div class="text-xl font-bold font-mono text-white">{{ dos.max_score }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagnóstico Estratégico & Vulnerabilidades -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <div class="lg:col-span-8 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
+                        <div class="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                            <span>🔮</span> Diagnóstico Estratégico (2026–2060):
+                        </div>
+                        <p class="text-sm text-slate-200 leading-relaxed">
+                            {{ dos.strategic_summary }}
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-4 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1">
+                                <span>🎯</span> Ponto Natal Vulnerável:
+                            </div>
+                            <div class="text-xs text-slate-300 mt-1 font-mono">
+                                {{ dos.vulnerability }}
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <div class="text-xs font-bold uppercase tracking-wider text-sky-400">Anos Mais Críticos:</div>
+                            <div class="flex flex-wrap gap-1.5 mt-1.5">
+                                {% for cy in dos.critical_years %}
+                                <span class="px-2 py-0.5 rounded-md text-xs font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                                    {{ cy }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feed Cronológico dos Picos deste País -->
+                <div class="space-y-3">
+                    <h4 class="text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <span>📅</span> Cronologia de Picos de Energia em {{ dos.name_pt }} ({{ dos.peaks|length }} ativações)
+                    </h4>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for p in dos.peaks %}
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-400/40 transition flex flex-col justify-between space-y-3">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-display font-black text-xl text-white">{{ p.year }}</span>
+                                        <span class="text-[11px] font-mono text-slate-400">({{ p.peak_date }})</span>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase
+                                                 {% if p.alert_level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% endif %}">
+                                        {{ p.alert_level }} ({{ p.energy_score_1000 }}/1000)
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-1.5">
+                                    <span class="px-2 py-0.5 rounded-lg border text-xs font-bold {{ p.badge_class }}">
+                                        {{ p.scenario_icon }} {{ p.scenario_label_pt }}
+                                    </span>
+                                </div>
+
+                                <div class="text-xs font-mono text-amber-300 font-bold">
+                                    {{ p.cosmic_signature }}
+                                </div>
+
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    {{ p.prospective_synthesis }}
+                                </p>
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+                                <strong class="text-sky-300">Precedente Histórico:</strong> {{ p.historical_precedent_title }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- ABA 2: CATÁLOGO COMPLETO DE PICOS DE ENERGIA (148 PICOS COM FILTROS)     -->
+    <!-- ========================================================================= -->
+    <div id="section-peaks" class="space-y-6 hidden">
         <!-- KPI Summary Cards dos Picos -->
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
             <div class="glass-panel p-4 sm:p-5 rounded-2xl border-l-4 border-rose-500">
@@ -107,7 +322,7 @@
 
         <!-- Filtros Interativos dos Picos de Energia -->
         <div class="glass-panel p-5 rounded-2xl space-y-4 border border-slate-700/80 shadow-xl">
-            <!-- Barra de Busca e Reset -->
+            <!-- Barra de Busca, Ordenação e Reset -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div class="w-full md:w-96 relative">
                     <input type="text" id="peakSearchInput" placeholder="Buscar por ano, país, trânsito ou precedente..." 
@@ -115,7 +330,15 @@
                         onkeyup="filterEnergyPeaks()">
                     <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
                 </div>
-                <div class="flex items-center gap-2">
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Seletor de Ordenação -->
+                    <select id="peakSortSelect" onchange="sortEnergyPeaks()" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 focus:outline-none focus:border-amber-400">
+                        <option value="year_asc">Ano (Crescente)</option>
+                        <option value="year_desc">Ano (Decrescente)</option>
+                        <option value="score_desc">Intensidade (Maior Primeiro)</option>
+                    </select>
+
                     <span id="peaksFilteredCount" class="text-xs font-mono font-semibold text-slate-400 bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
                         Exibindo {{ peaks_catalog.peaks|length }} picos
                     </span>
@@ -171,42 +394,42 @@
             <div class="pt-3 border-t border-slate-800/80 flex flex-wrap items-center gap-2">
                 <span class="text-xs text-slate-400 font-semibold mr-1">Década:</span>
                 <button type="button" onclick="setDecadePeakFilter('Todas')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 transition" data-decade="Todas">
-                    Todas (2026–2060)
+                    Todas
                 </button>
-                <button type="button" onclick="setDecadePeakFilter('2020s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2020s">
-                    2020s (2026–2029) • {{ peaks_catalog.kpis.by_decade['2020s'] }}
+                <button type="button" onclick="setDecadePeakFilter('2020s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition" data-decade="2020s">
+                    2020s ({{ peaks_catalog.kpis.by_decade['2020s'] }})
                 </button>
-                <button type="button" onclick="setDecadePeakFilter('2030s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2030s">
-                    2030s • {{ peaks_catalog.kpis.by_decade['2030s'] }}
+                <button type="button" onclick="setDecadePeakFilter('2030s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition" data-decade="2030s">
+                    2030s ({{ peaks_catalog.kpis.by_decade['2030s'] }})
                 </button>
-                <button type="button" onclick="setDecadePeakFilter('2040s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2040s">
-                    2040s • {{ peaks_catalog.kpis.by_decade['2040s'] }}
+                <button type="button" onclick="setDecadePeakFilter('2040s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition" data-decade="2040s">
+                    2040s ({{ peaks_catalog.kpis.by_decade['2040s'] }})
                 </button>
-                <button type="button" onclick="setDecadePeakFilter('2050s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2050s">
-                    2050s • {{ peaks_catalog.kpis.by_decade['2050s'] }}
+                <button type="button" onclick="setDecadePeakFilter('2050s')" class="decade-peak-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition" data-decade="2050s">
+                    2050s ({{ peaks_catalog.kpis.by_decade['2050s'] }})
                 </button>
             </div>
         </div>
 
-        <!-- Grade Cronológica de Picos de Energia (Ano a Ano) -->
-        <div id="peaksGrid" class="space-y-4">
+        <!-- Feed Cronológico dos Picos de Energia (Cards Expandidos) -->
+        <div id="peaksContainer" class="space-y-4">
             {% for p in peaks_catalog.peaks %}
-            <div class="peak-card glass-panel p-5 sm:p-6 rounded-2xl border transition-all duration-200 hover:border-amber-400/60 hover:shadow-2xl space-y-4
-                        {% if p.alert_level == 'Crítico' %}border-rose-500/30 bg-rose-950/10{% else %}border-amber-500/30 bg-amber-950/10{% endif %}"
+            <div class="peak-card glass-panel p-5 sm:p-6 rounded-2xl border border-slate-700/80 hover:border-slate-500/80 transition-all space-y-4 shadow-xl"
                  data-year="{{ p.year }}"
                  data-scope="{{ p.scope_type }}"
                  data-country="{{ p.country_iso or '' }}"
                  data-scenario="{{ p.scenario_key }}"
                  data-decade="{{ p.decade }}"
+                 data-score="{{ p.energy_score_1000 }}"
                  data-search="{{ p.year }} {{ p.country_name_pt|lower }} {{ p.country_name_en|lower }} {{ p.scenario_label_pt|lower }} {{ p.cosmic_signature|lower }} {{ p.historical_precedent_title|lower }} {{ p.prospective_synthesis|lower }}">
                 
-                <!-- Linha Superior: Ano, Âmbito/País, Cenário e Alerta -->
-                <div class="flex flex-wrap items-center justify-between gap-3">
+                <!-- Topline: Ano, País/Âmbito, Cenário e Score -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
                     <div class="flex flex-wrap items-center gap-2.5">
-                        <!-- Ano em Destaque -->
-                        <div class="flex items-baseline gap-1.5 px-3 py-1 rounded-xl bg-slate-900 border border-slate-700 shadow-inner">
+                        <!-- Ano & Data -->
+                        <div class="flex items-center gap-2">
                             <span class="text-xl sm:text-2xl font-black font-display text-white tracking-tight">{{ p.year }}</span>
-                            <span class="text-[11px] font-mono text-slate-400">{{ p.peak_date }}</span>
+                            <span class="text-[11px] font-mono text-slate-400">({{ p.peak_date }})</span>
                         </div>
 
                         <!-- Badge de Âmbito / País -->
@@ -223,7 +446,7 @@
                     </div>
 
                     <!-- Métrica de Tensão / Energia -->
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 self-end sm:self-auto">
                         <div class="text-right">
                             <div class="text-xs text-slate-400 font-mono">Pico de Energia:</div>
                             <div class="text-lg font-black font-mono {% if p.alert_level == 'Crítico' %}text-rose-300{% else %}text-amber-300{% endif %}">
@@ -231,7 +454,7 @@
                             </div>
                         </div>
                         <span class="px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider
-                                     {% if p.alert_level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/50 animate-pulse{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/50{% endif %}">
+                                     {% if p.alert_level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/50{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/50{% endif %}">
                             🚨 {{ p.alert_level }}
                         </span>
                     </div>
@@ -246,7 +469,7 @@
                 <!-- Conteúdo Central: Assinatura Astrológica, Precedente Histórico e Síntese -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-1">
                     <!-- Assinatura Cósmica -->
-                    <div class="lg:col-span-4 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 space-y-1">
+                    <div class="lg:col-span-4 bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1.5">
                         <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
                             <span>🪐</span> Assinatura Astrológica Exata:
                         </div>
@@ -259,7 +482,7 @@
                     </div>
 
                     <!-- Precedente Histórico Isomórfico -->
-                    <div class="lg:col-span-4 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 space-y-1">
+                    <div class="lg:col-span-4 bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1.5">
                         <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
                             <span>🏛️</span> Precedente Histórico Isomórfico:
                         </div>
@@ -272,7 +495,7 @@
                     </div>
 
                     <!-- Síntese Prospectiva de Tendência -->
-                    <div class="lg:col-span-4 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 space-y-1">
+                    <div class="lg:col-span-4 bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1.5">
                         <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
                             <span>🔮</span> Tendência do Cenário:
                         </div>
@@ -285,317 +508,195 @@
             {% endfor %}
         </div>
 
-        <div id="noPeaksNotice" class="hidden glass-panel p-10 rounded-2xl text-center space-y-3">
+        <!-- Aviso de Vazio -->
+        <div id="noPeaksNotice" class="hidden glass-panel p-12 text-center rounded-2xl border border-slate-700 text-slate-400 space-y-3">
             <span class="text-3xl">🔍</span>
-            <h3 class="text-lg font-bold text-white">Nenhum pico de energia encontrado com os filtros selecionados</h3>
-            <p class="text-sm text-slate-400">Tente ajustar o cenário, o âmbito ou limpar o campo de busca.</p>
-            <button type="button" onclick="resetPeakFilters()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-amber-400 text-slate-950 font-bold hover:bg-amber-300 transition">
-                Restaurar Filtros Padrão
+            <div class="text-base font-bold text-slate-300">Nenhum pico de energia encontrado com os filtros selecionados.</div>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Tente alterar os filtros de cenário, âmbito ou remover o termo de busca.</p>
+            <button type="button" onclick="resetPeakFilters()" class="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs">
+                Limpar Todos os Filtros
             </button>
         </div>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ABA 2: SÉRIE ANUAL COMPLETA & PORTAIS SAZONAIS (2027–2060)                -->
+    <!-- ABA 3: MATRIZ DE RISCO COMPARADA (HEATMAP ANOS X PAÍSES 2026–2040)        -->
     <!-- ========================================================================= -->
-    <div id="section-table" class="space-y-6 hidden">
-        <!-- Painel Pedagógico: Como Ler as Métricas (Marco M2 / Caminho A) -->
-        <div class="glass-panel p-5 rounded-2xl border border-sky-500/30 bg-sky-950/20 text-xs sm:text-sm text-slate-300 space-y-3">
-            <div class="flex items-center justify-between cursor-pointer" onclick="document.getElementById('comoLerBody').classList.toggle('hidden')">
-                <div class="flex items-center gap-2">
-                    <span class="text-lg">ℹ️</span>
-                    <strong class="text-sky-300 text-sm uppercase tracking-wide">Como Ler as Métricas Calibradas (Marco M2 / Caminho A)</strong>
-                </div>
-                <span class="text-xs text-sky-400 underline">Clique para expandir / recolher</span>
-            </div>
-            <div id="comoLerBody" class="pt-2 border-t border-sky-800/40 text-xs sm:text-sm leading-relaxed space-y-2">
-                <p>
-                    • <strong>Percentil Médio Anual</strong>: Média aritmética das geometrias diárias do ano civil comparada à distribuição de todos os 301 anos (1800–2100). Um valor de 500 pontos indica ano mediano padrão. Valores $\ge 800$ indicam densidade de aspectos infrequente (top 20%).
-                </p>
-                <p>
-                    • <strong>Dias &gt; P90 da Era</strong>: Número de dias no ano em que o alinhamento angular ultrapassa o percentil 90 de toda a era histórica. Ao acaso, o esperado são aproximadamente 36,5 dias por ano ($10\%$).
-                </p>
-                <p>
-                    • <strong>Isomorfismo Histórico</strong>: Não representa previsão ou repetição de tragédias passadas. Mede apenas o grau de concordância angular entre corpos lentos e aspectos frente a momentos já catalogados na história.
-                </p>
-                <p class="text-amber-300">
-                    ⚖️ <strong>Conclusão do Teste de Hipótese M2</strong>: A validação estatística rigorosa com 10.000 permutações circulares demonstrou que os eventos históricos mundiais ocorrem com geometria indiferenciável do acaso ($z = -0.506, p = 0.694$). Nenhum número nesta tela deve ser interpretado como previsão determinística de guerras, crises financeiras ou eventos sociais.
-                </p>
-            </div>
-        </div>
-
-        <!-- KPI Summary Cards (Redesenhados para Métricas Calibradas) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div class="glass-panel p-5 rounded-2xl border-l-4 border-indigo-500 flex flex-col justify-between">
+    <div id="section-matrix" class="space-y-6 hidden">
+        <div class="glass-panel p-6 rounded-3xl border border-slate-700/80 shadow-2xl space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
                 <div>
-                    <span class="text-xs uppercase tracking-wider text-indigo-400 font-semibold">Maior Percentil Anual</span>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span class="text-3xl font-black text-indigo-200">{{ data.kpis.highest_tension.year }}</span>
-                        <span class="text-sm font-bold text-indigo-300">{{ data.kpis.highest_tension.annual_percentile_str }}</span>
-                    </div>
-                    <div class="text-xs text-slate-400 font-mono mt-1">
-                        {{ data.kpis.highest_tension.annual_percentile_1000 }} / 1000 pts
-                    </div>
+                    <h2 class="text-xl sm:text-2xl font-display font-extrabold text-white flex items-center gap-2">
+                        <span>🗺️</span> Matriz Comparativa de Risco Geopolítico (2026–2040)
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        Termômetro visual de ativação ano a ano cruzando a esfera global e as 12 potências soberanas.
+                    </p>
                 </div>
-                <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Classificação:</span>
-                    <span class="font-mono text-indigo-300 font-semibold">{{ data.kpis.highest_tension.tier_label }}</span>
-                </div>
-            </div>
-
-            <div class="glass-panel p-5 rounded-2xl border-l-4 border-emerald-500 flex flex-col justify-between">
-                <div>
-                    <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Menor Percentil Anual</span>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span class="text-3xl font-black text-emerald-200">{{ data.kpis.lowest_tension.year }}</span>
-                        <span class="text-sm font-bold text-emerald-300">{{ data.kpis.lowest_tension.annual_percentile_str }}</span>
-                    </div>
-                    <div class="text-xs text-slate-400 font-mono mt-1">
-                        {{ data.kpis.lowest_tension.annual_percentile_1000 }} / 1000 pts
-                    </div>
-                </div>
-                <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Classificação:</span>
-                    <span class="font-mono text-emerald-300 font-semibold">{{ data.kpis.lowest_tension.tier_label }}</span>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="flex items-center gap-1 text-rose-300"><span class="w-3 h-3 rounded bg-rose-500/40 border border-rose-500/60 inline-block"></span> Crítico (≥800)</span>
+                    <span class="flex items-center gap-1 text-amber-300"><span class="w-3 h-3 rounded bg-amber-500/40 border border-amber-500/60 inline-block"></span> Alto (≥720)</span>
+                    <span class="flex items-center gap-1 text-slate-500"><span class="w-3 h-3 rounded bg-slate-800 border border-slate-700 inline-block"></span> Estável</span>
                 </div>
             </div>
 
-            <div class="glass-panel p-5 rounded-2xl border-l-4 border-amber-500 flex flex-col justify-between">
-                <div>
-                    <span class="text-xs uppercase tracking-wider text-amber-400 font-semibold">Pico de Dias &gt; P90</span>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span class="text-3xl font-black text-amber-200">{{ data.kpis.highest_days_p90.year }}</span>
-                        <span class="text-sm font-bold text-amber-300">{{ data.kpis.highest_days_p90.days_above_p90 }} dias</span>
-                    </div>
-                    <div class="text-xs text-slate-400 font-mono mt-1">
-                        Esperado ao Acaso: ~36,5 dias
-                    </div>
-                </div>
-                <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Pico Sazonal:</span>
-                    <span class="font-mono text-amber-300 font-semibold">{{ data.kpis.highest_days_p90.peak_date }}</span>
-                </div>
-            </div>
-
-            <div class="glass-panel p-5 rounded-2xl border-l-4 border-sky-500 flex flex-col justify-between">
-                <div>
-                    <span class="text-xs uppercase tracking-wider text-sky-400 font-semibold">Média Geral (2027–2060)</span>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <span class="text-3xl font-black text-sky-200">{{ data.kpis.avg_tension_percent }}%</span>
-                        <span class="text-sm font-bold text-sky-300">{{ data.kpis.avg_tension_1000 }} pts</span>
-                    </div>
-                    <div class="text-xs text-slate-400 mt-1">
-                        34 Anos no Horizonte
-                    </div>
-                </div>
-                <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Mediana Teórica:</span>
-                    <span class="font-mono text-sky-300 font-semibold">500,0 pts</span>
-                </div>
-            </div>
-
-            <div class="glass-panel p-5 rounded-2xl border-l-4 border-purple-500 flex flex-col justify-between">
-                <div>
-                    <span class="text-xs uppercase tracking-wider text-purple-400 font-semibold">Distribuição de Faixas</span>
-                    <div class="mt-2 text-xs font-mono space-y-1">
-                        <div class="flex justify-between">
-                            <span class="text-indigo-300">Superior (≥800):</span>
-                            <strong class="text-white">{{ data.kpis.superior_count }} anos</strong>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-sky-300">Moderado (300-799):</span>
-                            <strong class="text-white">{{ data.kpis.moderate_count }} anos</strong>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-emerald-300">Basal (&lt;300):</span>
-                            <strong class="text-white">{{ data.kpis.basal_count }} anos</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 pt-2 border-t border-slate-700/60 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Distribuição:</span>
-                    <span class="font-mono text-purple-300 font-semibold">Calibrada</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls & Filters Bar da Tabela -->
-        <div class="glass-panel p-6 rounded-2xl space-y-4">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="w-full md:w-96 relative">
-                    <input type="text" id="tableSearchInput" placeholder="Buscar por ano, data, signo, aspecto ou paralelo..." 
-                        class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-10"
-                        onkeyup="filterTable()">
-                    <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <button type="button" onclick="toggleAllPortals()" id="toggleAllBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700 flex items-center gap-2">
-                        <span>↕️ Expandir Todos os Portais Sazonais</span>
-                    </button>
-                    <a href="/api/projections-2027-2060" target="_blank" class="px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 transition border border-indigo-700/50 flex items-center gap-1.5">
-                        <span>{ } JSON da API</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Filter Badges: Decades & Faixas -->
-            <div class="pt-3 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-4">
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-xs text-slate-400 font-medium mr-1">Décadas:</span>
-                    <button type="button" onclick="setDecadeFilter('Todas')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition" data-decade="Todas">
-                        Todas (34)
-                    </button>
-                    <button type="button" onclick="setDecadeFilter('2020s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2020s">
-                        2020s (2027–2029)
-                    </button>
-                    <button type="button" onclick="setDecadeFilter('2030s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2030s">
-                        2030s (10 anos)
-                    </button>
-                    <button type="button" onclick="setDecadeFilter('2040s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2040s">
-                        2040s (10 anos)
-                    </button>
-                    <button type="button" onclick="setDecadeFilter('2050s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2050s">
-                        2050s (10 anos)
-                    </button>
-                    <button type="button" onclick="setDecadeFilter('2060s')" class="decade-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2060s">
-                        2060 (1 ano)
-                    </button>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-xs text-slate-400 font-medium mr-1">Faixa Percentil:</span>
-                    <button type="button" onclick="setTierFilter('Todos')" class="tier-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-700 text-white transition" data-tier="Todos">
-                        Todas
-                    </button>
-                    <button type="button" onclick="setTierFilter('Percentil Superior')" class="tier-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-indigo-300 hover:bg-indigo-950/40 transition border border-indigo-900/40" data-tier="Percentil Superior">
-                        🟣 Superior (≥800)
-                    </button>
-                    <button type="button" onclick="setTierFilter('Percentil Moderado')" class="tier-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-sky-300 hover:bg-sky-950/40 transition border border-sky-900/40" data-tier="Percentil Moderado">
-                        🔵 Moderado (300-799)
-                    </button>
-                    <button type="button" onclick="setTierFilter('Percentil Basal')" class="tier-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-emerald-400 hover:bg-emerald-950/40 transition border border-emerald-900/40" data-tier="Percentil Basal">
-                        🟢 Basal (&lt;300)
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Prospective Table -->
-        <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl border border-slate-700/60">
+            <!-- Tabela Matriz com Scroll Horizontal -->
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse" id="projectionsTable">
+                <table class="w-full text-xs text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-900/95 border-b border-slate-700 text-xs font-bold text-slate-300 uppercase tracking-wider">
-                            <th class="py-4 px-4 whitespace-nowrap">Ano & Data do Pico</th>
-                            <th class="py-4 px-4 whitespace-nowrap">Percentil Anual</th>
-                            <th class="py-4 px-4 whitespace-nowrap">Dias &gt; P90 da Era</th>
-                            <th class="py-4 px-4 min-w-[240px] 2xl:min-w-[280px]">Configuração Astronômica</th>
-                            <th class="py-4 px-4 min-w-[240px] 2xl:min-w-[280px]">Isomorfismo Histórico</th>
-                            <th class="py-4 px-6 min-w-[360px] 2xl:min-w-[460px]">Sumário Analítico</th>
-                            <th class="py-4 px-3 text-center whitespace-nowrap">Portais</th>
+                        <tr class="border-b border-slate-800 text-slate-400 font-mono">
+                            <th class="py-3 px-3 min-w-[140px] sticky left-0 bg-slate-950/90 backdrop-blur z-10">Ator Soberano</th>
+                            {% for y in peaks_catalog.risk_matrix.years %}
+                            <th class="py-3 px-2 text-center min-w-[55px] {% if y in [2026, 2028, 2029, 2032, 2034, 2036, 2040] %}text-amber-300 font-bold bg-amber-400/5{% endif %}">
+                                {{ y }}
+                            </th>
+                            {% endfor %}
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-800 text-sm">
-                        {% for row in data.projections %}
-                        <tr class="projection-row hover:bg-slate-800/60 transition-colors group"
-                            data-year="{{ row.year }}"
-                            data-decade="{{ row.decade }}"
-                            data-tier="{{ row.tier_label }}"
-                            data-search="{{ row.year }} {{ row.peak_date }} {{ row.cosmic_trigger|lower }} {{ row.top_precedent.title|lower }} {{ row.tier_label|lower }} {{ row.scenarios_and_possibilities|lower }}">
+                    <tbody class="divide-y divide-slate-800/60 font-mono">
+                        {% for row in peaks_catalog.risk_matrix.rows %}
+                        <tr class="hover:bg-slate-800/40 transition">
+                            <td class="py-2.5 px-3 font-semibold text-slate-200 sticky left-0 bg-slate-950/90 backdrop-blur z-10 whitespace-nowrap flex items-center gap-2">
+                                <span>{{ row.flag }}</span>
+                                <span class="font-sans text-xs">{{ row.name_pt }}</span>
+                            </td>
+                            {% for cell in row.cells %}
+                            <td class="py-2.5 px-1.5 text-center">
+                                {% if cell.has_peak %}
+                                <div class="px-1 py-1 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center cursor-pointer transition transform hover:scale-110
+                                            {% if cell.level == 'Crítico' %}bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm shadow-rose-500/20{% else %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% endif %}"
+                                     title="{{ cell.year }} em {{ row.name_pt }}: {{ cell.level }} ({{ cell.score }} pts)">
+                                    <span>{{ cell.icon }}</span>
+                                    <span class="text-[9px]">{{ cell.score|round|int }}</span>
+                                </div>
+                                {% else %}
+                                <span class="text-slate-700 text-[10px]">•</span>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- ABA 4: SÉRIE ANUAL & PORTAIS SAZONAIS (34 ANOS 2027–2060)                  -->
+    <!-- ========================================================================= -->
+    <div id="section-table" class="space-y-6 hidden">
+        <!-- Controles da Tabela Anual -->
+        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-slate-700/80 shadow-xl">
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="text-xs text-slate-400 font-semibold">Décadas:</span>
+                <div class="flex flex-wrap gap-1">
+                    <button type="button" onclick="setDecadeFilter('Todas')" class="decade-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-400 text-slate-950 transition" data-decade="Todas">
+                        Todas (34)
+                    </button>
+                    <button type="button" onclick="setDecadeFilter('2020s')" class="decade-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2020s">
+                        2020s (3)
+                    </button>
+                    <button type="button" onclick="setDecadeFilter('2030s')" class="decade-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2030s">
+                        2030s (10)
+                    </button>
+                    <button type="button" onclick="setDecadeFilter('2040s')" class="decade-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2040s">
+                        2040s (10)
+                    </button>
+                    <button type="button" onclick="setDecadeFilter('2050s')" class="decade-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-decade="2050s">
+                        2050s (11)
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="toggleAllPortals()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
+                    <span>✨ Expandir/Recolher Portais Sazonais</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela Principal 34 Anos -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-slate-700/80 shadow-2xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-700/80 bg-slate-900/90 text-xs uppercase tracking-wider text-slate-400 font-mono">
+                            <th class="py-4 px-4 whitespace-nowrap">Ano</th>
+                            <th class="py-4 px-4 min-w-[140px] whitespace-nowrap text-center">Alerta</th>
+                            <th class="py-4 px-4 whitespace-nowrap">Gatilho Cósmico</th>
+                            <th class="py-4 px-4 min-w-[150px] whitespace-nowrap text-right">Percentil Anual</th>
+                            <th class="py-4 px-4 min-w-[140px] whitespace-nowrap text-right">Pico de Tensão</th>
+                            <th class="py-4 px-4">Precedente Análogo</th>
+                            <th class="py-4 px-4 min-w-[200px]">Cenário Dominante</th>
+                            <th class="py-4 px-4 text-center">Portais</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 font-sans" id="projectionsTableBody">
+                        {% for p in projections %}
+                        <tr class="hover:bg-slate-800/50 transition projection-row" 
+                            data-year="{{ p.year }}"
+                            data-decade="{{ p.decade }}"
+                            data-alert="{{ p.alert_level }}"
+                            data-tier="{{ p.alert_color }}">
                             
-                            <td class="py-4 px-4 align-top whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xl font-bold font-mono text-white">{{ row.year }}</span>
-                                    <span class="text-xs px-2 py-0.5 rounded font-mono {{ row.alert_bg }} {{ row.alert_color }} font-bold border border-slate-700">
-                                        {{ row.alert_level }}
-                                    </span>
-                                </div>
-                                <div class="text-xs text-slate-400 font-mono mt-1 flex items-center gap-1">
-                                    <span>Pico Sazonal:</span>
-                                    <strong class="text-slate-300">{{ row.peak_date }}</strong>
-                                </div>
+                            <td class="py-4 px-4 font-mono font-bold text-white text-base whitespace-nowrap">
+                                {{ p.year }}
+                            </td>
+                            
+                            <td class="py-4 px-4 whitespace-nowrap text-center align-middle">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold font-mono tracking-wider border leading-normal whitespace-nowrap inline-flex items-center justify-center
+                                             {% if p.alert_color == 'rose' %}bg-rose-500/20 text-rose-300 border-rose-500/40{% elif p.alert_color == 'amber' %}bg-amber-500/20 text-amber-300 border-amber-500/40{% elif p.alert_color == 'sky' %}bg-sky-500/20 text-sky-300 border-sky-500/40{% else %}bg-slate-800 text-slate-300 border-slate-700{% endif %}">
+                                    {{ p.alert_level }}
+                                </span>
                             </td>
 
-                            <td class="py-4 px-4 align-top whitespace-nowrap font-mono">
-                                <div class="text-base font-bold text-white">
-                                    {{ row.annual_percentile_1000 }} <span class="text-xs text-slate-500 font-normal">/ 1000</span>
-                                </div>
-                                <div class="text-xs font-semibold mt-0.5" style="color: {{ row.tier_color }};">
-                                    {{ row.tier_label }}
-                                </div>
+                            <td class="py-4 px-4 font-mono text-xs text-amber-300/90 whitespace-nowrap">
+                                {{ p.cosmic_trigger }}
                             </td>
 
-                            <td class="py-4 px-4 align-top whitespace-nowrap font-mono">
-                                <div class="text-sm font-semibold {% if row.days_above_p90 >= 60 %}text-amber-400 font-bold{% elif row.days_above_p90 >= 30 %}text-indigo-300{% else %}text-slate-300{% endif %}">
-                                    {{ row.days_above_p90 }} dias
-                                </div>
-                                <div class="text-xs text-slate-500">
-                                    esperado: ~36,5
-                                </div>
+                            <td class="py-4 px-4 font-mono text-right text-xs whitespace-nowrap text-slate-300">
+                                {{ p.annual_percentile_1000 }} <span class="text-[10px] text-slate-500">/ 1000</span>
                             </td>
 
-                            <td class="py-4 px-4 align-top">
-                                <div class="text-xs font-mono font-medium text-amber-300/90 leading-snug">
-                                    {{ row.cosmic_trigger }}
-                                </div>
+                            <td class="py-4 px-4 font-mono text-right text-sm font-bold text-rose-300 whitespace-nowrap">
+                                {{ p.peak_tension_1000 }} <span class="text-[10px] text-slate-500">/ 1000</span>
                             </td>
 
-                            <td class="py-4 px-4 align-top">
-                                <div class="text-xs font-semibold text-sky-300 hover:text-sky-200 transition">
-                                    {{ row.top_precedent.title }} ({{ row.top_precedent.year }})
-                                </div>
-                                <div class="text-xs text-slate-400 mt-0.5">
-                                    Categoria: <span class="text-slate-300">{{ row.top_precedent.category }}</span>
-                                </div>
+                            <td class="py-4 px-4 text-xs text-slate-300 whitespace-nowrap">
+                                <strong class="text-white">{{ p.top_precedent.title }}</strong> 
+                                <span class="text-slate-500">({{ p.top_precedent.year }})</span>
                             </td>
 
-                            <td class="py-4 px-6 align-top">
-                                <div class="text-xs text-slate-300 leading-relaxed font-sans">
-                                    {{ row.scenarios_and_possibilities }}
-                                </div>
+                            <td class="py-4 px-4 text-xs text-slate-300 leading-snug">
+                                {{ p.scenarios_and_possibilities }}
                             </td>
 
-                            <td class="py-4 px-3 align-top text-center">
-                                <button type="button" onclick="togglePortalRow({{ row.year }})" id="btn-portal-{{ row.year }}"
-                                    class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 text-xs flex items-center justify-center mx-auto"
-                                    title="Exibir 4 Portais Sazonais">
-                                    <span>🧭</span>
+                            <td class="py-4 px-4 text-center">
+                                <button type="button" onclick="togglePortalRow({{ p.year }})" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-mono transition">
+                                    4 Portais &darr;
                                 </button>
                             </td>
                         </tr>
 
-                        <!-- Linha de Detalhes dos Portais Sazonais -->
-                        <tr id="portal-row-{{ row.year }}" class="hidden bg-slate-950/70 border-b border-slate-800/80">
-                            <td colspan="7" class="p-4 sm:p-6">
-                                <div class="space-y-3">
-                                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-base">🧭</span>
-                                            <h4 class="text-xs font-bold uppercase tracking-wider text-amber-300">
-                                                Portais Sazonais de {{ row.year }} (Equinócios & Solstícios)
-                                            </h4>
+                        <!-- Linha de Portais Sazonais Retrátil -->
+                        <tr id="portal-row-{{ p.year }}" class="hidden bg-slate-950/80 border-b border-slate-800/80">
+                            <td colspan="8" class="p-4 sm:p-6">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                    {% for port in p.seasonal_portals %}
+                                    <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+                                        <div class="flex items-center justify-between text-xs font-mono">
+                                            <span class="font-bold text-amber-400">{{ port.portal_name }}</span>
+                                            <span class="text-slate-500">{{ port.date }}</span>
                                         </div>
-                                        <span class="text-xs text-slate-500 font-mono">Swiss Ephemeris • Noon UT</span>
-                                    </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                                        {% for p in row.seasonal_portals %}
-                                        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
-                                            <div class="flex items-center justify-between">
-                                                <span class="text-xs font-bold text-white font-mono">{{ p.label.split(' ')[0] }}</span>
-                                                <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-amber-300 font-bold border border-slate-700">
-                                                    {{ p.percentile_1000 }} pts
-                                                </span>
-                                            </div>
-                                            <div class="text-[11px] text-slate-400 font-medium">
-                                                {{ p.label }}
-                                            </div>
-                                            <div class="text-[11px] font-mono text-slate-300 pt-1 border-t border-slate-800 leading-snug">
-                                                {{ p.trigger }}
-                                            </div>
+                                        <div class="text-[11px] text-slate-300 leading-snug">
+                                            {{ port.focus }}
                                         </div>
-                                        {% endfor %}
+                                        <div class="text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-800/60">
+                                            Gatilho: {{ port.trigger }}
+                                        </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </td>
                         </tr>
@@ -606,39 +707,59 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-    // State management for tabs and filters
-    let activeTab = 'peaks';
+    let activeTab = 'dossier';
     let currentScenario = 'Todos';
     let currentScope = 'Todos';
     let currentCountry = '';
     let currentPeakDecade = 'Todas';
+    let currentSort = 'year_asc';
 
     let currentDecade = 'Todas';
-    let currentTier = 'Todos';
 
     function switchProjectionTab(tab) {
         activeTab = tab;
-        const btnPeaks = document.getElementById('tab-btn-peaks');
-        const btnTable = document.getElementById('tab-btn-table');
-        const secPeaks = document.getElementById('section-peaks');
-        const secTable = document.getElementById('section-table');
+        const tabs = ['dossier', 'peaks', 'matrix', 'table'];
+        tabs.forEach(t => {
+            const btn = document.getElementById(`tab-btn-${t}`);
+            const sec = document.getElementById(`section-${t}`);
+            if (btn && sec) {
+                if (t === tab) {
+                    btn.className = "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md";
+                    sec.classList.remove('hidden');
+                } else {
+                    btn.className = "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white";
+                    sec.classList.add('hidden');
+                }
+            }
+        });
+    }
 
-        if (tab === 'peaks') {
-            btnPeaks.className = "px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md";
-            btnTable.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white";
-            secPeaks.classList.remove('hidden');
-            secTable.classList.add('hidden');
-        } else {
-            btnTable.className = "px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md";
-            btnPeaks.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white";
-            secTable.classList.remove('hidden');
-            secPeaks.classList.add('hidden');
+    // Seletor de Dossiê por País
+    function selectCountryDossier(iso) {
+        document.querySelectorAll('.country-dossier-btn').forEach(btn => {
+            if (btn.getAttribute('data-iso') === iso) {
+                btn.classList.add('bg-amber-400', 'text-slate-950', 'font-bold');
+                btn.classList.remove('bg-slate-800', 'text-slate-300');
+            } else {
+                btn.classList.remove('bg-amber-400', 'text-slate-950', 'font-bold');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            }
+        });
+
+        document.querySelectorAll('.country-dossier-panel').forEach(panel => {
+            panel.classList.add('hidden');
+        });
+        const target = document.getElementById(`dossier-panel-${iso}`);
+        if (target) {
+            target.classList.remove('hidden');
         }
     }
 
-    // Filtros da Seção de Picos de Energia
+    // Filtros de Picos de Energia
     function setScenarioFilter(scenario) {
         currentScenario = scenario;
         document.querySelectorAll('.scenario-btn').forEach(btn => {
@@ -684,6 +805,33 @@
         filterEnergyPeaks();
     }
 
+    function sortEnergyPeaks() {
+        const select = document.getElementById('peakSortSelect');
+        if (!select) return;
+        currentSort = select.value;
+        const container = document.getElementById('peaksContainer');
+        if (!container) return;
+        const cards = Array.from(container.querySelectorAll('.peak-card'));
+
+        cards.sort((a, b) => {
+            const yrA = parseInt(a.getAttribute('data-year') || '0', 10);
+            const yrB = parseInt(b.getAttribute('data-year') || '0', 10);
+            const scA = parseFloat(a.getAttribute('data-score') || '0');
+            const scB = parseFloat(b.getAttribute('data-score') || '0');
+
+            if (currentSort === 'year_asc') {
+                return yrA - yrB || scB - scA;
+            } else if (currentSort === 'year_desc') {
+                return yrB - yrA || scB - scA;
+            } else if (currentSort === 'score_desc') {
+                return scB - scA || yrA - yrB;
+            }
+            return 0;
+        });
+
+        cards.forEach(c => container.appendChild(c));
+    }
+
     function resetPeakFilters() {
         currentScenario = 'Todos';
         currentScope = 'Todos';
@@ -704,7 +852,6 @@
         let visibleCount = 0;
 
         cards.forEach(card => {
-            const cYear = card.getAttribute('data-year');
             const cScope = card.getAttribute('data-scope');
             const cCountry = card.getAttribute('data-country');
             const cScenario = card.getAttribute('data-scenario');
@@ -739,84 +886,59 @@
         }
     }
 
-    // Filtros da Tabela Anual (Aba 2)
+    // Filtros da Tabela Anual
     function setDecadeFilter(decade) {
         currentDecade = decade;
         document.querySelectorAll('.decade-btn').forEach(btn => {
             if (btn.getAttribute('data-decade') === decade) {
-                btn.classList.add('bg-amber-500', 'text-slate-950');
+                btn.classList.add('bg-amber-400', 'text-slate-950', 'font-bold');
                 btn.classList.remove('bg-slate-800', 'text-slate-300');
             } else {
-                btn.classList.remove('bg-amber-500', 'text-slate-950');
+                btn.classList.remove('bg-amber-400', 'text-slate-950', 'font-bold');
                 btn.classList.add('bg-slate-800', 'text-slate-300');
             }
         });
         filterTable();
     }
 
-    function setTierFilter(tier) {
-        currentTier = tier;
-        document.querySelectorAll('.tier-btn').forEach(btn => {
-            if (btn.getAttribute('data-tier') === tier) {
-                btn.classList.add('ring-2', 'ring-amber-400');
-            } else {
-                btn.classList.remove('ring-2', 'ring-amber-400');
-            }
-        });
-        filterTable();
-    }
-
     function filterTable() {
-        const query = (document.getElementById('tableSearchInput')?.value || '').toLowerCase().trim();
         const rows = document.querySelectorAll('.projection-row');
-
         rows.forEach(row => {
-            const rowDecade = row.getAttribute('data-decade');
-            const rowTier = row.getAttribute('data-tier');
-            const rowSearch = row.getAttribute('data-search') || '';
-            const yr = row.getAttribute('data-year');
-            const portalRow = document.getElementById('portal-row-' + yr);
-
-            const matchesDecade = (currentDecade === 'Todas' || rowDecade === currentDecade);
-            const matchesTier = (currentTier === 'Todos' || rowTier === currentTier);
-            const matchesSearch = (!query || rowSearch.includes(query));
-
-            if (matchesDecade && matchesTier && matchesSearch) {
+            const rDecade = row.getAttribute('data-decade');
+            const matchDecade = (currentDecade === 'Todas' || rDecade === currentDecade);
+            if (matchDecade) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
-                if (portalRow) portalRow.classList.add('hidden');
+                const y = row.getAttribute('data-year');
+                const portRow = document.getElementById(`portal-row-${y}`);
+                if (portRow) portRow.classList.add('hidden');
             }
         });
     }
 
     function togglePortalRow(year) {
-        const row = document.getElementById('portal-row-' + year);
-        if (!row) return;
-        const btn = document.getElementById('btn-portal-' + year);
-        if (row.classList.contains('hidden')) {
-            row.classList.remove('hidden');
-            if (btn) btn.classList.add('bg-amber-500', 'text-slate-950');
-        } else {
-            row.classList.add('hidden');
-            if (btn) btn.classList.remove('bg-amber-500', 'text-slate-950');
+        const row = document.getElementById(`portal-row-${year}`);
+        if (row) {
+            row.classList.toggle('hidden');
         }
     }
 
-    let allExpanded = false;
+    let allPortalsOpen = false;
     function toggleAllPortals() {
-        allExpanded = !allExpanded;
-        const btn = document.getElementById('toggleAllBtn');
+        allPortalsOpen = !allPortalsOpen;
         document.querySelectorAll('[id^="portal-row-"]').forEach(row => {
-            if (allExpanded) {
+            if (allPortalsOpen) {
                 row.classList.remove('hidden');
             } else {
                 row.classList.add('hidden');
             }
         });
-        if (btn) {
-            btn.innerHTML = allExpanded ? '<span>↕️ Recolher Portais Sazonais</span>' : '<span>↕️ Expandir Todos os Portais Sazonais</span>';
-        }
     }
+
+    // Inicialização do Dossiê do Brasil como padrão
+    document.addEventListener('DOMContentLoaded', () => {
+        selectCountryDossier('BRA');
+    });
 </script>
 {% endblock %}
