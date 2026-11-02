@@ -67,10 +67,13 @@ def _mark_validated(events: list) -> list:
 # Configuração de templates e estáticos
 TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "src", "web", "static")
+WEB_DIR = os.path.join(BASE_DIR, "web")
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 if os.path.exists(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+if os.path.exists(WEB_DIR):
+    app.mount("/web", StaticFiles(directory=WEB_DIR, html=True), name="web")
 
 def build_chart_series(future_data: dict) -> dict:
     """Séries 1800–2100 (escala 0–1000) para o Chart.js do dashboard, simulador e linha do tempo."""

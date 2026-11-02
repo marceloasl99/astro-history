@@ -333,6 +333,17 @@ make run            # http://127.0.0.1:8000
 docker compose up -d --build   # app + proxy reverso Caddy em 80/443
 ```
 
+### Versão Standalone Estática & Deploy no GitHub Pages (Sem Backend)
+A plataforma completa foi compilada em um **único arquivo HTML 100% autossuficiente e funcional** (`web/index.html` e cópia em `docs/index.html`), com todos os 1.342 eventos, 107 países soberanos, 148 picos de energia (2026–2060), linha do tempo de 301 anos (1800–2100), cenários, previsões, temas triplos (Preto OLED, Escuro, Claro) e suporte bilíngue (PT/EN) embutidos sem qualquer necessidade de backend ou cálculo em tempo de execução.
+
+- **Para reconstruir o arquivo estático**:
+  ```bash
+  python3 scripts/build_standalone_web.py
+  ```
+- **Hospedagem no GitHub Pages**:
+  Nas configurações do seu repositório no GitHub, acesse **Settings** > **Pages** > **Build and deployment** > Source: **Deploy from a branch** > Branch: **`main`** > Pasta: **`/docs`** (onde uma cópia de `web/index.html` é mantida sincronizada em `docs/index.html`).
+- **Uso Local / Qualquer Servidor Estático**: Abra diretamente no navegador com dois cliques (`file:///.../web/index.html`) ou hospede em Vercel, Netlify, Cloudflare Pages, S3, Apache ou Nginx.
+
 Tudo é determinístico (sementes fixas em `config/analysis.yaml` e nos scripts); reexecutar a cadeia reproduz os caches JSON versionados.
 
 ---
@@ -373,6 +384,8 @@ astro-history/
 ├── data/
 │   ├── events_v2.csv              # Catálogo objetivo (COW, UCDP, NBER, Powell & Thyne, Polity5)
 │   ├── historical_events.json     # Catálogo geral expandido de 1.342 eventos (6 categorias)
+│   ├── countries_database.json    # Base de 107 nações soberanas
+│   ├── energy_peaks_2026_2060.json# 148 picos de energia mundiais e por país (2026–2060)
 │   ├── external/                  # COW Guerras v4, datas NBER, UCDP/PRIO v24.1 (+ README com fontes)
 │   ├── ephemeris/                 # Grade diária 1800–2100 (.npz)
 │   ├── features/                  # Grade de 409 features 1750–2150 (ignorada no git; make features)
@@ -384,11 +397,17 @@ astro-history/
 │   ├── DATASET_CARD.md / exclusion_log.md
 ├── db/history_astrology.db        # SQLite: events, planet_positions, event_aspects, event_star_aspects, events_v2, control_dates
 ├── docs/
+│   ├── index.html                 # Cópia sincronizada para GitHub Pages (branch /docs)
 │   ├── hipoteses.md / hipoteses_v3.md     # Pré-registros
 │   ├── decisao_M2.md              # Registro da decisão do marco
 │   ├── mecanismo_site.md          # Mecanismo e considerações de projeto
 │   └── screenshots/
 ├── reports/                       # validacao_v2.md, phase3_validation.md, hindcast_v3.md, final_report_v2.md, …
+├── scripts/
+│   ├── build_standalone_web.py    # Compilador do index.html único e autossuficiente
+│   ├── build_historical_events.py # Compilador do catálogo de 1.342 eventos
+│   ├── build_countries_dataset.py # Compilador das 107 cartas nacionais
+│   └── calculate_all_events.py    # Processador Swiss Ephemeris em lote
 ├── src/
 │   ├── astro_engine.py            # Mapas: corpos, aspectos, estrelas fixas, casas, resolução do instante
 │   ├── correlation_engine.py      # Correlações por categoria e matcher leave-one-out
@@ -401,6 +420,9 @@ astro-history/
 │   │   ├── astro_features.py      # 409 features diárias, agregação mensal
 │   │   ├── astro_events.py        # Aspectos exatos, ingressos, estações, eclipses
 │   │   └── targets.py             # Séries mensais de alvos a partir das fontes históricas
+│   ├── mundane/
+│   │   ├── countries_engine.py    # Cartas de fundação nacional e trânsitos mundanos
+│   │   └── energy_peaks.py        # Detector de picos de energia mundiais e por país
 │   ├── analysis/
 │   │   ├── null_models.py / multiplicity.py / run_phase3_validation.py   # v2
 │   │   ├── hindcast.py            # Medição de skill walk-forward
@@ -408,6 +430,8 @@ astro-history/
 │   │   └── annual_indices.py      # Séries do dashboard e correlação com a história
 │   ├── data/ingest_historical.py  # Ingestão v2 e datas-controle
 │   └── web/                       # App FastAPI, mandala SVG, templates Jinja2
+├── web/
+│   └── index.html                 # Aplicação standalone em arquivo único para GitHub Pages (zero backend)
 ├── tests/                         # regression/, unit/, statistical/, test_api.py …
 ├── Makefile · Dockerfile · docker-compose.yml · Caddyfile · ci/ci.yml
 └── CITATION.cff · LICENSE · requirements.txt · requirements.lock

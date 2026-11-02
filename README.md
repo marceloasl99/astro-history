@@ -344,6 +344,17 @@ uvicorn src.web.app:app --host 0.0.0.0 --port 8000 --reload
 sudo systemctl restart astro-history
 ```
 
+### Standalone Static Web & GitHub Pages Deployment (Zero-Backend)
+The entire platform is also compiled into a **100% self-contained, standalone single-file web application** (`web/index.html`) with all 1,342 events, 107 sovereign nations, 148 energy peaks (2026–2060), 301-year timeline (1800–2100), scenarios, forecasts, triple themes (OLED Black, Dark, Light), and bilingual support (EN/PT) pre-rendered with zero runtime backend dependency.
+
+- **To rebuild the standalone file**:
+  ```bash
+  python3 scripts/build_standalone_web.py
+  ```
+- **Deployment via GitHub Pages**:
+  In your GitHub repository, go to **Settings** > **Pages** > **Build and deployment** > Source: **Deploy from a branch** > Branch: **`main`** > Folder: **`/docs`** (where a synchronized copy of `web/index.html` is maintained at `docs/index.html`).
+- **Any Static Server / Local**: Open `web/index.html` directly in any web browser (`file:///path/to/web/index.html`) or serve via any static web host (GitHub Pages, Netlify, Cloudflare Pages, AWS S3, Vercel, Apache, Nginx).
+
 ---
 
 ## 16. HTTP API reference
@@ -379,7 +390,8 @@ astro-history/
 │   └── analysis.yaml              # Random seeds, permutation counts, validation windows
 ├── data/
 │   ├── historical_events.json     # 1,342-event verified historical database
-│   ├── countries_database.json    # 20 sovereign national charts & historical metadata
+│   ├── countries_database.json    # 107 sovereign national charts & historical metadata
+│   ├── energy_peaks_2026_2060.json# 148 calculated planetary energy peaks (2026–2060)
 │   ├── events_v2.csv              # Objective validation sample (N=59)
 │   ├── external/                  # COW Wars, UCDP Conflicts, NBER Cycles, Powell & Thyne Coups, USGS Earthquakes
 │   ├── ephemeris/                 # Daily precomputed ephemeris grid 1800–2100 (.npz)
@@ -389,6 +401,7 @@ astro-history/
 ├── db/
 │   └── history_astrology.db       # SQLite relational database
 ├── docs/
+│   ├── index.html                 # Synchronized standalone single-file for GitHub Pages (/docs branch)
 │   ├── hipoteses.md               # Pre-registration of hypotheses (v2)
 │   ├── hipoteses_v3.md            # Pre-registration of hindcast hypotheses (v3)
 │   └── mecanismo_site.md          # Architectural and methodological documentation
@@ -396,6 +409,7 @@ astro-history/
 │   ├── validacao_v2.md            # Detailed report of null-model validation
 │   └── hindcast_v3.json           # Full walk-forward hindcast statistical metrics
 ├── scripts/
+│   ├── build_standalone_web.py    # Compiler for self-contained single-file web/index.html
 │   ├── build_historical_events.py # Expansion script compiling 1,342 historical events
 │   ├── build_countries_dataset.py # National charts and metadata compiler
 │   └── calculate_all_events.py    # Swiss Ephemeris batch processor
@@ -413,7 +427,7 @@ astro-history/
 │   │   └── targets.py             # Historical target series extraction
 │   ├── mundane/
 │   │   ├── countries_engine.py    # National foundation charts & mundane transits
-│   │   └── energy_peaks.py        # 2026–2050 national transit peak detector
+│   │   └── energy_peaks.py        # 2026–2060 national transit peak detector
 │   ├── analysis/
 │   │   ├── historical_analogues.py# Cosmic History Search engine
 │   │   ├── hindcast.py            # Walk-forward validation harness
@@ -423,6 +437,8 @@ astro-history/
 │       ├── static/
 │       │   └── js/i18n.js         # Bilingual internationalization engine (EN/PT)
 │       └── templates/             # Jinja2 templates (triple-theme enabled)
+├── web/
+│   └── index.html                 # Standalone single-file application for GitHub Pages (zero backend)
 └── tests/                         # 99 automated tests (astronomy, stats, mundane, API, UI)
 ```
 
