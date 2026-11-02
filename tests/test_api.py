@@ -13,7 +13,8 @@ async def test_api_routes():
         # Events catalog
         res = await ac.get("/events")
         assert res.status_code == 200
-        assert "Catálogo dos 300 Fatos" in res.text
+        assert "Catálogo" in res.text
+        assert "1.342" in res.text
 
         # Event detail (1929 Crash #93)
         res = await ac.get("/events/93")
@@ -66,8 +67,8 @@ async def test_api_routes():
         res = await ac.get("/api/stats")
         assert res.status_code == 200
         data = res.json()
-        assert data["total_events"] == 300
-        assert data["calculated_events"] == 300
+        assert data["total_events"] == 1342
+        assert data["calculated_events"] == 1342
         assert data["progress_percent"] == 100.0
 
         # Methodology page

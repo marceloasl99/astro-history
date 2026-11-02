@@ -43,3 +43,58 @@ Devido à autocorrelação temporal extrema das posições dos planetas externos
 Para neutralizar esse viés:
 - O grupo de controle contém **10.000 datas aleatórias pareadas e estratificadas por década**, refletindo exatamente a distribuição temporal dos eventos do catálogo.
 - Semente do gerador pseudoaleatório fixada: `seed = 42`.
+
+---
+
+## 5. Catálogo Geral Expandido (Fase 4 - Internacional)
+
+Para além da amostra analítica pré-registrada de teste, o AstroHistory implementa uma **Arquitetura de Duplo Circuito (Dual-Track Architecture)**:
+
+```
++--------------------------------------------------------------------------+
+|                     ARQUITETURA DE DUPLO CIRCUITO                        |
++------------------------------------+-------------------------------------+
+| TRACK A: Catálogo Geral Expandido  | TRACK B: Amostra Analítica Fidedigna|
+| (Exploração & Historical Analogues)| (Teste de Hipótese Pré-Registrado)  |
++------------------------------------+-------------------------------------+
+| • Tabela: events (N = 1.342)       | • Tabela: events_v2 (N = 61)        |
+| • Categorias: 6 canônicas          | • Categorias: 6 analíticas          |
+| • Arquivo: historical_events.json  | • Arquivo: events_v2.csv            |
+| • Fontes: COW v4.0 (94 guerras),   | • Controle: control_dates (10.000)  |
+|   UCDP v24.1 (251 conflitos),      | • Critérios: Inclusão restrita,     |
+|   Powell & Thyne (462 golpes),     |   pareamento temporal decenal,      |
+|   USGS (190 terremotos M>=7.8),    |   análise cega a hipóteses.         |
+|   NBER (34 recessões),             | • Status: Rígido e Imutável         |
+|   Milestones (39 marcos/tratados)  |   (preserva validações v2/v3).      |
+| • Objetivo: Pesquisa de análogos,  | • Objetivo: Avaliação objetiva de   |
+|   educação, timeline e consultas.  |   capacidade preditiva estatística. |
++------------------------------------+-------------------------------------+
+```
+
+### 6 Categorias Canônicas do Catálogo Expandido (Track A):
+1. **Revolução & Conflito Interno** ($N=765$): Golpes de Estado (Powell & Thyne), insurreições populares, guerras civis e revoluções.
+2. **Guerra & Conflito** ($N=229$): Guerras interestatais (COW v4.0) e conflitos armados internacionais (UCDP/PRIO v24.1).
+3. **Desastre & Saúde Pública** ($N=203$): Grandes terremotos globais ($M \ge 7.8$, USGS) e pandemias históricas documentadas.
+4. **Crise Financeira & Econômica** ($N=59$): Picos de recessão macroeconômica (NBER) e quebras bancárias sistêmicas.
+5. **Ciência & Tecnologia** ($N=58$): Marcos da revolução científica, exploração espacial, física e computação.
+6. **Política, Tratados & Cultura** ($N=28$): Tratados fundamentais de paz internacional, renascimentos culturais e reformas jurídicas.
+```
+
+### Fontes Acadêmicas Oficiais Integradas no Track A:
+1. **Correlates of War (COW) Inter-State War Dataset v4.0**:
+   - 94 guerras interestatais entre soberanos documentadas desde 1823 com beligerantes e baixas militares de combate.
+2. **Uppsala Conflict Data Program (UCDP/PRIO) Armed Conflict Dataset v24.1**:
+   - 251 conflitos armados intra e interestatais com datação precisa de início (níveis de precisão 1 a 3).
+3. **Powell & Thyne Coup d'État Dataset (v2026.08)**:
+   - 462 episódios de golpe de Estado (bem-sucedidos e tentativas) em todos os continentes desde 1950.
+4. **USGS Earthquake Hazards Program Comprehensive Catalog (ComCat)**:
+   - 190 grandes terremotos globais de magnitude de momento $M \ge 7.8$ com coordenadas epicentrais e hora UTC exata.
+5. **National Bureau of Economic Research (NBER)**:
+   - 34 picos de ciclo econômico marcando início oficial de recessões nos EUA (1857-2020).
+6. **Curated Historical Milestones**:
+   - 39 marcos históricos verificados (tratados de paz de Westfália a Versalhes, fundações, revolução científica e conquistas espaciais).
+
+### Deduplicação Fuzzy e Higiene:
+- Critério de deduplicação: eventos candidatos com mesma data ($\pm 3$ dias) e alta similaridade léxica ou mesmo país/categoria foram comparados, resultando em 76 potenciais duplicatas descartadas.
+- Todas as 1.342 efemérides foram calculadas integralmente pela Swiss Ephemeris (`calculated = 1`), com posições zodiacais, aspectos estritos e índices de tensão gerados no banco SQLite.
+

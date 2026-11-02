@@ -13,7 +13,18 @@ Swiss Ephemeris (pyswisseph)
    │                                                              ──► hindcast walk-forward ──► skill (BSS, AUC)
    │                                                              ──► forecast 2026–2060 (p, intervalo, drivers)
    │
-   └─ Cartas de eventos (300 do catálogo + simulador) ──► aspectos, estrelas fixas, casas, mandala SVG
+   ├─ Catálogo Expandido de 1.342 Eventos Mundiais ──► 6 categorias canônicas ──► efemérides Swiss Ephemeris
+   │  (COW Wars, UCDP, Powell & Thyne, USGS, NBER, Marcos)
+   │
+   ├─ Módulos de Pesquisa Internacional (Fase 4)
+   │  ├─ André Barbault Cyclic Index (CI-4 vs CI-5, derivadas) ──► /api/features/barbault
+   │  ├─ Renay Oshop Sum of Cosines (agrupamento e variância circular) ──► /api/features/oshop
+   │  └─ Cosmic History Search (análogos celestes na base 1.342) ──► /api/historical-analogues
+   │
+   ├─ Astrologia Mundana dos Países (National Horoscopes) ──► /countries
+   │  └─ Mapas soberanos (Campion), trânsitos históricos passados e projeções 2026–2050
+   │
+   └─ Cartas de eventos (1.342 do catálogo + simulador) ──► aspectos, estrelas fixas, casas, mandala SVG
 
 Alvos históricos: catálogo objetivo v2 (N=59), COW Guerras v4, NBER, UCDP/PRIO v24.1 ──► séries mensais
 ```
@@ -27,7 +38,7 @@ Toda página do site lê **caches em JSON** gerados por esse pipeline (`data/tim
 | Efemérides | Swiss Ephemeris com arquivos `seas/sepl/semo` instalados (precisão de arco-segundos, não o modo Moshier) | Verificado em runtime: o flag de retorno indica `swieph` |
 | Instante do evento | `resolve_event_instant`: fuso IANA real por lat/lon (`timezonefinder` + `zoneinfo`) a partir de 1883; antes disso, Hora Média Local exata (longitude/15, sem arredondar). A conversão pode mudar a data civil (23h em Nova York = 04h UT do dia seguinte) | Antes da v3, o fuso era `round(lon/15)`, que errava em até 3 h e não cruzava a meia-noite |
 | Calendário | Gregoriano a partir de 1582-10-15 por padrão; `calendar_region` (britain, russia, greece…) muda a data de adoção; `calendar` força | As datas do catálogo seguem a convenção do padrão; o override existe para eventos registrados em "estilo antigo" |
-| Hora desconhecida | 82 dos 300 eventos. A carta usa 12:00 UT e a **Lua é excluída** de aspectos e score (ela anda ~13°/dia) | Sem hora, qualquer posição lunar é um chute de ±6° |
+| Hora desconhecida | Eventos sem horário civil documentado usam 12:00 UT e a **Lua é excluída** de aspectos e score (ela anda ~13°/dia) | Sem hora documentada, qualquer posição lunar é um chute de ±6° |
 | Casas | Placidus; acima do círculo polar, fallback para Porphyry e depois Signos Inteiros | Placidus é indefinido acima de ~66° de latitude |
 | Estrelas fixas | 30 estrelas, só **conjunção** com orbe de 0,3°, e só pontuam se a latitude eclíptica da estrela for ≤ 30° | Vega (62°) e Polaris (66°) nunca estão "sobre" um planeta; checar 4 aspectos × 17 corpos gerava ~5 contatos espúrios por mapa |
 
@@ -80,7 +91,7 @@ As features são agregadas por **mês** (média, e máximo para ativações). A 
 
 **Considerações:**
 - Com 59 eventos o efeito mínimo detectável era 0,33 desvios-padrão; séries mensais dão milhares de pontos e potência real.
-- O catálogo de 300 marcos é **curado em retrospecto** (viés de seleção). Ele alimenta a narrativa e a mandala, **nunca o treino**.
+- O catálogo geral de 1.342 marcos históricos agrega bases acadêmicas (COW, UCDP, Powell-Thyne, USGS, NBER) e marcos mundiais categorizados em 6 eixos canônicos. Ele alimenta a exploração, a busca de análogos cósmicos e as certidões nacionais, mantendo a amostra analítica v2 (N=59) estritamente congelada para blindagem contra vazamento de dados.
 - A contagem de eventos cresce ao longo do tempo (mais Estados, mais registro) enquanto os planetas lentos derivam monotonicamente. O hindcast usa climatologia expansiva e estratificação temporal para não confundir época com geometria.
 
 ## 7. Hindcast: como o skill é medido
@@ -107,11 +118,12 @@ As features são agregadas por **mês** (média, e máximo para ativações). A 
 
 **Consideração central:** a página mostra o selo de skill **antes** da curva. Quando o IC inclui zero, a estimativa recomendada é a taxa-base, e a curva é exibida só para transparência e auditoria. A cor de alerta vermelho/amarelo/verde dos "Cenários" descreve geometria, não risco, e a página diz isso.
 
-## 9. Simulador e catálogo
+## 9. Simulador, Catálogo e Análogos Cósmicos
 
-- **Simulador**: o formulário envia POST, que redireciona para a URL GET equivalente (`/simulator?date=…&latitude=…`), compartilhável e recarregável. Entrada validada por Pydantic (data, hora, lat/lon dentro de faixas); o mesmo modelo valida `/api/simulate`.
-- **Catálogo**: 46 dos 300 marcos coincidem por data com a amostra objetiva v2 e recebem o selo "✓ N=59"; há filtro para vê-los isolados. Anterior/próximo navegam em ordem cronológica, não por id.
-- **Similaridade** (`find_similar_events`): exclui o próprio evento e a janela de ±1 ano (leave-one-out). É uma medida de proximidade angular, exibida com nota de que não implica repetição factual.
+- **Simulador e Linha do Tempo**: O simulador oferece varredura contínua de 1800 a 2100 com demarcação cronológica estrita: anos anteriores a 2026 são marcados como Histórico (com selos dourados para anos com fatos históricos registrados e ardósia para cálculo retroativo), enquanto anos de 2026 a 2100 são identificados como Projeção Futura.
+- **Cosmic History Search**: Motor interativo de busca de precedentes cósmicos na base de 1.342 fatos históricos para qualquer data informada, exibindo o Índice Cíclico de Barbault (CI-4 vs CI-5) e a métrica Sum of Cosines de Renay Oshop.
+- **Catálogo de 1.342 Fatos**: 1.342 eventos mundiais em 6 eixos canônicos com filtros por categoria, busca textual instantânea e indicação da amostra validada v2 ("✓ N=59"). Navegação cronológica entre eventos.
+- **Astrologia dos Países**: Hub em `/countries` com cartas de fundação soberana (Campion), reconstituição de trânsitos em eventos históricos passados e projeções de picos energéticos até 2050.
 
 ## 10. Caches, reprodução e deploy
 
@@ -120,15 +132,14 @@ make features   # grade de features 1750–2150 (~20 s)
 make hindcast   # walk-forward completo (~15 min)
 make forecast   # data/forecast_v3.json
 make timeline   # timeline e projeções (pico diário real, índices anuais)
-make test       # 45 testes: regressão golden, paridade grade↔carta, fuso, datas exatas, alvos, API
+make test       # 48 testes automatizados aprovados (100%)
 ```
 
 Produção: `uvicorn src.web.app:app` na porta 81 atrás do nginx (serviço `astro-history.service`). `data/features/` está no `.gitignore` (18 MB, reconstruído em segundos); os demais caches são versionados para que o site suba sem recálculo.
 
-## 11. Limites conhecidos
+## 11. Limites conhecidos e arquitetura de pesquisa
 
-- As features são diárias (Lua excluída); hora desconhecida em 82 eventos do catálogo.
-- COW MID (2.400 disputas) e golpes Powell & Thyne não estão integrados (sem URL de download direto).
-- Não há mapas nacionais nem previsão por país — a linha de pesquisa mais promissora que resta.
-- O baseline de processo pontual (Hawkes) não foi implementado; o AR cobre parte do agrupamento temporal.
-- Tailwind é carregado via CDN.
+- As features da grade diária usam 12:00 UT com exclusão da Lua para evitar ruído de trânsito lunar rápido.
+- O baseline de processo pontual (Hawkes) para dependência temporal mútua entre conflitos ainda pode ser refinado.
+- Os mapas nacionais cobrem atualmente as principais potências e países do sistema internacional com base em Campion (1988); novos países podem ser expandidos conforme documentação histórica.
+- Tailwind CSS é carregado via CDN para facilitar renderização leve em produção.

@@ -2,7 +2,7 @@
 Motor de Correlações Astrológicas e Simulador Preditivo Histórico.
 Versão Refinada com Asteroides e 30 Estrelas Fixas:
 Analisa padrões de planetas, asteroides e estrelas fixas por categoria de evento
-e compara novas cartas astrológicas com a base dos 200 fatos históricos.
+e compara novas cartas astrológicas com a base dos 1.342 fatos históricos.
 """
 
 import json

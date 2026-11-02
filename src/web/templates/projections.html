@@ -5,32 +5,31 @@
 {% block content %}
 <div class="space-y-8">
     <!-- Header Banner -->
-    <div class="glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-br from-amber-500/10 via-sky-500/10 to-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="relative z-10">
-            <div class="flex flex-wrap items-center gap-3 mb-2">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
+        <div class="max-w-4xl space-y-4">
+            <div class="flex flex-wrap items-center gap-2.5">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
                     Swiss Ephemeris em Alta Resolução
                 </span>
-                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">
                     Horizonte 2027–2060 (34 Anos)
                 </span>
-                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                    Métricas Calibradas sem Clamp (v2)
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                    Métricas Calibradas sem Clamp
                 </span>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                📅 Tabela de Alinhamentos Astronômicos (2027–2060)
+            <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
+                Alinhamentos Astronômicos & Cenários (2027–2060)
             </h1>
-            <div class="mt-3 text-xs rounded-lg border border-amber-700/50 bg-amber-950/40 text-amber-200 px-3 py-2 max-w-4xl">
-                ⚠️ Os tiers de percentil desta tabela descrevem a <strong>geometria do céu</strong>, não risco: no hindcast v3 o índice legado não tem skill de previsão.
-                Para probabilidades com intervalo, taxa-base e skill medido, use a <a href="/forecast" class="underline text-emerald-300">Previsão v3</a>.
-            </div>
-            <p class="text-slate-300 text-sm sm:text-base mt-2 max-w-6xl leading-relaxed">
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
                 Mapeamento cosmológico contínuo ano a ano baseado estritamente nas efemérides reais calculadas pelo Swiss Ephemeris.
                 Apresenta o <strong>Percentil Médio Anual</strong> frente à era 1800–2100, contagem de dias com tensão superior ao P90, 
-                portais sazonais (Equinócios e Solstícios) e paralelos de isomorfismo geométrico com a base histórica.
+                portais sazonais (Equinócios e Solstícios) e paralelos de isomorfismo geométrico com a base histórica de 1.342 fatos.
             </p>
+            <div class="text-xs rounded-xl border border-amber-500/40 bg-amber-950/30 text-amber-200 p-3.5 leading-relaxed">
+                <span class="font-bold text-amber-300 mr-1">⚠️ Aviso Epistemológico:</span>
+                Os tiers de percentil desta tabela descrevem a <strong>geometria do céu</strong>, não determinismo causal. No hindcast walk-forward o índice não tem skill preditivo determinístico. Para probabilidades calibradas com taxa-base e skill medido, consulte a <a href="/forecast" class="underline text-emerald-300 font-bold hover:text-emerald-200">Previsão</a>.
+            </div>
         </div>
     </div>
 
@@ -293,10 +292,10 @@
 
                             <!-- Badge de Faixa -->
                             <div class="mt-2">
-                                <span class="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-md
-                                    {% if row.tier_label == 'Percentil Superior' %}bg-indigo-500/20 text-indigo-300 border border-indigo-500/30
-                                    {% elif row.tier_label == 'Percentil Moderado' %}bg-sky-500/20 text-sky-300 border border-sky-500/30
-                                    {% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% endif %}">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold leading-normal whitespace-nowrap shadow-sm
+                                    {% if row.tier_label == 'Percentil Superior' %}bg-indigo-500/20 text-indigo-300 border border-indigo-500/40
+                                    {% elif row.tier_label == 'Percentil Moderado' %}bg-sky-500/20 text-sky-300 border border-sky-500/40
+                                    {% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/40{% endif %}">
                                     {{ row.tier_label }}
                                 </span>
                             </div>

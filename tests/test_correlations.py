@@ -5,10 +5,10 @@ from src.astro_engine import calculate_event_chart
 def test_category_correlations():
     corrs = get_category_correlations()
     assert "by_category" in corrs
-    assert "Crise Econômica" in corrs["by_category"]
+    assert "Crise Financeira & Econômica" in corrs["by_category"]
     assert "Guerra & Conflito" in corrs["by_category"]
 
-    econ = corrs["by_category"]["Crise Econômica"]
+    econ = corrs["by_category"]["Crise Financeira & Econômica"]
     assert econ["total_events"] > 0
     assert econ["average_tension"] > 0
 

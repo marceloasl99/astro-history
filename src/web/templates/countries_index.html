@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Países & Astrologia Mundana | AstroHistory{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Cabeçalho Principal -->
+    <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-700/80 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-6">
+            <div class="max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-semibold">
+                    <span>🏛️ Astrologia Mundana & Geopolítica Histórica</span>
+                </div>
+                <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+                    Mapas Natais dos Países & Trânsitos Histórico-Futuros
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Explore a certidão de nascimento de <strong>{{ countries|length }} nações soberanas</strong> através do Swiss Ephemeris. 
+                    Cada país possui um <strong class="text-amber-300">único mapa natal oficial</strong> fundamentado em seu marco histórico de fundação ou independência.
+                </p>
+            </div>
+
+            <!-- Stats Badge Card -->
+            <div class="lg:w-72 shrink-0 bg-slate-900/90 rounded-2xl p-4 border border-slate-700/80 shadow-inner flex flex-col justify-center space-y-2">
+                <div class="text-xs font-mono uppercase text-slate-400">Cobertura Soberana</div>
+                <div class="text-3xl font-black text-amber-300 font-mono">{{ countries|length }} Países</div>
+                <div class="text-[11px] text-slate-400">Cartas natais auditadas segundo a historiografia e documentação constitucional.</div>
+            </div>
+        </div>
+
+        <!-- 3 Pilares Metodológicos -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-slate-700/60">
+            <div class="flex items-start gap-3 bg-slate-900/70 p-4 rounded-xl border border-slate-800">
+                <span class="text-xl">⚖️</span>
+                <div>
+                    <strong class="text-sm text-slate-100 font-bold block mb-1">Sem Casas Arbitrárias</strong>
+                    <p class="text-xs text-slate-400 leading-relaxed">Quando não há horário oficial comprovado, o mapa é calculado sem casas (Carta Solar rigorosa).</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3 bg-slate-900/70 p-4 rounded-xl border border-slate-800">
+                <span class="text-xl">📜</span>
+                <div>
+                    <strong class="text-sm text-slate-100 font-bold block mb-1">Analogias Históricas</strong>
+                    <p class="text-xs text-slate-400 leading-relaxed">Cruza os trânsitos de crises e transformações passadas com os pontos natais de cada nação.</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3 bg-slate-900/70 p-4 rounded-xl border border-slate-800">
+                <span class="text-xl">🔭</span>
+                <div>
+                    <strong class="text-sm text-slate-100 font-bold block mb-1">Projeções 2026–2050</strong>
+                    <p class="text-xs text-slate-400 leading-relaxed">Antecipe o impacto de Plutão em Aquário, Saturno/Netuno em Áries e Urano em Gêmeos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de Filtros e Busca -->
+    <div class="glass-panel rounded-xl p-4 sm:p-5 border border-slate-700/70 space-y-4">
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <!-- Campo de Busca -->
+            <div class="relative w-full sm:w-80">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">🔍</span>
+                <input type="text" id="country-search" placeholder="Buscar por país, código ou data..." 
+                       class="w-full pl-9 pr-4 py-2 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50">
+            </div>
+
+            <!-- Contador de Resultados -->
+            <div class="text-xs text-slate-400 font-mono">
+                Exibindo <span id="visible-count" class="text-amber-400 font-bold">{{ countries|length }}</span> de {{ countries|length }} nações
+            </div>
+        </div>
+
+        <!-- Filtros por Continente -->
+        <div class="flex flex-wrap gap-1.5 pt-2 border-t border-slate-700/40">
+            <button class="continent-btn active px-3 py-1 rounded-md text-xs font-medium bg-amber-400 text-slate-950 font-bold transition" data-continent="todos">
+                Todos os Países
+            </button>
+            {% for cont in continents %}
+            <button class="continent-btn px-3 py-1 rounded-md text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition" data-continent="{{ cont }}">
+                {{ cont }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Grid de Países -->
+    <div id="countries-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
+        {% for c in countries %}
+        <a href="/countries/{{ c.iso_code }}"
+           class="country-card glass-card-interactive rounded-xl p-3 sm:p-3.5 flex flex-col justify-between group block text-left"
+           data-name-pt="{{ c.name_pt|lower }}"
+           data-name-en="{{ c.name_en|lower }}"
+           data-iso="{{ c.iso_code|lower }}"
+           data-continent="{{ c.continent }}"
+           data-event="{{ c.foundation_event|lower }}">
+            
+            <div class="space-y-2">
+                <!-- Topo do Card: Bandeira, Nome e Badges -->
+                <div class="flex items-start justify-between gap-2">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="text-xl filter drop-shadow shrink-0 select-none">{{ c.flag_emoji }}</span>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <h3 class="font-bold text-slate-100 group-hover:text-amber-300 transition text-sm leading-tight">
+                                    {{ c.name_pt }}
+                                </h3>
+                                <span class="text-[10px] font-mono px-1 py-0.2 rounded bg-slate-800/90 text-slate-400 border border-slate-700/60">
+                                    {{ c.iso_code }}
+                                </span>
+                            </div>
+                            <span class="text-[11px] text-slate-400 block leading-tight mt-0.5">{{ c.name_en }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Badge Horário/Casas -->
+                    {% if c.is_time_known %}
+                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-sky-500/10 text-sky-300 border border-sky-500/30 shrink-0 whitespace-nowrap" title="Horário documentado historicamente">
+                        {{ c.time }}
+                    </span>
+                    {% else %}
+                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-800/80 text-slate-400 border border-slate-700/60 shrink-0 whitespace-nowrap" title="Horário desconhecido (Carta Solar sem casas)">
+                        Sem Casas
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Metadados de Fundação: Data e Geografia (sem truncate) -->
+                <div class="text-[11px] text-slate-300 space-y-1 pt-1.5 border-t border-slate-800/60">
+                    <div class="flex items-center gap-1.5 text-slate-400">
+                        <span class="text-xs">📅</span>
+                        <span class="font-mono text-slate-200 font-semibold">{{ c.date }}</span>
+                        <span class="text-slate-500">•</span>
+                        <span class="text-slate-300">{{ c.continent }}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-slate-400">
+                        <span class="text-xs">📍</span>
+                        <span class="text-slate-300">{{ c.city }}</span>
+                    </div>
+                </div>
+
+                <!-- Marco de Fundação Oficial Completo (sem cortes e sem duplicação) -->
+                <div class="pt-2 border-t border-slate-800/60 flex items-start gap-1.5 text-[11px] leading-snug">
+                    <span class="text-amber-400 text-xs shrink-0 mt-0.5">🏛️</span>
+                    <span class="text-slate-200 font-medium break-words">{{ c.foundation_event }}</span>
+                </div>
+            </div>
+
+            <!-- Rodapé Compacto com Ação -->
+            <div class="mt-3 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[11px]">
+                <span class="text-indigo-300/90 group-hover:text-amber-300 font-semibold transition">
+                    Mapa Natal & Trânsitos
+                </span>
+                <span class="text-indigo-300 group-hover:text-amber-400 font-bold group-hover:translate-x-1 transition-transform">
+                    →
+                </span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Mensagem de Nenhum Resultado -->
+    <div id="no-results" class="hidden glass-panel rounded-xl p-8 text-center border border-slate-700">
+        <span class="text-4xl">🔍</span>
+        <h4 class="text-lg font-bold text-slate-200 mt-2">Nenhum país encontrado</h4>
+        <p class="text-xs text-slate-400 mt-1">Tente ajustar a sua busca ou selecionar outro continente.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("country-search");
+        const continentBtns = document.querySelectorAll(".continent-btn");
+        const cards = document.querySelectorAll(".country-card");
+        const visibleCountSpan = document.getElementById("visible-count");
+        const noResults = document.getElementById("no-results");
+
+        let currentContinent = "todos";
+        let currentQuery = "";
+
+        function filterCards() {
+            let visible = 0;
+            cards.forEach(card => {
+                const namePt = card.dataset.namePt;
+                const nameEn = card.dataset.nameEn;
+                const iso = card.dataset.iso;
+                const event = card.dataset.event;
+                const continent = card.dataset.continent;
+
+                const matchesQuery = !currentQuery || 
+                    namePt.includes(currentQuery) || 
+                    nameEn.includes(currentQuery) || 
+                    iso.includes(currentQuery) || 
+                    event.includes(currentQuery);
+
+                const matchesContinent = (currentContinent === "todos") || (continent === currentContinent);
+
+                if (matchesQuery && matchesContinent) {
+                    card.style.display = "flex";
+                    visible++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            visibleCountSpan.textContent = visible;
+            if (visible === 0) {
+                noResults.classList.remove("hidden");
+            } else {
+                noResults.classList.add("hidden");
+            }
+        }
+
+        searchInput.addEventListener("input", function (e) {
+            currentQuery = e.target.value.trim().toLowerCase();
+            filterCards();
+        });
+
+        continentBtns.forEach(btn => {
+            btn.addEventListener("click", function () {
+                continentBtns.forEach(b => {
+                    b.classList.remove("bg-amber-400", "text-slate-950", "font-bold");
+                    b.classList.add("bg-slate-800", "text-slate-300");
+                });
+                this.classList.remove("bg-slate-800", "text-slate-300");
+                this.classList.add("bg-amber-400", "text-slate-950", "font-bold");
+
+                currentContinent = this.dataset.continent;
+                filterCards();
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -5,35 +5,39 @@
 {% block content %}
 <div class="space-y-8">
     <!-- Header Banner & Automatic Simulation Trigger -->
-    <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden glow-gold">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div class="max-w-5xl">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-3">
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            <div class="max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Varredura Contínua de 301 Anos • Escala de Alta Resolução (0 a 1000 Pontos)
+                    <span>Varredura Contínua de 301 Anos • Escala de Alta Resolução (0 a 1000 Pontos)</span>
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+                <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
                     Linha do Tempo Cosmológica & Simulador (1800–2100)
                 </h1>
                 <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    Mapeamento analítico ano a ano dos últimos dois séculos e das próximas décadas. 
-                    O motor utiliza <strong class="text-amber-400">amostragem sazonal quádrupla (Equinócios e Solstícios)</strong> 
-                    e calcula a tensão na <strong class="text-rose-400">escala de alta precisão de 0 a 1000 pontos</strong>. 
-                    Integra os <strong class="text-emerald-300">{{ future_data.historical_events_count }} fatos históricos reais</strong> (1800–2025 da base de 300 fatos) e projeta 
+                    Mapeamento analítico contínuo ano a ano dos últimos dois séculos e das próximas décadas. 
+                    O motor utiliza <strong class="text-amber-300">amostragem sazonal quádrupla (Equinócios e Solstícios)</strong> 
+                    e calcula a tensão na <strong class="text-rose-400">escala de 0 a 1000 pontos</strong>. 
+                    Integra os <strong class="text-emerald-300">{{ future_data.historical_events_count }} fatos históricos</strong> (1800–2025 da base de 1.342 fatos nas 6 categorias canônicas) e projeta 
                     cenários prospectivos e gatilhos cósmicos até 2100.
                 </p>
             </div>
 
-            <!-- Botão de Recálculo Automático -->
-            <div class="flex flex-col items-start lg:items-end gap-2">
-                <form action="/simulator/recalculate" method="POST">
-                    <button type="submit" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-sm tracking-wide shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2">
-                        <span>⚡ Recalcular Linha do Tempo (1800–2100)</span>
+            <!-- Botão e Card de Recálculo -->
+            <div class="lg:w-80 shrink-0 bg-slate-900/90 rounded-2xl p-5 border border-slate-700/80 shadow-xl space-y-3 flex flex-col justify-center">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400 border-b border-slate-800 pb-2">
+                    <span>Motor Temporal</span>
+                    <span class="text-emerald-400 font-bold">Ativo</span>
+                </div>
+                <form action="/simulator/recalculate" method="POST" class="w-full">
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs sm:text-sm tracking-wide shadow-lg transition-all flex items-center justify-center gap-2">
+                        <span>⚡ Recalcular Linha do Tempo</span>
                     </button>
                 </form>
-                <span class="text-xs text-slate-400 font-mono">
-                    301 anos (1800–2100) • {{ future_data.historical_events_count }} fatos reais integrados
-                </span>
+                <div class="text-[11px] text-slate-400 text-center font-mono">
+                    301 anos (1800–2100) • {{ future_data.historical_events_count }} fatos integrados
+                </div>
             </div>
         </div>
     </div>
@@ -184,10 +188,10 @@
             <table class="w-full text-left text-xs sm:text-sm" id="timelineTable">
                 <thead class="sticky top-0 bg-slate-900/95 backdrop-blur z-10 border-b border-slate-700 text-slate-400 font-semibold">
                     <tr>
-                        <th class="py-3.5 px-3">Ano</th>
-                        <th class="py-3.5 px-3">Tipo</th>
-                        <th class="py-3.5 px-3 min-w-[150px]">Tensão Cósmica (0–1000)</th>
-                        <th class="py-3.5 px-3">Alerta</th>
+                        <th class="py-3.5 px-3 min-w-[70px] whitespace-nowrap">Ano</th>
+                        <th class="py-3.5 px-3 min-w-[110px] whitespace-nowrap">Tipo</th>
+                        <th class="py-3.5 px-3 min-w-[150px] whitespace-nowrap">Tensão Cósmica (0–1000)</th>
+                        <th class="py-3.5 px-3.5 min-w-[130px] whitespace-nowrap text-center">Alerta</th>
                         <th class="py-3.5 px-4 min-w-[240px] 2xl:min-w-[280px]">Gatilho Cósmico Central</th>
                         <th class="py-3.5 px-3 min-w-[140px]">Sub-Índices</th>
                         <th class="py-3.5 px-4 min-w-[250px] 2xl:min-w-[290px]">Fato Histórico / Precedente</th>
@@ -197,25 +201,29 @@
                 <tbody class="divide-y divide-slate-800/80">
                     {% for row in future_data.timeline %}
                     <tr class="hover:bg-slate-800/40 transition timeline-row" 
-                        data-alert="{{ row.alert_level }}"
+                        data-alert="{% if row.tension_index_1000 >= 750 or 'Crítico' in row.alert_level or 'Superior' in row.alert_level %}Crítico{% elif row.tension_index_1000 >= 550 or 'Alto' in row.alert_level %}Alto{% elif row.tension_index_1000 >= 300 or 'Moderado' in row.alert_level %}Moderado{% else %}Basal{% endif %}"
                         data-is-historical="{{ 'true' if row.is_historical else 'false' }}"
                         data-year="{{ row.year }}"
                         data-tension="{{ row.tension_index_1000 }}">
                         
                         <!-- Ano -->
-                        <td class="py-3.5 px-3 font-mono font-black text-base {% if row.is_historical %}text-amber-300{% else %}text-sky-300{% endif %}">
+                        <td class="py-3.5 px-3 font-mono font-black text-base {% if row.year < 2026 %}text-amber-300{% else %}text-sky-300{% endif %}">
                             {{ row.year }}
                         </td>
 
                         <!-- Tipo -->
                         <td class="py-3.5 px-3">
-                            {% if row.is_historical %}
+                            {% if row.year >= 2026 %}
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                                <span>🔮</span> Projeção
+                            </span>
+                            {% elif row.historical_events %}
                             <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
                                 <span>🏛️</span> Fato Real
                             </span>
                             {% else %}
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40">
-                                <span>🔮</span> Projeção
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                                <span>📜</span> Histórico
                             </span>
                             {% endif %}
                         </td>
@@ -236,14 +244,28 @@
                         </td>
 
                         <!-- Alerta -->
-                        <td class="py-3.5 px-3">
-                            <span class="px-2 py-0.5 rounded text-[11px] font-bold
-                                {% if 'Crítico' in row.alert_level %}bg-rose-500/20 text-rose-300 border border-rose-500/30
-                                {% elif 'Alto' in row.alert_level %}bg-amber-500/20 text-amber-300 border border-amber-500/30
-                                {% elif 'Moderado' in row.alert_level %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30
-                                {% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% endif %}">
-                                {{ row.alert_level }}
+                        <td class="py-3.5 px-3.5 whitespace-nowrap text-center align-middle">
+                            {% if row.tension_index_1000 >= 750 or 'Crítico' in row.alert_level or 'Superior' in row.alert_level %}
+                            <span class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold leading-normal whitespace-nowrap bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm">
+                                <span>🚨</span>
+                                <span>Crítico</span>
                             </span>
+                            {% elif row.tension_index_1000 >= 550 or 'Alto' in row.alert_level %}
+                            <span class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold leading-normal whitespace-nowrap bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
+                                <span>⚠️</span>
+                                <span>Alto</span>
+                            </span>
+                            {% elif row.tension_index_1000 >= 300 or 'Moderado' in row.alert_level %}
+                            <span class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold leading-normal whitespace-nowrap bg-yellow-500/20 text-yellow-300 border border-yellow-500/40 shadow-sm">
+                                <span>⚡</span>
+                                <span>Moderado</span>
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold leading-normal whitespace-nowrap bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm">
+                                <span>🟢</span>
+                                <span>Basal</span>
+                            </span>
+                            {% endif %}
                         </td>
 
                         <!-- Gatilho Cósmico -->
@@ -286,6 +308,87 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Cosmic History Search: Pesquisa Instantânea de Análogos & Métricas Internacionais -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border-l-4 border-sky-400 glow-cyan">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 mb-2">
+                    <span>🌍</span> Pesquisa Internacional • AyurAstro / SSE & Índice de Barbault
+                </div>
+                <h3 class="font-display text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+                    <span>🔍</span> Cosmic History Search & Métricas Internacionais
+                </h3>
+                <p class="text-slate-300 text-sm mt-1 max-w-4xl">
+                    Consulte qualquer data do passado ou futuro para calcular o <strong>Índice Cíclico de André Barbault (CI-4 vs CI-5)</strong>, 
+                    a métrica <strong>Sum of Cosines de Renay Oshop</strong> e descobrir quais dos <strong>1.342 fatos históricos</strong> 
+                    ocorreram sob uma configuração celeste mais semelhante.
+                </p>
+            </div>
+            <div class="shrink-0">
+                <span class="text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-2 rounded-xl border border-slate-700 block">
+                    Base: <strong class="text-amber-300">1.342 fatos</strong> • 6 categorias canônicas
+                </span>
+            </div>
+        </div>
+
+        <!-- Formulário de Consulta Rápida -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-slate-950/70 rounded-xl border border-slate-800">
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Data Alvo</label>
+                <input type="date" id="cosmicDateInput" value="2026-11-02"
+                       class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-sky-400">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Filtrar Categoria</label>
+                <select id="cosmicCategoryInput" class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-sky-400">
+                    <option value="">Todas as 6 Categorias</option>
+                    <option value="Guerra & Conflito">Guerra & Conflito</option>
+                    <option value="Revolução & Conflito Interno">Revolução & Conflito Interno</option>
+                    <option value="Desastre & Saúde Pública">Desastre & Saúde Pública</option>
+                    <option value="Crise Financeira & Econômica">Crise Financeira & Econômica</option>
+                    <option value="Ciência & Tecnologia">Ciência & Tecnologia</option>
+                    <option value="Política, Tratados & Cultura">Política, Tratados & Cultura</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Janela Cronológica</label>
+                <select id="cosmicMinYearDiff" class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-sky-400">
+                    <option value="0">Qualquer época (inclusive mesmo ano)</option>
+                    <option value="1" selected>Trans-histórico (mínimo ±1 ano de distância)</option>
+                    <option value="5">Eras distintas (mínimo ±5 anos)</option>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button type="button" onclick="runCosmicHistorySearch()" id="btnCosmicSearch"
+                        class="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+                    <span>✨ Buscar Análogos Cósmicos</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Resultados Dinâmicos AJAX -->
+        <div id="cosmicSearchResults" class="mt-6 space-y-6 hidden">
+            <!-- Grid Barbault & Oshop -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <!-- Barbault Box -->
+                <div id="boxBarbault" class="bg-slate-900/90 p-5 rounded-xl border border-sky-500/30 space-y-3"></div>
+                <!-- Oshop Box -->
+                <div id="boxOshop" class="bg-slate-900/90 p-5 rounded-xl border border-purple-500/30 space-y-3"></div>
+            </div>
+
+            <!-- Top Análogos Cards -->
+            <div class="space-y-3">
+                <h4 class="text-sm font-bold text-white flex items-center justify-between">
+                    <span class="flex items-center gap-2">
+                        <span>🏛️</span> Fatos Históricos Ocorridos sob Céus Mais Semelhantes
+                    </span>
+                    <span id="cosmicEvaluatedCount" class="text-xs font-mono text-slate-400 font-normal"></span>
+                </h4>
+                <div id="cosmicAnaloguesCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5"></div>
+            </div>
         </div>
     </div>
 
@@ -359,7 +462,60 @@
                         <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('shareUrl').value); this.textContent='Copiado!'" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">Copiar</button>
                     </div>
                     {% endif %}
-                    <p class="text-xs text-slate-200 leading-relaxed">{{ results.similarity.historical_synthesis }}</p>
+                    <p class="text-xs text-slate-200 leading-relaxed mb-4">{{ results.similarity.historical_synthesis }}</p>
+
+                    <!-- Métricas Internacionais Renderizadas pelo Servidor -->
+                    {% if barbault_data or oshop_data %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-800">
+                        {% if barbault_data %}
+                        <div class="p-3.5 bg-slate-950/70 rounded-xl border border-sky-500/30 text-xs font-mono space-y-2">
+                            <div class="flex items-center justify-between text-sky-300 font-bold">
+                                <span>🌀 Barbault CI-5</span>
+                                <span>{{ barbault_data.ci5.trend }}</span>
+                            </div>
+                            <div class="flex justify-between text-slate-300">
+                                <span>CI-5 Total: <strong class="text-amber-300">{{ barbault_data.ci5.sum_degrees }}°</strong> ({{ barbault_data.ci5.normalized_pct }}%)</span>
+                                <span>CI-4: <strong class="text-emerald-300">{{ barbault_data.ci4.sum_degrees }}°</strong></span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if oshop_data %}
+                        <div class="p-3.5 bg-slate-950/70 rounded-xl border border-purple-500/30 text-xs font-mono space-y-2">
+                            <div class="flex items-center justify-between text-purple-300 font-bold">
+                                <span>📐 Oshop Sum of Cosines</span>
+                                <span>{{ oshop_data.geo_outer_5.n_bodies }} planetas</span>
+                            </div>
+                            <div class="flex justify-between text-slate-300">
+                                <span>Σ cos: <strong class="text-purple-300">{{ oshop_data.geo_outer_5.sum_of_cosines }}</strong></span>
+                                <span>Var. Circular: <strong class="text-amber-300">{{ oshop_data.geo_outer_5.circular_variance }}</strong></span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    {% if analogues_data %}
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-3">
+                        <h5 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                            <span>🏛️</span> Precedentes Históricos Mais Próximos na Base (1.342 Fatos)
+                        </h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                            {% for a in analogues_data %}
+                            <a href="/events/{{ a.event_id }}" class="bg-slate-950 p-3 rounded-xl border border-slate-800 hover:border-amber-400/50 hover:bg-slate-900 transition flex flex-col justify-between group text-xs">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="font-bold text-amber-300 font-mono">{{ a.score_pct }}% similar</span>
+                                        <span class="text-slate-500 text-[10px] font-mono">{{ a.date }}</span>
+                                    </div>
+                                    <div class="font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2">{{ a.title }}</div>
+                                </div>
+                                <div class="mt-2 text-[10px] text-sky-400 font-semibold">{{ a.category }} &rarr;</div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -391,9 +547,19 @@
         const conflict = filteredIndices.map(i => fullSeries.conflict_risk_1000[i]);
         const tech = filteredIndices.map(i => fullSeries.tech_innovation_1000[i]);
 
-        // Cores dos pontos: dourado para fatos históricos reais, ciano para projeção
-        const pointColors = filteredIndices.map(i => fullSeries.is_historical[i] ? '#fbbf24' : 'rgba(56, 189, 248, 0.4)');
-        const pointRadii = filteredIndices.map(i => fullSeries.is_historical[i] ? 4.5 : 2);
+        // Cores dos pontos: dourado para fatos históricos reais, ardósia para histórico sem evento, ciano para projeção (>= 2026)
+        const pointColors = filteredIndices.map(i => {
+            const yr = fullSeries.years[i];
+            const hasEvs = fullSeries.has_historical_events ? fullSeries.has_historical_events[i] : (fullSeries.hist_titles[i] && fullSeries.hist_titles[i].length > 0);
+            if (yr >= 2026) return 'rgba(56, 189, 248, 0.45)';
+            return hasEvs ? '#fbbf24' : 'rgba(148, 163, 184, 0.4)';
+        });
+        const pointRadii = filteredIndices.map(i => {
+            const yr = fullSeries.years[i];
+            const hasEvs = fullSeries.has_historical_events ? fullSeries.has_historical_events[i] : (fullSeries.hist_titles[i] && fullSeries.hist_titles[i].length > 0);
+            if (yr >= 2026) return 2.5;
+            return hasEvs ? 4.5 : 2;
+        });
 
         return {
             indices: filteredIndices,
@@ -472,14 +638,22 @@
                         title: function(tooltipItems) {
                             const dataIdx = initialData.indices[tooltipItems[0].dataIndex];
                             const yr = fullSeries.years[dataIdx];
-                            const isHist = fullSeries.is_historical[dataIdx];
-                            return isHist ? `★ ANO ${yr} (Fato Histórico Real)` : `🔮 ANO ${yr} (Projeção Futura)`;
+                            const isFuture = yr >= 2026;
+                            const hasEvs = fullSeries.has_historical_events ? fullSeries.has_historical_events[dataIdx] : (fullSeries.hist_titles[dataIdx] && fullSeries.hist_titles[dataIdx].length > 0);
+                            if (isFuture) {
+                                return `🔮 ANO ${yr} (Projeção Futura 2026–2100)`;
+                            } else if (hasEvs) {
+                                return `★ ANO ${yr} (Fatos Históricos Registrados)`;
+                            } else {
+                                return `📜 ANO ${yr} (Histórico — Cálculo Retroativo)`;
+                            }
                         },
                         afterBody: function(tooltipItems) {
                             const dataIdx = initialData.indices[tooltipItems[0].dataIndex];
+                            const yr = fullSeries.years[dataIdx];
+                            const isFuture = yr >= 2026;
                             const trigger = fullSeries.triggers[dataIdx];
                             const topEvent = fullSeries.top_events[dataIdx];
-                            const isHist = fullSeries.is_historical[dataIdx];
                             const histTitle = fullSeries.hist_titles[dataIdx];
 
                             const lines = [
@@ -487,10 +661,17 @@
                                 '🪐 Gatilho Cósmico: ' + trigger
                             ];
 
-                            if (isHist && histTitle) {
-                                lines.push('🏛️ Fato Cadastrado: ' + histTitle);
-                            } else if (topEvent) {
-                                lines.push('🏛️ Precedente Correlato: ' + topEvent);
+                            if (!isFuture && histTitle) {
+                                lines.push('🏛️ Fatos Históricos Cadastrados: ' + histTitle);
+                            } else if (!isFuture) {
+                                lines.push('📜 Período Histórico (sem fatos específicos no catálogo)');
+                                if (topEvent) {
+                                    lines.push('🏛️ Isomorfismo Geométrico Próximo: ' + topEvent);
+                                }
+                            } else {
+                                if (topEvent) {
+                                    lines.push('🏛️ Precedente Histórico Análogo: ' + topEvent);
+                                }
                             }
 
                             return lines;
@@ -572,6 +753,140 @@
                 row.style.display = (tension >= 550.0 || alert.includes('Alto') || alert.includes('Crítico')) ? '' : 'none';
             }
         });
+    }
+
+    // Cosmic History Search (Pesquisa Instantânea de Análogos & Métricas)
+    async function runCosmicHistorySearch() {
+        const date = document.getElementById('cosmicDateInput').value;
+        const category = document.getElementById('cosmicCategoryInput').value;
+        const minYearDiff = document.getElementById('cosmicMinYearDiff').value;
+        const btn = document.getElementById('btnCosmicSearch');
+        const resultsContainer = document.getElementById('cosmicSearchResults');
+        const boxBarbault = document.getElementById('boxBarbault');
+        const boxOshop = document.getElementById('boxOshop');
+        const analoguesCards = document.getElementById('cosmicAnaloguesCards');
+        const evaluatedCount = document.getElementById('cosmicEvaluatedCount');
+
+        if (!date) {
+            alert('Por favor, selecione uma data válida.');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ Calculando...</span>';
+
+        try {
+            let analoguesUrl = `/api/historical-analogues?date=${date}&top_k=5`;
+            if (category) analoguesUrl += `&category=${encodeURIComponent(category)}`;
+            if (minYearDiff && minYearDiff !== '0') analoguesUrl += `&min_year_diff=${minYearDiff}`;
+
+            const [resAnalogues, resBarbault, resOshop] = await Promise.all([
+                fetch(analoguesUrl).then(r => r.json()),
+                fetch(`/api/features/barbault?date=${date}`).then(r => r.json()),
+                fetch(`/api/features/oshop?date=${date}`).then(r => r.json())
+            ]);
+
+            if (resBarbault && resBarbault.ci5) {
+                const b5 = resBarbault.ci5;
+                const b4 = resBarbault.ci4;
+                boxBarbault.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                            <span>🌀</span> Índice Cíclico de André Barbault (CI-4 vs CI-5)
+                        </span>
+                        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30">
+                            ${b5.trend || 'Calculado'}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block text-[11px]">CI-5 (com Plutão):</span>
+                            <strong class="text-amber-300 text-base">${b5.sum_degrees}°</strong>
+                            <span class="text-slate-500 text-[10px] block">(${b5.normalized_pct}% do máx de 1800°)</span>
+                        </div>
+                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block text-[11px]">CI-4 (Júpiter a Netuno):</span>
+                            <strong class="text-emerald-300 text-base">${b4.sum_degrees}°</strong>
+                            <span class="text-slate-500 text-[10px] block">(${b4.normalized_pct}% do máx de 1080°)</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Derivada anual: <strong class="text-slate-200">${b5.annual_slope > 0 ? '+' : ''}${b5.annual_slope.toFixed(1)}°/ano</strong>. 
+                        Mínimos de Barbault indicam máxima concentração dos ciclos lentos associada a momentos de crise sistêmica.
+                    </p>
+                `;
+            }
+
+            if (resOshop && resOshop.geo_outer_5) {
+                const o = resOshop.geo_outer_5;
+                boxOshop.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                            <span>📐</span> Métrica Sum of Cosines (Renay Oshop)
+                        </span>
+                        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                            5 Planetas Lentos
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block text-[11px]">Σ cos (Exteriores):</span>
+                            <strong class="text-purple-300 text-base">${o.sum_of_cosines.toFixed(3)}</strong>
+                            <span class="text-slate-500 text-[10px] block">Índice: ${o.clustering_index.toFixed(3)}</span>
+                        </div>
+                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block text-[11px]">Variância Circular:</span>
+                            <strong class="text-amber-300 text-base">${o.circular_variance.toFixed(3)}</strong>
+                            <span class="text-slate-500 text-[10px] block">R̄: ${o.mean_resultant_length.toFixed(3)}</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Mede a dispersão angular simultânea no espaço geocêntrico segundo o Big Astrology Book of Research.
+                    </p>
+                `;
+            }
+
+            analoguesCards.innerHTML = '';
+            if (resAnalogues && resAnalogues.top_analogues && resAnalogues.top_analogues.length > 0) {
+                evaluatedCount.textContent = `Avaliados ${resAnalogues.evaluated_historical_events} fatos da base`;
+                resAnalogues.top_analogues.forEach(a => {
+                    const card = document.createElement('a');
+                    card.href = `/events/${a.event_id}`;
+                    card.className = 'bg-slate-950/90 p-3.5 rounded-xl border border-slate-800 hover:border-amber-400/50 hover:bg-slate-900 transition flex flex-col justify-between group';
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex items-center justify-between gap-1 mb-1.5">
+                                <span class="text-[10px] font-mono font-bold text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+                                    ${a.score_pct}% similar
+                                </span>
+                                <span class="text-[10px] font-mono text-slate-400">${a.date}</span>
+                            </div>
+                            <h5 class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2 mb-1">
+                                ${a.title}
+                            </h5>
+                            <div class="text-[10px] text-slate-400 mb-2 truncate">📍 ${a.city || ''}, ${a.country || ''}</div>
+                            <p class="text-[10px] text-slate-300 line-clamp-3 leading-relaxed">
+                                ${a.consequence || ''}
+                            </p>
+                        </div>
+                        <div class="pt-2 mt-2 border-t border-slate-800 text-[10px] text-sky-400 font-semibold flex items-center justify-between">
+                            <span class="truncate">${a.category}</span>
+                            <span>Ver Mapa &rarr;</span>
+                        </div>
+                    `;
+                    analoguesCards.appendChild(card);
+                });
+            } else {
+                analoguesCards.innerHTML = '<div class="col-span-full text-center text-slate-400 text-xs py-4">Nenhum evento histórico encontrado com os filtros selecionados.</div>';
+            }
+
+            resultsContainer.classList.remove('hidden');
+        } catch (err) {
+            alert('Erro ao buscar análogos cósmicos: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span>✨ Buscar Análogos Cósmicos</span>';
+        }
     }
 </script>
 {% endblock %}

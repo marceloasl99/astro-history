@@ -1,9 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR" class="dark theme-dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AstroHistory | Astrologia Moderna & Fatos Históricos{% endblock %}</title>
+
+    <!-- FOUC prevention & immediate theme restoration -->
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('astro_theme') || 'dark';
+                var docEl = document.documentElement;
+                docEl.classList.remove('theme-light', 'theme-dark', 'theme-oled');
+                docEl.classList.add('theme-' + savedTheme);
+                if (savedTheme === 'light') {
+                    docEl.classList.remove('dark');
+                } else {
+                    docEl.classList.add('dark');
+                }
+                var savedLang = localStorage.getItem('astro_lang') || 'pt';
+                docEl.setAttribute('lang', savedLang === 'en' ? 'en-US' : 'pt-BR');
+            } catch(e) {}
+        })();
+    </script>
+
+    <!-- Google Fonts: Cinzel (Display), Plus Jakarta Sans (Body), JetBrains Mono (Data) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,15 +36,27 @@
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['"Cinzel"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
+                    },
                     colors: {
                         astro: {
-                            900: '#070b14',
+                            950: '#03050a',
+                            900: '#060913',
+                            850: '#0b1120',
                             800: '#0f172a',
                             700: '#1e293b',
+                            600: '#334155',
                             gold: '#fbbf24',
+                            amber: '#f59e0b',
                             cyan: '#38bdf8',
+                            sky: '#0284c7',
                             purple: '#a855f7',
-                            rose: '#f43f5e'
+                            indigo: '#818cf8',
+                            rose: '#f43f5e',
+                            emerald: '#10b981'
                         }
                     }
                 }
@@ -28,76 +65,198 @@
     </script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Theme Engine Stylesheet -->
+    <link rel="stylesheet" href="/static/css/themes.css">
+
     <style>
         body {
-            background: radial-gradient(circle at 50% 0%, #172554 0%, #070b14 70%);
+            background-color: #060913;
+            background-image: 
+                radial-gradient(ellipse at 50% -10%, rgba(30, 27, 75, 0.45) 0%, transparent 55%),
+                radial-gradient(circle at 10% 30%, rgba(14, 165, 233, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 40%),
+                radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px;
+            background-attachment: fixed;
             min-height: 100vh;
             color: #f1f5f9;
         }
         .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(11, 17, 32, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .glass-card-interactive {
+            background: rgba(11, 17, 32, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card-interactive:hover {
+            border-color: rgba(251, 191, 36, 0.4);
+            background: rgba(15, 23, 42, 0.85);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(251, 191, 36, 0.12);
         }
         .glow-gold {
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.18);
         }
         .glow-cyan {
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.18);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060913;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
         }
     </style>
 </head>
-<body class="font-sans antialiased text-slate-100 flex flex-col min-h-screen">
-    <!-- Banner de Responsabilidade e Comunicação Científica -->
-    <div class="bg-indigo-950/90 border-b border-indigo-700/50 text-indigo-200 text-xs px-4 py-2 text-center flex items-center justify-center gap-2">
-        <span class="text-amber-400 font-bold">⚠️ AVISO METODOLÓGICO:</span>
-        <span>Ferramenta de pesquisa exploratória e literacia de dados. Correlações geométricas não implicam causalidade mecânica nem previsão determinística. Projeções não devem orientar decisões financeiras, políticas ou de segurança.</span>
-        <a href="/methodology" class="underline text-sky-300 hover:text-sky-200 font-semibold ml-2">Ver Metodologia & Testes Nulos</a>
-    </div>
+<body class="font-sans antialiased text-slate-100 flex flex-col min-h-screen selection:bg-amber-500/30 selection:text-amber-200">
+    <!-- Top Scientific Advisory Banner -->
+    <header class="bg-slate-950/90 border-b border-indigo-950/80 px-4 py-2 text-[11px] sm:text-xs">
+        <div class="w-full max-w-[1920px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-300">
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                    CIÊNCIA & DADOS
+                </span>
+                <span>Plataforma de pesquisa computacional e literacia estatística. Correlações geométricas não implicam determinismo causal.</span>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+                <a href="/methodology" class="text-sky-400 hover:text-sky-300 font-semibold underline underline-offset-2 transition">Metodologia N1–N3</a>
+                <span class="text-slate-600">•</span>
+                <span class="font-mono text-slate-400 text-[11px]">Swiss Ephemeris 2.10</span>
+            </div>
+        </div>
+    </header>
 
-    <!-- Navbar -->
-    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-700/60 px-4 sm:px-8 py-4">
-        <div class="w-full max-w-[1920px] mx-auto flex items-center justify-between">
-            <a href="/" class="flex items-center space-x-3 group">
-                <span class="text-3xl filter drop-shadow group-hover:scale-110 transition-transform">🌌</span>
-                <div>
-                    <span class="font-bold text-xl tracking-wider bg-gradient-to-r from-amber-300 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
-                        AstroHistory
-                    </span>
-                    <span class="block text-xs text-slate-400 font-mono">Pesquisa Científica & Astrologia Moderna</span>
+    <!-- Main Navigation Bar -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-700/50 px-4 sm:px-6 xl:px-8 py-2.5 transition-all">
+        <div class="w-full max-w-[1920px] mx-auto flex items-center justify-between gap-4">
+            <!-- Brand Identity -->
+            <a href="/" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500/20 via-indigo-500/20 to-sky-500/20 border border-amber-400/30 flex items-center justify-center text-lg group-hover:scale-105 group-hover:border-amber-400/60 transition-transform shadow-inner">
+                    🪐
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-black text-lg tracking-wider text-white group-hover:text-amber-300 transition-colors">
+                            AstroHistory
+                        </span>
+                        <span class="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30">
+                            1.342 Fatos
+                        </span>
+                    </div>
+                    <span class="hidden md:block text-[10px] text-slate-400 font-mono tracking-tight leading-none">Astrologia Mundana Computacional</span>
                 </div>
             </a>
             
             {% set nav_items = [
                 ("/", "Dashboard", ""),
                 ("/events", "Catálogo", ""),
+                ("/countries", "Países", ""),
+                ("/simulator", "Simulador", ""),
                 ("/correlations", "Correlações", ""),
-                ("/methodology", "🔬 Metodologia", "text-sky-300"),
-                ("/forecast", "📈 Previsão v3", "text-emerald-300"),
-                ("/projections", "📅 Cenários", ""),
-                ("/simulator", "🔮 Linha do Tempo", "")
+                ("/forecast", "Previsão", ""),
+                ("/projections", "Cenários", ""),
+                ("/methodology", "Metodologia", "")
             ] %}
             {% set current_path = request.url.path if request else "/" %}
-            <!-- Navegação desktop -->
-            <div class="hidden lg:flex items-center space-x-1 xl:space-x-3">
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden xl:flex items-center gap-1">
                 {% for href, label, extra in nav_items %}
                 {% set active = (current_path == href) or (href != "/" and current_path.startswith(href)) %}
                 <a href="{{ href }}" aria-current="{{ 'page' if active else 'false' }}"
-                   class="px-3 py-2 rounded-lg text-sm font-medium transition {{ extra }} {% if active %}bg-slate-800 text-amber-300 ring-1 ring-amber-400/40{% else %}hover:bg-slate-800 text-slate-200 hover:text-amber-300{% endif %}">
+                   class="px-2.5 2xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all {{ extra }} 
+                   {% if active %}
+                   bg-slate-800 text-amber-300 ring-1 ring-amber-400/40 shadow-sm font-bold
+                   {% else %}
+                   text-slate-300 hover:text-white hover:bg-slate-800/60
+                   {% endif %}">
                     {{ label }}
                 </a>
                 {% endfor %}
             </div>
-            <!-- Botão hambúrguer (mobile) -->
-            <button id="nav-toggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-800 text-slate-200" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile">
+
+            <!-- Theme & Language Switchers (Desktop) -->
+            <div class="hidden xl:flex items-center gap-2 shrink-0">
+                <!-- Theme Switcher Pill -->
+                <div class="flex items-center bg-slate-900/90 p-0.5 rounded-xl border border-slate-800/80 shadow-inner" role="group" aria-label="Seleção de Tema">
+                    <button type="button" onclick="setTheme('light')" data-theme="light" class="theme-btn w-7 h-7 rounded-lg text-xs font-medium transition flex items-center justify-center" title="Tema Claro (Light Mode)">
+                        <span>☀️</span>
+                    </button>
+                    <button type="button" onclick="setTheme('dark')" data-theme="dark" class="theme-btn w-7 h-7 rounded-lg text-xs font-medium transition flex items-center justify-center" title="Tema Escuro (Cosmic Navy)">
+                        <span>🌙</span>
+                    </button>
+                    <button type="button" onclick="setTheme('oled')" data-theme="oled" class="theme-btn w-7 h-7 rounded-lg text-xs font-medium transition flex items-center justify-center" title="Tema Preto (OLED Pitch Black)">
+                        <span>🖤</span>
+                    </button>
+                </div>
+
+                <!-- Language Switcher Pill -->
+                <div class="flex items-center bg-slate-900/90 p-0.5 rounded-xl border border-slate-800/80 shadow-inner" role="group" aria-label="Idioma / Language">
+                    <button type="button" onclick="setLanguage('pt')" data-lang="pt" class="lang-btn px-2 py-1 rounded-lg text-[11px] font-mono font-bold transition flex items-center justify-center" title="Português (Brasil)">
+                        <span>PT</span>
+                    </button>
+                    <button type="button" onclick="setLanguage('en')" data-lang="en" class="lang-btn px-2 py-1 rounded-lg text-[11px] font-mono font-bold transition flex items-center justify-center" title="English (United States)">
+                        <span>EN</span>
+                    </button>
+                </div>
+
+                <!-- Right Meta Pill -->
+                <div class="hidden 2xl:flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-xl border border-slate-800">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>1800–2100</span>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="nav-toggle" class="xl:hidden p-2 rounded-xl hover:bg-slate-800 text-slate-200 border border-slate-700/60" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
-        <!-- Menu mobile -->
-        <div id="nav-mobile" class="lg:hidden hidden mt-3 flex flex-col gap-1 border-t border-slate-700/60 pt-3">
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="nav-mobile" class="xl:hidden hidden mt-3 p-4 bg-slate-950/95 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl flex flex-col gap-2">
+            <!-- Mobile Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 mb-2">
+                <div class="flex items-center gap-1" role="group" aria-label="Tema">
+                    <button type="button" onclick="setTheme('light')" data-theme="light" class="theme-btn px-2.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                        <span>☀️</span> Claro
+                    </button>
+                    <button type="button" onclick="setTheme('dark')" data-theme="dark" class="theme-btn px-2.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                        <span>🌙</span> Escuro
+                    </button>
+                    <button type="button" onclick="setTheme('oled')" data-theme="oled" class="theme-btn px-2.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                        <span>🖤</span> Preto
+                    </button>
+                </div>
+                <div class="flex items-center gap-1" role="group" aria-label="Idioma">
+                    <button type="button" onclick="setLanguage('pt')" data-lang="pt" class="lang-btn px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition flex items-center gap-1">
+                        <span>🇧🇷</span> PT
+                    </button>
+                    <button type="button" onclick="setLanguage('en')" data-lang="en" class="lang-btn px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition flex items-center gap-1">
+                        <span>🇺🇸</span> EN
+                    </button>
+                </div>
+            </div>
+
             {% for href, label, extra in nav_items %}
             {% set active = (current_path == href) or (href != "/" and current_path.startswith(href)) %}
-            <a href="{{ href }}" class="px-3 py-2 rounded-lg text-sm font-medium {{ extra }} {% if active %}bg-slate-800 text-amber-300{% else %}text-slate-200 hover:bg-slate-800{% endif %}">{{ label }}</a>
+            <a href="{{ href }}" class="px-4 py-2.5 rounded-xl text-sm font-semibold transition {{ extra }} {% if active %}bg-slate-800 text-amber-300 ring-1 ring-amber-400/40 font-bold{% else %}text-slate-200 hover:bg-slate-800{% endif %}">{{ label }}</a>
             {% endfor %}
         </div>
         <script>
@@ -111,23 +270,38 @@
         </script>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Main Workspace Container -->
     <main class="flex-grow w-full max-w-[1920px] mx-auto px-4 sm:px-8 xl:px-10 py-8">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="glass-panel border-t border-slate-800 py-6 px-4 sm:px-8 mt-12 text-center text-sm text-slate-400">
-        <div class="w-full max-w-[1920px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>
-                AstroHistory • Plataforma de Pesquisa e Literacia Estatística • Licenciado sob <span class="text-sky-400 font-mono">GNU AGPL-3.0-or-later</span>
-                • <a href="https://github.com/astro-history/astro-history" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline inline-flex items-center gap-1"><span>Código-Fonte (GitHub)</span> ↗</a>
-            </p>
-            <p class="text-xs text-slate-500">
-                Swiss Ephemeris &copy; Astrodienst AG • Modelos Nulos N1-N3, TOST Equivalence & FDR Benjamini-Hochberg
-            </p>
+    <!-- Global Footer -->
+    <footer class="glass-panel border-t border-slate-800/80 py-8 px-4 sm:px-8 mt-16 text-center text-sm text-slate-400">
+        <div class="w-full max-w-[1920px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-left">
+                <div class="flex items-center gap-2">
+                    <span class="font-display font-bold text-white tracking-wider">AstroHistory</span>
+                    <span class="text-xs text-slate-500 font-mono">• v5.0.0</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-1">
+                    Plataforma Internacional de Pesquisa Computacional em Astrologia Mundana & Ephemerides Suíças.
+                </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-4 text-xs font-mono">
+                <a href="/methodology" class="text-sky-400 hover:underline">Modelos Nulos N1–N3</a>
+                <span class="text-slate-600">•</span>
+                <a href="/forecast" class="text-emerald-400 hover:underline">Skill Walk-Forward</a>
+                <span class="text-slate-600">•</span>
+                <a href="/countries" class="text-amber-400 hover:underline">Mapas Soberanos</a>
+                <span class="text-slate-600">•</span>
+                <a href="https://github.com/astro-history/astro-history" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-white inline-flex items-center gap-1"><span>GitHub</span> ↗</a>
+            </div>
+        </div>
+        <div class="w-full max-w-[1920px] mx-auto mt-4 pt-4 border-t border-slate-800/60 text-[11px] text-slate-500 text-center">
+            Swiss Ephemeris &copy; Astrodienst AG • Licenciado sob GNU AGPL-3.0-or-later • 1.342 fatos históricos catalogados (1800–2100)
         </div>
     </footer>
+    <script src="/static/js/i18n.js"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -1,6 +1,6 @@
 """
 Aplicação Web FastAPI rodando na porta 81 (0.0.0.0:81).
-Oferece o Dashboard completo de Astrologia Moderna com os 300 fatos históricos,
+Oferece o Dashboard completo de Astrologia Moderna com os 1.342 fatos históricos mundiais,
 visualização de mapas astrais em mandala SVG e simulador de correlações futuras.
 """
 
@@ -41,9 +41,9 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(
-    title="AstroHistory - Astrologia Moderna & 300 Fatos Históricos",
-    description="Plataforma de Correlação Astrológica Histórica com Swiss Ephemeris",
-    version="3.0.0",
+    title="AstroHistory - Astrologia Moderna & 1.342 Fatos Históricos Mundiais",
+    description="Plataforma Internacional de Correlação Astrológica Histórica com Swiss Ephemeris",
+    version="4.0.0",
     lifespan=lifespan
 )
 
@@ -74,6 +74,40 @@ if os.path.exists(STATIC_DIR):
 def build_chart_series(future_data: dict) -> dict:
     """Séries 1800–2100 (escala 0–1000) para o Chart.js do dashboard, simulador e linha do tempo."""
     tl = future_data["timeline"]
+
+    def extract_year_title(t: dict) -> str:
+        events = t.get("historical_events", [])
+        if not events:
+            return ""
+
+        # Priorizar marcos bélicos e históricos monumentais (Segunda Guerra, Hiroshima, Pearl Harbor, etc.)
+        def event_priority(e: dict) -> int:
+            title = e.get("title", "").lower()
+            if "hiroshima" in title or "segunda guerra" in title:
+                return 0
+            if "pearl harbor" in title or "dia d" in title or "stalingrado" in title or "nuclear" in title:
+                return 1
+            if "guerra mundial" in title or "auschwitz" in title or "berlim" in title or "crash" in title:
+                return 2
+            if e.get("category") == "Guerra & Conflito":
+                return 3
+            if e.get("category") == "Crise Financeira & Econômica":
+                return 4
+            return 5
+
+        sorted_events = sorted(events, key=event_priority)
+        titles = [e["title"] for e in sorted_events]
+        if len(titles) <= 3:
+            return " • ".join(titles)
+        return " • ".join(titles[:3]) + f" (+{len(titles)-3} outros)"
+
+    def extract_top_event(t: dict) -> str:
+        events = t.get("historical_events", [])
+        if events:
+            return extract_year_title(t)
+        top_matches = t.get("top_matches", [])
+        return top_matches[0]["title"] if top_matches else ""
+
     return {
         "years": [t["year"] for t in tl],
         "tension_1000": [t["tension_index_1000"] for t in tl],
@@ -82,15 +116,13 @@ def build_chart_series(future_data: dict) -> dict:
         "crisis_risk_1000": [t["crisis_risk_index_1000"] for t in tl],
         "tech_innovation_1000": [t["tech_innovation_index_1000"] for t in tl],
         "barbault_1000": [t.get("barbault_concentration_1000", 0.0) for t in tl],
-        "is_historical": [t["is_historical"] for t in tl],
-        "hist_titles": [t["historical_events"][0]["title"] if t.get("historical_events") else "" for t in tl],
+        "is_historical": [t["year"] < 2026 for t in tl],
+        "has_historical_events": [len(t.get("historical_events", [])) > 0 for t in tl],
+        "hist_events_count": [len(t.get("historical_events", [])) for t in tl],
+        "hist_titles": [extract_year_title(t) for t in tl],
         "hist_ids": [t["historical_events"][0]["id"] if t.get("historical_events") else None for t in tl],
         "triggers": [t["cosmic_trigger"] for t in tl],
-        "top_events": [
-            t["historical_events"][0]["title"] if t.get("historical_events")
-            else (t["top_matches"][0]["title"] if t.get("top_matches") else "")
-            for t in tl
-        ],
+        "top_events": [extract_top_event(t) for t in tl],
     }
 
 # --- Rotas HTML ---
@@ -98,9 +130,9 @@ def build_chart_series(future_data: dict) -> dict:
 @app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def index_view(request: Request):
     stats = get_events_stats()
-    # Eventos em destaque paradigmáticos (ex: Crash de 1929, Hiroshima, Muro de Berlim, 11/Setembro, etc.)
+    # Eventos em destaque paradigmáticos (Segunda Guerra Mundial, Hiroshima, Crash de 1929, Apollo 11, etc.)
     all_evs = get_all_events()
-    featured_ids = [93, 107, 134, 156, 171, 188]
+    featured_ids = [100, 107, 93, 134, 156, 171]
     featured_events = [e for e in all_evs if e["id"] in featured_ids]
     if len(featured_events) < 6:
         featured_events = all_evs[:6]
@@ -176,6 +208,23 @@ async def event_detail_view(request: Request, event_id: int):
     next_id = ids[pos + 1] if 0 <= pos < len(ids) - 1 else None
     event["in_validated_sample"] = event.get("date") in get_validated_sample_dates()
 
+    # Métricas Internacionais (Barbault CI, Oshop Sum of Cosines & Análogos Cósmicos)
+    barbault_data, oshop_data, analogues_data = None, None, None
+    try:
+        import swisseph as swe
+        from src.features.barbault_ci import calculate_barbault_comparison
+        from src.features.sum_of_cosines import calculate_oshop_indices
+        from src.analysis.historical_analogues import find_historical_analogues
+
+        p = [int(x) for x in event["date"].split("-")]
+        tjd = swe.julday(p[0], p[1], p[2], 12.0)
+        barbault_data = calculate_barbault_comparison(tjd)
+        oshop_data = calculate_oshop_indices(tjd)
+        ana_res = find_historical_analogues(event["date"], top_k=5, exclude_event_id=event_id, min_year_diff=1)
+        analogues_data = ana_res.get("top_analogues", [])
+    except Exception:
+        pass
+
     return templates.TemplateResponse(
         request=request,
         name="event_detail.html",
@@ -185,7 +234,10 @@ async def event_detail_view(request: Request, event_id: int):
             "mandala_svg": mandala_svg,
             "emphasis": emphasis,
             "prev_id": prev_id,
-            "next_id": next_id
+            "next_id": next_id,
+            "barbault_data": barbault_data,
+            "oshop_data": oshop_data,
+            "analogues_data": analogues_data
         }
     )
 
@@ -207,12 +259,25 @@ async def simulator_get_view(request: Request, title: Optional[str] = None, date
     future_data = generate_future_timeline_1800_2100(force_refresh=False)
     chart_series = build_chart_series(future_data)
     results, sim_event, error = None, None, None
+    barbault_data, oshop_data, analogues_data = None, None, None
     if date:
         try:
             sim = SimulationInput(title=title or "Simulação", date=date, time=time, city=city, country=country, latitude=latitude, longitude=longitude)
             sim_event = sim.model_dump()
             chart = calculate_event_chart(sim_event)
             results = {"chart": chart, "similarity": find_similar_events(chart, top_k=5)}
+
+            import swisseph as swe
+            from src.features.barbault_ci import calculate_barbault_comparison
+            from src.features.sum_of_cosines import calculate_oshop_indices
+            from src.analysis.historical_analogues import find_historical_analogues
+
+            p = [int(x) for x in date.split("-")]
+            tjd = swe.julday(p[0], p[1], p[2], 12.0)
+            barbault_data = calculate_barbault_comparison(tjd)
+            oshop_data = calculate_oshop_indices(tjd)
+            ana_res = find_historical_analogues(date, top_k=5)
+            analogues_data = ana_res.get("top_analogues", [])
         except Exception as e:
             error = f"Parâmetros inválidos: {e}"
 
@@ -225,7 +290,10 @@ async def simulator_get_view(request: Request, title: Optional[str] = None, date
             "results": results,
             "input_data": sim_event,
             "error": error,
-            "share_url": str(request.url) if results else None
+            "share_url": str(request.url) if results else None,
+            "barbault_data": barbault_data,
+            "oshop_data": oshop_data,
+            "analogues_data": analogues_data
         }
     )
 
@@ -422,3 +490,66 @@ async def api_simulate(data: SimulationInput):
         "chart": chart,
         "similarity": similarity
     })
+
+# ==================== ENDPOINTS DE PESQUISA INTERNACIONAL & NOVAS METODOLOGIAS ====================
+
+@app.get("/api/historical-analogues")
+async def api_historical_analogues(
+    date: str,
+    category: Optional[str] = None,
+    top_k: int = 5,
+    exclude_id: Optional[int] = None,
+    min_year_diff: Optional[int] = None
+):
+    """
+    Motor Cosmic History Search / Historical Analogues:
+    Busca eventos históricos análogos a uma configuração celeste em qualquer data (passada ou futura).
+    """
+    try:
+        from src.analysis.historical_analogues import find_historical_analogues
+        res = find_historical_analogues(
+            date,
+            category_filter=category,
+            top_k=min(top_k, 20),
+            exclude_event_id=exclude_id,
+            min_year_diff=min_year_diff
+        )
+        return JSONResponse(content=res)
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=400)
+
+@app.get("/api/features/oshop")
+async def api_features_oshop(date: str):
+    """
+    Calcula as métricas de clustering Sum of Cosines de Renay Oshop (Project 17) para uma data.
+    """
+    try:
+        import swisseph as swe
+        from src.features.sum_of_cosines import calculate_oshop_indices
+        parts = [int(p) for p in date.strip().split("-")]
+        tjd = swe.julday(parts[0], parts[1], parts[2], 12.0)
+        res = calculate_oshop_indices(tjd)
+        return JSONResponse(content=res)
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=400)
+
+@app.get("/api/features/barbault")
+async def api_features_barbault(date: str):
+    """
+    Calcula o comparativo formal André Barbault CI-4 vs CI-5 (Archos 2024) com tendências e derivadas anuais.
+    """
+    try:
+        import swisseph as swe
+        from src.features.barbault_ci import calculate_barbault_comparison
+        parts = [int(p) for p in date.strip().split("-")]
+        tjd = swe.julday(parts[0], parts[1], parts[2], 12.0)
+        res = calculate_barbault_comparison(tjd)
+        return JSONResponse(content=res)
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=400)
+
+# Inclusão modular do motor de Astrologia Mundana dos Países (National Horoscopes)
+from src.mundane.web_routes import router as mundane_router
+app.include_router(mundane_router)
+
+

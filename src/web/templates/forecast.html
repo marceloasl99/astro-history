@@ -1,22 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Previsão Probabilística v3 (2026–2060) | AstroHistory{% endblock %}
+{% block title %}Previsão Probabilística (2026–2060) | AstroHistory{% endblock %}
 
 {% block content %}
-<section class="mb-8">
-    <h1 class="text-3xl sm:text-4xl font-bold mb-2">📈 Previsão Probabilística v3 <span class="text-slate-400 text-xl font-normal">2026–2060</span></h1>
-    <p class="text-slate-300 max-w-4xl">
-        Cada ano recebe uma <strong>probabilidade com intervalo</strong> (p10–p90) comparada à <strong>taxa-base histórica</strong>,
-        calculada por um modelo ajustado em bases objetivas (COW, NBER, UCDP/PRIO, catálogo v2) a partir de 409 features da astrologia
-        mundana moderna (fases dos ciclos externos, Índice de Barbault, ativação de aspectos, harmônicos, declinação, eclipses…).
-        O <strong>skill</strong> de cada modelo foi medido por hindcast walk-forward — e é mostrado antes de qualquer número.
-    </p>
-</section>
+<div class="space-y-8">
+    <!-- Hero Banner -->
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
+        <div class="max-w-4xl space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Modelos Preditivos Walk-Forward • 409 Features Astrológicas • Horizonte 2026–2060</span>
+            </div>
+            <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
+                Previsão Probabilística <span class="text-slate-400 text-xl sm:text-2xl font-normal font-sans">(2026–2060)</span>
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                Cada ano recebe uma <strong>probabilidade com intervalo de confiança</strong> (p10–p90) comparada à <strong>taxa-base histórica</strong>,
+                calculada por modelos calibrados em bases objetivas independentes (COW, NBER, UCDP/PRIO e catálogo validado) a partir de 409 features da astrologia
+                mundana (fases de ciclos exteriores, Índice de Barbault, ativação de aspectos, harmônicos, declinações e eclipses).
+                O <strong>skill</strong> de cada modelo foi medido previamente por hindcast walk-forward — apresentado com total transparência epistemológica.
+            </p>
+        </div>
+    </div>
 
-{% if not forecast %}
-<div class="glass-panel rounded-xl p-6 text-amber-200">
-    O arquivo <code>data/forecast_v3.json</code> ainda não foi gerado. Rode <code>make forecast</code>.
-</div>
-{% else %}
+    {% if not forecast %}
+    <div class="glass-panel rounded-2xl p-6 text-amber-200 border border-amber-500/30">
+        O arquivo de previsão probabilística ainda não foi gerado. Rode <code>make forecast</code>.
+    </div>
+    {% else %}
 
 <!-- Selo de skill (hindcast) -->
 <section class="glass-panel rounded-xl p-5 mb-8">
@@ -130,6 +140,7 @@
     Os análogos usam distância euclidiana no espaço padronizado das fases (seno/cosseno) dos 10 pares de planetas externos, com no máximo um análogo por década — o que elimina a confusão de época do matcher por "mesmo signo".</p>
 </section>
 {% endif %}
+</div>
 {% endblock %}
 
 {% block scripts %}

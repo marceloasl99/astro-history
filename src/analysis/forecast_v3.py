@@ -43,7 +43,7 @@ FORECAST_TARGETS = {
     "ucdp_onset_any": "Início de episódio de conflito armado (UCDP/PRIO, 1946–2023)",
     "nber_recession": "Mês em recessão nos EUA (NBER, 1857–2024)",
     "nber_recession_start": "Início de recessão nos EUA (NBER, 1857–2024)",
-    "v2_any": "Evento do catálogo objetivo v2 (1800–2025)",
+    "v2_any": "Evento da amostra validada (1800–2025)",
 }
 ASTRO_MODELS = ["legacy_index", "barbault", "tarnas_outer", "outer_phases", "astro_full"]
 FUTURE_START, FUTURE_END = 2026, 2060

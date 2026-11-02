@@ -299,10 +299,11 @@ def calculate_event_emphasis(event_id: int) -> Dict[str, Any]:
 
 def calculate_macro_correlations() -> Dict[str, Any]:
     """
-    Executa contas estatísticas em toda a base dos 200 fatos históricos,
-    identificando desvios de frequência, planetas em ênfase e aspectos dominantes por categoria.
+    Executa contas estatísticas em toda a base histórica expandida (1.342 fatos),
+    identificando desvios de frequência, planetas em ênfase e aspectos dominantes nas 6 categorias canônicas.
     """
     conn = get_connection()
+    total_events = conn.execute("SELECT COUNT(*) FROM events").fetchone()[0]
     categories_res = conn.execute("SELECT DISTINCT category FROM events ORDER BY category").fetchall()
     categories = [r[0] for r in categories_res]
 
@@ -348,9 +349,9 @@ def calculate_macro_correlations() -> Dict[str, Any]:
             SELECT AVG(tension_index) FROM events WHERE category = ?
         """, (cat,)).fetchone()[0] or 50.0
 
-        # Elaboração da fundamentação teórica de astrologia moderna para a categoria
+        # Elaboração da fundamentação teórica de astrologia moderna para as 6 categorias canônicas
         category_theory = ""
-        if cat == "Crise Econômica":
+        if cat == "Crise Financeira & Econômica":
             category_theory = (
                 "Na Astrologia Mundial Moderna, as crises econômicas e financeiras são fortemente correlacionadas "
                 "a tensões envolvendo Plutão (crédito, dívida, colapso de solvência e transformações patrimoniais) "
@@ -362,33 +363,34 @@ def calculate_macro_correlations() -> Dict[str, Any]:
             category_theory = (
                 "Conflitos bélicos e guerras de grande escala coincidem com ciclos maiores de Saturno-Plutão "
                 "(confrontos de poder estatal, endurecimento de fronteiras e contração autoritária) e ativações de Marte "
-                "com planetas transpessoais. A incidência repetida de Plutão em signos de Fogo (como Leão) denota lutas "
-                "pela supremacia e uso desmedido de armamentos de destruição em massa."
+                "com planetas transpessoais. A incidência de aspectos duros e planetas lentos em signos de Fogo e Água "
+                "denota lutas pela hegemonia geopolítica, recursos estratégicos e uso de armamentos de impacto massivo."
+            )
+        elif cat == "Revolução & Conflito Interno":
+            category_theory = (
+                "Revoluções populares, insurreições civis e golpes de Estado articulam o embate direto entre "
+                "Urano (libertação, direitos dos povos, rebelião cívica, ruptura repentina da ordem) e Saturno/Plutão "
+                "(o status quo, o aparelho militar e as estruturas de coerção do Estado). Signos Cardinais e de Ar "
+                "acentuam a urgência de refundação constitucional, reestruturação institucional e transferência de poder."
+            )
+        elif cat == "Desastre & Saúde Pública":
+            category_theory = (
+                "Grandes sismos geológicos, catástrofes epidemiológicas e calamidades climáticas apresentam acentuada ativação "
+                "de Netuno (vetor de contágios invisíveis, desastres marítimos e inundação sanitária), Urano (choques telúricos "
+                "e eventos sísmicos abruptos de grande magnitude) associados a Quíron e estrelas fixas de advertência."
             )
         elif cat == "Ciência & Tecnologia":
             category_theory = (
-                "Grandes saltos de inovação, eletromagnetismo, física quântica e astronomia respondem ao arquétipo "
-                "de Urano (a mente cósmica superior e a inovação tecnológica desbravadora) harmonizado com Saturno "
-                "(método empírico e leis da matéria) e Netuno (teorias sutis e invisíveis). Os trígonos nestes mapas "
-                "indicam sínteses conceituais brilhantes que redefiniram as ferramentas da civilização humana."
+                "Grandes saltos de inovação, física quântica, computação, inteligência artificial e exploração aeroespacial "
+                "respondem primordialmente ao arquétipo de Urano (a mente cósmica superior e a tecnologia desbravadora) "
+                "harmonizado com Saturno (rigor empírico, engenharia e leis da matéria) e Netuno (teorias conceituais sutis). "
+                "Trígonos e sextis nestes mapas indicam sínteses conceituais que expandiram as fronteiras da civilização humana."
             )
-        elif cat == "Revolução Política":
+        else:  # Política, Tratados & Cultura
             category_theory = (
-                "Revoluções populares e quedas de regimes absolutistas ou coloniais articulam o embate direto entre "
-                "Urano (libertação, direitos dos povos, rebelião cívica) e Saturno/Plutão (o status quo e o aparelho repressor). "
-                "Signos Cardinais e de Ar acentuam a urgência de constituições republicanas, sufrágio e reescrita das leis."
-            )
-        elif cat == "Pandemia & Desastre":
-            category_theory = (
-                "Catástrofes epidemiológicas e calamidades naturais apresentam acentuada ativação de Netuno "
-                "(vetor de contágios invisíveis, desmanche sanitário) associado a Quíron (a vulnerabilidade corporal da espécie) "
-                "e estrelas fixas de advertência marítima ou toxicidade como Menkar e Scheat."
-            )
-        else:
-            category_theory = (
-                "Transformações culturais profundas refletem as grandes mudanças de signo de planetas lentos, "
-                "em especial as transições geracionais de Plutão e Netuno que inauguram novos paradigmas na arte, "
-                "filosofia e religiosidade coletiva."
+                "Grandes tratados internacionais de paz, fundações diplomáticas e renascimentos culturais e filosóficos "
+                "espelham alinhamentos de Júpiter (justiça, direito internacional, expansão moral e filosófica) e Vênus "
+                "harmonizados com Saturno (institucionalização formal e estabilidade duradoura de acordos entre soberanos)."
             )
 
         category_reports[cat] = {
@@ -403,7 +405,7 @@ def calculate_macro_correlations() -> Dict[str, Any]:
     conn.close()
 
     return {
-        "total_historical_events": 200,
+        "total_historical_events": total_events,
         "categories_analysis": category_reports
     }
 

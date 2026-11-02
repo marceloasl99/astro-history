@@ -1,0 +1,347 @@
+/* ==========================================================================
+   AstroHistory - Theme Engine: Claro (Light), Escuro (Dark Navy), Preto (OLED)
+   ========================================================================== */
+
+/* Controles Globais de Tema & Idioma */
+.theme-btn, .lang-btn {
+    color: #94a3b8;
+    cursor: pointer;
+    user-select: none;
+}
+.theme-btn:hover, .lang-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.theme-btn.bg-amber-400, .lang-btn.bg-amber-400 {
+    background-color: #fbbf24 !important;
+    color: #030712 !important;
+    font-weight: 700 !important;
+}
+
+/* --------------------------------------------------------------------------
+   1. TEMA CLARO (LIGHT MODE)
+   -------------------------------------------------------------------------- */
+html.theme-light body {
+    background-color: #f8fafc !important;
+    background-image: 
+        radial-gradient(ellipse at 50% -10%, rgba(219, 234, 254, 0.6) 0%, transparent 60%),
+        radial-gradient(circle at 10% 30%, rgba(186, 230, 253, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 90% 60%, rgba(233, 213, 255, 0.3) 0%, transparent 40%),
+        radial-gradient(rgba(100, 116, 139, 0.12) 1px, transparent 1px) !important;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px !important;
+    background-attachment: fixed !important;
+    color: #0f172a !important;
+}
+
+/* Painéis de Vidro e Cards */
+html.theme-light .glass-panel,
+html.theme-light .glass-card-interactive {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    color: #0f172a !important;
+}
+
+html.theme-light .glass-card-interactive:hover {
+    background: #ffffff !important;
+    border-color: #d97706 !important;
+    box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.12), 0 0 15px rgba(245, 158, 11, 0.15) !important;
+}
+
+/* Tipografia e Cores de Texto */
+html.theme-light .text-white {
+    color: #0f172a !important;
+}
+html.theme-light .text-slate-100 {
+    color: #0f172a !important;
+}
+html.theme-light .text-slate-200 {
+    color: #1e293b !important;
+}
+html.theme-light .text-slate-300 {
+    color: #334155 !important;
+}
+html.theme-light .text-slate-400 {
+    color: #64748b !important;
+}
+html.theme-light .text-slate-500 {
+    color: #94a3b8 !important;
+}
+
+/* Realce de Acentos para Contraste em Modo Claro */
+html.theme-light .text-amber-300,
+html.theme-light .text-amber-400 {
+    color: #b45309 !important;
+}
+html.theme-light .text-sky-300,
+html.theme-light .text-sky-400 {
+    color: #0284c7 !important;
+}
+html.theme-light .text-emerald-300,
+html.theme-light .text-emerald-400 {
+    color: #059669 !important;
+}
+html.theme-light .text-rose-300,
+html.theme-light .text-rose-400 {
+    color: #e11d48 !important;
+}
+html.theme-light .text-purple-300,
+html.theme-light .text-purple-400 {
+    color: #7c3aed !important;
+}
+html.theme-light .text-indigo-300,
+html.theme-light .text-indigo-400 {
+    color: #4f46e5 !important;
+}
+
+/* Superfícies Interiores Slate */
+html.theme-light .bg-slate-950,
+html.theme-light .bg-slate-900,
+html.theme-light .bg-slate-800,
+html.theme-light [class*="bg-slate-950"],
+html.theme-light [class*="bg-slate-900"],
+html.theme-light [class*="bg-slate-800"] {
+    background-color: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Bordas */
+html.theme-light .border-slate-800,
+html.theme-light .border-slate-700,
+html.theme-light [class*="border-slate-"] {
+    border-color: #e2e8f0 !important;
+}
+
+/* Barra de Navegação e Top Header */
+html.theme-light header {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #334155 !important;
+}
+html.theme-light nav {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Tabelas */
+html.theme-light thead,
+html.theme-light thead th,
+html.theme-light thead tr {
+    background-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    border-color: #cbd5e1 !important;
+}
+html.theme-light tbody tr:hover {
+    background-color: #f1f5f9 !important;
+}
+html.theme-light tbody tr {
+    border-color: #e2e8f0 !important;
+}
+
+/* Inputs, Selects e Textareas */
+html.theme-light input,
+html.theme-light select,
+html.theme-light textarea {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html.theme-light input::placeholder,
+html.theme-light textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Badges e Pílulas */
+html.theme-light .bg-amber-500\/10,
+html.theme-light .bg-amber-500\/20 {
+    background-color: #fef3c7 !important;
+    border-color: #fde68a !important;
+    color: #92400e !important;
+}
+html.theme-light .bg-sky-500\/10,
+html.theme-light .bg-sky-500\/20 {
+    background-color: #e0f2fe !important;
+    border-color: #bae6fd !important;
+    color: #0369a1 !important;
+}
+html.theme-light .bg-emerald-500\/10,
+html.theme-light .bg-emerald-500\/20 {
+    background-color: #d1fae5 !important;
+    border-color: #a7f3d0 !important;
+    color: #065f46 !important;
+}
+html.theme-light .bg-rose-500\/10,
+html.theme-light .bg-rose-500\/20 {
+    background-color: #ffe4e6 !important;
+    border-color: #fecdd3 !important;
+    color: #9f1239 !important;
+}
+html.theme-light .bg-purple-500\/10,
+html.theme-light .bg-purple-500\/20 {
+    background-color: #f3e8ff !important;
+    border-color: #e9d5ff !important;
+    color: #6b21a8 !important;
+}
+
+/* Footer */
+html.theme-light footer {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+/* Controles de Tema e Idioma (Light Mode) */
+html.theme-light [role="group"] {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+html.theme-light .theme-btn,
+html.theme-light .lang-btn {
+    color: #475569 !important;
+}
+html.theme-light .theme-btn:hover,
+html.theme-light .lang-btn:hover {
+    color: #0f172a !important;
+    background-color: #e2e8f0 !important;
+}
+html.theme-light .theme-btn.bg-amber-400,
+html.theme-light .lang-btn.bg-amber-400 {
+    background-color: #d97706 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(217, 119, 6, 0.3) !important;
+}
+
+/* Scrollbar Claro */
+html.theme-light ::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+}
+html.theme-light ::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+}
+html.theme-light ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. TEMA PRETO (OLED / PITCH BLACK)
+   -------------------------------------------------------------------------- */
+html.theme-oled body {
+    background-color: #000000 !important;
+    background-image: none !important;
+    color: #f8fafc !important;
+}
+
+/* Painéis e Cards em Preto Absoluto com Bordas Nítidas */
+html.theme-oled .glass-panel,
+html.theme-oled .glass-card-interactive {
+    background: #080808 !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: none !important;
+}
+
+html.theme-oled .glass-card-interactive:hover {
+    background: #111111 !important;
+    border-color: #fbbf24 !important;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.15) !important;
+}
+
+/* Superfícies Internas */
+html.theme-oled .bg-slate-950,
+html.theme-oled .bg-slate-900,
+html.theme-oled .bg-slate-800,
+html.theme-oled [class*="bg-slate-950"],
+html.theme-oled [class*="bg-slate-900"],
+html.theme-oled [class*="bg-slate-800"] {
+    background-color: #000000 !important;
+    border-color: #262626 !important;
+}
+
+/* Bordas em OLED */
+html.theme-oled .border-slate-800,
+html.theme-oled .border-slate-700,
+html.theme-oled [class*="border-slate-"] {
+    border-color: #262626 !important;
+}
+
+/* Navegação e Header em Preto Absoluto */
+html.theme-oled header {
+    background-color: #000000 !important;
+    border-color: #262626 !important;
+}
+html.theme-oled nav {
+    background: rgba(0, 0, 0, 0.96) !important;
+    border-color: #262626 !important;
+}
+
+/* Tabelas em OLED */
+html.theme-oled thead,
+html.theme-oled thead th,
+html.theme-oled thead tr {
+    background-color: #0a0a0a !important;
+    border-color: #262626 !important;
+    color: #e5e5e5 !important;
+}
+html.theme-oled tbody tr:hover {
+    background-color: #121212 !important;
+}
+html.theme-oled tbody tr {
+    border-color: #1c1c1c !important;
+}
+
+/* Inputs em OLED */
+html.theme-oled input,
+html.theme-oled select,
+html.theme-oled textarea {
+    background-color: #000000 !important;
+    border-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+/* Footer em OLED */
+html.theme-oled footer {
+    background-color: #000000 !important;
+    border-color: #262626 !important;
+}
+
+/* Controles de Tema e Idioma (OLED Mode) */
+html.theme-oled [role="group"] {
+    background-color: #000000 !important;
+    border-color: #333333 !important;
+}
+html.theme-oled .theme-btn,
+html.theme-oled .lang-btn {
+    color: #a3a3a3 !important;
+}
+html.theme-oled .theme-btn:hover,
+html.theme-oled .lang-btn:hover {
+    color: #ffffff !important;
+    background-color: #171717 !important;
+}
+html.theme-oled .theme-btn.bg-amber-400,
+html.theme-oled .lang-btn.bg-amber-400 {
+    background-color: #fbbf24 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.25) !important;
+}
+
+/* Scrollbar em OLED */
+html.theme-oled ::-webkit-scrollbar-track {
+    background: #000000 !important;
+}
+html.theme-oled ::-webkit-scrollbar-thumb {
+    background: #262626 !important;
+}
+html.theme-oled ::-webkit-scrollbar-thumb:hover {
+    background: #404040 !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. TEMA ESCURO (COSMIC NAVY - DEFAULT)
+   -------------------------------------------------------------------------- */
+/* O tema escuro preserva as variáveis cosmicas do body e glass-panel já estilizadas */
+html.theme-dark body {
+    background-color: #060913;
+}

@@ -1,0 +1,1007 @@
+{% extends "base.html" %}
+
+{% block title %}{{ chart.country_name_pt }} | Mapa Natal, História & Previsão Futura | AstroHistory{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Breadcrumb e Voltar -->
+    <div class="flex items-center justify-between">
+        <a href="/countries" class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-400 hover:text-sky-300 transition">
+            <span>←</span>
+            <span>Voltar ao Catálogo de Países</span>
+        </a>
+        <span class="text-xs text-slate-500 font-mono">Código ISO: {{ chart.country_iso }}</span>
+    </div>
+
+    <!-- Cabeçalho do País -->
+    <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-700/80 bg-gradient-to-r from-slate-900 via-slate-800/90 to-indigo-950/30">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div class="flex items-start gap-4 sm:gap-6">
+                <span class="text-5xl sm:text-6xl filter drop-shadow select-none">{{ chart.flag_emoji }}</span>
+                <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
+                            {{ chart.country_name_pt }}
+                        </h1>
+                        <span class="text-slate-400 text-sm font-medium">({{ chart.country_name_en }})</span>
+                        
+                        {% if chart.is_time_known %}
+                        <span class="px-2 py-0.5 rounded-full text-xs font-mono bg-sky-500/10 text-sky-300 border border-sky-500/30">
+                            Casas Placidus ({{ chart.time }})
+                        </span>
+                        {% else %}
+                        <span class="px-2 py-0.5 rounded-full text-xs font-mono bg-amber-500/10 text-amber-300 border border-amber-500/30" title="Horário desconhecido">
+                            Carta Solar (Sem Casas)
+                        </span>
+                        {% endif %}
+                    </div>
+                    <p class="text-sm text-slate-300 font-medium">
+                        {{ chart.foundation_event }} • <span class="font-mono text-amber-300 font-bold">{{ chart.date }}</span>
+                    </p>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Capital / Local: <span class="text-slate-200">{{ chart.city }}</span> • Coord: {{ chart.latitude }}°, {{ chart.longitude }}° • Continente: {{ chart.continent }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Resumo Astrológico Rápido -->
+            <div class="flex items-center gap-3 bg-slate-900/80 p-3 sm:p-4 rounded-xl border border-slate-700/70">
+                <div class="text-center px-3 border-r border-slate-700/60">
+                    <span class="text-xs text-slate-400 block">Sol Nacional</span>
+                    <span class="text-xl text-amber-300 font-bold">{{ chart.sun_symbol }}</span>
+                    <span class="text-xs text-slate-200 block font-semibold">{{ chart.sun_sign }}</span>
+                </div>
+                <div class="text-center px-3 border-r border-slate-700/60">
+                    <span class="text-xs text-slate-400 block">Lua Nacional</span>
+                    <span class="text-xl text-slate-300 font-bold">{{ chart.moon_symbol }}</span>
+                    <span class="text-xs text-slate-200 block font-semibold">{{ chart.moon_sign }}</span>
+                </div>
+                <div class="text-center px-3">
+                    <span class="text-xs text-slate-400 block">Ativação na Data</span>
+                    <span class="text-xl font-bold font-mono text-sky-300">{{ transits.activation_index_1000 }}</span>
+                    <span class="text-[10px] text-slate-400 block">/ 1000</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Justificativa Histórica Documentada -->
+        <div class="mt-6 pt-4 border-t border-slate-700/60">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
+                Documentação Histórica da Certidão de Nascimento Nacional:
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                {{ chart.historical_justification }}
+            </p>
+            {% if chart.moon_uncertainty_note %}
+            <div class="mt-2 text-[11px] text-amber-400/90 italic">
+                <span>⚠️ {{ chart.moon_uncertainty_note }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Painel de Controle de Trânsito: Seletor de Data -->
+    <div class="glass-panel rounded-xl p-4 sm:p-5 border border-slate-700/70">
+        <form method="GET" action="/countries/{{ chart.country_iso }}" class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <label for="transit-date" class="text-xs font-bold text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                    Data de Análise:
+                </label>
+                <input type="date" id="transit-date" name="date" value="{{ selected_date }}"
+                       class="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-sm text-amber-300 font-mono font-bold focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                <button type="submit" class="px-4 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs hover:bg-amber-300 transition">
+                    Calcular Trânsitos
+                </button>
+            </div>
+
+            <!-- Atalhos Rápidos de Datas -->
+            <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto justify-start sm:justify-end text-xs">
+                <span class="text-slate-400 text-[11px]">Atalhos Rápidos:</span>
+                <a href="/countries/{{ chart.country_iso }}?date={{ today_date }}" 
+                   class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 transition text-[11px]">
+                    Hoje
+                </a>
+                <a href="/countries/{{ chart.country_iso }}?date=2026-02-20" 
+                   class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 transition text-[11px]">
+                    Saturno/Netuno em Áries (2026)
+                </a>
+                <a href="/countries/{{ chart.country_iso }}?date=2028-07-01" 
+                   class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-purple-300 transition text-[11px]">
+                    Urano em Gêmeos (2028)
+                </a>
+                <a href="/countries/{{ chart.country_iso }}?date=2030-01-01" 
+                   class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 transition text-[11px]">
+                    Plutão em Aquário (2030)
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Grid Central: Mandala Bi-Wheel & Tabela de Trânsitos Ativos -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Coluna da Mandala SVG (5 colunas) -->
+        <div class="lg:col-span-5 glass-panel rounded-2xl p-5 border border-slate-700/80 flex flex-col items-center">
+            <div class="w-full flex items-center justify-between mb-3 text-xs">
+                <span class="font-bold text-slate-200">Mandala Bi-Wheel Interativa</span>
+                <span class="text-amber-300 font-mono">{{ selected_date }}</span>
+            </div>
+            
+            <div class="w-full max-w-[460px] aspect-square flex items-center justify-center">
+                {{ biwheel_svg | safe }}
+            </div>
+
+            <!-- Legenda da Mandala -->
+            <div class="w-full mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 space-y-1">
+                <div class="flex items-center justify-between">
+                    <span>🔵 <strong>Anel Externo:</strong> Planetas em Trânsito no Céu</span>
+                    <span class="text-sky-400 font-mono">{{ transits.transit_bodies|length }} corpos</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>🟡 <strong>Anel Interno:</strong> Posições Natais da Nação</span>
+                    <span class="text-amber-400 font-mono">{{ chart.planets|length }} corpos</span>
+                </div>
+                <div class="flex items-center gap-3 pt-1 text-[10px]">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Tensão (90°/180°)</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Conjunção (0°)</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-sky-400"></span> Fluido (60°/120°)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna de Trânsitos Ativos e Aspectos (7 colunas) -->
+        <div class="lg:col-span-7 space-y-4">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-700/80">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span>⚡ Trânsitos Ativos sobre o Mapa Natal</span>
+                        </h2>
+                        <span class="text-xs text-slate-400">Calculado para {{ selected_date }} • {{ transits.active_transits_count }} aspectos detectados</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 block">Nível de Tensão</span>
+                        <span class="text-lg font-bold font-mono {% if transits.activation_index_1000 > 650 %}text-rose-400{% elif transits.activation_index_1000 > 400 %}text-amber-300{% else %}text-sky-300{% endif %}">
+                            {{ transits.activation_index_1000 }} / 1000
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Lista de Trânsitos -->
+                {% if transits.transits %}
+                <div class="space-y-3 max-h-[520px] overflow-y-auto pr-1">
+                    {% for t in transits.transits %}
+                    <div class="p-3.5 rounded-xl bg-slate-900/70 border {% if t.is_exact %}border-amber-400/60 bg-amber-950/10{% else %}border-slate-800{% endif %} hover:border-slate-600 transition">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <div class="flex items-center gap-2 text-sm font-semibold">
+                                <span class="text-base text-sky-300 font-bold">{{ t.transit_symbol }}</span>
+                                <span class="text-slate-200">{{ t.transit_planet }}</span>
+                                <span class="text-xs px-1.5 py-0.5 rounded font-mono {% if t.aspect_nature == 'tenso' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% elif t.aspect_nature == 'transformação profunda' %}bg-purple-500/20 text-purple-300 border border-purple-500/30{% elif t.aspect_name == 'Conjunção' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% else %}bg-sky-500/20 text-sky-300 border border-sky-500/30{% endif %}">
+                                    {{ t.aspect_symbol }} {{ t.aspect_name }}
+                                </span>
+                                <span class="text-base text-amber-300 font-bold">{{ t.natal_symbol }}</span>
+                                <span class="text-slate-200">{{ t.natal_planet }} Natal</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono">
+                                {% if t.is_exact %}
+                                <span class="px-1.5 py-0.5 rounded bg-amber-400 text-slate-950 font-bold text-[10px]">EXATO</span>
+                                {% endif %}
+                                <span class="text-slate-300">Orbe: {{ t.formatted_orb }}</span>
+                                <span class="text-slate-400 text-[11px]">({{ t.status }})</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mt-1">
+                            {{ t.significance }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="p-6 text-center text-slate-400 text-xs">
+                    Nenhum aspecto maior dentro do orbe estrito de 2.5° nesta data específica.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de Linha do Tempo de Ativação do País (Categorias, Passado e Futuro) -->
+    <div class="glass-panel rounded-2xl p-6 border border-slate-700/80 space-y-5">
+        <!-- Topo: Título e Controles de Período (Passado vs Futuro) -->
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-semibold mb-1">
+                    <span>📈 Linha do Tempo Multidimensional</span>
+                </div>
+                <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                    <span>Ciclos Cósmicos de {{ chart.country_name_pt }}: Passado Histórico & Futuro</span>
+                </h2>
+                <p class="text-xs text-slate-400 max-w-2xl leading-relaxed mt-0.5">
+                    Curvas de ativação astronômica sobre o mapa natal da nação. Selecione a categoria temática e alterne entre os fatos históricos do passado e as projeções futuras.
+                </p>
+            </div>
+
+            <!-- Seletor de Período (Passado vs Futuro) -->
+            <div class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-700 text-xs">
+                <button type="button" class="timeline-period-btn active px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-bold transition flex items-center gap-1.5" data-period="all">
+                    <span>🕒</span>
+                    <span>Linha Completa (1800–2060)</span>
+                </button>
+                <button type="button" class="timeline-period-btn px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-period="past">
+                    <span>📜</span>
+                    <span>Histórico (Passado: {{ chart.date[:4] }}–2025)</span>
+                </button>
+                <button type="button" class="timeline-period-btn px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-period="future">
+                    <span>🔮</span>
+                    <span>Projeção Futura (2026–2060)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Seletor de Categorias Temáticas -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+            <div class="flex flex-wrap items-center gap-1.5" id="timeline-category-buttons">
+                <button type="button" class="timeline-cat-btn active px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-bold transition flex items-center gap-1.5 border border-amber-400" data-cat="total">
+                    <span>🌐</span>
+                    <span>Curva Geral / Total</span>
+                </button>
+                <button type="button" class="timeline-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:bg-rose-950/40 hover:text-rose-300 transition flex items-center gap-1.5 border border-slate-700/80" data-cat="WAR_CONFLICT">
+                    <span>⚔️</span>
+                    <span>Guerra & Conflito</span>
+                </button>
+                <button type="button" class="timeline-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:bg-amber-950/40 hover:text-amber-300 transition flex items-center gap-1.5 border border-slate-700/80" data-cat="ECONOMIC_CRASH">
+                    <span>📉</span>
+                    <span>Quebra Econômica</span>
+                </button>
+                <button type="button" class="timeline-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:bg-purple-950/40 hover:text-purple-300 transition flex items-center gap-1.5 border border-slate-700/80" data-cat="REGIME_CRISIS">
+                    <span>🏛️</span>
+                    <span>Crise Institucional</span>
+                </button>
+                <button type="button" class="timeline-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:bg-sky-950/40 hover:text-sky-300 transition flex items-center gap-1.5 border border-slate-700/80" data-cat="SOCIAL_UPHEAVAL">
+                    <span>🌊</span>
+                    <span>Comoção Social</span>
+                </button>
+                <button type="button" class="timeline-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:bg-indigo-950/40 hover:text-indigo-300 transition flex items-center gap-1.5 border border-slate-700/80" data-cat="multi">
+                    <span>📊</span>
+                    <span>Comparar Todas</span>
+                </button>
+            </div>
+
+            <!-- Legenda Rápida de Pontos -->
+            <div class="flex items-center gap-3 text-[11px] font-mono text-slate-400">
+                <span class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-white border border-slate-500 inline-block"></span>
+                    <span>Fato Real (Passado)</span>
+                </span>
+                <span class="flex items-center gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-300 inline-block"></span>
+                    <span>Pico Projetado (Futuro)</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Canvas do Gráfico -->
+        <div class="h-80 sm:h-96 w-full relative">
+            <canvas id="countryTimelineChart"></canvas>
+        </div>
+
+        <!-- Painel Dinâmico de Indicadores (KPIs da Categoria) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3 border-t border-slate-800 text-xs">
+            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+                <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider flex items-center gap-1">
+                    <span>📜</span>
+                    <span>Maior Pico Histórico (Passado)</span>
+                </span>
+                <div id="kpi-past-peak" class="font-bold text-slate-100 text-sm">
+                    Carregando histórico...
+                </div>
+                <p id="kpi-past-desc" class="text-[11px] text-slate-400 leading-snug">
+                    --
+                </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+                <span class="text-amber-400 block text-[11px] font-semibold uppercase tracking-wider flex items-center gap-1">
+                    <span>🔮</span>
+                    <span>Próximo Ponto Crítico (Futuro)</span>
+                </span>
+                <div id="kpi-future-peak" class="font-bold text-amber-300 text-sm">
+                    Carregando projeção...
+                </div>
+                <p id="kpi-future-desc" class="text-[11px] text-slate-400 leading-snug">
+                    --
+                </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+                <span class="text-sky-300 block text-[11px] font-semibold uppercase tracking-wider flex items-center gap-1">
+                    <span>🪐</span>
+                    <span>Arquétipo Celeste Regente</span>
+                </span>
+                <div id="kpi-archetype-name" class="font-bold text-sky-200 text-sm">
+                    Ciclos Cósmicos Mundanos
+                </div>
+                <p id="kpi-archetype-desc" class="text-[11px] text-slate-400 leading-snug">
+                    Trânsitos de planetas lentos (Plutão, Netuno, Urano, Saturno e Júpiter).
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RADAR DE PICOS DE ENERGIA & TENDÊNCIAS CÍCLICAS RECORRENTES (2026–2050) -->
+    <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-700/80 bg-gradient-to-b from-slate-900/90 to-slate-950 space-y-6">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold mb-2">
+                    <span class="animate-pulse">⚡</span>
+                    <span>Inteligência de Riscos & Recorrência Cíclica</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
+                    <span>Radar de Picos de Energia & Tendências Cíclicas (2026–2050)</span>
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed mt-1">
+                    Cruzamento dos picos de ativação astronômica com a <strong>história real documentada de {{ chart.country_name_pt }}</strong>. 
+                    Identifica as janelas em que a tensão cósmica se assemelha a momentos críticos do passado e aponta os eventos com maior probabilidade de se manifestarem novamente (guerras, quebras econômicas, crises institucionais e comoções sociais).
+                </p>
+            </div>
+            <div class="flex flex-wrap lg:flex-nowrap items-center gap-2 text-xs font-mono">
+                <span class="px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-300 border border-rose-500/20">⚔️ Guerra</span>
+                <span class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/20">📉 Quebra Econômica</span>
+                <span class="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20">🏛️ Crise Institucional</span>
+                <span class="px-2.5 py-1 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">🌊 Comoção Social</span>
+            </div>
+        </div>
+
+        <!-- Cards de Picos de Energia -->
+        <div class="space-y-5">
+            {% for peak in energy_peaks %}
+            <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border {{ peak.border_class }} hover:border-opacity-100 transition duration-200 space-y-4">
+                <!-- Topo do Card: Janela, Categoria & Termômetro de Energia -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <span class="px-3 py-1 rounded-lg {{ peak.badge_class }} border font-mono font-bold text-xs flex items-center gap-1.5">
+                            <span>{{ peak.icon }}</span>
+                            <span>{{ peak.category_short }}</span>
+                        </span>
+                        <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-amber-300 border border-slate-700 font-mono font-bold text-xs">
+                            Janela: {{ peak.window_range }}
+                        </span>
+                        <span class="text-xs text-slate-300 font-medium">
+                            {{ peak.era_label }}
+                        </span>
+                    </div>
+
+                    <!-- Termômetro de Score de Energia -->
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <span class="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">Potencial Energético</span>
+                            <span class="text-base font-bold font-mono {% if peak.activation_index_1000 >= 600 %}text-rose-400{% elif peak.activation_index_1000 >= 400 %}text-amber-300{% else %}text-sky-300{% endif %}">
+                                ⚡ {{ peak.activation_index_1000 }} <span class="text-xs text-slate-400">/ 1000</span>
+                            </span>
+                        </div>
+                        <div class="w-20 bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+                            <div class="h-full rounded-full {% if peak.activation_index_1000 >= 600 %}bg-rose-500{% elif peak.activation_index_1000 >= 400 %}bg-amber-400{% else %}bg-sky-400{% endif %}"
+                                 style="width: {{ (peak.activation_index_1000 / 10)|round }}%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assinatura Celeste Protagonista -->
+                <div class="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-400 font-medium">Alinhamento Protagonista:</span>
+                        <span class="font-bold text-sky-300">{{ peak.protagonist_transit.transit_symbol }} {{ peak.protagonist_transit.transit_planet }}</span>
+                        <span class="px-1.5 py-0.5 rounded text-[11px] font-mono bg-slate-800 text-amber-300 border border-slate-700">
+                            {{ peak.protagonist_transit.aspect_symbol }} {{ peak.protagonist_transit.aspect_name }}
+                        </span>
+                        <span class="font-bold text-amber-300">{{ peak.protagonist_transit.natal_symbol }} {{ peak.protagonist_transit.natal_planet }} Natal</span>
+                    </div>
+                    <div class="flex items-center gap-2 font-mono text-[11px] text-slate-400">
+                        <span>Orbe: {{ peak.protagonist_transit.formatted_orb }}</span>
+                        {% if peak.protagonist_transit.is_exact %}
+                        <span class="px-1.5 py-0.5 rounded bg-amber-400 text-slate-950 font-bold text-[10px]">EXATO</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Lado a Lado: O que aconteceu no passado vs O que tende a acontecer novamente -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <!-- O QUE ACONTECEU NO PASSADO -->
+                    <div class="lg:col-span-5 p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between space-y-3">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                                    <span>📜</span>
+                                    <span>O Que Aconteceu no Passado</span>
+                                </span>
+                                <span class="text-[11px] font-mono text-slate-400">{{ peak.precedent_date }}</span>
+                            </div>
+                            <h4 class="text-sm font-bold text-slate-100">
+                                {{ peak.precedent_title }}
+                            </h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                {{ peak.past_manifestation }}
+                            </p>
+                        </div>
+
+                        {% if peak.precedent_date != "Passado Histórico" %}
+                        <a href="/countries/{{ chart.country_iso }}?date={{ peak.precedent_date }}"
+                           class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-semibold transition border border-slate-700">
+                            <span>Ver Mandala do Evento Passado</span>
+                            <span>→</span>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- O QUE TENDE A ACONTECER NOVAMENTE -->
+                    <div class="lg:col-span-7 p-4 rounded-xl bg-gradient-to-br from-slate-950 to-indigo-950/30 border border-indigo-700/40 flex flex-col justify-between space-y-3">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                                    <span>⚡</span>
+                                    <span>O Que Tende a Acontecer Novamente</span>
+                                </span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                    Recorrência Cíclica
+                                </span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                                {{ peak.future_recurrence_tendency }}
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2 border-t border-slate-800 text-xs">
+                            <span class="text-[11px] text-slate-400 italic">
+                                Alinhamento análogo detectado na janela projetada.
+                            </span>
+                            <a href="/countries/{{ chart.country_iso }}?date={{ peak.sample_date }}"
+                               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold transition">
+                                <span>Simular Mandala Desta Janela</span>
+                                <span>→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- SEÇÃO NOVA 1: Biblioteca de Fatos Históricos & Assinaturas Cósmicas -->
+    <div class="glass-panel rounded-2xl p-6 border border-slate-700/80 space-y-5">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-medium mb-1">
+                    <span>📜 Memória Histórica Documentada</span>
+                </div>
+                <h2 class="text-xl font-extrabold text-white">
+                    Fatos Históricos Reais de {{ chart.country_name_pt }} & Suas Assinaturas Cósmicas
+                </h2>
+                <p class="text-xs text-slate-400">
+                    Guerras interestatais (COW), crises econômicas (NBER), revoluções e tratados ocorridos durante a vigência soberana do país.
+                </p>
+            </div>
+            <span class="text-xs font-mono text-amber-400 font-bold px-3 py-1 rounded-lg bg-slate-900 border border-slate-700">
+                {{ analyzed_history|length }} fatos documentados
+            </span>
+        </div>
+
+        <!-- Filtros de Categoria de Eventos Históricos -->
+        <div class="flex flex-wrap gap-1.5 pt-2 border-t border-slate-700/40 text-xs">
+            <button class="history-filter-btn active px-3 py-1 rounded-md bg-amber-400 text-slate-950 font-bold transition" data-cat="todas">
+                Todos os Fatos
+            </button>
+            <button class="history-filter-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="guerra">
+                ⚔️ Guerras & Conflitos
+            </button>
+            <button class="history-filter-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="crise">
+                📉 Crises Financeiras & Econômicas
+            </button>
+            <button class="history-filter-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="revolucao">
+                🏛️ Revoluções & Golpes
+            </button>
+            <button class="history-filter-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="reforma">
+                📜 Reformas & Tratados
+            </button>
+        </div>
+
+        <!-- Grid de Cards Históricos -->
+        {% if analyzed_history %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="history-cards-container">
+            {% for h in analyzed_history %}
+            <div class="history-card p-4 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-slate-600 transition flex flex-col justify-between"
+                 data-category="{{ h.category|lower }}">
+                <div>
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <span class="font-mono text-xs text-amber-400 font-bold">{{ h.date }}</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono {% if h.activation_index_1000 > 650 %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-sky-500/20 text-sky-300 border border-sky-500/30{% endif %}">
+                            Score {{ h.activation_index_1000 }}
+                        </span>
+                    </div>
+                    
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-1">
+                        {{ h.category }}
+                    </span>
+                    <h3 class="font-bold text-slate-100 text-sm mb-1 leading-snug">
+                        {{ h.title }}
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        {{ h.description }}
+                    </p>
+                </div>
+
+                <div>
+                    <!-- Trânsitos Protagonistas do Evento -->
+                    <div class="pt-2.5 border-t border-slate-800/80 mb-3 space-y-1">
+                        <span class="text-[10px] uppercase font-bold text-amber-300/80 block">Trânsito Protagonista:</span>
+                        <div class="text-xs font-semibold text-slate-200">
+                            {{ h.protagonist_headline }}
+                        </div>
+                        <div class="text-[10px] text-slate-500 font-mono">
+                            Fonte: {{ h.historical_source }}
+                        </div>
+                    </div>
+
+                    <!-- Botão de 1 Clique: Simular Bi-Wheel nesta Data -->
+                    <a href="/countries/{{ chart.country_iso }}?date={{ h.date }}"
+                       class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-amber-400 text-indigo-200 hover:text-slate-950 text-xs font-semibold transition border border-indigo-500/30 hover:border-amber-400">
+                        <span>Simular Mandala desta Data</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-xs text-slate-400">
+            Nenhum evento adicional registrado no banco para este país específico além de sua fundação.
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- SEÇÃO NOVA 2: Motor de Precedentes & Previsões Futuras (2026–2050) Fundamentadas -->
+    <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-700/80 space-y-6">
+        <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-medium mb-2">
+                <span>🔮 Inteligência Prospectiva Baseada em Precedentes</span>
+            </div>
+            <h2 class="text-2xl font-extrabold text-white">
+                Como os Grandes Ciclos Moldarão o Futuro de {{ chart.country_name_pt }} (2026–2050)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mt-1">
+                Para cada janela futura detectada, o motor cruzou a geometria astronômica com a <strong>história real do país</strong>. 
+                As tendências abaixo derivam de <strong>precedentes empíricos documentados</strong>, demonstrando como momentos de alinhamento cósmico similar se manifestaram no passado.
+            </p>
+        </div>
+
+        <!-- Cards Estruturados de Previsão Fundamentada por Precedentes -->
+        <div class="space-y-4">
+            {% for f in grounded_forecasts %}
+            <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-700/80 hover:border-purple-500/50 transition duration-200 space-y-4">
+                <!-- Cabeçalho do Card: Janela & Trânsito Futuro -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono font-bold text-sm">
+                            Janela: {{ f.year_range }}
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold text-slate-200 block">
+                                Trânsito Futuro: {{ f.future_transit.transit_symbol }} {{ f.future_transit.transit_planet }} {{ f.future_transit.aspect_symbol }} {{ f.future_transit.natal_planet }} Natal
+                            </span>
+                            <span class="text-[11px] text-slate-400">{{ f.era_context }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-mono">
+                        <span class="px-2 py-0.5 rounded bg-slate-800 text-amber-300 border border-slate-700">
+                            Precedente: {{ f.precedent_type }}
+                        </span>
+                        <span class="text-slate-400">Score {{ f.activation_index_1000 }}/1000</span>
+                    </div>
+                </div>
+
+                <!-- Corpo: Precedente Histórico Real vs Diagnóstico Futuro -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <!-- Coluna do Precedente Histórico (5 colunas) -->
+                    <div class="lg:col-span-5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
+                        <div class="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
+                            <span>📜 Precedente Histórico Real</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-100">
+                            {{ f.precedent_headline }}
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            {{ f.precedent_narrative }}
+                        </p>
+                    </div>
+
+                    <!-- Coluna do Diagnóstico Prospectivo Fundamentado (7 colunas) -->
+                    <div class="lg:col-span-7 p-3.5 rounded-xl bg-indigo-950/20 border border-indigo-700/40 space-y-2">
+                        <div class="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider">
+                            <span>🔭 Diagnóstico Prospectivo para {{ f.year_range }}</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                            {{ f.grounded_forecast }}
+                        </p>
+                        <div class="text-[11px] text-slate-400 italic pt-1">
+                            Análise baseada nos parâmetros da Astrologia Moderna e ciclos de retorno planetário.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Os 5 Pilares Estratégicos Nacionais -->
+        <div class="pt-6 border-t border-slate-800">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 mb-3">
+                Diretrizes Estratégicas pelos 5 Pilares do Estado (2026–2050):
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                {% for key, pillar in future_outlook.pillars.items() %}
+                <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
+                    <span class="text-xs font-bold text-sky-300 block">{{ pillar.title }}</span>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {{ pillar.assessment }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Gráfico de Linha do Tempo Multidimensional (Categorias, Passado e Futuro)
+        const ctx = document.getElementById("countryTimelineChart");
+        if (ctx) {
+            const rawTimeline = {{ timeline_json | safe }};
+            const allYears = rawTimeline.years || [];
+            const splitYear = rawTimeline.split_year || 2026;
+            const foundationYear = rawTimeline.foundation_year || 1800;
+
+            const categoryMeta = rawTimeline.category_meta || {
+                "WAR_CONFLICT": { label: "Guerra & Conflito", color: "#f43f5e" },
+                "ECONOMIC_CRASH": { label: "Quebra Econômica", color: "#f59e0b" },
+                "REGIME_CRISIS": { label: "Crise Institucional", color: "#a855f7" },
+                "SOCIAL_UPHEAVAL": { label: "Comoção Social", color: "#38bdf8" }
+            };
+
+            const seriesData = rawTimeline.series || { total: rawTimeline.activation_scores || [] };
+            const histEvents = rawTimeline.historical_events || [];
+            const futurePeaks = rawTimeline.future_peaks || [];
+
+            let activePeriod = "all"; // "all" | "past" | "future"
+            let activeCategory = "total"; // "total" | "WAR_CONFLICT" | "ECONOMIC_CRASH" | "REGIME_CRISIS" | "SOCIAL_UPHEAVAL" | "multi"
+
+            // Mapeamentos de eventos históricos e picos futuros por ano
+            const eventsByYear = {};
+            histEvents.forEach(e => {
+                if (!eventsByYear[e.year]) eventsByYear[e.year] = [];
+                eventsByYear[e.year].push(e);
+            });
+
+            const peaksByYear = {};
+            futurePeaks.forEach(p => {
+                if (!peaksByYear[p.year]) peaksByYear[p.year] = [];
+                peaksByYear[p.year].push(p);
+            });
+
+            const chartCtx = ctx.getContext("2d");
+
+            function getGradient(colorHex) {
+                const grad = chartCtx.createLinearGradient(0, 0, 0, 320);
+                grad.addColorStop(0, colorHex + "55");
+                grad.addColorStop(0.7, colorHex + "15");
+                grad.addColorStop(1, "rgba(15, 23, 42, 0.0)");
+                return grad;
+            }
+
+            function filterIndices() {
+                const indices = [];
+                for (let i = 0; i < allYears.length; i++) {
+                    const yr = allYears[i];
+                    if (activePeriod === "past") {
+                        if (yr <= 2025 && yr >= Math.min(foundationYear - 1, 1820)) {
+                            indices.push(i);
+                        }
+                    } else if (activePeriod === "future") {
+                        if (yr >= 2026) {
+                            indices.push(i);
+                        }
+                    } else {
+                        indices.push(i);
+                    }
+                }
+                return indices;
+            }
+
+            function buildDatasets(indices) {
+                if (activeCategory === "multi") {
+                    // 4 curvas temáticas simultâneas
+                    const cats = ["WAR_CONFLICT", "ECONOMIC_CRASH", "REGIME_CRISIS", "SOCIAL_UPHEAVAL"];
+                    return cats.map(catKey => {
+                        const meta = categoryMeta[catKey] || { label: catKey, color: "#94a3b8" };
+                        const rawArr = seriesData[catKey] || [];
+                        const dataSlice = indices.map(i => rawArr[i] || 0);
+
+                        return {
+                            label: meta.label,
+                            data: dataSlice,
+                            borderColor: meta.color,
+                            backgroundColor: "transparent",
+                            borderWidth: 2,
+                            tension: 0.25,
+                            pointRadius: 0,
+                            pointHoverRadius: 6
+                        };
+                    });
+                } else {
+                    // Curva única destacada
+                    let label = "Índice de Ativação Geral";
+                    let color = "#fbbf24";
+                    let rawArr = seriesData.total || rawTimeline.activation_scores || [];
+
+                    if (activeCategory !== "total" && categoryMeta[activeCategory]) {
+                        label = categoryMeta[activeCategory].label;
+                        color = categoryMeta[activeCategory].color;
+                        rawArr = seriesData[activeCategory] || [];
+                    }
+
+                    const dataSlice = indices.map(i => rawArr[i] || 0);
+
+                    // Estilização customizada de pontos para destacar fatos reais e picos futuros
+                    const pointRadius = [];
+                    const pointHoverRadius = [];
+                    const pointBgColors = [];
+                    const pointBorderColors = [];
+                    const pointBorderWidth = [];
+
+                    for (let idx = 0; idx < indices.length; idx++) {
+                        const yr = allYears[indices[idx]];
+                        const hasPast = eventsByYear[yr] && eventsByYear[yr].some(e => activeCategory === "total" || e.category_key === activeCategory);
+                        const hasFuture = peaksByYear[yr] && peaksByYear[yr].some(p => activeCategory === "total" || p.category_key === activeCategory);
+
+                        if (hasPast) {
+                            pointRadius.push(5);
+                            pointHoverRadius.push(8);
+                            pointBgColors.push("#ffffff");
+                            pointBorderColors.push(color);
+                            pointBorderWidth.push(2);
+                        } else if (hasFuture) {
+                            pointRadius.push(5);
+                            pointHoverRadius.push(8);
+                            pointBgColors.push(color);
+                            pointBorderColors.push("#ffffff");
+                            pointBorderWidth.push(2);
+                        } else {
+                            pointRadius.push(0);
+                            pointHoverRadius.push(4);
+                            pointBgColors.push(color);
+                            pointBorderColors.push(color);
+                            pointBorderWidth.push(1);
+                        }
+                    }
+
+                    return [{
+                        label: label,
+                        data: dataSlice,
+                        borderColor: color,
+                        backgroundColor: getGradient(color),
+                        fill: true,
+                        borderWidth: 2.5,
+                        tension: 0.25,
+                        pointRadius: pointRadius,
+                        pointHoverRadius: pointHoverRadius,
+                        pointBackgroundColor: pointBgColors,
+                        pointBorderColor: pointBorderColors,
+                        pointBorderWidth: pointBorderWidth
+                    }];
+                }
+            }
+
+            const initialIndices = filterIndices();
+            const initialLabels = initialIndices.map(i => allYears[i]);
+            const initialDatasets = buildDatasets(initialIndices);
+
+            const timelineChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: initialLabels,
+                    datasets: initialDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: "index",
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: activeCategory === "multi",
+                            labels: {
+                                color: "#cbd5e1",
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: "rgba(15, 23, 42, 0.95)",
+                            titleColor: "#fbbf24",
+                            bodyColor: "#f1f5f9",
+                            borderColor: "#334155",
+                            borderWidth: 1,
+                            padding: 12,
+                            callbacks: {
+                                title: function (tooltipItems) {
+                                    if (!tooltipItems.length) return "";
+                                    const yr = parseInt(tooltipItems[0].label);
+                                    const era = yr >= splitYear ? "🔮 Projeção Futura" : "📜 Histórico Passado";
+                                    return `Ano ${yr} • ${era}`;
+                                },
+                                label: function (context) {
+                                    return `${context.dataset.label}: ${context.parsed.y} / 1000`;
+                                },
+                                afterLabel: function (context) {
+                                    const yr = parseInt(context.label);
+                                    let extra = [];
+                                    if (eventsByYear[yr]) {
+                                        const evts = eventsByYear[yr].filter(e => activeCategory === "total" || activeCategory === "multi" || e.category_key === activeCategory);
+                                        evts.forEach(e => {
+                                            extra.push(`\n📜 FATO REAL: ${e.title} (${e.category_label})`);
+                                            if (e.headline) extra.push(`   Assinatura: ${e.headline}`);
+                                        });
+                                    }
+                                    if (peaksByYear[yr]) {
+                                        const pks = peaksByYear[yr].filter(p => activeCategory === "total" || activeCategory === "multi" || p.category_key === activeCategory);
+                                        pks.forEach(p => {
+                                            extra.push(`\n⚡ PICO PROJETADO (${p.range}): ${p.title}`);
+                                            if (p.headline) extra.push(`   Alinhamento: ${p.headline}`);
+                                        });
+                                    }
+                                    return extra.join("\n");
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: "rgba(51, 65, 85, 0.25)" },
+                            ticks: { color: "#94a3b8", maxTicksLimit: 14 }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1000,
+                            grid: { color: "rgba(51, 65, 85, 0.25)" },
+                            ticks: { color: "#94a3b8", stepSize: 200 }
+                        }
+                    }
+                }
+            });
+
+            function updateKPIs() {
+                const kpiPast = document.getElementById("kpi-past-peak");
+                const kpiPastDesc = document.getElementById("kpi-past-desc");
+                const kpiFuture = document.getElementById("kpi-future-peak");
+                const kpiFutureDesc = document.getElementById("kpi-future-desc");
+                const kpiArch = document.getElementById("kpi-archetype-name");
+                const kpiArchDesc = document.getElementById("kpi-archetype-desc");
+
+                if (!kpiPast || !kpiFuture || !kpiArch) return;
+
+                // Eventos históricos da categoria ativa
+                const filteredHist = histEvents.filter(e => activeCategory === "total" || activeCategory === "multi" || e.category_key === activeCategory);
+                if (filteredHist.length > 0) {
+                    const topEvt = filteredHist.reduce((max, cur) => cur.score > max.score ? cur : max, filteredHist[0]);
+                    kpiPast.textContent = `${topEvt.year} — ${topEvt.title}`;
+                    kpiPastDesc.textContent = `Score ${topEvt.score}/1000 • ${topEvt.headline || topEvt.category_label}`;
+                } else {
+                    kpiPast.textContent = "Sem fato crítico isolado";
+                    kpiPastDesc.textContent = "Nenhum evento registrado nesta categoria na certidão.";
+                }
+
+                // Picos futuros da categoria ativa
+                const filteredPeaks = futurePeaks.filter(p => activeCategory === "total" || activeCategory === "multi" || p.category_key === activeCategory);
+                if (filteredPeaks.length > 0) {
+                    const topPeak = filteredPeaks.reduce((max, cur) => cur.score > max.score ? cur : max, filteredPeaks[0]);
+                    kpiFuture.textContent = `${topPeak.range} (Score ${topPeak.score})`;
+                    kpiFutureDesc.textContent = `${topPeak.title} • ${topPeak.headline}`;
+                } else {
+                    kpiFuture.textContent = "Ativação Moderada";
+                    kpiFutureDesc.textContent = "Sem alertas extremos na janela 2026–2050.";
+                }
+
+                // Arquétipo
+                if (activeCategory === "WAR_CONFLICT") {
+                    kpiArch.textContent = "Marte, Plutão & Urano";
+                    kpiArchDesc.textContent = "Forças Armadas, mobilização de fronteiras, assertividade bélica e tensões de segurança nacional.";
+                } else if (activeCategory === "ECONOMIC_CRASH") {
+                    kpiArch.textContent = "Saturno, Júpiter & Touro/Escorpião";
+                    kpiArchDesc.textContent = "Contração de liquidez, austeridade fiscal, choques cambiais e reestruturação de dívida.";
+                } else if (activeCategory === "REGIME_CRISIS") {
+                    kpiArch.textContent = "Sol Nacional, Saturno & Urano";
+                    kpiArchDesc.textContent = "Governabilidade, rupturas institucionais, reformas da Constituição e troca de lideranças.";
+                } else if (activeCategory === "SOCIAL_UPHEAVAL") {
+                    kpiArch.textContent = "Lua Nacional, Quíron & Netuno";
+                    kpiArchDesc.textContent = "Opinião pública, sentimento coletivo popular, manifestações de massa e indignação cívica.";
+                } else {
+                    kpiArch.textContent = "Ciclos Planetários Maiores";
+                    kpiArchDesc.textContent = "Curva composta multivariada integrando os trânsitos de todos os planetas sobre o mapa natal.";
+                }
+            }
+
+            function refreshChart() {
+                const indices = filterIndices();
+                const newLabels = indices.map(i => allYears[i]);
+                const newDatasets = buildDatasets(indices);
+
+                timelineChart.data.labels = newLabels;
+                timelineChart.data.datasets = newDatasets;
+                timelineChart.options.plugins.legend.display = activeCategory === "multi";
+                timelineChart.update();
+                updateKPIs();
+            }
+
+            // Listeners dos Botões de Período
+            const periodBtns = document.querySelectorAll(".timeline-period-btn");
+            periodBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    periodBtns.forEach(b => {
+                        b.classList.remove("active", "bg-amber-400", "text-slate-950", "font-bold");
+                        b.classList.add("text-slate-300");
+                    });
+                    this.classList.remove("text-slate-300");
+                    this.classList.add("active", "bg-amber-400", "text-slate-950", "font-bold");
+
+                    activePeriod = this.dataset.period;
+                    refreshChart();
+                });
+            });
+
+            // Listeners dos Botões de Categoria
+            const catBtns = document.querySelectorAll(".timeline-cat-btn");
+            catBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    catBtns.forEach(b => {
+                        b.classList.remove("active", "bg-amber-400", "text-slate-950", "font-bold", "border-amber-400");
+                        b.classList.add("bg-slate-900", "text-slate-300");
+                    });
+                    this.classList.remove("bg-slate-900", "text-slate-300");
+                    this.classList.add("active", "bg-amber-400", "text-slate-950", "font-bold", "border-amber-400");
+
+                    activeCategory = this.dataset.cat;
+                    refreshChart();
+                });
+            });
+
+            updateKPIs();
+        }
+
+        // Filtros de Categoria de Eventos Históricos
+        const filterBtns = document.querySelectorAll(".history-filter-btn");
+        const historyCards = document.querySelectorAll(".history-card");
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", function () {
+                filterBtns.forEach(b => {
+                    b.classList.remove("bg-amber-400", "text-slate-950", "font-bold");
+                    b.classList.add("bg-slate-800", "text-slate-300");
+                });
+                this.classList.remove("bg-slate-800", "text-slate-300");
+                this.classList.add("bg-amber-400", "text-slate-950", "font-bold");
+
+                const cat = this.dataset.cat;
+                historyCards.forEach(card => {
+                    const cardCat = card.dataset.category;
+                    if (cat === "todas" || cardCat.includes(cat)) {
+                        card.style.display = "flex";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -4,9 +4,9 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-45_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-99_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-3.0.0-blue)
+![Version](https://img.shields.io/badge/Version-5.0.0-blue)
 
 > 🌍 **Idiomas / Languages**: **Português** • [English version (README.md)](README.md)
 
@@ -44,7 +44,7 @@ O projeto faz três coisas ao mesmo tempo:
 
 - **Calcula o céu com precisão.** Cada mapa, índice e feature deriva do Swiss Ephemeris (precisão de arco-segundos), com fusos horários históricos reais, tratamento correto de calendário e tratamento explícito de eventos sem hora conhecida.
 - **Testa a afirmação com as ferramentas da ciência de previsão.** Hipóteses pré-registradas, modelos nulos por permutação que preservam o agrupamento temporal, controle de taxa de falsas descobertas, teste de equivalência, análise de potência e — desde a v3 — um hindcast walk-forward que mede o skill de previsão fora da amostra contra a climatologia e um baseline autorregressivo.
-- **Publica tudo como plataforma web interativa**, onde qualquer visitante pode inspecionar o mapa de qualquer um dos 300 eventos históricos, compará-lo com 10.000 datas-controle aleatórias, simular qualquer data e ler uma previsão probabilística para 2026–2060 rotulada com o skill que ela de fato obteve no backtesting.
+- **Publica tudo como plataforma web interativa**, onde qualquer visitante pode inspecionar o mapa de qualquer um dos 1.342 eventos históricos mundiais organizados em 6 categorias canônicas, compará-lo com 10.000 datas-controle aleatórias, simular qualquer data, buscar análogos históricos sob o mesmo céu (Cosmic History Search) e ler uma previsão probabilística para 2026–2060 rotulada com o skill que ela de fato obteve no backtesting.
 
 A plataforma foi deliberadamente construída como **ferramenta de literacia de dados**: mostra como um padrão retrospectivo conhecido pode parecer convincente e depois explica, com números, por que ele não sobrevive a testes controlados.
 
@@ -63,7 +63,7 @@ A plataforma foi deliberadamente construída como **ferramenta de literacia de d
 | Fora da amostra 1951–2025 com limiares fixados em 1800–1950 (v2) | Walk-forward | z = −0,85, p = 0,80 — sem sinal preditivo |
 | Tese de Tarnas dos planetas externos (v2) | Aspectos duros entre Saturno, Urano, Netuno e Plutão | z = −0,06, p = 0,98 |
 | Hindcast walk-forward em séries mensais objetivas, 1951–2024 (v3) | Brier Skill Score vs climatologia, AUC, log-loss, 7 alvos × 8 modelos | Nenhum modelo astrológico supera a taxa-base com IC positivo **e** discriminação real (AUC > 0,55) |
-| Índices anuais vs catálogo de 300 e amostra v2 (v3) | Nulo de deslocamento circular sobre médias anuais, Benjamini-Hochberg | Nenhuma correlação sobrevive ao FDR; nenhuma na amostra objetiva |
+| Índices anuais vs catálogo expandido e amostra v2 (v3) | Nulo de deslocamento circular sobre médias anuais, Benjamini-Hochberg | Nenhuma correlação sobrevive ao FDR; nenhuma na amostra objetiva |
 
 O que isso significa para o site: as páginas de previsão mostram cada curva **junto com o skill medido** e, quando não há skill, dizem isso e recomendam a taxa-base histórica como a estimativa mais precisa disponível. Nada no site é apresentado como previsão de risco.
 
@@ -73,14 +73,15 @@ O que isso significa para o site: as páginas de previsão mostram cada curva **
 
 | Página | URL | O que mostra | De onde vêm os números |
 | :--- | :--- | :--- | :--- |
-| **Dashboard** | `/` | Gráfico 1800–2100 com cinco séries selecionáveis (pico de tensão, faixa nula P5–P95, risco bélico, inovação, concentração Barbault), painel de correlação de cada série com a história, card de skill da previsão, distribuições por categoria e signo solar, eventos em destaque | `data/timeline_1800_2100.json`, `data/annual_indices.json`, `data/forecast_v3.json` |
-| **Catálogo** | `/events` | 300 eventos históricos com filtros por categoria, busca textual e filtro "✓ N=59" para os eventos que pertencem à amostra objetiva validada | SQLite `events` e `events_v2` |
+| **Dashboard** | `/` | Gráfico 1800–2100 com séries selecionáveis, distribuição das 6 categorias canônicas e signos solares nos 1.342 eventos, painel de correlação e efemérides | `data/timeline_1800_2100.json`, `data/annual_indices.json`, `data/forecast_v3.json` |
+| **Catálogo** | `/events` | 1.342 eventos históricos mundiais com filtros pelas 6 categorias canônicas, busca textual e filtro "✓ N=59" para os eventos da amostra objetiva validada | SQLite `events` e `events_v2` |
 | **Detalhe do evento** | `/events/{id}` | Mapa completo (17 corpos, aspectos estritos, contatos com estrelas fixas, casas quando a hora é conhecida), mandala SVG, ênfase arquetípica, botão "comparar com data-controle aleatória", anterior/próximo cronológico | `chart_json` por evento; `/api/random-control-comparison` |
-| **Hub de correlações** | `/correlations` | Frequência de signos, aspectos e estrelas fixas por categoria histórica | Agregação SQL sobre `planet_positions`, `event_aspects`, `event_star_aspects` |
-| **Metodologia** | `/methodology` | Resultados dos modelos nulos v2, funil de exclusão 300 → 61 → 59 e tabela do hindcast v3 | `data/results.json`, `reports/hindcast_v3.json` |
-| **Previsão v3** | `/forecast` | Por alvo: selo de skill, probabilidade por ano com banda p10–p90 vs taxa-base, perfil mensal, drivers do modelo, calendário astronômico exato (aspectos, ingressos, eclipses) e análogos históricos com lift | `data/forecast_v3.json` |
-| **Cenários 2027–2060** | `/projections` | Tabela ano a ano do índice legado (tiers de percentil), portais sazonais, signos dos externos e precedente geométrico mais próximo — com aviso de que os tiers descrevem geometria, não risco | `data/projections_2027_2060.json` |
+| **Hub de correlações** | `/correlations` | Frequência de signos, aspectos e estrelas fixas pelas 6 categorias históricas da base expandida | Agregação SQL sobre `planet_positions`, `event_aspects`, `event_star_aspects` |
+| **Metodologia** | `/methodology` | Resultados dos modelos nulos v2, funil de exclusão e arquitetura de duplo circuito (1.342 eventos gerais vs N=59 analítico congelado) | `data/results.json`, `reports/hindcast_v3.json` |
+| **Previsão v3** | `/forecast` | Por alvo: selo de skill, probabilidade por ano com banda p10–p90 vs taxa-base, perfil mensal, drivers do modelo, calendário astronômico exato e análogos históricos | `data/forecast_v3.json` |
+| **Cenários 2027–2060** | `/projections` | Tabela ano a ano do índice legado (tiers de percentil), portais sazonais, signos dos externos e precedente geométrico mais próximo | `data/projections_2027_2060.json` |
 | **Linha do tempo e simulador** | `/simulator` | Tabela completa 1800–2100 e formulário para calcular o mapa de qualquer data/hora/lugar; o resultado fica numa URL GET compartilhável | Swiss Ephemeris em tempo real + matcher leave-one-out |
+| **Países do Mundo** | `/countries` | Catálogo de horóscopos mundanos e mapas de fundação de mais de 100 nações soberanas, trânsitos atuais e eventos históricos correlacionados | `data/countries_database.json` |
 
 O servidor é uma aplicação FastAPI que renderiza templates Jinja2 com Tailwind e Chart.js. Ele **lê caches JSON pré-computados**; o único cálculo de efemérides por requisição é o do simulador.
 
@@ -104,9 +105,9 @@ flowchart TD
     end
 
     subgraph "Dados históricos"
-        CAT["Catálogo curado de 300 eventos<br/>(só exibição e narrativa)"]
-        V2["Catálogo objetivo v2 (N=59)"]
-        EXT["COW Guerras v4 · NBER · UCDP/PRIO v24.1<br/>→ séries mensais"]
+        CAT["Catálogo expandido de 1.342 eventos<br/>(6 categorias canônicas · Cosmic History Search)"]
+        V2["Amostra analítica congelada v2 (N=59)"]
+        EXT["COW v4 · UCDP v24.1 · Powell & Thyne · USGS · NBER<br/>→ séries mensais & análogos"]
         CTRL["10.000 datas-controle estratificadas por década"]
     end
 
@@ -208,10 +209,10 @@ Resultado atual: alguns p < 0,05 nominais no catálogo *curado* (por exemplo, an
 | **COW Inter-State War Data v4.0** | 1816–2007, 95 guerras | início de guerra (binário e contagem), guerra em curso, log de mortes em batalha | `data/external/Inter-StateWarData_v4.0.csv` |
 | **NBER, datas dos ciclos econômicos** | 1857–2024 | mês em recessão (578 meses), início de recessão (34) | `data/external/business_cycle_dates.json` |
 | **UCDP/PRIO Armed Conflict Dataset v24.1** | 1946–2023 | início de episódio de conflito (414 meses), início interestatal, conflitos com ≥ 1.000 mortes | `data/external/UcdpPrioConflict_v24_1.csv` |
-| Catálogo curado de 300 eventos | 44 a.C.–2024 | **não usado no treino** — exibição, narrativa e painel de correlação apenas (marcado como enviesado por seleção) | `data/historical_events.json`, SQLite `events` |
+| Catálogo expandido de 1.342 eventos | 490 a.C.–2026 | **exploração, narrativa, análogos cósmicos e correlações** (6 categorias canônicas) | `data/historical_events.json`, SQLite `events` |
 | 10.000 datas-controle | 1800–2025, estratificadas por década | comparações com controle aleatório e nulo N2 | SQLite `control_dates` |
 
-Por que séries mensais: com 59 eventos o efeito mínimo detectável a 80 % de potência era 0,33 DP; milhares de meses dão a potência estatística que um resultado nulo precisa para ter significado. Por que o catálogo curado fica fora do treino: foi montado em retrospecto e sua mistura de categorias (96 revoluções, 91 guerras em 300) seria aprendida como prior.
+Por que séries mensais: com 59 eventos o efeito mínimo detectável a 80 % de potência era 0,33 DP; milhares de meses dão a potência estatística que um resultado nulo precisa para ter significado. Por que o catálogo expandido é separado do treino analítico restrito: ao operar sob o Princípio de Duplo Circuito (Dual-Track), o catálogo amplo de 1.342 eventos alimenta a exploração empírica de análogos, enquanto a amostra pré-registrada de 59 eventos garante testes cegos contra *overfitting*.
 
 ---
 
@@ -350,6 +351,14 @@ Tudo é determinístico (sementes fixas em `config/analysis.yaml` e nos scripts)
 | `/api/forecast` | GET | Resumo da previsão (todos os alvos, sem calendário/análogos) |
 | `/api/forecast?target=cow_war_onset` | GET | Um alvo: skill, taxa-base, probabilidades por ano, drivers |
 | `/api/forecast/year/{ano}` | GET | Calendário exato, análogos e a linha de cada alvo para um ano (2026–2060) |
+| `/api/historical-analogues?date=&category=&top_k=` | GET | Cosmic History Search: top análogos históricos para qualquer data na base de 1.342 fatos |
+| `/api/features/barbault?date=` | GET | Comparativo formal André Barbault CI-4 vs CI-5 com derivada anual e tendência do ciclo |
+| `/api/features/oshop?date=` | GET | Métrica Sum of Cosines ($\Sigma \cos$), agrupamento de planetas lentos/clássicos e variância circular |
+| `/api/countries` | GET | Base de Astrologia Mundana Nacional: nações soberanas com certidões de fundação (Campion) |
+| `/api/countries/{iso_code}` | GET | Detalhes do país, carta natal de fundação, trânsitos históricos e panorama 2026–2050 |
+| `/api/countries/{iso_code}/chart` | GET | Carta natal exata Swiss Ephemeris do momento de fundação da nação |
+| `/api/countries/{iso_code}/transits` | GET | Trânsitos mundanos sobre a carta do país para qualquer data específica |
+| `/api/countries/{iso_code}/energy-peaks` | GET | Picos energéticos de trânsito futuro no país (2026–2050) |
 
 ---
 
@@ -363,7 +372,7 @@ astro-history/
 │   └── analysis.yaml              # Permutações, sementes, janelas de treino/teste
 ├── data/
 │   ├── events_v2.csv              # Catálogo objetivo (COW, UCDP, NBER, Powell & Thyne, Polity5)
-│   ├── historical_events.json     # Catálogo curado de 300 eventos (só exibição)
+│   ├── historical_events.json     # Catálogo geral expandido de 1.342 eventos (6 categorias)
 │   ├── external/                  # COW Guerras v4, datas NBER, UCDP/PRIO v24.1 (+ README com fontes)
 │   ├── ephemeris/                 # Grade diária 1800–2100 (.npz)
 │   ├── features/                  # Grade de 409 features 1750–2150 (ignorada no git; make features)
@@ -427,7 +436,7 @@ astro-history/
 
 Se usar esta plataforma, seus dados ou seu código de modelos nulos, cite (ver [`CITATION.cff`](CITATION.cff)):
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Investigation into Astrological Alignments and Historical Events*, versão 3.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Investigation into Astrological Alignments and Historical Events*, versão 5.0.0. https://github.com/marceloasl99/astro-history
 
 - **Código-fonte**: [GNU Affero General Public License v3 ou posterior](LICENSE).
 - **Swiss Ephemeris**: © Astrodienst AG. Em conformidade com os termos da Astrodienst, o projeto é licenciado sob AGPL; uso comercial exige licença profissional da Astrodienst AG.

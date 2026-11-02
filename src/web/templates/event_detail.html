@@ -7,7 +7,7 @@
     <!-- Breadcrumb & Navigation -->
     <div class="flex items-center justify-between">
         <a href="/events" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-300 transition">
-            &larr; Voltar ao Catálogo dos 300 Fatos
+            &larr; Voltar ao Catálogo dos 1.342 Fatos
         </a>
         <div class="flex items-center gap-2">
             {% if prev_id %}
@@ -27,23 +27,24 @@
     <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden">
         <div class="flex flex-wrap items-center gap-3 mb-3">
             {% if event.in_validated_sample %}
-            <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" title="Este evento integra o catálogo objetivo v2 (N=59) usado na validação pré-registrada">
+            <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" title="Este evento integra a amostra de validação estatística pré-registrada (N=59)">
                 ✓ Amostra validada (N=59)
             </span>
             {% else %}
-            <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700" title="Evento do catálogo curado de 300 marcos; exibição e narrativa, fora do treino estatístico">
-                Catálogo curado (fora da amostra N=59)
+            <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700" title="Evento do catálogo expandido de 1.342 marcos; exibição, pesquisa de análogos e narrativa, fora da amostra restrita de treino estatístico">
+                Catálogo expandido (fora da amostra N=59)
             </span>
             {% endif %}
             <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
-                Evento #{{ "%03d"|format(event.id) }}
+                Evento #{{ "%04d"|format(event.id) }}
             </span>
             <span class="px-3 py-1 rounded text-xs font-semibold 
-                {% if event.category == 'Crise Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
+                {% if event.category == 'Crise Financeira & Econômica' or event.category == 'Crise Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
                 {% elif event.category == 'Guerra & Conflito' %}bg-amber-500/20 text-amber-300 border border-amber-500/30
                 {% elif event.category == 'Ciência & Tecnologia' %}bg-sky-500/20 text-sky-300 border border-sky-500/30
-                {% elif event.category == 'Revolução Política' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
-                {% elif event.category == 'Pandemia & Desastre' %}bg-red-500/20 text-red-300 border border-red-500/30
+                {% elif event.category == 'Revolução & Conflito Interno' or event.category == 'Revolução Política' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
+                {% elif event.category == 'Desastre & Saúde Pública' or event.category == 'Pandemia & Desastre' %}bg-red-500/20 text-red-300 border border-red-500/30
+                {% elif event.category == 'Política, Tratados & Cultura' %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30
                 {% else %}bg-slate-500/20 text-slate-300 border border-slate-500/30{% endif %}">
                 {{ event.category }}
             </span>
@@ -158,6 +159,118 @@
         </div>
     </div>
     {% endif %}
+
+    <!-- Seção de Pesquisa Internacional: Métricas de Barbault, Oshop & Análogos Cósmicos -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border-l-4 border-sky-400 glow-cyan">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-2">
+                    <span>🌍</span> Pesquisa Internacional & Astrologia Computacional
+                </span>
+                <h3 class="text-xl font-bold text-white mt-1">
+                    Métricas de Barbault, Oshop e Precedentes Cósmicos Análogos
+                </h3>
+            </div>
+            <span class="text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700">
+                Data do Fato: <strong class="text-amber-300">{{ event.date }}</strong>
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- Card Barbault CI -->
+            {% if barbault_data %}
+            <div class="bg-slate-900/90 p-5 rounded-xl border border-sky-500/30 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                        <span>🌀</span> Índice Cíclico de André Barbault (CI-4 vs CI-5)
+                    </span>
+                    <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30">
+                        {{ barbault_data.ci5.trend }}
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                    <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[11px]">CI-5 (com Plutão):</span>
+                        <strong class="text-amber-300 text-base">{{ barbault_data.ci5.sum_degrees }}°</strong>
+                        <span class="text-slate-500 text-[10px] block">({{ barbault_data.ci5.normalized_pct }}% do máx)</span>
+                    </div>
+                    <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[11px]">CI-4 (Júpiter a Netuno):</span>
+                        <strong class="text-emerald-300 text-base">{{ barbault_data.ci4.sum_degrees }}°</strong>
+                        <span class="text-slate-500 text-[10px] block">({{ barbault_data.ci4.normalized_pct }}% do máx)</span>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                    Derivada anual: <strong class="text-slate-200">{{ '%+.1f' % barbault_data.ci5.annual_slope }}°/ano</strong>. 
+                    Mínimos do índice cíclico indicam concentração extrema dos planetas lentos, classicamente associados a crises sistêmicas mundiais.
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Card Oshop Sum of Cosines -->
+            {% if oshop_data %}
+            <div class="bg-slate-900/90 p-5 rounded-xl border border-purple-500/30 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                        <span>📐</span> Métrica Sum of Cosines (Renay Oshop)
+                    </span>
+                    <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                        {{ oshop_data.geo_outer_5.n_bodies }} Planetas Lentos
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                    <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[11px]">Σ cos (Exteriores):</span>
+                        <strong class="text-purple-300 text-base">{{ oshop_data.geo_outer_5.sum_of_cosines }}</strong>
+                        <span class="text-slate-500 text-[10px] block">Índice: {{ oshop_data.geo_outer_5.clustering_index }}</span>
+                    </div>
+                    <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[11px]">Variância Circular:</span>
+                        <strong class="text-amber-300 text-base">{{ oshop_data.geo_outer_5.circular_variance }}</strong>
+                        <span class="text-slate-500 text-[10px] block">R̄: {{ oshop_data.geo_outer_5.mean_resultant_length }}</span>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                    Mede o agrupamento angular conjunto dos planetas lentos no espaço geocêntrico segundo a metodologia do Big Astrology Book of Research.
+                </p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Top Análogos Históricos Cósmicos -->
+        {% if analogues_data %}
+        <div class="space-y-3">
+            <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                <span>🌌</span> Precedentes Históricos Ocorridos sob Céus Semelhantes (Base 1.342 Fatos)
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                {% for a in analogues_data %}
+                <a href="/events/{{ a.event_id }}" class="bg-slate-950/90 p-3.5 rounded-xl border border-slate-800 hover:border-amber-400/50 hover:bg-slate-900 transition flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between gap-1 mb-1.5">
+                            <span class="text-[10px] font-mono font-bold text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+                                {{ a.score_pct }}% similar
+                            </span>
+                            <span class="text-[10px] font-mono text-slate-400">{{ a.date }}</span>
+                        </div>
+                        <h5 class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2 mb-1">
+                            {{ a.title }}
+                        </h5>
+                        <div class="text-[10px] text-slate-400 mb-2 truncate">📍 {{ a.city }}, {{ a.country }}</div>
+                        <p class="text-[10px] text-slate-300 line-clamp-3 leading-relaxed">
+                            {{ a.consequence }}
+                        </p>
+                    </div>
+                    <div class="pt-2 mt-2 border-t border-slate-800 text-[10px] text-sky-400 font-semibold flex items-center justify-between">
+                        <span class="truncate">{{ a.category }}</span>
+                        <span>Ver &rarr;</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
 
     <!-- Seção de Destaque: Alinhamentos com as 30 Estrelas Fixas (Orbe <= 0.3°) -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border-l-4 border-amber-400">

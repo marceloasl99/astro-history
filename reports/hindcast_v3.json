@@ -4,7 +4,7 @@
   "C_full": 0.02,
   "targets": {
     "v2_any": {
-      "description": "Catálogo objetivo v2: mês com ≥1 evento (todas as classes)",
+      "description": "Amostra validada: mês com ≥1 evento (todas as classes)",
       "coverage": [
         1800,
         2025

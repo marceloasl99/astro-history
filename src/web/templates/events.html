@@ -1,56 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Catálogo dos 300 Grandes Fatos Históricos{% endblock %}
+{% block title %}Catálogo dos 1.342 Grandes Fatos Históricos{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
-    <!-- Top Filter & Search Bar -->
-    <div class="glass-panel p-6 rounded-2xl">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-white">
-                    Catálogo dos 300 Fatos Históricos
+    <!-- Hero & Search Bar -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60 shadow-xl">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="max-w-3xl space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
+                    <span>🏛️ Arquivo Histórico Global • 1.342 Acontecimentos • 490 a.C. a 2026</span>
+                </div>
+                <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
+                    Catálogo de Fatos Históricos Mundiais
                 </h1>
-                <p class="text-sm text-slate-400 mt-1">
-                    Eventos cruciais da humanidade com cálculo natal completo, efemérides e parágrafo de consequências.
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Acervo cronológico abrangendo mais de 2.500 anos, categorizado nos 6 eixos geopolíticos canônicos com posições planetárias, aspectos exatos e análise historiográfica de consequências.
                 </p>
             </div>
 
             <!-- Search Input -->
-            <div class="w-full md:w-80 relative">
+            <div class="w-full lg:w-96 relative shrink-0">
                 <input type="text" id="searchInput" placeholder="Pesquisar por evento, país ou consequência..." 
-                    class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-10">
-                <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
+                    class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-11 shadow-inner">
+                <span class="absolute left-4 top-3.5 text-slate-400 text-sm">🔍</span>
             </div>
         </div>
 
         <!-- Category Filters -->
-        <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-slate-700/60">
-            <span class="text-xs text-slate-400 mr-2 font-medium">Categorias:</span>
-            <button onclick="filterCategory('Todas')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition" data-cat="Todas">
+        <div class="flex flex-wrap items-center gap-2 mt-6 pt-5 border-t border-slate-700/60">
+            <span class="text-xs text-slate-400 mr-2 font-mono uppercase tracking-wider">Filtrar:</span>
+            <button onclick="filterCategory('Todas')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 transition shadow-sm font-bold" data-cat="Todas">
                 Todas ({{ events|length }})
             </button>
-            <a href="/events{% if not validated_only %}?validated=1{% endif %}" title="Eventos do catálogo objetivo v2 usados na validação estatística (N=59)"
-               class="px-3 py-1.5 rounded-lg text-xs font-semibold transition border {% if validated_only %}bg-emerald-500 text-slate-950 border-emerald-400{% else %}bg-slate-800 text-emerald-300 border-emerald-500/40 hover:bg-slate-700{% endif %}">
+            <a href="/events{% if not validated_only %}?validated=1{% endif %}" title="Eventos da amostra de validação estatística pré-registrada (N=59)"
+               class="px-3 py-1.5 rounded-lg text-xs font-semibold transition border {% if validated_only %}bg-emerald-500 text-slate-950 border-emerald-400 font-bold{% else %}bg-slate-800 text-emerald-300 border-emerald-500/40 hover:bg-slate-700{% endif %}">
                 ✓ Amostra validada ({{ validated_count }})
             </a>
-            <button onclick="filterCategory('Crise Econômica')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Crise Econômica">
-                Crises Econômicas
-            </button>
             <button onclick="filterCategory('Guerra & Conflito')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Guerra & Conflito">
                 Guerras & Conflitos
             </button>
-            <button onclick="filterCategory('Revolução Política')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Revolução Política">
-                Revoluções Políticas
+            <button onclick="filterCategory('Revolução & Conflito Interno')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Revolução & Conflito Interno">
+                Revoluções & Conflitos Internos
+            </button>
+            <button onclick="filterCategory('Desastre & Saúde Pública')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Desastre & Saúde Pública">
+                Desastres & Saúde Pública
+            </button>
+            <button onclick="filterCategory('Crise Financeira & Econômica')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Crise Financeira & Econômica">
+                Crises Financeiras & Econômicas
             </button>
             <button onclick="filterCategory('Ciência & Tecnologia')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Ciência & Tecnologia">
                 Ciência & Tecnologia
             </button>
-            <button onclick="filterCategory('Pandemia & Desastre')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Pandemia & Desastre">
-                Pandemias & Desastres
-            </button>
-            <button onclick="filterCategory('Transformação Cultural')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Transformação Cultural">
-                Transformações Culturais
+            <button onclick="filterCategory('Política, Tratados & Cultura')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Política, Tratados & Cultura">
+                Política, Tratados & Cultura
             </button>
         </div>
     </div>
@@ -58,7 +61,7 @@
     <!-- Events List / Table -->
     <div class="space-y-4" id="eventsContainer">
         {% for ev in events %}
-        <div class="event-card glass-panel p-5 sm:p-6 rounded-2xl hover:border-slate-500/50 transition-all" 
+        <div class="event-card glass-card-interactive p-5 sm:p-6 rounded-2xl" 
              data-title="{{ ev.title|lower }}" 
              data-category="{{ ev.category }}" data-validated="{{ 1 if ev.in_validated_sample else 0 }}" 
              data-consequence="{{ ev.consequence|lower }}"
@@ -71,11 +74,12 @@
                             #{{ "%03d"|format(ev.id) }}
                         </span>
                         <span class="px-2.5 py-0.5 rounded text-xs font-semibold 
-                            {% if ev.category == 'Crise Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
+                            {% if ev.category == 'Crise Financeira & Econômica' or ev.category == 'Crise Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
                             {% elif ev.category == 'Guerra & Conflito' %}bg-amber-500/20 text-amber-300 border border-amber-500/30
                             {% elif ev.category == 'Ciência & Tecnologia' %}bg-sky-500/20 text-sky-300 border border-sky-500/30
-                            {% elif ev.category == 'Revolução Política' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
-                            {% elif ev.category == 'Pandemia & Desastre' %}bg-red-500/20 text-red-300 border border-red-500/30
+                            {% elif ev.category == 'Revolução & Conflito Interno' or ev.category == 'Revolução Política' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
+                            {% elif ev.category == 'Desastre & Saúde Pública' or ev.category == 'Pandemia & Desastre' %}bg-red-500/20 text-red-300 border border-red-500/30
+                            {% elif ev.category == 'Política, Tratados & Cultura' %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30
                             {% else %}bg-slate-500/20 text-slate-300 border border-slate-500/30{% endif %}">
                             {{ ev.category }}
                         </span>

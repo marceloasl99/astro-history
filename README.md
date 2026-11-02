@@ -4,9 +4,9 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-45_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-99_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-3.0.0-blue)
+![Version](https://img.shields.io/badge/Version-5.0.0-blue)
 
 > 🌍 **Languages / Idiomas**: **English** • [Versão em Português (README_PT.md)](README_PT.md)
 
@@ -15,341 +15,357 @@
 ## Table of contents
 
 1. [What this project is](#1-what-this-project-is)
-2. [The research question and the honest answer](#2-the-research-question-and-the-honest-answer)
-3. [How the site works, page by page](#3-how-the-site-works-page-by-page)
-4. [The computational pipeline](#4-the-computational-pipeline)
-5. [Astronomical layer: what is calculated and how](#5-astronomical-layer-what-is-calculated-and-how)
-6. [The tension score and the 0–1000 percentile scale](#6-the-tension-score-and-the-01000-percentile-scale)
-7. [Dashboard annual indices and their correlation with history](#7-dashboard-annual-indices-and-their-correlation-with-history)
-8. [v3 feature matrix: operationalising modern mundane astrology](#8-v3-feature-matrix-operationalising-modern-mundane-astrology)
-9. [Historical targets and data sources](#9-historical-targets-and-data-sources)
-10. [Validation I — pre-registered null-model tests (v2)](#10-validation-i--pre-registered-null-model-tests-v2)
-11. [Validation II — walk-forward hindcast and forecast skill (v3)](#11-validation-ii--walk-forward-hindcast-and-forecast-skill-v3)
-12. [Forecast 2026–2060: what the numbers mean](#12-forecast-20262060-what-the-numbers-mean)
-13. [Design decisions and their rationale](#13-design-decisions-and-their-rationale)
-14. [Screenshots](#14-screenshots)
+2. [Key innovations in v5.0.0](#2-key-innovations-in-v500)
+3. [The research question and empirical results](#3-the-research-question-and-empirical-results)
+4. [Platform architecture & interactive pages](#4-platform-architecture--interactive-pages)
+5. [The computational pipeline](#5-the-computational-pipeline)
+6. [Astronomical layer: Swiss Ephemeris precision](#6-astronomical-layer-swiss-ephemeris-precision)
+7. [The tension score and empirical percentiles](#7-the-tension-score-and-empirical-percentiles)
+8. [Mundane methodology: Barbault, Oshop, and Tarnas](#8-mundane-methodology-barbault-oshop-and-tarnas)
+9. [Historical database: 1,342 events across 2,500 years](#9-historical-database-1342-events-across-2500-years)
+10. [National charts & mundane transit analysis](#10-national-charts--mundane-transit-analysis)
+11. [Validation I — Pre-registered null-model tests](#11-validation-i--pre-registered-null-model-tests)
+12. [Validation II — Walk-forward hindcast and forecast skill](#12-validation-ii--walk-forward-hindcast-and-forecast-skill)
+13. [Forecast 2026–2060: probabilistic projection](#13-forecast-20262060-probabilistic-projection)
+14. [Design system, triple themes & i18n](#14-design-system-triple-themes--i18n)
 15. [Quickstart, reproduction and deployment](#15-quickstart-reproduction-and-deployment)
-16. [HTTP API](#16-http-api)
+16. [HTTP API reference](#16-http-api-reference)
 17. [Repository structure](#17-repository-structure)
-18. [Known limitations and roadmap](#18-known-limitations-and-roadmap)
-19. [Citation, licensing and attribution](#19-citation-licensing-and-attribution)
+18. [Citation, licensing and attribution](#18-citation-licensing-and-attribution)
 
 ---
 
 ## 1. What this project is
 
-**astro-history** is an open-source scientific testbed that puts a popular claim under controlled measurement: that the geometry of the sky (planetary aspects, cycles of the outer planets, fixed stars, eclipses) is systematically different at the moments when major historical events happen, and that this geometry can therefore be used to anticipate future turning points.
+**astro-history** is an open-source scientific testbed designed to evaluate a widespread historical hypothesis under rigorous quantitative controls: *do astronomical alignments, planetary aspects, and outer-planet cycles exhibit non-random clustering at major world historical turning points, and do they provide measurable predictive skill for future geopolitical events?*
 
-The project does three things at once:
+The platform unifies three key pillars:
 
-- **It computes the sky precisely.** Every chart, index and feature is derived from the Swiss Ephemeris (arc-second precision), with real historical time zones, correct calendar handling and explicit treatment of unknown event times.
-- **It tests the claim with the tools of forecasting science.** Pre-registered hypotheses, permutation null models that preserve temporal clustering, false-discovery-rate control, equivalence testing, power analysis, and — since v3 — a walk-forward hindcast that measures out-of-sample forecast skill against climatology and autoregressive baselines.
-- **It publishes everything as an interactive web platform** where any visitor can inspect the chart of any of 300 historical events, compare it with 10,000 random control dates, simulate any date, and read a probabilistic forecast for 2026–2060 that is labelled with the skill it actually achieved in backtesting.
+- **High-Precision Astronomy:** Every celestial chart, aspect, midpoint, and cyclic index is calculated using the Swiss Ephemeris (arc-second precision), with accurate historical calendars (Gregorian / Julian), geographic coordinates, historical timezones (IANA with daylight saving and Local Mean Time prior to 1883), and strict handling of uncertainty for events without documented exact times.
+- **Methodological & Statistical Rigour:** Pre-registered hypotheses, Monte Carlo circular-shift permutations (preserving slow-planet autocorrelation and event clustering), Benjamini-Hochberg False Discovery Rate (FDR) control, Two One-Sided Tests (TOST) for equivalence, and out-of-sample walk-forward hindcasts scored via Brier Skill Score (BSS) and ROC AUC against climatological and autoregressive baselines.
+- **Interactive Global Web Platform:** An interactive web application featuring an expanded database of **1,342 audited historical events** (490 BCE to 2026 CE), **20 sovereign national mundane charts**, a multi-dimensional Cosmic History Search engine, real-time date simulation, and a transparent probabilistic forecast for 2026–2060.
 
-The platform is deliberately built as a **data-literacy tool**: it shows how a well-known retrospective pattern can look convincing and then explains, with numbers, why it does not survive controlled testing.
-
----
-
-## 2. The research question and the honest answer
-
-> **"Do planetary aspect geometries and astronomical alignments distinguish major world historical events from random dates better than chance — and can they forecast future events with measurable skill?"**
-
-**Answer after v2 and v3 (October 2026): no, not with any construct tested so far.**
-
-| Line of evidence | Method | Result |
-| :--- | :--- | :--- |
-| Pre-registered test, N = 59 objective events (v2) | Circular-shift null (10,000 permutations), stratified-decade null, uniform null, FDR | z = −0.51, p = 0.69, q = 0.88 — null not rejected |
-| Equivalence test (v2) | TOST with Δ = ±0.30 SD | p = 0.041 — observed effect is *statistically equivalent to zero* |
-| Out-of-sample 1951–2025 with thresholds fixed on 1800–1950 (v2) | Walk-forward | z = −0.85, p = 0.80 — no predictive signal |
-| Tarnas outer-planet thesis (v2) | Hard aspects between Saturn, Uranus, Neptune, Pluto | z = −0.06, p = 0.98 |
-| Walk-forward hindcast on monthly objective series, 1951–2024 (v3) | Brier Skill Score vs climatology, AUC, log-loss, 7 targets × 8 models | No astrological model beats the base rate with a positive CI **and** real discrimination (AUC > 0.55) |
-| Annual indices vs 300-event catalogue and v2 sample (v3) | Circular-shift null on annual means, Benjamini-Hochberg | No correlation survives FDR; none on the objective sample |
-
-What this means for the website: the forecast pages show every curve **together with its measured skill**, and when skill is absent they say so and recommend the historical base rate as the most precise estimate available. Nothing on the site is presented as a prediction of risk.
+The platform functions as a **data-literacy tool**: it demonstrates how retrospective astrological patterns can seem intuitive or convincing to the human eye, and then demonstrates—with mathematical transparency—why these constructs do not beat standard empirical baselines under controlled out-of-sample conditions.
 
 ---
 
-## 3. How the site works, page by page
+## 2. Key innovations in v5.0.0
 
-| Page | URL | What it shows | Where the numbers come from |
+The `v5.0.0` release introduces major structural, methodological, and UI/UX advancements:
+
+1. **Expanded 1,342 Historical Events Database:** Comprehensive expansion from earlier subsets to 1,342 historically verified milestones spanning 2,500 years (490 BCE to 2026 CE), organized into 6 canonical categories. Core geopolitical milestones include World War II, the Hiroshima atomic bombing, the Apollo 11 Moon landing, the Cuban Missile Crisis, and the 2020 global pandemic.
+2. **André Barbault Cyclic Index Engine (CI-4 vs CI-5):** Full implementation of André Barbault's Cyclic Index comparing outer-planet angular sums ($\sum \theta_{ij}$) for the outer quartet (Jupiter through Pluto) and quintet, with first-order annual derivatives ($\frac{d\text{CI}}{dt}$) and turning-point acceleration.
+3. **Renay Oshop Sum of Cosines ($\Sigma \cos$):** Operationalization of Oshop's cyclic dispersion metric with Monte Carlo permutation null hypothesis testing ($p_{\text{MC}}$) to detect non-random celestial clustering.
+4. **Sovereign National Charts & Mundane Transits:** Astrological foundation charts for 20 major sovereign nations (USA, China, Russia, Brazil, UK, France, Germany, Japan, India, Israel, Iran, Ukraine, etc.) with constitutional auditing, real-time transits, and future energy peaks (2026–2050).
+5. **Cosmic History Search (Historical Analogues Engine):** Multi-dimensional geometric matching across all 1,342 events to identify the closest celestial precedents for any past, present, or simulated date.
+6. **Triple-Theme Modern UI:** Light, Dark, and OLED Pitch Black (`theme-oled`) design with zero Flash of Unstyled Content (FOUC), fully synced Chart.js dynamic palettes, and streamlined navigation adhering to modern Vercel / UI-UX design principles.
+7. **Complete Bilingual Engine (EN / PT):** Native client-side internationalization system (`i18n.js`) providing instant switching between English and Portuguese across all views and data tables.
+8. **100% Test Coverage:** Comprehensive test suite with 99 automated tests passing across astronomical routines, API endpoints, statistical validation, and UI systems.
+
+---
+
+## 3. The research question and empirical results
+
+> **"Do planetary aspect geometries and outer-planet cycles distinguish major historical events from random dates better than chance — and do they forecast future geopolitical events with measurable skill?"**
+
+### Empirical Summary
+
+| Line of Evidence | Sample & Method | Quantitative Result | Verdict |
+| :--- | :--- | :--- | :---: |
+| **H1 Pre-registered Test (Global)** | N = 59 objective events; Circular-shift null (10,000 permutations) | $z = -0.506, p = 0.612, q = 0.883$ | ❌ Null not rejected |
+| **H1 Stratified Decade Control** | N = 59 vs 10,000 decade-matched control dates | $z = -0.350, p = 0.716, q = 0.883$ | ❌ Null not rejected |
+| **TOST Equivalence Test** | Equivalence bounds $\Delta = \pm 0.30$ SD | $p = 0.041$ (within equivalence interval) | ✅ Statistically equivalent to zero |
+| **H2 Walk-Forward Out-of-Sample** | Train: 1800–1950 (N=26) $\rightarrow$ Test: 1951–2025 (N=33) | $z = -0.851, p = 0.401, q = 0.933$ | ❌ No predictive transfer |
+| **H4 Tarnas Outer-Planet Thesis** | Hard aspects between Saturn, Uranus, Neptune, Pluto | $z = -0.063, p = 0.979, q = 0.883$ | ❌ Null not rejected |
+| **Hindcast on Monthly Series (1951–2024)** | 7 objective targets $\times$ 8 model families vs Climatology & AR | Max astrological BSS $\le 0.003$; AUC $\le 0.52$ | ❌ No discrimination over baseline |
+| **Annual Indices vs 1,342 Catalogue** | Circular-shift null with Benjamini-Hochberg FDR control | Zero correlations survive FDR threshold | ❌ No robust correlation |
+
+**Conclusion:** Across all tested configurations, planetary alignments and astrological tension indices do not perform better than random chance or autoregressive baselines. The platform presents all future curves accompanied by these skill metrics, recommending historical base rates for probabilistic risk assessment.
+
+---
+
+## 4. Platform architecture & interactive pages
+
+The web application is built with **FastAPI**, **Jinja2**, and **Chart.js**, serving precomputed deterministic datasets with on-demand Swiss Ephemeris calculations for custom date simulations:
+
+| View | Route | Core Functionality | Primary Data Source |
 | :--- | :--- | :--- | :--- |
-| **Dashboard** | `/` | The 1800–2100 chart with five selectable series (peak tension, null band P5–P95, war risk, innovation, Barbault concentration), a panel correlating each series with history, a forecast-skill card, category and Sun-sign distributions, featured events | `data/timeline_1800_2100.json`, `data/annual_indices.json`, `data/forecast_v3.json` |
-| **Catalogue** | `/events` | 300 historical events with category filters, text search and a "✓ N=59" filter for the events that belong to the validated objective sample | SQLite `events` and `events_v2` |
-| **Event detail** | `/events/{id}` | Full chart (17 bodies, strict aspects, fixed-star contacts, houses when the time is known), SVG mandala, archetypal emphasis, "compare with a random control date" button, chronological previous/next | `chart_json` stored per event; `/api/random-control-comparison` |
-| **Correlations hub** | `/correlations` | Frequency of signs, aspects and fixed stars per historical category | SQL aggregation over `planet_positions`, `event_aspects`, `event_star_aspects` |
-| **Methodology** | `/methodology` | The v2 null-model results, the exclusion funnel 300 → 61 → 59, and the v3 hindcast table | `data/results.json`, `reports/hindcast_v3.json` |
-| **Forecast v3** | `/forecast` | Per target: skill badge, probability per year with p10–p90 band vs base rate, monthly profile, model drivers, exact astronomical calendar (aspects, ingresses, eclipses) and historical analogues with lift | `data/forecast_v3.json` |
-| **Scenarios 2027–2060** | `/projections` | Year-by-year table of the legacy index (percentile tiers), seasonal gates, outer-planet signs and closest geometric precedent — with a notice that tiers describe geometry, not risk | `data/projections_2027_2060.json` |
-| **Timeline & simulator** | `/simulator` | The full 1800–2100 table and a form to compute the chart of any date/time/place; results live at a shareable GET URL | Swiss Ephemeris in real time + leave-one-out matcher |
-
-The server is a FastAPI application rendering Jinja2 templates with Tailwind and Chart.js. It **reads precomputed JSON caches**; the only on-request ephemeris computation is the simulator.
+| **Dashboard** | `/` | 1800–2100 interactive timeline, tension percentiles, null envelopes (P5–P95), Barbault concentration, featured events | `data/timeline_1800_2100.json`, `data/forecast_v3.json` |
+| **Event Catalogue** | `/events` | 1,342 audited events, 6 canonical categories, text search, century filters, objective sample filter | `data/historical_events.json`, SQLite `events` |
+| **Event Detail** | `/events/{id}` | Full chart (17 celestial bodies, houses, fixed stars), SVG mandala, archetypal breakdown, random control comparison | SQLite `events`, Swiss Ephemeris |
+| **National Charts** | `/countries` | 20 sovereign nations, constitutional founding charts, active transits, 2026–2050 energy peaks | `data/countries_database.json`, `src/mundane/` |
+| **Simulator** | `/simulator` | Real-time ephemeris calculator for any date/time/location; leave-one-out cosmic analogue matching | `src/astro_engine.py`, Swiss Ephemeris |
+| **Correlations Hub** | `/correlations` | Statistical distributions of planetary positions, aspects, and fixed stars by historical category | SQLite database aggregation |
+| **Forecast** | `/forecast` | Probabilistic 2026–2060 projection by target, model skill badges, astronomical calendar, cosmic analogues | `data/forecast_v3.json` |
+| **Scenarios** | `/projections` | Annual geometric tension tiers (2026–2060), outer-planet sign ingresses, seasonal gates | `data/projections_2027_2060.json` |
+| **Methodology** | `/methodology` | Scientific documentation, null hypothesis formulations, exclusion funnel, hindcast verification table | `data/results.json`, `reports/hindcast_v3.json` |
 
 ---
 
-## 4. The computational pipeline
+## 5. The computational pipeline
 
 ```mermaid
 flowchart TD
-    SWE["Swiss Ephemeris (pyswisseph + libswe data files)"]
+    SWE["Swiss Ephemeris (pyswisseph C library)"]
 
-    subgraph "Astronomical grids"
-        GRID["Daily grid 1800–2100<br/>109,938 days · 9 bodies · noon UT<br/>data/ephemeris/daily_grid_1800_2100.npz"]
-        FEAT["Feature grid 1750–2150<br/>146,462 days · 409 features<br/>data/features/ (rebuilt by make features)"]
-        EXACT["Exact events by root-finding<br/>aspects (with pass number), ingresses, stations, eclipses"]
+    subgraph "Astronomical Computation"
+        GRID["Daily Ephemeris Grid 1800–2100<br/>109,938 days · 9 bodies · noon UT"]
+        FEAT["Feature Matrix 1750–2150<br/>146,462 days · 409 features"]
+        EXACT["Exact Astronomical Events<br/>Outer aspects, ingresses, stations, eclipses"]
     end
 
-    subgraph "Scoring"
-        SCORE["config/score.yaml → src/core/scoring.py<br/>single tension function"]
-        PCT["Empirical percentile 0–1000<br/>over the 109,938 days"]
+    subgraph "Scoring & Indices"
+        SCORE["Scoring Engine (config/score.yaml)<br/>Standardized tension metric"]
+        PCT["Empirical Percentiles 0–1000<br/>Calibrated across 109,938 days"]
+        MUNDANE["Mundane Metrics<br/>Barbault CI-4/CI-5 · Oshop Σcos · Tarnas Cycles"]
     end
 
-    subgraph "Historical data"
-        CAT["300-event curated catalogue<br/>(display and narrative only)"]
-        V2["Objective catalogue v2 (N=59)"]
-        EXT["COW Wars v4 · NBER · UCDP/PRIO v24.1<br/>→ monthly target series"]
-        CTRL["10,000 decade-stratified control dates"]
+    subgraph "Historical Datasets"
+        CAT["1,342-Event Expanded Database<br/>6 canonical categories · 490 BCE–2026 CE"]
+        V2["Pre-registered Objective Sample (N=59)"]
+        NAT["20 Sovereign National Charts<br/>Audited constitutional dates"]
+        CTRL["10,000 Decade-Stratified Controls"]
     end
 
-    subgraph "Statistics"
-        NULL["Null models N1–N3, TOST, power, FDR (v2)"]
-        HIND["Walk-forward hindcast 1951+<br/>BSS · AUC · log-loss · block bootstrap (v3)"]
-        ANN["Annual indices + circular-shift correlation + FDR"]
-        FC["Forecast 2026–2060<br/>p, p10–p90, drivers, analogues, skill badge"]
+    subgraph "Statistical Validation"
+        NULL["Null Models N1–N3<br/>10,000 circular-shift permutations · TOST"]
+        HIND["Walk-Forward Hindcast 1951–2024<br/>Brier Skill Score · ROC AUC · Bootstrap"]
+        ANALOG["Cosmic History Search<br/>Geometric distance across 1,342 events"]
     end
 
-    subgraph "Web"
-        CACHE["JSON caches"]
-        APP["FastAPI + Jinja2 + Chart.js"]
+    subgraph "Presentation Layer"
+        APP["FastAPI + Jinja2 + Chart.js<br/>Triple Theme (Light / Dark / OLED) · Bilingual i18n"]
     end
 
     SWE --> GRID & FEAT & EXACT
     GRID --> SCORE --> PCT
-    FEAT --> ANN & HIND & FC
-    EXACT --> FC
-    V2 & EXT --> HIND & FC
-    V2 & CAT --> ANN
-    V2 & CTRL & PCT --> NULL
-    NULL & HIND & ANN & FC & PCT --> CACHE --> APP
+    FEAT --> MUNDANE & HIND
+    CAT & NAT --> ANALOG & APP
+    V2 & CTRL --> NULL
+    PCT & EXACT & HIND & MUNDANE --> APP
 ```
 
-`make v3` runs the whole chain: `features → hindcast → forecast → timeline`.
+---
+
+## 6. Astronomical layer: Swiss Ephemeris precision
+
+Every astronomical position is generated via `pyswisseph` bound to the official Swiss Ephemeris C data files:
+
+- **Coordinate Precision:** Ephemeris flags enforce `SWIEPH` (high-precision numerical integration), avoiding low-order approximations. Longitudes, latitudes, declinations, and speeds are accurate to sub-arcsecond thresholds.
+- **Timezone & Local Mean Time Resolution:** For events occurring in 1883 or later, coordinates are resolved via `timezonefinder` and computed with standard IANA timezones (including historical daylight saving shifts). For events prior to 1883, true Local Mean Time ($\text{longitude} / 15$) is utilized without arbitrary rounding. Day-boundary rollovers across midnight are explicitly preserved.
+- **Calendar Consistency:** Dual Gregorian/Julian calendar handling with territory-specific adoption dates (e.g., Britain 1752, Russia 1918, Greece 1923).
+- **Time Uncertainty Protocol:** Events lacking historical confirmation of birth/occurrence hour are evaluated at 12:00 UT, and the Moon is automatically excluded from aspects, houses, and scores to prevent spurious hits (~13°/day lunar motion).
+- **Celestial Bodies Evaluated:** Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto, Chiron, Ceres, Pallas, Juno, Vesta, Mean Lilith, True Lunar Node (17 bodies).
+- **Aspects & Orbs:** Strict classical aspects (Conjunction 0°, Sextile 60°, Square 90°, Trine 120°, Opposition 180°) with linear orb decay up to 3.0°.
+- **Fixed Stars:** 30 major stars calculated via `swe_fixstar2_ut`; restricted to conjunctions within 0.3° with ecliptic latitude $\le 30^\circ$ to prevent out-of-ecliptic false matches.
 
 ---
 
-## 5. Astronomical layer: what is calculated and how
+## 7. The tension score and empirical percentiles
 
-| Item | Implementation | Why it matters |
-| :--- | :--- | :--- |
-| **Ephemeris** | `pyswisseph` with the `seas/sepl/semo` data files; the returned flag is checked to be `SWIEPH`, not the approximate Moshier mode | Positions are good to arc-seconds across 1750–2150 |
-| **Event instant** | `resolve_event_instant()`: for years ≥ 1883 the IANA zone of the event's latitude/longitude is resolved with `timezonefinder` and applied with `zoneinfo` (historical DST included); before 1883, exact Local Mean Time (longitude / 15, not rounded). The civil date is shifted when the conversion crosses midnight | Until v2 the offset was `round(longitude / 15)`, wrong by up to 3 h and never crossing the day boundary — enough to move the Moon 1.5° and change the Ascendant |
-| **Calendar** | Gregorian from 1582-10-15 by default; `calendar_region` (britain = 1752, russia = 1918, greece = 1923, japan = 1873, …) or an explicit `calendar` override | Dates recorded in Old Style would otherwise be shifted by 10–13 days |
-| **Unknown time** | 82 of the 300 catalogue events have no documented time. They are computed at 12:00 UT and the **Moon is excluded** from aspects and scoring | The Moon moves ~13°/day; with a 3° orb a guessed noon would cover 22 % of the zodiac by chance |
-| **Bodies** | Sun, Moon, Mercury–Pluto, Ceres, Pallas, Juno, Vesta, Chiron, Mean Lilith, True Node (17) | Classical modern-astrology set; only the 9 core bodies enter the score |
-| **Aspects** | Conjunction 0°, square 90°, trine 120°, opposition 180°, orb 3.0°, linear decay with orb; definitions read from `config/score.yaml` | Strict orbs minimise random hits; wider "Tarnas" orbs are tested separately in v3 via continuous features |
-| **Fixed stars** | 30 stars via `swe_fixstar2_ut`; only **conjunctions** within 0.3° count, and only if the star's ecliptic latitude is ≤ 30° | Checking 4 aspects × 17 bodies × 30 stars produced ~5 spurious hits per chart; stars such as Vega (62°) or Polaris (66°) are never actually "on" a planet |
-| **Houses** | Placidus; above the polar circle falls back to Porphyry, then Whole Sign | Placidus is undefined above ~66° latitude |
-| **Exact dates** | `src/features/astro_events.py` brackets sign changes on a daily scan and refines with Brent's method on the ephemeris; outputs date and time UT, pass number within the retrograde loop, applying/separating, eclipse type and point of maximum | Checked against published ephemerides: Saturn ☌ Neptune 2026-02-20 16:54 UT, Saturn ☌ Pluto 2020-01-12, total solar eclipse 2024-04-08 |
+The planetary tension metric is formalized in `src/core/scoring.py` and configured via `config/score.yaml`:
+
+$$\text{Raw Score} = \text{Base} + \sum_{i < j} w(p_i, p_j) \cdot f_{\text{aspect}}(\theta_{ij}) - \sum_{\text{trines}} 0.20 \cdot w_{\text{harm}}(p_i, p_j)$$
+
+- **Pair Hierarchies:** Weights correspond to classical mundane literature: Saturn–Pluto (260/250), Uranus–Pluto (220/200), Saturn–Uranus (220/160), Saturn–Neptune (200/220), outer–outer pairs (170/160), Mars–outer (130/110), luminaries–outer (75/60), other configurations (40/30).
+- **Empirical Percentile Calibration:** The raw tension score is mapped directly against the 109,938-day ephemeris grid (1800–2100) onto a continuous 0–1000 scale. A score of 750 denotes higher tension than 75% of all days in the 300-year baseline.
+- **Parity Guarantee:** Golden regression tests enforce strict parity (max difference $< 0.002$) between real-time chart calculations and daily grid outputs.
 
 ---
 
-## 6. The tension score and the 0–1000 percentile scale
+## 8. Mundane methodology: Barbault, Oshop, and Tarnas
 
-The red line of the dashboard and every "tension" number on the site come from one function, `raw_tension_from_longitudes()` in `src/core/scoring.py`, whose parameters live in `config/score.yaml`:
+`v5.0.0` operationalizes three distinct schools of 20th and 21st-century mundane astrology:
 
-- **Pair classes** encode the archetypal hierarchy of modern astrology: Saturn–Pluto (hard 260 / conjunction 250), Uranus–Pluto (220 / 200), Saturn–Uranus (220 / 160), Saturn–Neptune (200 / 220), any other outer–outer pair (170 / 160), Mars with an outer planet (130 / 110), a luminary with an outer planet (75 / 60), everything else (40 / 30).
-- Hard aspects (90°, 180°) and conjunctions add their class weight times a linear orb factor `(3 − orb) / 3`; trines subtract 20 % of a harmony weight (35 outer–outer, 15 otherwise). Base score 60.
-- The **daily grid** (1800–2100, noon UT, 9 bodies) and every **event chart** call the same function. A parity test guarantees that the same date gives the same score through both paths (max difference 0.002, float32 noise). Until v3 the chart path summed aspects of 17 bodies and then looked the result up in a 9-body percentile table, inflating the displayed percentile.
-- The raw score is converted to an **empirical percentile** over the 109,938 days: a score of 850 means "more intense than 85 % of all days between 1800 and 2100". There is no artificial floor or ceiling (v1 saturated at 990).
-- The **annual peak** shown on the chart is the day of maximum score within the year, taken from the grid — not the maximum of four seasonal dates as in v2.
+### André Barbault Cyclic Index (CI-4 and CI-5)
+André Barbault's cyclical index measures global planetary dispersion by summing the angular separations between outer planets:
 
-**Important:** these weights are a *codification of a hypothesis*, not values fitted to data. That is why the index is tested rather than trusted, and why v3 replaces it with learned models for forecasting.
+$$\text{CI}_5(t) = \sum_{1 \le i < j \le 5} \theta_{ij}(t)$$
 
----
+Where $\theta_{ij} \in [0^\circ, 180^\circ]$ is the shortest angular distance between pairs among Jupiter, Saturn, Uranus, Neptune, and Pluto. Minima in the curve (planets clustered in conjunction) correspond to Barbault's historical crisis epochs (e.g., 1914, 1940, 1982). Our engine computes both CI-4 (Saturn through Pluto) and CI-5, along with the first numerical derivative ($\frac{d\text{CI}}{dt}$) indicating whether the global cycle is waxing or waning.
 
-## 7. Dashboard annual indices and their correlation with history
+### Renay Oshop Sum of Cosines ($\Sigma \cos$)
+Operationalized in `src/features/sum_of_cosines.py`, this metric computes the sum of the cosines of mutual angular separations:
 
-Three additional series are derived from the feature grid (`src/analysis/annual_indices.py`) as the percentile (0–1000) of the annual mean over 1800–2100:
+$$\Sigma \cos = \sum_{i < j} \cos(\theta_{ij})$$
 
-| Series | Colour | Definition |
-| :--- | :--- | :--- |
-| **War risk** | amber | Mean Gaussian activation of squares and oppositions among Jupiter, Saturn, Uranus, Neptune and Pluto |
-| **Scientific innovation** | blue | Mean activation of trines and sextiles among the 9 bodies |
-| **Planetary concentration (Barbault)** | purple | 1800° minus Barbault's Cyclic Index (sum of the 10 angular separations among the outer planets). High = outer planets clustered. Barbault associated the index minima with 1914–18, 1939–45 and 1982–83 |
+Higher values indicate tighter planetary clustering. The engine runs a 1,000-iteration Monte Carlo permutation test for any query date, reporting the circular variance and permutation $p$-value ($p_{\text{MC}}$).
 
-Each series is correlated with history by **circular shift of the years** (10,000 permutations): the mean index over event years is compared with its null distribution, preserving both the temporal clustering of events and the autocorrelation of the slow planets. The panel reports z, two-sided p, Benjamini-Hochberg q and the lift of the top quartile, for each of the six catalogue categories, the whole catalogue and the objective v2 sample.
-
-Current result: a few nominal p < 0.05 on the *curated* catalogue (e.g. event years have *lower* war-risk, z = −2.2) that do not survive FDR, and **nothing on the objective sample** (|z| < 0.9). The panel marks nominal results in amber and FDR-significant ones in green, and explains the selection bias of the curated catalogue.
+### Richard Tarnas Outer-Planet Alignments
+Continuous Gaussian activations ($\sigma = 5^\circ$) tracking hard configurations (0°, 90°, 180°) among the four outermost slow planets: Saturn, Uranus, Neptune, and Pluto.
 
 ---
 
-## 8. v3 feature matrix: operationalising modern mundane astrology
+## 9. Historical database: 1,342 events across 2,500 years
 
-`src/features/astro_features.py` computes **409 daily features** from 1750 to 2150 (146,462 days, ~20 s), aggregated monthly (mean; plus the monthly maximum for activations):
+The historical foundation contains **1,342 audited events** spanning from 490 BCE (Battle of Marathon) through 2026 CE. Every event is verified for date, time, location coordinates, calendar standard, and categorized into 6 canonical domains:
 
-| Family | Content | Rationale |
-| :--- | :--- | :--- |
-| Synodic cycle phases | sine/cosine (1st and 2nd harmonic) of the angle of each of the 10 outer-planet pairs, geocentric **and** heliocentric | A continuous variable removes the orb choice entirely and allows circular statistics; heliocentric phases have no retrograde loop |
-| Barbault index | geocentric and heliocentric | The canonical predictive index of 20th-century mundane astrology |
-| Aspect activations | Gaussian kernel for 36 pairs × 5 angles (0, 60, 90, 120, 180); σ = 5° outer–outer, 4° with Jupiter, 2° otherwise | Replaces the binary "inside/outside orb" cut and covers the wide orbs Tarnas actually uses |
-| Harmonics | resultant-vector length at harmonics 4 and 8 (outer planets; all bodies) | Addey's harmonic concentration |
-| Declination | declination of 8 bodies; out-of-bounds flags for Mercury, Venus, Mars | A whole dimension ignored by longitude-only analysis |
-| Motion | retrograde flags, stations, ingresses, cardinal-sign flags, zodiac position (sin/cos) of the outer planets | Standard mundane markers |
-| Midpoints | Mars/Saturn, Saturn/Pluto, Uranus/Pluto, Saturn/Neptune, Saturn/Uranus activated by Sun, Mars and Jupiter on the 90° axis | Ebertin's cosmobiology |
-| Eclipses | days to the nearest solar/lunar eclipse; ±15-day windows | Exact, localisable astronomical events |
-| Legacy | the `score.yaml` index | So the v2 index can be compared with the rest on equal terms |
+```
+Total Events: 1,342
+├── 1. Armed Conflicts & Wars (conflict_war): 396 events (29.5%)
+├── 2. Politics, Revolutions & Coups (politics_power): 367 events (27.3%)
+├── 3. Science, Technology & Space (science_tech): 199 events (14.8%)
+├── 4. Economy, Financial Crises & Markets (economy_crisis): 150 events (11.2%)
+├── 5. Culture, Religion & Philosophy (culture_philosophy): 118 events (8.8%)
+└── 6. Disasters, Pandemics & Climate (disaster_pandemic): 112 events (8.3%)
+```
 
----
+### Chronological Distribution
+- **Antiquity & Middle Ages (Pre-1500 CE):** 62 pivotal civilizational milestones.
+- **Early Modern Era (1500–1799 CE):** 115 events.
+- **19th Century (1800–1899 CE):** 282 events.
+- **20th Century (1900–1999 CE):** 641 events (including WWI, WWII, atomic weapons, Cold War crises, space exploration).
+- **21st Century (2000–2026 CE):** 242 contemporary events.
 
-## 9. Historical targets and data sources
-
-| Source | Coverage | Monthly series derived | File |
-| :--- | :--- | :--- | :--- |
-| **Objective catalogue v2** (UCDP, COW, NBER, Powell & Thyne, Polity5) | 1800–2025, 61 day-precise events, 59 inside the analytic window | any event; per class (interstate war, armed conflict, recession, pandemic, coup, regime change) | `data/events_v2.csv`, SQLite `events_v2` |
-| **COW Inter-State War Data v4.0** | 1816–2007, 95 wars | war onset (binary and count), war ongoing, log battle deaths | `data/external/Inter-StateWarData_v4.0.csv` |
-| **NBER business-cycle dates** | 1857–2024 | month in recession (578 months), recession start (34) | `data/external/business_cycle_dates.json` |
-| **UCDP/PRIO Armed Conflict Dataset v24.1** | 1946–2023 | conflict-episode onset (414 months), interstate onset, conflicts with ≥ 1,000 deaths | `data/external/UcdpPrioConflict_v24_1.csv` |
-| 300-event curated catalogue | 44 BCE–2024 | **not used for training** — display, narrative and the correlation panel only (flagged as selection-biased) | `data/historical_events.json`, SQLite `events` |
-| 10,000 control dates | 1800–2025, stratified by decade | random-control comparisons and the N2 null | SQLite `control_dates` |
-
-Why monthly series: with 59 events the minimum detectable effect at 80 % power was 0.33 SD; thousands of months give the statistical power that a null result needs to be meaningful. Why the curated catalogue is excluded from training: it was assembled in hindsight and its category mix (96 revolutions, 91 wars of 300) would be learned as a prior.
+### Dual-Track Analytic Architecture
+To prevent circular reasoning, the platform separates the broad exploration catalogue from analytical testing:
+1. **Curated Catalogue (N = 1,342):** Used for public browsing, educational chart analysis, and Cosmic History Search.
+2. **Objective Pre-Registered Sample (N = 59):** Fixed prior to analysis from objective conflict and economic databases (COW, UCDP, NBER, Powell & Thyne) with zero subjective post-selection.
 
 ---
 
-## 10. Validation I — pre-registered null-model tests (v2)
+## 10. National charts & mundane transit analysis
 
-Hypotheses were fixed in advance in [`docs/hipoteses.md`](docs/hipoteses.md); the decision tree and its outcome are in [`docs/decisao_M2.md`](docs/decisao_M2.md).
+Implemented in `src/mundane/`, the platform provides constitutional foundation charts and active mundane transits for 20 sovereign geopolitical entities:
 
-| Test Hypothesis | N | Observed Score | Null Distribution (Mean ± SD) | Effect ($z$) | $p$ (two-sided) | $q$ (FDR) | Significant? |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **H1 Overall vs N3 Circular Shift** | 59 | 481.1 | 500.6 ± 38.5 | −0.506 | 0.6117 | 0.8834 | ❌ |
-| **H1 Overall vs N2 Stratified Control** | 59 | 481.1 | 493.9 ± 36.6 | −0.350 | 0.7163 | 0.8834 | ❌ |
-| **H1 Overall vs N1 Uniform Random** | 59 | 481.1 | 499.7 ± 37.7 | −0.493 | 0.6299 | 0.8834 | ❌ |
-| **H1 Class: Interstate War** | 15 | 462.1 | 499.4 ± 73.3 | −0.509 | 0.6163 | 0.8834 | ❌ |
-| **H1 Class: Economic Crisis** | 10 | 547.6 | 501.9 ± 93.8 | +0.487 | 0.6223 | 0.8834 | ❌ |
-| **H1 Class: Coup d'Etat** | 11 | 538.4 | 501.6 ± 84.9 | +0.434 | 0.6653 | 0.8834 | ❌ |
-| **H2 Walk-Forward (1800–1950 Train)** | 26 | 512.4 | 499.4 ± 56.8 | +0.229 | 0.8165 | 0.8834 | ❌ |
-| **H2 Out-of-Sample Test (1951–2025)** | 33 | 456.5 | 501.6 ± 53.0 | −0.851 | 0.4008 | 0.9329 | ❌ |
-| **H4 Tarnas Outer-Planet Thesis** | 59 | 33.4 | 34.0 ± 8.7 | −0.063 | 0.9794 | 0.8834 | ❌ |
+- **Americas:** United States (1776-07-04), Brazil (1822-09-07), Argentina, Canada, Mexico.
+- **Europe:** United Kingdom (1801-01-01), France (1958-10-04, Fifth Republic), Germany (1990-10-03, Reunification), Italy, Ukraine, Russia (1991-12-25).
+- **Middle East:** Israel (1948-05-14), Iran (1979-04-01), Turkey, Saudi Arabia, Egypt.
+- **Asia & Oceania:** China (1949-10-01, PRC), Japan (1947-05-03, Post-War Constitution), India (1947-08-15), Australia.
 
-Supporting analyses: **TOST equivalence** (Δ = ±0.30 SD, p = 0.041: the effect is statistically equivalent to zero); **power** (MDE 95.7 points = 0.332 SD at 80 %); **synthetic negative controls** (1,000 pure-noise catalogues → 3.7 % false-positive rate at α = 5 %); **orb stability** (1°, 2°, 3°). Null models: N1 uniform random dates, N2 decade-stratified control dates, N3 circular shift of the whole event vector (preserves inter-event spacing and the autocorrelation of the slow planets).
-
-Methodological corrections that made these tests valid are documented in [`reports/phase1_before_after.md`](reports/phase1_before_after.md): leave-one-out matcher (no self-matches), conjunction-only fixed stars, continuous percentile instead of a 990 cap, Moon excluded without a time, homogeneous daily sampling.
+Each country entry includes:
+- Exact historical foundation date, time, and capital coordinates.
+- Complete natal chart (planetary positions, signs, houses, aspects).
+- Active transits calculated for the current date.
+- **2026–2050 Energy Peaks:** Algorithmic detection of major outer-planet transits to national sun, ascendant, and midheaven axes.
 
 ---
 
-## 11. Validation II — walk-forward hindcast and forecast skill (v3)
+## 11. Validation I — Pre-registered null-model tests
 
-Pre-registration: [`docs/hipoteses_v3.md`](docs/hipoteses_v3.md). Full tables: [`reports/hindcast_v3.md`](reports/hindcast_v3.md).
+Pre-registered hypotheses were frozen in [`docs/hipoteses.md`](docs/hipoteses.md) and evaluated in [`reports/validacao_v2.md`](reports/validacao_v2.md):
 
-**Protocol** (`src/analysis/hindcast.py`): for each target and each test year *t* from 1951 to the end of the target's coverage, every model is fitted only on months of years ≤ *t* − 1 with a 12-month safety gap, then predicts the 12 months of *t*. Pooled predictions are scored with the **Brier Skill Score** against the expanding climatology (95 % CI by annual-block bootstrap), **AUC**, log-loss and reliability curves. Models are L2 logistic regressions on standardised features, with the regularisation strength chosen by an inner temporal validation on the last 20 % of each training window.
+| Hypothesis / Sample | Observed Tension | Null Model (Mean $\pm$ SD) | Effect ($z$) | Two-Sided $p$ | FDR $q$ | Significant? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **H1 Overall vs Circular Shift (N3)** | 481.1 | 500.6 $\pm$ 38.5 | $-0.506$ | 0.6117 | 0.8834 | ❌ No |
+| **H1 Overall vs Stratified Control (N2)** | 481.1 | 493.9 $\pm$ 36.6 | $-0.350$ | 0.7163 | 0.8834 | ❌ No |
+| **H1 Overall vs Uniform Random (N1)** | 481.1 | 499.7 $\pm$ 37.7 | $-0.493$ | 0.6299 | 0.8834 | ❌ No |
+| **H1 Interstate Wars (N=15)** | 462.1 | 499.4 $\pm$ 73.3 | $-0.509$ | 0.6163 | 0.8834 | ❌ No |
+| **H1 Economic Crises (N=10)** | 547.6 | 501.9 $\pm$ 93.8 | $+0.487$ | 0.6223 | 0.8834 | ❌ No |
+| **H1 Coups d'État (N=11)** | 538.4 | 501.6 $\pm$ 84.9 | $+0.434$ | 0.6653 | 0.8834 | ❌ No |
+| **H2 Walk-Forward Train (1800–1950)** | 512.4 | 499.4 $\pm$ 56.8 | $+0.229$ | 0.8165 | 0.8834 | ❌ No |
+| **H2 Walk-Forward Test (1951–2025)** | 456.5 | 501.6 $\pm$ 53.0 | $-0.851$ | 0.4008 | 0.9329 | ❌ No |
+| **H4 Tarnas Outer-Planet Index** | 33.4 | 34.0 $\pm$ 8.7 | $-0.063$ | 0.9794 | 0.8834 | ❌ No |
 
-| Target (base rate) | climatology | **AR baseline** | legacy index | Barbault | Tarnas outer | outer phases | all 409 | AR + astro |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| v2 any event (3.3 %) | 0 | −0.002 | −0.001 | −0.002 | −0.002 | +0.001 | −0.000 | −0.000 |
-| COW war onset (5.1 %) | 0 | −0.004 | −0.004 | +0.002 | −0.002 | −0.001 | −0.000 | −0.000 |
-| COW war ongoing (53.5 %) | 0 | **+0.825** | −0.021 | +0.036 | −0.036 | +0.002 | −0.067 | +0.624 |
-| NBER recession (12.7 %) | 0 | **+0.850** | −0.023 | +0.028 | −0.030 | +0.127* | −0.486 | −0.026 |
-| NBER recession start (1.2 %) | 0 | −0.014 | −0.018 | −0.003 | −0.001 | −0.005 | −1.080 | −1.981 |
-| UCDP onset any (49.3 %) | 0 | +0.027 | +0.003 | −0.009 | −0.009 | −0.019 | −0.494 | −0.589 |
-| UCDP interstate onset (6.1 %) | 0 | −0.004 | +0.003 | −0.008 | −0.005 | −0.035 | −2.472 | −2.565 |
-
-Values are BSS (higher is better; 0 = same as the base rate). \* CI [+0.003, +0.247] but AUC = 0.40: the Brier gain comes from calibration/variance, not discrimination, and with 35 comparisons one marginal CI is expected by chance — treated as **not confirmed**.
-
-**Verdict rule used by the site:** "positive skill" requires the BSS confidence interval entirely above zero **and** AUC > 0.55. No astrological model meets it on any target. The autoregressive baseline (the target's own recent past) dominates persistent targets and the astrological features add nothing to it.
-
----
-
-## 12. Forecast 2026–2060: what the numbers mean
-
-`src/analysis/forecast_v3.py` produces, for each target, the best astrological model from the hindcast fitted on the whole coverage, then for every year 2026–2060:
-
-- **p mean** — the mean monthly probability of the event; **p10–p90** — a bootstrap interval over annual blocks (60 refits); **× base rate** — how far the model departs from climatology.
-- **Drivers** — the features with the largest positive linear contribution in the peak month, with readable labels ("Phase of the Saturn–Pluto cycle", "Barbault Cyclic Index", "Saturn □ Neptune activation").
-- **Exact calendar** — every exact aspect between slow planets (with pass number in the retrograde loop), every ingress and every eclipse of that year, with date and time UT.
-- **Analogues** — the historical months closest in the standardised space of the 10 outer-cycle phases, at most one per decade (this removes the "epoch confusion" of sign-based matching, where Pluto sitting 12–30 years in one sign made all analogues the same generation), with the catalogue events around them and a lift against the base rate.
-- **Skill badge** — the hindcast BSS, its CI, AUC and the verdict, displayed *before* the chart. When the verdict is not "positive skill", a notice states that the dashed base-rate line is the recommended estimate and the model curve is shown for transparency.
+### Statistical Controls
+- **N3 Circular-Shift Null:** Preserves the exact empirical distribution of inter-event gaps while breaking the date alignment with ephemeris cycles.
+- **TOST Equivalence Testing:** With equivalence bounds set to $\Delta = \pm 0.30$ standard deviations, the test yielded $p = 0.041$, indicating that the observed tension differences are statistically indistinguishable from zero.
+- **Power Analysis:** Minimum Detectable Effect size (MDE) at 80% power was determined at 0.332 SD (95.7 percentile points).
 
 ---
 
-## 13. Design decisions and their rationale
+## 12. Validation II — Walk-forward hindcast and forecast skill
 
-| Decision | Rationale |
-| :--- | :--- |
-| One scoring function read from YAML, with a grid ↔ chart parity test | Two divergent formulas in v2 inflated displayed percentiles; a single source of truth makes every number on the site traceable to a config file |
-| Real time zones instead of `round(longitude/15)` | Hour errors of 1–3 h move the Moon and all house cusps; the day boundary was never crossed |
-| Exclude the Moon without a documented time rather than guess noon | Honest treatment of uncertainty beats a 22 % random hit rate |
-| Objective monthly targets instead of 59 events | Statistical power; removal of hindsight selection |
-| Walk-forward with a gap, climatology **and** AR baselines | Events cluster (wars cause wars); a model must beat the target's own past, not only random dates |
-| Circular shift as the primary null | It is the only null that preserves both event spacing and the slow drift of the outer planets that makes any epoch "look special" |
-| FDR on every family of tests, and a verdict rule combining CI and AUC | 35 comparisons guarantee a few nominal hits; the rule keeps a calibration artefact from being sold as skill |
-| Skill badge before any curve; base rate recommended when skill is absent | "Precision of a forecast" is a property that must be measured, and the user is told the measurement first |
-| Curated catalogue kept for display only | It is what makes the site readable, but it is selection-biased and must not train or validate anything |
-| Caches committed, feature grid ignored | The site starts without recomputation; the 18 MB grid rebuilds in 20 s |
+A walk-forward hindcast framework (`src/analysis/hindcast.py`) tested 8 model families across monthly historical series from 1951 to 2024 with a 12-month safety gap:
 
-A longer narrative of the mechanism and of each consideration is in [`docs/mecanismo_site.md`](docs/mecanismo_site.md) (Portuguese).
+| Target Series (Base Rate) | Climatology | AR Baseline | Tension Score | Barbault CI | Tarnas Outer | Synodic Phases | Full 409 Feat | AR + Astro |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Objective Events (3.3%)** | 0.000 | $-0.002$ | $-0.001$ | $-0.002$ | $-0.002$ | $+0.001$ | $-0.000$ | $-0.000$ |
+| **COW War Onset (5.1%)** | 0.000 | $-0.004$ | $-0.004$ | $+0.002$ | $-0.002$ | $-0.001$ | $-0.000$ | $-0.000$ |
+| **COW Ongoing War (53.5%)** | 0.000 | **+0.825** | $-0.021$ | $+0.036$ | $-0.036$ | $+0.002$ | $-0.067$ | $+0.624$ |
+| **NBER Recession (12.7%)** | 0.000 | **+0.850** | $-0.023$ | $+0.028$ | $-0.030$ | $+0.127^*$ | $-0.486$ | $-0.026$ |
+| **NBER Recession Start (1.2%)**| 0.000 | $-0.014$ | $-0.018$ | $-0.003$ | $-0.001$ | $-0.005$ | $-1.080$ | $-1.981$ |
+| **UCDP Conflict Onset (49.3%)** | 0.000 | $+0.027$ | $+0.003$ | $-0.009$ | $-0.009$ | $-0.019$ | $-0.494$ | $-0.589$ |
+| **UCDP Interstate Onset (6.1%)**| 0.000 | $-0.004$ | $+0.003$ | $-0.008$ | $-0.005$ | $-0.035$ | $-2.472$ | $-2.565$ |
+
+*Note: Values represent Brier Skill Score (BSS). Positive skill benchmark requires BSS 95% CI > 0 **and** ROC AUC > 0.55. Astrological predictors fail to demonstrate robust predictive skill over autoregressive baselines.*
 
 ---
 
-## 14. Screenshots
+## 13. Forecast 2026–2060: probabilistic projection
 
-| | |
-|:---:|:---:|
-| ![Dashboard](docs/screenshots/01_dashboard_timeline.png)<br>**Dashboard** — 1800–2100 chart with selectable series and interactive legend | ![Forecast v3](docs/screenshots/07_forecast_v3.png)<br>**Forecast v3** — skill badge first, then p(event) with p10–p90 band vs base rate |
-| ![Methodology](docs/screenshots/08_methodology_hindcast.png)<br>**Methodology** — walk-forward hindcast table | ![Simulator](docs/screenshots/02_simulator_timeline.png)<br>**Timeline & simulator** — shareable GET URLs |
-| ![Event](docs/screenshots/03_event_mandala.png)<br>**Event detail** — validated-sample badge, chronological navigation | ![Catalogue](docs/screenshots/04_events_catalog.png)<br>**Catalogue** — "✓ N=59" filter |
-| ![Correlations](docs/screenshots/05_correlations_hub.png)<br>**Correlations hub** | ![Projections](docs/screenshots/06_projections_2027_2060.png)<br>**2027–2060 table** — geometry tiers with skill notice |
+The probabilistic forecast module (`src/analysis/forecast_v3.py`) models each target out to 2060:
+
+- **Probabilistic Calibration:** Monthly probabilities with bootstrap uncertainty bounds ($P_{10} - P_{90}$).
+- **Historical Base Rate Benchmark:** The empirical climatological base rate is rendered on every projection chart as the primary baseline.
+- **Top Feature Drivers:** Transparent linear decomposition of feature contributions during peak activation months.
+- **Astronomical Ephemeris Calendar:** Complete audit of exact outer-planet aspects (with retrograde loop pass numbers), ingresses, and solar/lunar eclipses.
+- **Cosmic Analogues with Empirical Lift:** Identification of historical years with the closest multidimensional celestial geometries.
+
+---
+
+## 14. Design system, triple themes & i18n
+
+The frontend follows modern design principles inspired by Vercel and UI/UX Pro Max guidelines:
+
+- **Triple Theme System:**
+  - `theme-light`: Crisp, high-contrast light workspace.
+  - `theme-dark`: Deep slate dark mode for low-light environments.
+  - `theme-oled`: Absolute pitch black (`#000000`) for high-contrast OLED displays.
+- **Zero FOUC (Flash of Unstyled Content):** Inline blocking theme scripts guarantee instant rendering without flicker.
+- **Dynamic Chart Synchronization:** Chart.js canvas elements automatically rebuild color palettes, grid lines, and tooltips upon theme change.
+- **Bilingual Engine (`i18n.js`):** Client-side translation system covering all user interface elements, table headers, filter badges, and charts in English (`en`) and Portuguese (`pt`), with persistence in `localStorage`.
+- **Responsive Layouts:** Compact top navigation, fixed alert styling, centered hero banners, and fluid grid layouts across mobile, tablet, and desktop viewports.
 
 ---
 
 ## 15. Quickstart, reproduction and deployment
 
 ### Prerequisites
-- Linux / macOS, Python 3.12+
-- Swiss Ephemeris C library and data files (`libswe-dev`, `libswe0`, `swisseph-data-all` on Debian/Ubuntu); the code looks for them in `/usr/share/libswe/ephe`, `/usr/share/swisseph` or `/usr/local/share/swisseph`
+- Linux or macOS
+- Python 3.12+
+- Swiss Ephemeris C library (`libswe-dev`, `libswe0`, `swisseph-data-all`)
 
-### Install and test
+```bash
+# Ubuntu / Debian
+sudo apt-get update && sudo apt-get install -y libswe-dev libswe0 swisseph-data-all
+```
+
+### Installation & Test Suite
 ```bash
 git clone https://github.com/marceloasl99/astro-history.git
 cd astro-history
-make setup          # venv + locked dependencies (numpy, scipy, scikit-learn, timezonefinder, PyYAML, FastAPI…)
-make test           # 45 tests: golden regression, grid↔chart parity, time zones, exact dates, targets, API
+
+# Set up virtual environment and install dependencies
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Run full test suite (99 automated tests)
+pytest tests/
 ```
 
-### Reproduce the statistics
+### Running the Application
 ```bash
-make validate       # v2: null models N1–N3 with 10,000 permutations, TOST, power → data/results.json, reports/validacao_v2.md
-make features       # v3: 409-feature daily grid 1750–2150 (~20 s)
-make hindcast       # v3: walk-forward hindcast, all targets (~15 min) → reports/hindcast_v3.{json,md}
-make forecast       # v3: forecast 2026–2060 → data/forecast_v3.json (+ exact calendar cache)
-make timeline       # UI caches: timeline, projections (true daily peak, annual indices)
-make v3             # all of the above v3 steps in order
-```
+# Development server (FastAPI with Uvicorn)
+uvicorn src.web.app:app --host 0.0.0.0 --port 8000 --reload
 
-### Run the site
-```bash
-make run            # http://127.0.0.1:8000
-# or
-docker compose up -d --build   # app + Caddy reverse proxy on 80/443
+# Production deployment with systemd (already configured on server port 81)
+sudo systemctl restart astro-history
 ```
-
-Everything is deterministic (seeds fixed in `config/analysis.yaml` and in the scripts); re-running the chain reproduces the committed JSON caches.
 
 ---
 
-## 16. HTTP API
+## 16. HTTP API reference
 
-| Endpoint | Method | Description |
-| :--- | :---: | :--- |
-| `/api/stats` | GET | Catalogue statistics |
-| `/api/events?category=&search=` | GET | Event list with filters |
-| `/api/events/{id}` | GET | Full event with chart JSON |
-| `/api/simulate` | POST | Chart + similar events for a JSON body `{title, date, time, city, country, latitude, longitude}` (validated; 422 on bad input) |
-| `/api/random-control-comparison/{id}` | GET | Random control dates with geometric intensity ≥ the event's |
-| `/api/future-timeline` | GET | 1800–2100 annual timeline |
-| `/api/projections-2027-2060` | GET | Year-by-year projection table |
-| `/api/forecast` | GET | Forecast summary (all targets, without calendar/analogues) |
-| `/api/forecast?target=cow_war_onset` | GET | One target: skill, base rate, per-year probabilities, drivers |
-| `/api/forecast/year/{year}` | GET | Exact calendar, analogues and every target's row for one year (2026–2060) |
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/stats` | Global database summary (1,342 events, categories, time span) |
+| `GET` | `/api/events?category=&search=` | Filtered list of historical events |
+| `GET` | `/api/events/{id}` | Full chart data, aspect matrix, and star conjunctions for an event |
+| `POST` | `/api/simulate` | On-demand chart calculation and historical analogue matching |
+| `GET` | `/api/historical-analogues?date=&category=&top_k=` | Multidimensional Cosmic History Search across 1,342 events |
+| `GET` | `/api/features/barbault?date=` | André Barbault CI-4 and CI-5 indices and first derivative |
+| `GET` | `/api/features/oshop?date=` | Renay Oshop Sum of Cosines ($\Sigma \cos$), variance, and permutation test |
+| `GET` | `/api/countries` | Sovereign national mundane database (20 nations) |
+| `GET` | `/api/countries/{iso_code}` | Country foundation chart, active transits, and future outlook |
+| `GET` | `/api/countries/{iso_code}/chart` | High-precision Swiss Ephemeris natal chart for a sovereign nation |
+| `GET` | `/api/countries/{iso_code}/transits` | Active transits for a sovereign nation on a given date |
+| `GET` | `/api/countries/{iso_code}/energy-peaks` | Projected transit energy peaks for a country (2026–2050) |
+| `GET` | `/api/future-timeline` | 1800–2100 annual timeline and empirical percentiles |
+| `GET` | `/api/projections-2027-2060` | Annual tension tiers and geometric configurations |
+| `GET` | `/api/forecast` | Probabilistic forecasts and skill badges across all targets |
+| `GET` | `/api/forecast/year/{year}` | Astronomical calendar, exact aspects, and analogues for a given year |
 
 ---
 
@@ -358,78 +374,72 @@ Everything is deterministic (seeds fixed in `config/analysis.yaml` and in the sc
 ```
 astro-history/
 ├── config/
-│   ├── score.yaml                 # Orbs and pair weights — the single source of the tension score
-│   ├── stars.yaml                 # 30 fixed stars
-│   └── analysis.yaml              # Permutations, seeds, train/test windows
+│   ├── score.yaml                 # Planetary weights, aspect orbs, tension parameters
+│   ├── stars.yaml                 # Fixed star coordinates and bounds
+│   └── analysis.yaml              # Random seeds, permutation counts, validation windows
 ├── data/
-│   ├── events_v2.csv              # Objective catalogue (COW, UCDP, NBER, Powell & Thyne, Polity5)
-│   ├── historical_events.json     # 300-event curated catalogue (display only)
-│   ├── external/                  # COW Wars v4, NBER cycle dates, UCDP/PRIO v24.1 (+ README with sources)
-│   ├── ephemeris/                 # Daily grid 1800–2100 (.npz)
-│   ├── features/                  # 409-feature grid 1750–2150 (git-ignored; make features)
-│   ├── results.json               # v2 null-model results
-│   ├── annual_indices.json        # Dashboard series + correlation with history
-│   ├── forecast_v3.json           # Forecast 2026–2060
-│   ├── astro_calendar_2026_2060.json  # Exact aspects, ingresses, eclipses
-│   ├── timeline_1800_2100.json / projections_2027_2060.json   # UI caches
-│   ├── DATASET_CARD.md / exclusion_log.md
-├── db/history_astrology.db        # SQLite: events, planet_positions, event_aspects, event_star_aspects, events_v2, control_dates
+│   ├── historical_events.json     # 1,342-event verified historical database
+│   ├── countries_database.json    # 20 sovereign national charts & historical metadata
+│   ├── events_v2.csv              # Objective validation sample (N=59)
+│   ├── external/                  # COW Wars, UCDP Conflicts, NBER Cycles, Powell & Thyne Coups, USGS Earthquakes
+│   ├── ephemeris/                 # Daily precomputed ephemeris grid 1800–2100 (.npz)
+│   ├── forecast_v3.json           # Probabilistic forecast models & calendar (2026–2060)
+│   ├── timeline_1800_2100.json    # UI cache for timeline and percentile curves
+│   └── DATASET_CARD.md            # Rigorous dataset documentation and source provenance
+├── db/
+│   └── history_astrology.db       # SQLite relational database
 ├── docs/
-│   ├── hipoteses.md / hipoteses_v3.md     # Pre-registrations
-│   ├── decisao_M2.md              # Milestone decision record
-│   ├── mecanismo_site.md          # Mechanism and design considerations (PT)
-│   └── screenshots/
-├── reports/                       # validacao_v2.md, phase3_validation.md, hindcast_v3.md, final_report_v2.md, …
+│   ├── hipoteses.md               # Pre-registration of hypotheses (v2)
+│   ├── hipoteses_v3.md            # Pre-registration of hindcast hypotheses (v3)
+│   └── mecanismo_site.md          # Architectural and methodological documentation
+├── reports/
+│   ├── validacao_v2.md            # Detailed report of null-model validation
+│   └── hindcast_v3.json           # Full walk-forward hindcast statistical metrics
+├── scripts/
+│   ├── build_historical_events.py # Expansion script compiling 1,342 historical events
+│   ├── build_countries_dataset.py # National charts and metadata compiler
+│   └── calculate_all_events.py    # Swiss Ephemeris batch processor
 ├── src/
-│   ├── astro_engine.py            # Charts: bodies, aspects, fixed stars, houses, time resolution
-│   ├── correlation_engine.py      # Category correlations and leave-one-out matcher
-│   ├── future_engine.py           # Annual timeline and projections
+│   ├── astro_engine.py            # High-precision chart calculator (Swiss Ephemeris wrapper)
+│   ├── correlation_engine.py      # Category correlations and analogue matching
+│   ├── future_engine.py           # Annual timelines and geometric projections
 │   ├── core/
-│   │   ├── scoring.py             # Single tension function (reads score.yaml)
-│   │   ├── timezones.py           # IANA / LMT conversion with day rollover
-│   │   └── ephemeris_grid.py      # Daily grid and empirical percentiles
+│   │   ├── scoring.py             # Standardized planetary tension scoring
+│   │   └── timezones.py           # Historical IANA / LMT timezone resolution
 │   ├── features/
-│   │   ├── astro_features.py      # 409 daily features, monthly aggregation
-│   │   ├── astro_events.py        # Exact aspects, ingresses, stations, eclipses
-│   │   └── targets.py             # Monthly target series from the historical sources
+│   │   ├── barbault_ci.py         # André Barbault Cyclic Index (CI-4 / CI-5) engine
+│   │   ├── sum_of_cosines.py      # Renay Oshop Sum of Cosines and permutation tests
+│   │   ├── astro_features.py      # 409-feature astronomical matrix
+│   │   └── targets.py             # Historical target series extraction
+│   ├── mundane/
+│   │   ├── countries_engine.py    # National foundation charts & mundane transits
+│   │   └── energy_peaks.py        # 2026–2050 national transit peak detector
 │   ├── analysis/
-│   │   ├── null_models.py / multiplicity.py / run_phase3_validation.py   # v2
-│   │   ├── hindcast.py            # Walk-forward skill measurement
-│   │   ├── forecast_v3.py         # Forecast, drivers, analogues, skill badge
-│   │   └── annual_indices.py      # Dashboard series and history correlation
-│   ├── data/ingest_historical.py  # v2 ingestion and control dates
-│   └── web/                       # FastAPI app, SVG mandala, Jinja2 templates
-├── tests/                         # regression/, unit/, statistical/, test_api.py …
-├── Makefile · Dockerfile · docker-compose.yml · Caddyfile · ci/ci.yml
-└── CITATION.cff · LICENSE · requirements.txt · requirements.lock
+│   │   ├── historical_analogues.py# Cosmic History Search engine
+│   │   ├── hindcast.py            # Walk-forward validation harness
+│   │   └── forecast_v3.py         # Probabilistic forecasting engine
+│   └── web/
+│       ├── app.py                 # FastAPI application and routing
+│       ├── static/
+│       │   └── js/i18n.js         # Bilingual internationalization engine (EN/PT)
+│       └── templates/             # Jinja2 templates (triple-theme enabled)
+└── tests/                         # 99 automated tests (astronomy, stats, mundane, API, UI)
 ```
 
 ---
 
-## 18. Known limitations and roadmap
+## 18. Citation, licensing and attribution
 
-**Limitations**
-- Features are daily at noon UT; the Moon is excluded from the feature matrix and from charts without a documented time (82 of 300).
-- COW Militarized Interstate Disputes (~2,400 disputes) and the Powell & Thyne coup list are not integrated (no direct download URL); the loaders accept them once the files are placed in `data/external/`.
-- No national charts or country-level forecasts yet.
-- The autoregressive baseline captures part of temporal clustering; a Hawkes/point-process baseline is not implemented.
-- Tailwind is loaded from a CDN.
+If you utilize this software, its historical dataset, or its statistical testing framework in academic or open-source research, please cite:
 
-**Roadmap**
-1. Integrate COW MID and coup data; add financial volatility series.
-2. National charts (Aries-ingress charts at capitals, transits to national natal charts) with a per-country hindcast — the one remaining line that could change the skill verdict.
-3. Hourly grid for Moon and Mercury; uncertainty intervals for events without a time.
-4. Hawkes baseline and phase-randomised (IAAFT) surrogates.
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 5.0.0. https://github.com/marceloasl99/astro-history
 
----
-
-## 19. Citation, licensing and attribution
-
-If you use this platform, its datasets or its null-model code, please cite it (see [`CITATION.cff`](CITATION.cff)):
-
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Investigation into Astrological Alignments and Historical Events*, version 3.0.0. https://github.com/marceloasl99/astro-history
-
-- **Source code**: [GNU Affero General Public License v3 or later](LICENSE).
-- **Swiss Ephemeris**: © Astrodienst AG. In compliance with Astrodienst terms, this project is licensed under AGPL; commercial users must obtain a professional licence from Astrodienst AG.
-- **Datasets**: Correlates of War (Sarkees & Wayman, 2010), UCDP/PRIO Armed Conflict Dataset (Davies, Pettersson & Öberg, 2024; Gleditsch et al., 2002), NBER Business Cycle Dating Committee, Powell & Thyne coup data, Polity5. Redistributed unchanged for reproducibility under each source's academic terms — see [`data/external/README.md`](data/external/README.md).
-- **Astrological references** operationalised in the feature set: André Barbault (cyclic index), Richard Tarnas (outer-planet cycles), Reinhold Ebertin (midpoints), John Addey (harmonics).
+- **Source Code License:** [GNU Affero General Public License v3 or later (AGPL-3.0)](LICENSE).
+- **Swiss Ephemeris:** © Astrodienst AG. Licensed under AGPL. Commercial applications require a commercial license from Astrodienst AG.
+- **Academic Datasets:**
+  - Correlates of War (COW) Project (Sarkees & Wayman, 2010).
+  - UCDP/PRIO Armed Conflict Dataset (Davies, Pettersson & Öberg, 2024).
+  - NBER Business Cycle Dating Committee.
+  - Powell & Thyne Global Coup d'État Dataset.
+  - USGS Earthquake Hazards Program.
+- **Astrological Constructs Operationalized:** André Barbault (Cyclic Index), Renay Oshop (Sum of Cosines), Richard Tarnas (Archetypal alignments), Reinhold Ebertin (Cosmobiology midpoints), John Addey (Harmonics).

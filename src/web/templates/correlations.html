@@ -5,13 +5,18 @@
 {% block content %}
 <div class="space-y-8">
     <!-- Header -->
-    <div class="glass-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden">
-        <h1 class="text-3xl font-extrabold text-white tracking-tight mb-2 flex items-center gap-3">
-            <span>🌌</span> Hub de Correlações da Astrologia Moderna
-        </h1>
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-6xl">
-            A Astrologia Moderna postula que os planetas transpessoais (<strong class="text-amber-400">Urano, Netuno e Plutão</strong>) e os planetas sociais (<strong class="text-sky-400">Júpiter e Saturno</strong>) demarcam os ciclos geracionais e as grandes viradas geopolíticas e econômicas da história. Abaixo, exploramos como os 300 eventos analisados se distribuem estatisticamente sob estes arquétipos cósmicos.
-        </p>
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
+        <div class="max-w-4xl space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                <span>🌌 Análise Arquetípica • 1.342 Fatos Históricos • 6 Categorias Canônicas</span>
+            </div>
+            <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
+                Hub de Correlações da Astrologia Moderna
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                A Astrologia Mundana investiga como os planetas transpessoais (<strong class="text-amber-300">Urano, Netuno e Plutão</strong>) e os planetas sociais (<strong class="text-sky-300">Júpiter e Saturno</strong>) demarcam ciclos geracionais e grandes viradas geopolíticas e econômicas. Abaixo, explore como os 1.342 acontecimentos históricos se distribuem estatisticamente sob estes arquétipos cósmicos nas 6 categorias canônicas.
+            </p>
+        </div>
     </div>
 
     <!-- Category Tension Ranking -->
@@ -128,6 +133,48 @@
                         <div class="text-slate-400 mt-0.5">Primavera Árabe, Jornadas de Junho no Brasil, Operação Lava Jato, Bóson de Higgs e ascensão das redes sociais massivas.</div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Métodos Internacionais de Astrologia Mundana & Ciclos Globais -->
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border-l-4 border-indigo-400">
+        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+            <span>🌐</span> Investigação Internacional de Ciclos Globais (Barbault, Oshop & Tarnas)
+        </h3>
+        <p class="text-sm text-slate-400 mb-6">
+            Comparação empírica das teorias mundiais de ciclos planetários coletivos avaliadas sobre o catálogo dos 1.342 fatos históricos.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="bg-slate-900/80 p-5 rounded-xl border border-sky-500/30">
+                <div class="text-sm font-bold text-sky-300 mb-2 flex items-center gap-1.5">
+                    <span>🌀</span> Índice Cíclico de Barbault (CI-4 / CI-5)
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                    André Barbault postulou que crises sistêmicas mundiais (1914, 1939, 1982) ocorrem nos fundos da curva da soma das distâncias angulares dos planetas lentos. O AstroHistory implementou tanto a versão clássica CI-4 quanto a moderna CI-5 (com Plutão, Archos 2024).
+                </p>
+                <div class="text-[11px] text-amber-300 font-mono">Status: Incorporado aos índices anuais e à linha do tempo 1800–2100.</div>
+            </div>
+
+            <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-500/30">
+                <div class="text-sm font-bold text-purple-300 mb-2 flex items-center gap-1.5">
+                    <span>📐</span> Métrica Sum of Cosines (Renay Oshop)
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                    Renay Oshop (AyurAstro / SSE) avalia o agrupamento planetário geral por $\sum \cos(\Delta\theta)$. O AstroHistory integrou o cálculo de agrupamento dos 5 planetas exteriores e dos 10 corpos celestes, comparando com testes de permutação contra amostras de controle pareadas.
+                </p>
+                <div class="text-[11px] text-purple-300 font-mono">Status: Calculado por evento e disponível via API /api/features/oshop.</div>
+            </div>
+
+            <div class="bg-slate-900/80 p-5 rounded-xl border border-amber-500/30">
+                <div class="text-sm font-bold text-amber-300 mb-2 flex items-center gap-1.5">
+                    <span>🪐</span> Ciclos de Richard Tarnas (Cosmos & Psyche)
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                    Tarnas postulou correlações específicas para os ciclos sinódicos de Saturno–Urano, Saturno–Plutão e Urano–Plutão. No AstroHistory, os alinhamentos são rastreados com orbes estritos e submetidos a testes de significância com controle de FDR.
+                </p>
+                <div class="text-[11px] text-sky-300 font-mono">Status: Documentado e contrastado com os modelos nulos N1–N3.</div>
             </div>
         </div>
     </div>

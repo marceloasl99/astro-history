@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Metodologia e Validação Estatística v2 | AstroHistory{% endblock %}
+{% block title %}Metodologia e Validação Estatística | AstroHistory{% endblock %}
 
 {% block content %}
 <div class="space-y-8">
     <!-- Header -->
-    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60 shadow-xl">
-        <div class="flex items-center gap-3 mb-2">
-            <span class="text-3xl">🔬</span>
-            <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-sky-300 via-indigo-300 to-amber-300 bg-clip-text text-transparent">
-                Metodologia, Modelos Nulos & Validação Científica v2
+    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/60 shadow-2xl relative overflow-hidden">
+        <div class="max-w-4xl space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
+                <span>🔬 Rigor Epistemológico • Modelos Nulos N1–N3 • Teste de Equivalência TOST</span>
+            </div>
+            <h1 class="font-display text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-sky-300 via-indigo-200 to-amber-300 bg-clip-text text-transparent tracking-wide">
+                Metodologia, Modelos Nulos & Validação Científica
             </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                Esta plataforma segue o padrão ouro da pesquisa empírica pré-registrada: <strong>amostra analítica transparente (N=59)</strong>,
+                modelos nulos de deslocamento circular (N3) e estratificação por década (N2), correção de taxa de falsas descobertas (FDR Benjamini-Hochberg),
+                teste de equivalência (TOST) para confirmar ausência de efeito prático, e análise formal de poder estatístico.
+            </p>
         </div>
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-4xl">
-            Esta plataforma segue o padrão ouro da pesquisa empírica pré-registrada: <strong>amostra analítica transparente (N=59)</strong>,
-            modelos nulos de deslocamento circular (N3) e estratificação por década (N2), correção de taxa de falsas descobertas (FDR Benjamini-Hochberg),
-            teste de equivalência (TOST) para confirmar ausência de efeito prático, e análise formal de poder estatístico.
-        </p>
     </div>
 
     <!-- Card de Decisão M2 e Equivalência TOST -->
@@ -49,7 +51,7 @@
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60">
         <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
             <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                <span>📊</span> Resultados Empíricos dos Testes de Hipótese (Fase 3 v2 · N=59)
+                <span>📊</span> Resultados Empíricos dos Testes de Hipótese (Amostra Pré-Registrada · N=59)
             </h2>
             <span class="text-xs text-slate-400 font-mono">Amostra analítica congelada: 1800–2025 (Ver log de exclusão)</span>
         </div>
@@ -141,7 +143,7 @@
         </div>
     </div>
 
-    <!-- Seções de Rigor Estatístico v2: Poder, TOST e Controles Calibrados -->
+    <!-- Seções de Rigor Estatístico: Poder, TOST e Controles Calibrados -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Poder Estatístico -->
         <div class="glass-panel p-6 rounded-2xl border border-slate-700/60 space-y-4">
@@ -305,20 +307,24 @@
     <!-- Auditoria do Catálogo e Log de Exclusão -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60">
         <h3 class="text-base font-bold text-slate-100 mb-2 flex items-center gap-2">
-            <span>📋</span> Auditoria do Catálogo & Funil de Exclusão (300 &rarr; 61 &rarr; 59)
+            <span>📋</span> Auditoria do Catálogo & Arquitetura de Duplo Circuito (1.342 Eventos)
         </h3>
         <p class="text-xs text-slate-300 leading-relaxed mb-4">
-            A discrepância de contagem de eventos entre testes anteriores foi sanada. O funil metodológico completo está registrado em 
-            <a href="/events" class="text-sky-300 hover:underline"><code>data/exclusion_log.md</code></a>:
+            O AstroHistory opera sob o <strong>Princípio de Duplo Circuito (Dual-Track Architecture)</strong>: o catálogo geral de pesquisa e busca de análogos cósmicos foi substancialmente expandido para <strong>1.342 eventos mundiais</strong> organizados em <strong>6 categorias canônicas</strong>, enquanto a amostra analítica pré-registrada de teste permanece estritamente congelada ($N=59$) para blindagem metodológica contra <em>cherry-picking</em> e vazamento de dados.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono">
             <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
-                <span class="text-slate-400 block mb-1">Catálogo Inicial:</span>
-                <strong class="text-slate-200 text-sm">300 eventos</strong>
-                <p class="text-[11px] text-slate-400 mt-1 font-sans">Compilado histórico exploratório com datas aproximadas e incerteza horária.</p>
+                <span class="text-slate-400 block mb-1">Catálogo Geral:</span>
+                <strong class="text-sky-300 text-sm">1.342 eventos</strong>
+                <p class="text-[11px] text-slate-400 mt-1 font-sans">COW, UCDP, Powell & Thyne, USGS ($M\ge7.8$), NBER e marcos históricos.</p>
             </div>
             <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
-                <span class="text-slate-400 block mb-1">Amostra Qualificada (v2):</span>
+                <span class="text-slate-400 block mb-1">Catálogo Histórico:</span>
+                <strong class="text-slate-200 text-sm">300 eventos</strong>
+                <p class="text-[11px] text-slate-400 mt-1 font-sans">Compilado retrospectivo pioneiro de marcos históricos mundiais.</p>
+            </div>
+            <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block mb-1">Amostra Qualificada:</span>
                 <strong class="text-amber-300 text-sm">61 eventos diários</strong>
                 <p class="text-[11px] text-slate-400 mt-1 font-sans">Apenas eventos com dia/mês/ano precisos e documentados na historiografia.</p>
             </div>
@@ -331,14 +337,14 @@
     </div>
 </div>
 
-    <!-- v3: Hindcast walk-forward -->
+    <!-- Hindcast walk-forward -->
     <section id="hindcast" class="glass-panel rounded-xl p-6 mt-8">
-        <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">📈 v3 — Hindcast walk-forward (skill de previsão)</h2>
+        <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">📈 Hindcast Walk-Forward (Skill de Previsão)</h2>
         <p class="text-sm text-slate-300 mt-2 max-w-4xl">
             Para cada ano de teste a partir de {{ hindcast.test_start if hindcast else 1951 }}, cada modelo é ajustado apenas com meses anteriores
             (intervalo de segurança de {{ hindcast.gap_months if hindcast else 12 }} meses) e prevê os 12 meses seguintes. As previsões acumuladas são avaliadas
             com Brier Skill Score (BSS) contra a climatologia expansiva, AUC e log-loss, com IC 95% por bootstrap em blocos anuais.
-            Alvos: bases objetivas (COW Guerras Interestatais v4, NBER, UCDP/PRIO v24.1 e o catálogo v2). Detalhes em <code>reports/hindcast_v3.md</code>.
+            Alvos: bases objetivas (COW Guerras Interestatais, NBER, UCDP/PRIO e a amostra analítica). Detalhes no relatório de hindcast.
         </p>
         {% if hindcast and hindcast.targets %}
         <div class="overflow-x-auto mt-4">
@@ -353,9 +359,79 @@
             </tbody>
         </table>
         </div>
-        <p class="text-xs text-slate-400 mt-2">Verde = IC 95% do BSS inteiramente acima de zero. Cinza = pior que a taxa-base. Ver a <a href="/forecast" class="text-sky-300 underline">Previsão v3</a>.</p>
+        <p class="text-xs text-slate-400 mt-2">Verde = IC 95% do BSS inteiramente acima de zero. Cinza = pior que a taxa-base. Ver a <a href="/forecast" class="text-sky-300 underline">Previsão Probabilística</a>.</p>
         {% else %}
         <p class="text-xs text-amber-300 mt-2">Hindcast ainda não executado (<code>make hindcast</code>).</p>
         {% endif %}
+    </section>
+
+    <!-- Pesquisa Internacional & Métodos Computacionais em Astrologia Mundana -->
+    <section id="international-methods" class="glass-panel rounded-xl p-6 mt-8 border-l-4 border-sky-400">
+        <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <span>🌐</span> Métodos Internacionais & Astrologia Computacional
+        </h2>
+        <p class="text-sm text-slate-300 mt-2 max-w-5xl leading-relaxed">
+            Investigação sistemática e reprodução independente das principais abordagens e métricas mundiais de astrologia computacional, agregando rigor estatístico, cálculo de efemérides com Swiss Ephemeris e testes contra modelos nulos.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <!-- Barbault -->
+            <div class="p-5 bg-slate-900/80 rounded-xl border border-slate-700/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-bold text-sky-300">🌀 André Barbault — Índice Cíclico (CI-4 vs CI-5)</h3>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30">Archos (2024) / Barbault (1967)</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    O Índice Cíclico mede a soma das distâncias angulares mais curtas entre pares de planetas lentos (Júpiter, Saturno, Urano, Netuno e Plutão). 
+                    O AstroHistory implementou o comparativo formal entre o clássico CI-4 (6 pares, sem Plutão, máx 1080°) e o moderno CI-5 (10 pares, máx 1800°), 
+                    calculando derivadas anuais e identificando se fases de compressão planetária mínima coincidem com rupturas geopolíticas.
+                </p>
+                <div class="text-xs font-mono bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-400">
+                    Endpoint: <code class="text-sky-300">/api/features/barbault?date=YYYY-MM-DD</code>
+                </div>
+            </div>
+
+            <!-- Oshop -->
+            <div class="p-5 bg-slate-900/80 rounded-xl border border-slate-700/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-bold text-purple-300">📐 Renay Oshop — Sum of Cosines & Agrupamento Angular</h3>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30">AyurAstro / SSE (2016-2024)</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    A métrica de Oshop calcula $\sum_{i < j} \cos(\theta_i - \theta_j)$ para os planetas exteriores e clássicos, juntamente com o comprimento do vetor resultante médio ($\bar{R}$) e variância circular. Avalia objetivamente a hipótese de alinhamento e agrupamento simultâneo sob testes de permutação contra distribuições nulas de controle.
+                </p>
+                <div class="text-xs font-mono bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-400">
+                    Endpoint: <code class="text-purple-300">/api/features/oshop?date=YYYY-MM-DD</code>
+                </div>
+            </div>
+
+            <!-- Cosmic History Search -->
+            <div class="p-5 bg-slate-900/80 rounded-xl border border-slate-700/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-bold text-amber-300">🔍 Cosmic History Search (Análogos Históricos)</h3>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">Similaridade Multidimensional</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Motor vetorial de recuperação de informação cosmológica: para qualquer configuração planetária de entrada (passada ou projetada no futuro), efetua busca por produto interno cosseno sobre os 10 pares de planetas lentos e posições zodiacais em todo o catálogo de 1.342 fatos históricos, identificando precedentes mundanos documentados.
+                </p>
+                <div class="text-xs font-mono bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-400">
+                    Endpoint: <code class="text-amber-300">/api/historical-analogues?date=YYYY-MM-DD&top_k=5</code>
+                </div>
+            </div>
+
+            <!-- Astrologia dos Países -->
+            <div class="p-5 bg-slate-900/80 rounded-xl border border-slate-700/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-bold text-emerald-300">🌐 Astrologia Mundana dos Países (National Horoscopes)</h3>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Campion / Nicholas (1988)</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Catálogo de cartas de fundação soberana das nações com horas oficiais documentadas ou cartas solares padronizadas (12:00 UT sem casas arbitrárias). Análise bidirecional completa: reconstituição de trânsitos em eventos históricos passados e projeção prospectiva de gatilhos 2026–2050 com categorização geopolítica.
+                </p>
+                <div class="text-xs font-mono bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-400">
+                    Hub: <code class="text-emerald-300">/countries</code> • Detalhe: <code class="text-emerald-300">/countries/{iso_code}</code>
+                </div>
+            </div>
+        </div>
     </section>
 {% endblock %}
