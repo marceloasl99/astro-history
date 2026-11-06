@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}{{ t('natal.title') }} | AstroHistory{% endblock %}
+{% block content %}
+<section class="glass-panel rounded-3xl p-6 sm:p-8 mb-6">
+    <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb"><a href="/" class="hover:text-amber-300">{{ t('nav.home') }}</a> › <span class="text-slate-200">{{ t('natal.title') }}</span></nav>
+    <h1 class="font-display text-3xl font-black text-white tracking-wide">{{ t('natal.title') }}</h1>
+    <p class="text-slate-300 mt-2 max-w-3xl">{{ t('natal.intro') }}</p>
+    <p class="mt-3 text-[11px] text-slate-400 flex items-start gap-2">
+        <span class="inline-flex shrink-0 px-1.5 py-0.5 rounded text-[10px] font-bold font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">{{ t('natal.symbolic') }}</span>
+        <span>{{ disclaimer }} <a href="/methodology" class="text-sky-400 hover:underline">{{ t('nav.methodology') }}</a></span>
+    </p>
+</section>
+
+{% if error %}
+<div class="mb-6 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-200 px-4 py-3 text-sm" role="alert">⚠ {{ t('natal.error') }}: {{ error }}</div>
+{% endif %}
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<form method="post" action="/natal" class="glass-panel rounded-3xl p-6 sm:p-8 xl:col-span-2 space-y-6" id="natal-form" autocomplete="off">
+    <input type="hidden" name="lang" value="{{ lang }}">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <label class="block text-sm">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.label') }} <span class="text-slate-500 font-normal">({{ t('natal.optional') }})</span></span>
+            <input name="label" maxlength="60" value="{{ prefill.get('label','') }}" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 focus:border-amber-400 focus:outline-none" placeholder="{{ t('natal.field.label_ph') }}">
+        </label>
+        <label class="block text-sm">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.date') }}</span>
+            <input name="date" type="date" required value="{{ prefill.get('date','') }}" min="0001-01-01" max="3000-12-31" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 focus:border-amber-400 focus:outline-none">
+        </label>
+        <div class="block text-sm">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.time') }}</span>
+            <div class="mt-1 flex items-center gap-3">
+                <input name="time" id="f-time" type="time" value="{{ prefill.get('time','12:00') }}" class="rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 focus:border-amber-400 focus:outline-none">
+                <label class="inline-flex items-center gap-2 text-slate-300"><input type="checkbox" name="time_known" id="f-time-known" value="1" {% if prefill.get('time_known','1') != '0' %}checked{% endif %} class="accent-amber-400"> {{ t('natal.field.time_known') }}</label>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">{{ t('natal.field.time_help') }}</p>
+        </div>
+        <div class="block text-sm md:col-span-2">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.place') }}</span>
+            <div class="relative mt-1">
+                <input id="f-place" name="place" value="{{ prefill.get('place','') }}" maxlength="120" class="w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 focus:border-amber-400 focus:outline-none" placeholder="{{ t('natal.field.place_ph') }}" {% if not gazetteer %}disabled{% endif %}>
+                <ul id="f-place-list" class="absolute z-20 left-0 right-0 mt-1 hidden bg-slate-950 border border-slate-700 rounded-xl shadow-2xl max-h-72 overflow-auto text-sm" role="listbox"></ul>
+            </div>
+            {% if not gazetteer %}<p class="text-[11px] text-amber-300 mt-1">{{ t('natal.field.gazetteer_missing') }}</p>{% endif %}
+        </div>
+        <label class="block text-sm">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.lat') }}</span>
+            <input name="lat" id="f-lat" required value="{{ prefill.get('lat','') }}" inputmode="decimal" placeholder="-23.5505" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 font-mono focus:border-amber-400 focus:outline-none">
+        </label>
+        <label class="block text-sm">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.lon') }}</span>
+            <input name="lon" id="f-lon" required value="{{ prefill.get('lon','') }}" inputmode="decimal" placeholder="-46.6333" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 font-mono focus:border-amber-400 focus:outline-none">
+        </label>
+        <label class="block text-sm md:col-span-2">
+            <span class="text-slate-300 font-semibold">{{ t('natal.field.tz') }} <span class="text-slate-500 font-normal">({{ t('natal.field.tz_help') }})</span></span>
+            <input name="tz" id="f-tz" value="{{ prefill.get('tz','') }}" maxlength="64" placeholder="America/Sao_Paulo" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 font-mono focus:border-amber-400 focus:outline-none">
+        </label>
+    </div>
+
+    <details class="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-4">
+        <summary class="cursor-pointer text-sm font-semibold text-slate-200">⚙ {{ t('natal.advanced') }}</summary>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4 text-sm">
+            <label class="block"><span class="text-slate-300">{{ t('natal.field.house_system') }}</span>
+                <select name="house_system" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100">
+                    {% for code, nm in house_systems.items() %}<option value="{{ code }}" {% if prefill.get('house_system','P') == code %}selected{% endif %}>{{ nm }}</option>{% endfor %}
+                </select></label>
+            <label class="block"><span class="text-slate-300">{{ t('natal.field.orb_preset') }}</span>
+                <select name="orb_preset" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100">
+                    {% for k in ['strict','standard','wide'] %}<option value="{{ k }}" {% if prefill.get('orb_preset','standard') == k %}selected{% endif %}>{{ t('natal.orb.' + k) }}</option>{% endfor %}
+                </select>
+                <span class="text-[11px] text-slate-500 block mt-1">{{ t('natal.field.orb_help') }}</span></label>
+            <label class="block"><span class="text-slate-300">{{ t('natal.field.target_mode') }}</span>
+                <select name="target_mode" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100">
+                    <option value="natal" {% if prefill.get('target_mode','natal') == 'natal' %}selected{% endif %}>{{ t('natal.mode.natal') }}</option>
+                    <option value="progressed" {% if prefill.get('target_mode') == 'progressed' %}selected{% endif %}>{{ t('natal.mode.progressed') }}</option>
+                </select></label>
+            <label class="block"><span class="text-slate-300">{{ t('natal.field.focus_year') }}</span>
+                <input name="focus_year" type="number" min="1" max="3000" value="{{ prefill.get('focus_year','') }}" class="mt-1 w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100 font-mono" placeholder="{{ t('natal.field.focus_year_ph') }}"></label>
+            <div class="md:col-span-2 flex flex-wrap gap-4 text-slate-300">
+                <label class="inline-flex items-center gap-2"><input type="checkbox" name="minors" value="1" {% if prefill.get('minors') == '1' %}checked{% endif %} class="accent-amber-400"> {{ t('natal.field.minors') }}</label>
+                <label class="inline-flex items-center gap-2"><input type="checkbox" name="moon_transits" value="1" class="accent-amber-400"> {{ t('natal.field.moon_transits') }}</label>
+            </div>
+            <div class="md:col-span-2 text-slate-300">
+                <span>{{ t('natal.field.extra_natal') }}:</span>
+                {% for b in optional_bodies %}<label class="inline-flex items-center gap-1 ml-3"><input type="checkbox" name="extra_natal" value="{{ b }}" class="accent-amber-400"> {{ body_meta[b].symbol }} {{ body_meta[b]['name_' + lang] }}</label>{% endfor %}
+            </div>
+        </div>
+    </details>
+
+    <div class="flex flex-wrap items-center gap-3">
+        <button type="submit" name="goto" value="transits" class="px-5 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-bold hover:bg-amber-300 transition">🪐 {{ t('natal.submit.transits') }}</button>
+        <button type="submit" name="goto" value="chart" class="px-5 py-2.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:bg-slate-800 transition">{{ t('natal.submit.chart') }}</button>
+        <button type="submit" name="goto" value="progressions" class="px-5 py-2.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:bg-slate-800 transition">{{ t('natal.submit.progressions') }}</button>
+    </div>
+    <p id="privacidade" class="text-[11px] text-slate-400 border-t border-slate-800 pt-4">🔒 {{ t('natal.privacy') }}</p>
+</form>
+
+<aside class="space-y-6">
+    <section class="glass-panel rounded-3xl p-6">
+        <h2 class="font-display text-lg font-bold text-white">{{ t('natal.examples') }}</h2>
+        <p class="text-xs text-slate-400 mt-1">{{ t('natal.examples_help') }}</p>
+        <ul class="mt-3 space-y-2 text-sm">
+            {% for ex in examples %}
+            <li><a class="block rounded-xl border border-slate-700/60 bg-slate-900/40 px-3 py-2 hover:border-amber-400/50 transition" href="/natal/transits?label={{ ex.label|urlencode }}&date={{ ex.date }}&time={{ ex.time }}{% if ex.get('time_known') is sameas false %}&time_known=0{% endif %}&lat={{ ex.lat }}&lon={{ ex.lon }}&tz={{ ex.tz }}&place={{ ex.place|urlencode }}&lang={{ lang }}">
+                <span class="font-semibold text-slate-100">{{ ex.label }}</span>
+                <span class="block text-[11px] font-mono text-slate-400">{{ ex.date }} {{ ex.time }} · {{ ex.place }} · {{ ex.source }}</span></a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    <section class="glass-panel rounded-3xl p-6" id="saved-box" hidden>
+        <h2 class="font-display text-lg font-bold text-white">★ {{ t('natal.saved_title') }}</h2>
+        <ul id="saved-list" class="mt-3 space-y-2 text-sm"></ul>
+        <button type="button" id="saved-clear" class="mt-3 text-[11px] text-rose-300 hover:underline">{{ t('natal.saved_clear') }}</button>
+    </section>
+    <section class="glass-panel rounded-3xl p-6 text-sm text-slate-300 space-y-2">
+        <h2 class="font-display text-lg font-bold text-white">{{ t('natal.how.title') }}</h2>
+        <p>{{ t('natal.how.1') }}</p>
+        <p>{{ t('natal.how.2') }}</p>
+        <p>{{ t('natal.how.3') }}</p>
+        <p class="text-[11px] text-slate-500">{{ t('natal.how.orbs') }}</p>
+    </section>
+</aside>
+</div>
+
+<script>
+(function(){
+  var place = document.getElementById('f-place'), list = document.getElementById('f-place-list');
+  var lat = document.getElementById('f-lat'), lon = document.getElementById('f-lon'), tz = document.getElementById('f-tz');
+  var timeKnown = document.getElementById('f-time-known'), timeInput = document.getElementById('f-time');
+  function syncTime(){ timeInput.disabled = !timeKnown.checked; timeInput.classList.toggle('opacity-50', !timeKnown.checked); }
+  timeKnown.addEventListener('change', syncTime); syncTime();
+  var timer = null;
+  if (place) place.addEventListener('input', function(){
+    clearTimeout(timer);
+    var q = place.value.trim();
+    if (q.length < 2) { list.classList.add('hidden'); return; }
+    timer = setTimeout(function(){
+      fetch('/natal/places?q=' + encodeURIComponent(q) + '&lang={{ lang }}', {credentials: 'same-origin'})
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          list.innerHTML = '';
+          (data.results || []).forEach(function(p){
+            var li = document.createElement('li');
+            li.setAttribute('role', 'option');
+            li.className = 'px-3 py-2 cursor-pointer hover:bg-slate-800 border-b border-slate-800/60';
+            li.innerHTML = '<span class="text-slate-100">' + p.label + '</span><span class="block text-[11px] font-mono text-slate-500">' + p.lat + ', ' + p.lon + ' · ' + p.tz + '</span>';
+            li.addEventListener('click', function(){
+              place.value = p.label; lat.value = p.lat; lon.value = p.lon; tz.value = p.tz; list.classList.add('hidden');
+            });
+            list.appendChild(li);
+          });
+          list.classList.toggle('hidden', list.children.length === 0);
+        }).catch(function(){ list.classList.add('hidden'); });
+    }, 180);
+  });
+  document.addEventListener('click', function(e){ if (!list.contains(e.target) && e.target !== place) list.classList.add('hidden'); });
+  // Mapas salvos neste navegador
+  try {
+    var saved = JSON.parse(localStorage.getItem('astro_natal_saved') || '[]');
+    var box = document.getElementById('saved-box'), ul = document.getElementById('saved-list');
+    if (saved.length) {
+      box.hidden = false;
+      saved.forEach(function(s){
+        var li = document.createElement('li');
+        li.innerHTML = '<a class="block rounded-xl border border-slate-700/60 bg-slate-900/40 px-3 py-2 hover:border-amber-400/50" href="' + s.url + '"><span class="font-semibold text-slate-100"></span><span class="block text-[11px] font-mono text-slate-400"></span></a>';
+        li.querySelector('span').textContent = s.label; li.querySelectorAll('span')[1].textContent = s.date;
+        ul.appendChild(li);
+      });
+      document.getElementById('saved-clear').addEventListener('click', function(){ localStorage.removeItem('astro_natal_saved'); box.hidden = true; });
+    }
+  } catch (e) {}
+})();
+</script>
+{% endblock %}

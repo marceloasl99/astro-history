@@ -36,6 +36,7 @@ class BirthInput(BaseModel):
     target_mode: Literal["natal", "progressed"] = "natal"
     range_from: Optional[int] = Field(default=None, ge=1, le=3000)
     range_to: Optional[int] = Field(default=None, ge=1, le=3000)
+    focus_year: Optional[int] = Field(default=None, ge=1, le=3000)   # ano em foco para corpos rápidos
     lang: Literal["pt", "en"] = "pt"
 
     @field_validator("date")
@@ -165,7 +166,7 @@ class BirthInput(BaseModel):
                 data[k] = v in ("1", "true", "True", "on")
             elif k in ("lat", "lon"):
                 data[k] = float(v)
-            elif k in ("range_from", "range_to"):
+            elif k in ("range_from", "range_to", "focus_year"):
                 data[k] = int(v) if v else None
             else:
                 data[k] = v

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ t('natal.tab.progressions') }} · {{ inp.label or t('natal.untitled') }} | AstroHistory{% endblock %}
+{% block content %}
+{% include "natal/_tabs.html" %}
+{% set cur = prog.current %}
+<div class="mb-6 text-xs text-slate-400">{{ t('natal.prog.method', year=prog.meta.method.year_length_days, mc=prog.meta.method.mc_method) }} · <a class="text-sky-400 hover:underline" href="{{ urls.transits }}&target_mode=progressed">{{ t('natal.transits.try_progressed') }} →</a></div>
+
+<div class="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-6">
+    <section class="glass-panel rounded-3xl p-5 xl:col-span-2">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+            <h2 class="font-display text-lg font-bold text-white">{{ t('natal.prog.current') }}</h2>
+            <form method="get" action="/natal/progressions" class="flex items-center gap-2 text-xs">
+                {% for k, v in prog.query.items() %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+                <input type="date" name="today" value="{{ cur.date }}" class="rounded-lg bg-slate-900 border border-slate-700 px-2 py-1 text-slate-100 font-mono">
+                <button class="px-2 py-1 rounded-lg border border-slate-700 hover:bg-slate-800">↻</button>
+            </form>
+        </div>
+        <p class="text-[11px] font-mono text-slate-400 mt-1">{{ cur.date }} · {{ cur.age }} {{ t('natal.years_old') }} · {{ t('natal.prog.progressed_date') }}: {{ cur.progressed_date }}</p>
+        <div class="max-w-[560px] mx-auto mt-3">{{ prog_svg|safe }}</div>
+        <p class="text-[11px] text-slate-500 mt-2">{{ t('natal.prog.biwheel_help') }}</p>
+        <div class="mt-3 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-sm text-indigo-100"><b>{{ t('natal.prog.phase') }}: {{ cur.lunation_phase.name }}</b> <span class="font-mono text-xs">({{ cur.lunation_phase.angle }}°)</span><p class="text-[12px] text-indigo-200/90 mt-1">{{ cur.lunation_phase.text }}</p></div>
+    </section>
+    <section class="glass-panel rounded-3xl p-5 xl:col-span-3">
+        <h2 class="font-display text-lg font-bold text-white mb-3">{{ t('natal.prog.positions') }}</h2>
+        <div class="overflow-x-auto"><table class="w-full text-sm">
+            <thead class="text-[11px] uppercase tracking-wide text-slate-400"><tr><th class="text-left py-1">{{ t('natal.col.body') }}</th><th class="text-left">{{ t('natal.prog.col_progressed') }}</th><th class="text-left">{{ t('natal.prog.col_natal') }}</th><th class="text-right">{{ t('natal.col.house') }}</th></tr></thead>
+            <tbody class="font-mono">
+            {% set natal_map = {} %}{% for b in chart.bodies %}{% set _ = natal_map.update({b.id: b}) %}{% endfor %}
+            {% for b in cur.bodies %}
+            <tr class="border-t border-slate-800/70"><td class="py-1.5"><span class="text-amber-300">{{ b.symbol }}</span> <span class="font-sans">{{ b.name }}</span></td><td>{{ b.formatted }}{% if b.is_retrograde %} <span class="text-rose-400">℞</span>{% endif %}</td><td class="text-slate-400">{{ natal_map[b.id].formatted if b.id in natal_map else '—' }}</td><td class="text-right">{{ b.house if b.house else '—' }}</td></tr>
+            {% endfor %}
+            {% if cur.angles %}{% for k in ['asc','mc'] %}<tr class="border-t border-slate-800/70 text-sky-300"><td class="py-1.5">{{ cur.angles.angles[k].symbol }} <span class="font-sans">{{ t('natal.angle.' + k) }}</span></td><td>{{ cur.angles.angles[k].formatted }}</td><td class="text-slate-400">{{ chart.angles[k].formatted }}</td><td></td></tr>{% endfor %}{% endif %}
+            </tbody></table></div>
+        <h3 class="font-semibold text-slate-200 mt-5 mb-2">{{ t('natal.prog.aspects_now') }} <span class="text-[11px] text-slate-500 font-mono">(orbe ≤ {{ prog.meta.method.moon_aspect_orb }}°)</span></h3>
+        <div class="flex flex-wrap gap-1.5">
+            {% for a in cur.aspects_to_natal %}<span class="px-2 py-1 rounded-lg text-xs font-mono border {% if a.family == 'challenging' %}border-rose-500/40 text-rose-200 bg-rose-500/10{% elif a.family == 'flowing' %}border-emerald-500/40 text-emerald-200 bg-emerald-500/10{% else %}border-amber-500/40 text-amber-200 bg-amber-500/10{% endif %}" title="{{ a.p_name }} ({{ t('natal.prog.p') }}) {{ a.aspect_name }} {{ a.n_name }} ({{ t('natal.prog.n') }})">{{ a.p_symbol }}<sub>p</sub> {{ a.aspect_symbol }} {{ a.n_symbol }} <span class="text-slate-400">{{ '%.2f'|format(a.orb) }}°</span></span>{% else %}<span class="text-sm text-slate-400">—</span>{% endfor %}
+        </div>
+    </section>
+</div>
+
+{# ---------- LUA PROGREDIDA ---------- #}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="lua-progredida">
+    <h2 class="font-display text-lg font-bold text-white">☽ {{ t('natal.prog.moon_title') }}</h2>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.prog.moon_help') }}</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+        <div>
+            <h3 class="text-sm font-semibold text-slate-200 mb-2">{{ t('natal.prog.moon_signs') }}</h3>
+            <ol class="space-y-1.5 max-h-[520px] overflow-auto pr-1">
+                {% for p in prog.moon.sign_periods %}
+                <li class="rounded-xl border border-slate-700/60 bg-slate-900/40 px-3 py-2 text-sm {% if p.start <= prog.meta.reference_date <= p.end %}ring-1 ring-amber-400/60{% endif %}">
+                    <div class="flex items-center justify-between"><b class="text-slate-100">{{ p.sign }}</b><span class="font-mono text-[11px] text-slate-400">{{ p.start }} → {{ p.end }}</span></div>
+                    <p class="text-[12px] text-slate-400 mt-0.5">{{ p.text }}</p>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="space-y-5">
+            {% if prog.moon.house_ingresses %}
+            <div>
+                <h3 class="text-sm font-semibold text-slate-200 mb-2">{{ t('natal.prog.moon_houses') }}</h3>
+                <ul class="text-[12px] font-mono text-slate-300 space-y-0.5 max-h-56 overflow-auto">{% for h in prog.moon.house_ingresses %}<li><span class="text-slate-400">{{ h.date }}</span> · {{ h.age }}a · {{ t('natal.col.house') }} {{ h.from }} → <b class="text-amber-300">{{ h.to }}</b> <span class="font-sans text-slate-500">{{ h.text }}</span></li>{% endfor %}</ul>
+            </div>
+            {% endif %}
+            <div>
+                <h3 class="text-sm font-semibold text-slate-200 mb-2">{{ t('natal.prog.phases') }}</h3>
+                <ul class="text-[12px] text-slate-300 space-y-0.5 max-h-56 overflow-auto">{% for ph in prog.moon.phases %}<li><span class="font-mono text-slate-400">{{ ph.date }}</span> · <span class="font-mono">{{ ph.age }}a</span> · <b class="text-indigo-300">{{ ph.phase }}</b> <span class="text-slate-500">{{ ph.text }}</span></li>{% endfor %}</ul>
+            </div>
+        </div>
+    </div>
+    <details class="mt-5">
+        <summary class="cursor-pointer text-sm font-semibold text-slate-200">{{ t('natal.prog.moon_aspects') }} ({{ prog.moon.aspects|length }})</summary>
+        <div class="overflow-x-auto mt-2"><table class="w-full text-[12px] font-mono">
+            <thead class="text-[10px] uppercase tracking-wide text-slate-400 font-sans"><tr><th class="text-left py-1">{{ t('natal.col.exact') }}</th><th class="text-right">{{ t('natal.col.age') }}</th><th class="text-left pl-3">{{ t('natal.col.transit') }}</th><th class="text-left pl-3">{{ t('natal.col.window') }}</th></tr></thead>
+            <tbody>{% for a in prog.moon.aspects %}<tr class="border-t border-slate-800/60"><td class="py-0.5 text-slate-300">{{ a.date }}</td><td class="text-right text-slate-400">{{ a.age }}</td><td class="pl-3 {% if a.family == 'challenging' %}text-rose-300{% elif a.family == 'flowing' %}text-emerald-300{% else %}text-amber-300{% endif %}">☽<sub>p</sub> {{ a.aspect_symbol }} {{ a.n_symbol }} <span class="font-sans text-slate-300">{{ a.aspect_name }} {{ a.n_name }}</span></td><td class="pl-3 text-slate-500">{{ a.start }} → {{ a.end }}</td></tr>{% endfor %}</tbody></table></div>
+    </details>
+</section>
+
+{# ---------- INGRESSOS E ESTAÇÕES PROGREDIDOS ---------- #}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="ingressos">
+    <h2 class="font-display text-lg font-bold text-white">⇄ {{ t('natal.prog.ingresses_title') }}</h2>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.prog.ingresses_help') }}</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3 text-sm">
+        <ul class="space-y-1">{% for i in prog.ingresses.sign_ingresses %}<li class="flex items-center justify-between border-b border-slate-800/60 py-1"><span><span class="text-amber-300">{{ i.symbol }}</span> {{ i.name }}: {{ i.from }} → <b>{{ i.to }}</b>{% if i.retrograde %} <span class="text-rose-400">℞</span>{% endif %}</span><span class="font-mono text-[11px] text-slate-400">{{ i.date }} · {{ i.age }}a</span></li>{% else %}<li class="text-slate-400">—</li>{% endfor %}</ul>
+        <div>
+            <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ t('natal.prog.stations') }}</h3>
+            <ul class="space-y-1">{% for s in prog.ingresses.stations %}<li class="flex items-center justify-between border-b border-slate-800/60 py-1"><span><span class="text-amber-300">{{ s.symbol }}</span> {{ s.name }} → {{ t('natal.prog.station_' + s.to) }}</span><span class="font-mono text-[11px] text-slate-400">{{ s.date }} · {{ s.age }}a</span></li>{% else %}<li class="text-slate-400">—</li>{% endfor %}</ul>
+        </div>
+    </div>
+</section>
+<p class="text-[11px] text-slate-500 text-center mt-8">{{ t('natal.footer.computed', ms=prog.meta.computed_ms) }}</p>
+{% endblock %}

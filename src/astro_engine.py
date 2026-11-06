@@ -638,7 +638,9 @@ def calculate_houses(tjd_ut: float, latitude: float, longitude: float, is_time_k
         # Placidus falha acima do círculo polar; fallback para Porphyry e Signos Inteiros.
         system_name = "Placidus"
         try:
-            cusps_tuple, ascmc_tuple = swe.houses_ex2(tjd_ut, 0, latitude, longitude, b'P')[:2]
+            # v6: assinatura correta do pyswisseph — houses_ex2(tjdut, lat, lon, hsys, flags). A chamada antiga
+            # (com `0` na 2ª posição) lançava TypeError e TODAS as cartas caíam no fallback Porphyry.
+            cusps_tuple, ascmc_tuple = swe.houses_ex2(tjd_ut, latitude, longitude, b'P')[:2]
             if any(c != c for c in cusps_tuple) or len(set(round(c, 3) for c in cusps_tuple)) < 12:
                 raise ValueError("cúspides degeneradas")
         except Exception:

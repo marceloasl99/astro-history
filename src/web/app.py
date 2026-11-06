@@ -677,4 +677,12 @@ async def api_features_barbault(date: str):
 from src.mundane.web_routes import router as mundane_router
 app.include_router(mundane_router)
 
+# v6: Módulo Pessoal (mapa natal, trânsitos de vida, progressões secundárias)
+from src.natal.web_routes import router as natal_router
+app.include_router(natal_router)
+
+# v6: compressão das páginas (as páginas do módulo pessoal embutem JSON compacto)
+from starlette.middleware.gzip import GZipMiddleware
+app.add_middleware(GZipMiddleware, minimum_size=1024)
+
 

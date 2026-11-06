@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block title %}{{ t('natal.tab.transits') }} · {{ inp.label or t('natal.untitled') }} | AstroHistory{% endblock %}
+{% block content %}
+{% include "natal/_tabs.html" %}
+{% set dm = profile.domains.meta %}
+{% set sc = profile.domains.scored %}
+<style>
+.hm-0{background:rgba(148,163,184,.06)}.hm-1{background:rgba(251,191,36,.18)}.hm-2{background:rgba(251,191,36,.32)}.hm-3{background:rgba(249,115,22,.45)}.hm-4{background:rgba(244,63,94,.6)}.hm-5{background:rgba(244,63,94,.85)}
+.zoom-btn{padding:.15rem .5rem;border-radius:.5rem;font-size:11px;font-family:JetBrains Mono,monospace;border:1px solid rgba(100,116,139,.5);color:#cbd5e1}.zoom-btn.active{background:rgba(251,191,36,.15);color:#fcd34d;border-color:rgba(251,191,36,.5)}
+@media print{nav,footer,header,#life-zoom,.no-print{display:none!important}}
+</style>
+
+{% if inp.target_mode == 'progressed' %}
+<div class="mb-6 rounded-2xl border border-indigo-500/40 bg-indigo-500/10 text-indigo-200 px-4 py-3 text-sm">{{ t('natal.transits.progressed_note') }} <a class="underline" href="{{ urls.transits.replace('target_mode=progressed','target_mode=natal') if 'target_mode=progressed' in urls.transits else urls.transits }}">{{ t('natal.mode.natal') }}</a></div>
+{% else %}
+<div class="mb-6 text-xs text-slate-400 no-print">{{ t('natal.transits.natal_note') }} <a class="text-sky-400 hover:underline" href="{{ urls.transits }}&target_mode=progressed">{{ t('natal.transits.try_progressed') }} →</a></div>
+{% endif %}
+
+{# ---------- AGORA ---------- #}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="agora">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+        <h2 class="font-display text-lg font-bold text-white">⏱ {{ t('natal.now.title') }} <span class="text-xs font-mono text-slate-400">{{ profile.now.date }}</span></h2>
+        <span class="text-[11px] text-slate-400">{{ t('natal.now.help') }}</span>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <div>
+            <h3 class="text-sm font-semibold text-slate-200 mb-2">{{ t('natal.now.active') }} ({{ profile.now.active|length }})</h3>
+            {% if profile.now.active %}
+            <ul class="space-y-2">
+                {% for w in profile.now.active[:8] %}
+                <li class="rounded-xl border px-3 py-2 text-sm {% if w.tone == 'challenging' %}border-rose-500/30 bg-rose-500/5{% elif w.tone == 'flowing' %}border-emerald-500/30 bg-emerald-500/5{% else %}border-amber-500/30 bg-amber-500/5{% endif %}">
+                    <div class="flex items-center justify-between gap-2"><span class="font-semibold text-slate-100">{{ w.transit_symbol }} {{ w.aspect_symbol }} {{ w.point_symbol }} <span class="font-normal">{{ w.transit_name }} {{ w.aspect_name }} {{ w.point_name }}</span></span><span class="text-[11px] font-mono text-slate-400">{{ w.start }} → {{ w.end }}</span></div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">{{ dm[w.primary_domain].icon }} {{ dm[w.primary_domain].label }} · {{ w.process_label }}{% if w.cycle_label %} · <span class="text-amber-300">{{ w.cycle_label }}</span>{% endif %}{% if w.hits %} · {{ t('natal.exact') }}: {% for h in w.hits %}{{ h.date }}{% if h.retrograde %} ℞{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}<p class="text-sm text-slate-400">{{ t('natal.now.none') }}</p>{% endif %}
+        </div>
+        <div>
+            <h3 class="text-sm font-semibold text-slate-200 mb-2">{{ t('natal.now.upcoming') }}</h3>
+            {% if profile.now.upcoming %}
+            <ul class="text-sm divide-y divide-slate-800/70">
+                {% for u in profile.now.upcoming[:14] %}
+                <li class="py-1.5 flex items-center justify-between gap-3"><span><span class="font-mono text-slate-400 text-[12px]">{{ u.date }}</span> <span class="text-slate-100">{{ u.label }}</span> <span class="text-slate-400">{{ u.text }}</span>{% if u.retrograde %} <span class="text-rose-400">℞</span>{% endif %}</span><span class="text-[10px] font-mono px-1.5 rounded border {% if u.tone == 'challenging' %}border-rose-500/40 text-rose-300{% elif u.tone == 'flowing' %}border-emerald-500/40 text-emerald-300{% else %}border-amber-500/40 text-amber-300{% endif %}">{{ dm[u.primary_domain].icon }}</span></li>
+                {% endfor %}
+            </ul>
+            {% else %}<p class="text-sm text-slate-400">—</p>{% endif %}
+        </div>
+    </div>
+</section>
+
+{# ---------- LINHA DA VIDA ---------- #}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="linha-da-vida">
+    <div class="flex items-start justify-between flex-wrap gap-3">
+        <div>
+            <h2 class="font-display text-lg font-bold text-white">🪐 {{ t('natal.timeline.title') }}</h2>
+            <p class="text-xs text-slate-400 mt-1 max-w-3xl">{{ t('natal.timeline.help') }}</p>
+        </div>
+        <div class="text-[11px] font-mono text-slate-400">{{ profile.axis.start }} → {{ profile.axis.end }} · {{ profile.lifetime.episodes|length }} {{ t('natal.timeline.episodes') }} · {{ profile.lifetime.windows|length }} {{ t('natal.timeline.windows') }}</div>
+    </div>
+    <div id="life-zoom" class="flex flex-wrap gap-1 mt-3 no-print"></div>
+    <div class="relative mt-3">
+        <canvas id="life-timeline" class="w-full block" role="img" aria-label="{{ t('natal.timeline.aria') }}"></canvas>
+        <div id="life-tooltip" hidden class="absolute z-20 max-w-[320px] rounded-xl border border-slate-700 bg-slate-950/95 px-3 py-2 text-xs shadow-2xl pointer-events-none"></div>
+    </div>
+    <div class="flex flex-wrap items-center gap-4 mt-3 text-[11px] text-slate-400 no-print">
+        <span><span class="inline-block w-3 h-3 rounded-sm bg-rose-500 align-middle"></span> {{ t('natal.tone.challenging') }}</span>
+        <span><span class="inline-block w-3 h-3 rounded-sm bg-emerald-500 align-middle"></span> {{ t('natal.tone.flowing') }}</span>
+        <span><span class="inline-block w-3 h-3 rounded-sm bg-amber-400 align-middle"></span> {{ t('natal.tone.focus') }}</span>
+        <span>● {{ t('natal.exact') }} · ○ {{ t('natal.exact_retro') }} · <span class="text-sky-400">┆</span> {{ t('natal.today') }}</span>
+    </div>
+    <details class="mt-4 no-print">
+        <summary class="cursor-pointer text-sm font-semibold text-slate-200">🎚 {{ t('natal.filters') }}</summary>
+        <div class="flex flex-wrap gap-4 mt-3 text-sm text-slate-300">
+            <div class="flex flex-wrap gap-2">{% for b in profile.lifetime.bodies %}<label class="inline-flex items-center gap-1"><input type="checkbox" data-filter-body="{{ b }}" checked class="accent-amber-400"> {{ body_meta[b].symbol }} {{ body_meta[b]['name_' + lang] }}</label>{% endfor %}</div>
+            <div class="flex gap-3">{% for tone in ['challenging','flowing','focus'] %}<label class="inline-flex items-center gap-1"><input type="checkbox" data-filter-tone="{{ tone }}" checked class="accent-amber-400"> {{ t('natal.tone.' + tone) }}</label>{% endfor %}</div>
+            <label class="inline-flex items-center gap-2">{{ t('natal.filter.min_intensity') }} <input id="filter-min-w" type="range" min="0" max="90" value="0" class="accent-amber-400"> <span id="filter-min-w-label" class="font-mono text-[11px]">0%</span></label>
+        </div>
+    </details>
+</section>
+
+{# ---------- MAPA DE CALOR + ANOS-CHAVE ---------- #}
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+<section class="glass-panel rounded-3xl p-5 sm:p-6 xl:col-span-2" id="mapa-de-calor">
+    <h2 class="font-display text-lg font-bold text-white">🔥 {{ t('natal.heatmap.title') }}</h2>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.heatmap.help') }} {% if not profile.meta.calibrated %}<span class="text-amber-300">{{ t('natal.heatmap.uncalibrated') }}</span>{% endif %}</p>
+    <div class="overflow-x-auto mt-3">
+        <table class="text-[10px] font-mono border-separate" style="border-spacing:1px">
+            <thead><tr><th class="text-left pr-2 text-slate-400 font-sans text-xs sticky left-0 bg-transparent"></th>{% for y in sc.years %}<th class="text-slate-500 {% if y % 10 != 0 %}opacity-0{% endif %}" style="min-width:7px">{{ y if y % 10 == 0 else '' }}</th>{% endfor %}</tr></thead>
+            <tbody>
+            {% for k, meta in dm.items() %}
+            <tr><th class="text-left pr-2 text-slate-300 font-sans text-xs whitespace-nowrap">{{ meta.icon }} {{ meta.label }}</th>
+                {% for y in sc.years %}{% set v = sc.annual_1000[k][loop.index0] %}
+                <td><a href="{{ urls.transits }}&focus_year={{ y }}#ano-foco" title="{{ y }} · {{ meta.label }} · {{ v }}" class="block w-[7px] h-[14px] rounded-[2px] hm-{{ (v // 200) if v < 1000 else 4 }}{% if v >= 900 %} hm-5{% endif %}"></a></td>
+                {% endfor %}</tr>
+            {% endfor %}
+            <tr><th class="text-left pr-2 text-white font-sans text-xs whitespace-nowrap">Σ {{ t('natal.heatmap.total') }}</th>
+                {% for y in sc.years %}{% set v = sc.annual_total_1000[loop.index0] %}<td><a href="{{ urls.transits }}&focus_year={{ y }}#ano-foco" title="{{ y }} · {{ v }}" class="block w-[7px] h-[14px] rounded-[2px] hm-{{ (v // 200) if v < 1000 else 4 }}{% if v >= 900 %} hm-5{% endif %}"></a></td>{% endfor %}</tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="h-56 mt-5"><canvas id="annual-chart"></canvas></div>
+</section>
+<section class="glass-panel rounded-3xl p-5 sm:p-6" id="anos-chave">
+    <h2 class="font-display text-lg font-bold text-white">⭐ {{ t('natal.keyyears.title') }}</h2>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.keyyears.help') }}</p>
+    <ol class="mt-3 space-y-2">
+        {% for ky in profile.domains.key_years %}
+        <li class="rounded-xl border border-slate-700/60 bg-slate-900/40 px-3 py-2">
+            <a href="{{ urls.transits }}&focus_year={{ ky.year }}#ano-foco" class="flex items-center justify-between"><span class="font-display font-bold text-amber-300 text-lg">{{ ky.year }} <span class="text-xs text-slate-400 font-mono font-normal">({{ ky.year - profile.axis.year_start }} {{ t('natal.years_old') }})</span></span><span class="font-mono text-xs text-slate-300">{{ ky.score_1000 }}/1000</span></a>
+            <ul class="text-[12px] text-slate-300 mt-1">{% for tp in ky.top %}<li>{{ tp.label }} <span class="text-slate-400">{{ tp.text }}</span> <span class="text-slate-500 font-mono text-[10px]">{{ tp.start }}→{{ tp.end }}</span></li>{% endfor %}</ul>
+        </li>
+        {% else %}<li class="text-sm text-slate-400">—</li>{% endfor %}
+    </ol>
+</section>
+</div>
+
+{# ---------- CICLOS DE VIDA ---------- #}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="ciclos">
+    <h2 class="font-display text-lg font-bold text-white">♄ {{ t('natal.cycles.title') }}</h2>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.cycles.help') }}</p>
+    <div class="overflow-x-auto mt-3">
+        <table class="w-full text-sm">
+            <thead class="text-[11px] uppercase tracking-wide text-slate-400"><tr><th class="text-left py-1">{{ t('natal.col.cycle') }}</th><th class="text-right">{{ t('natal.col.age') }}</th><th class="text-left pl-4">{{ t('natal.col.window') }}</th><th class="text-left pl-4">{{ t('natal.col.exact') }}</th></tr></thead>
+            <tbody>
+            {% for c in profile.lifetime.cycles if c.body not in ['sun','mars'] %}
+            <tr class="border-t border-slate-800/70 align-top" data-w-body="{{ c.body }}">
+                <td class="py-1.5"><span class="text-amber-300">{{ c.symbol }} {{ c.aspect_symbol }}</span> <b>{{ c.label }}</b>{% if c.text %}<details class="text-[12px] text-slate-400 mt-0.5"><summary class="cursor-pointer">{{ t('natal.meaning') }}</summary>{{ c.text }}</details>{% endif %}</td>
+                <td class="text-right font-mono">{{ c.age }}</td>
+                <td class="pl-4 font-mono text-slate-300 text-[12px]">{{ c.start }} → {{ c.end }}</td>
+                <td class="pl-4 font-mono text-[12px]">{% for h in c.hits %}{{ h.date }}{% if h.retrograde %} <span class="text-rose-400">℞</span>{% endif %}{% if not loop.last %}<br>{% endif %}{% else %}<span class="text-slate-500">{{ t('natal.near_miss') }}</span>{% endfor %}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <details class="mt-3 text-xs text-slate-400"><summary class="cursor-pointer">{{ t('natal.cycles.solar') }}</summary>
+        <div class="flex flex-wrap gap-1 mt-2 font-mono">{% for c in profile.lifetime.cycles if c.body == 'sun' %}<span class="px-1.5 py-0.5 rounded bg-slate-800">{{ c.hits[0].date if c.hits else c.start }}</span>{% endfor %}</div></details>
+</section>
+
+{# ---------- ANO EM FOCO ---------- #}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="ano-foco">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 class="font-display text-lg font-bold text-white">📅 {{ t('natal.year.title') }} <span class="text-amber-300">{{ focus_year }}</span> <span class="text-xs font-mono text-slate-400">({{ focus_year - profile.axis.year_start }} {{ t('natal.years_old') }})</span></h2>
+        <form method="get" action="/natal/transits" class="flex items-center gap-2 text-xs no-print">
+            {% for k, v in profile.query.items() if k != 'focus_year' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+            <a class="px-2 py-1 rounded-lg border border-slate-700 hover:bg-slate-800" href="{{ urls.transits }}&focus_year={{ focus_year - 1 }}#ano-foco" aria-label="{{ t('natal.year.prev') }}">←</a>
+            <select name="focus_year" onchange="this.form.submit()" class="rounded-lg bg-slate-900 border border-slate-700 px-2 py-1 text-slate-100 font-mono">
+                {% for y in sc.years %}<option value="{{ y }}" {% if y == focus_year %}selected{% endif %}>{{ y }} · {{ y - profile.axis.year_start }}a</option>{% endfor %}
+            </select>
+            <a class="px-2 py-1 rounded-lg border border-slate-700 hover:bg-slate-800" href="{{ urls.transits }}&focus_year={{ focus_year + 1 }}#ano-foco" aria-label="{{ t('natal.year.next') }}">→</a>
+        </form>
+    </div>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.year.help') }}</p>
+
+    <h3 class="text-sm font-semibold text-slate-200 mt-5 mb-2">{{ t('natal.year.slow') }} ({{ year_windows|length }})</h3>
+    <ul class="space-y-2">
+        {% for w in year_windows %}
+        <li data-w-body="{{ w.transit_body }}" data-w-tone="{{ w.tone }}" data-w-int="{{ w.peak_closeness }}" class="rounded-xl border px-3 py-2 text-sm {% if w.tone == 'challenging' %}border-rose-500/30{% elif w.tone == 'flowing' %}border-emerald-500/30{% else %}border-amber-500/30{% endif %} bg-slate-900/30">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="font-semibold text-slate-100">{{ w.transit_symbol }} {{ w.aspect_symbol }} {{ w.point_symbol }} <span class="font-normal">{{ w.transit_name }} {{ w.aspect_name }} {{ w.point_name }}</span>{% if w.cycle_label %} <span class="text-amber-300 text-xs">· {{ w.cycle_label }}</span>{% endif %}</span>
+                <span class="text-[11px] font-mono text-slate-400">{{ w.start }} → {{ w.end }} · {{ t('natal.orb') }} ≤ {{ w.orb_max }}° · {{ dm[w.primary_domain].icon }} {{ dm[w.primary_domain].label }}</span>
+            </div>
+            <div class="text-[12px] text-slate-400 mt-1">{% if w.hits %}{{ t('natal.exact') }}: {% for h in w.hits %}<span class="font-mono">{{ h.date }}</span>{% if h.retrograde %} <span class="text-rose-400">℞</span>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}{% else %}<span class="italic">{{ t('natal.near_miss') }}</span>{% endif %} · {{ t('natal.applying') if w.applying_at_start else t('natal.separating') }} {{ t('natal.at_start') }}</div>
+            <details class="mt-1 text-[13px] text-slate-300"><summary class="cursor-pointer text-slate-400">{{ t('natal.meaning') }}</summary><p class="mt-1 leading-relaxed">{{ w.text }}</p></details>
+        </li>
+        {% else %}<li class="text-sm text-slate-400">{{ t('natal.year.none') }}</li>{% endfor %}
+    </ul>
+
+    <h3 class="text-sm font-semibold text-slate-200 mt-6 mb-2">{{ t('natal.year.fast') }} ({{ detail_windows|length }}) <span class="text-[11px] text-slate-500 font-normal">{{ t('natal.year.fast_help') }}</span></h3>
+    {% if profile.detail.notes and 'moon_skipped_long_range' in profile.detail.notes %}<p class="text-xs text-amber-300 mb-2">{{ t('natal.moon_skipped') }}</p>{% endif %}
+    <div class="overflow-x-auto">
+        <table class="w-full text-[12px]">
+            <thead class="text-[10px] uppercase tracking-wide text-slate-400"><tr><th class="text-left py-1">{{ t('natal.col.window') }}</th><th class="text-left">{{ t('natal.col.transit') }}</th><th class="text-left">{{ t('natal.col.exact') }}</th><th class="text-left">{{ t('natal.col.domain') }}</th></tr></thead>
+            <tbody class="font-mono">
+            {% for w in detail_windows %}
+            <tr class="border-t border-slate-800/60" data-w-tone="{{ w.tone }}">
+                <td class="py-1 text-slate-400 whitespace-nowrap">{{ w.start[:10] }} → {{ w.end[:10] }}</td>
+                <td><span class="{% if w.tone == 'challenging' %}text-rose-300{% elif w.tone == 'flowing' %}text-emerald-300{% else %}text-amber-300{% endif %}">{{ w.transit_symbol }} {{ w.aspect_symbol }} {{ w.point_symbol }}</span> <span class="font-sans text-slate-300">{{ w.transit_name }} {{ w.aspect_name }} {{ w.point_name }}</span></td>
+                <td class="text-slate-300">{% for h in w.hits %}{{ h.date }}{% if h.retrograde %}<span class="text-rose-400">℞</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                <td class="font-sans text-slate-400">{{ dm[w.primary_domain].icon }} {{ dm[w.primary_domain].label }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{# ---------- CASAS EM TRÂNSITO ---------- #}
+{% if profile.lifetime.house_transits %}
+<section class="glass-panel rounded-3xl p-5 sm:p-6 mb-6" id="casas">
+    <h2 class="font-display text-lg font-bold text-white">🏠 {{ t('natal.houses.title') }}</h2>
+    <p class="text-xs text-slate-400 mt-1">{{ t('natal.houses.help') }}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
+        {% for ht in profile.lifetime.house_transits %}
+        <details class="rounded-xl border border-slate-700/60 bg-slate-900/40 p-3 text-sm">
+            <summary class="cursor-pointer font-semibold text-slate-100">{{ ht.symbol }} {{ ht.body_name }} <span class="text-[11px] text-slate-500 font-mono">{{ ht.ingresses|length }} {{ t('natal.houses.ingresses') }}</span></summary>
+            <ul class="mt-2 text-[12px] font-mono text-slate-300 space-y-0.5 max-h-64 overflow-auto">
+                {% for p in ht.periods %}<li><span class="text-amber-300">{{ t('natal.col.house') }} {{ p.house }}</span> · {{ p.start }} → {{ p.end }}</li>{% endfor %}
+            </ul>
+        </details>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<p class="text-[11px] text-slate-500 text-center mt-8">{{ t('natal.footer.computed', ms=profile.meta.computed_ms) }} · Swiss Ephemeris {{ 'completo' if profile.meta.full_ephemeris else 'Moshier' }} · {{ t('natal.footer.config') }} v{{ profile.meta.config_version }}</p>
+
+<script id="natal-data" type="application/json">{{ compact_json|safe }}</script>
+<script src="/static/js/natal_timeline.js" defer></script>
+{% endblock %}

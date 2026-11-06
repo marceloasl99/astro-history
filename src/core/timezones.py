@@ -1,11 +1,11 @@
 """
 Conversão de hora local → Tempo Universal com fuso horário histórico real.
 
-Regras:
-- A partir de 1883 (adoção dos fusos padrão): zona IANA resolvida por lat/lon
-  (timezonefinder + zoneinfo), incluindo horário de verão histórico.
-- Antes de 1883, ou sem coordenadas, ou em alto-mar: Hora Média Local exata
-  (longitude / 15, sem arredondar).
+Regras (v6):
+- Zona IANA resolvida por lat/lon (timezonefinder + zoneinfo) em qualquer ano, incluindo
+  horário de verão histórico, a partir da PRIMEIRA transição registrada da zona.
+- Antes da hora legal da zona (tzdata devolve "LMT"), sem coordenadas ou em alto-mar:
+  Hora Média Local exata da longitude do lugar (longitude / 15, sem arredondar).
 - A data pode mudar na conversão (ex.: 23:00 em Nova York = 04:00 UT do dia seguinte);
   o resultado traz a data UT corrigida.
 """
@@ -17,7 +17,11 @@ from zoneinfo import ZoneInfo
 
 logger = logging.getLogger(__name__)
 
-STANDARD_TIME_START_YEAR = 1883
+STANDARD_TIME_START_YEAR = 1883  # legado: referência histórica (EUA); a regra v6 usa a 1ª transição de cada zona
+
+
+class _PreStandardTime(Exception):
+    """Sinaliza data anterior à hora legal da zona (tzdata devolve 'LMT')."""
 
 _TZ_FINDER = None
 
@@ -48,14 +52,21 @@ def resolve_zone(latitude: Optional[float], longitude: Optional[float]) -> Optio
 
 def local_to_ut(
     year: int, month: int, day: int, local_hour: float,
-    latitude: Optional[float] = None, longitude: Optional[float] = None
+    latitude: Optional[float] = None, longitude: Optional[float] = None,
+    zone: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Retorna {"year","month","day","ut_hour","tz_source","utc_offset_hours"} com a data UT
     já ajustada quando a conversão cruza a meia-noite.
+
+    v6: a zona IANA é aplicada em qualquer ano; quando o tzdata devolve "LMT" (antes da
+    primeira transição da zona — ex.: Brasil antes de 1914, França antes de 1891), usa-se a
+    Hora Média Local exata da longitude do lugar, e não a LMT da cidade de referência da zona.
+    `zone` permite informar o fuso explicitamente (módulo pessoal).
     """
     lon = float(longitude) if longitude is not None else 0.0
-    zone = resolve_zone(latitude, longitude) if year >= STANDARD_TIME_START_YEAR else None
+    if zone is None and year >= 1 and (latitude is not None and longitude is not None):
+        zone = resolve_zone(latitude, longitude)
 
     if zone and 1 <= year <= 9999:
         try:
@@ -64,6 +75,8 @@ def local_to_ut(
             if m >= 60:
                 h, m = h + 1, m - 60
             local_dt = datetime(year, month, day, 0, 0, tzinfo=ZoneInfo(zone)) + timedelta(hours=h, minutes=m)
+            if (local_dt.tzname() or "").upper() == "LMT":
+                raise _PreStandardTime(zone)
             ut_dt = local_dt.astimezone(timezone.utc)
             offset = local_dt.utcoffset().total_seconds() / 3600.0
             return {
@@ -72,6 +85,8 @@ def local_to_ut(
                 "tz_source": f"iana:{zone}",
                 "utc_offset_hours": round(offset, 3),
             }
+        except _PreStandardTime:
+            pass  # antes da hora legal da zona: Hora Média Local pela longitude do lugar
         except Exception as e:
             logger.warning("Falha ao aplicar zona %s: %s; usando LMT.", zone, e)
 

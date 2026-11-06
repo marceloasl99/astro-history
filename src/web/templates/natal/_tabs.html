@@ -1,0 +1,66 @@
+{# Cabeçalho comum do módulo pessoal: resumo do nascimento, selo de precisão, abas e enquadramento. #}
+<section class="glass-panel rounded-3xl p-5 sm:p-7 mb-6">
+    <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb">
+        <a href="/" class="hover:text-amber-300">{{ t('nav.home') }}</a> › <a href="/natal" class="hover:text-amber-300">{{ t('natal.title') }}</a> › <span class="text-slate-200">{{ t('natal.tab.' + active_tab) }}</span>
+    </nav>
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div>
+            <h1 class="font-display text-2xl sm:text-3xl font-black text-white tracking-wide">
+                {{ inp.label or t('natal.untitled') }}
+            </h1>
+            <p class="text-sm text-slate-300 mt-1 font-mono">
+                {{ inp.date }}
+                {% if inp.time_known %}· {{ inp.time }}{% else %}· <span class="text-amber-300">{{ t('natal.time_unknown') }}</span>{% endif %}
+                {% if inp.place %}· {{ inp.place }}{% endif %}
+                · {{ '%.4f'|format(inp.lat) }}, {{ '%.4f'|format(inp.lon) }}
+                {% if chart and chart.instant %}· {{ chart.instant.tz_source }} ({{ '%+.2f'|format(chart.instant.utc_offset_hours) }} h) · {{ chart.instant.ut_iso }}{% endif %}
+            </p>
+            <div class="flex flex-wrap items-center gap-2 mt-3">
+                {% if inp.time_known %}
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">{{ t('natal.badge.exact_time') }} · {{ chart.houses.system if chart else '' }}</span>
+                {% else %}
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30">{{ t('natal.badge.unknown_time') }}</span>
+                {% endif %}
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">{{ t('natal.badge.orbs') }}: {{ inp.orb_preset }}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">{{ t('natal.badge.mode') }}: {{ t('natal.mode.' + inp.target_mode) }}</span>
+                {% if chart and chart.summary %}<span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">{{ t('natal.dominant') }}: {{ chart.summary.dominant_element }} · {{ chart.summary.dominant_modality }}</span>{% endif %}
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <a href="{{ urls.form }}" class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800">✎ {{ t('natal.edit') }}</a>
+            <a href="{{ urls.csv }}" class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800">CSV</a>
+            <a href="{{ urls.ics }}" class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800">ICS</a>
+            <a href="{{ urls.json }}" class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800">JSON</a>
+            <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800">🖨 {{ t('natal.print') }}</button>
+            <button type="button" id="natal-save" class="px-3 py-1.5 rounded-lg border border-amber-500/40 text-amber-300 hover:bg-slate-800">★ {{ t('natal.save_browser') }}</button>
+        </div>
+    </div>
+    <div class="flex flex-wrap gap-1 mt-5 border-b border-slate-700/60" role="tablist">
+        {% for key, href in [('chart', urls.chart), ('transits', urls.transits), ('progressions', urls.progressions)] %}
+        <a href="{{ href }}" role="tab" aria-selected="{{ 'true' if active_tab == key else 'false' }}"
+           class="px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 transition {% if active_tab == key %}border-amber-400 text-amber-300 bg-slate-800/60{% else %}border-transparent text-slate-300 hover:text-white hover:bg-slate-800/40{% endif %}">
+            {{ t('natal.tab.' + key) }}
+        </a>
+        {% endfor %}
+    </div>
+    <p class="mt-4 text-[11px] text-slate-400 flex items-start gap-2">
+        <span class="inline-flex shrink-0 px-1.5 py-0.5 rounded text-[10px] font-bold font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">{{ t('natal.symbolic') }}</span>
+        <span>{{ disclaimer }} <a href="/methodology" class="text-sky-400 hover:underline">{{ t('nav.methodology') }}</a> · <a href="/natal#privacidade" class="text-sky-400 hover:underline">{{ t('natal.privacy_link') }}</a></span>
+    </p>
+</section>
+<script>
+(function(){
+  var btn = document.getElementById('natal-save');
+  if (!btn) return;
+  btn.addEventListener('click', function(){
+    try {
+      var list = JSON.parse(localStorage.getItem('astro_natal_saved') || '[]');
+      var entry = { label: {{ (inp.label or t('natal.untitled'))|tojson }}, date: {{ inp.date|tojson }}, url: {{ urls.transits|tojson }} };
+      list = list.filter(function(e){ return e.url !== entry.url; });
+      list.unshift(entry);
+      localStorage.setItem('astro_natal_saved', JSON.stringify(list.slice(0, 12)));
+      btn.textContent = '✓ {{ t("natal.saved") }}';
+    } catch (e) { btn.textContent = '✗'; }
+  });
+})();
+</script>

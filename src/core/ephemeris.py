@@ -48,7 +48,10 @@ def candidate_dirs() -> List[str]:
 def ensure_ephe_path(force: bool = False) -> Optional[str]:
     """Configura `swe.set_ephe_path` uma única vez com todas as pastas disponíveis."""
     global _ACTIVE_PATH
+    # Sempre reaplica: módulos legados podem chamar swe.close()/set_ephe_path e redefinir o caminho.
     if _ACTIVE_PATH is not None and not force:
+        if _ACTIVE_PATH:
+            swe.set_ephe_path(_ACTIVE_PATH)
         return _ACTIVE_PATH
     dirs = candidate_dirs()
     if not dirs:

@@ -28,9 +28,14 @@ natal_aspect_orbs:
   points: 3.0                     # Quíron, Nodo, Lilith, asteroides, ângulos
 
 # Corpos em trânsito (Lua desligada por padrão: trânsitos lunares duram horas).
+#  - lifetime: varredura da vida inteira (linha da vida, mapa de calor, ciclos, episódios)
+#  - detail:   corpos rápidos, varridos só no ano/período em foco (painel "Agora", lista anual)
 transit_bodies:
   default: [sun, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, chiron, mean_node]
+  lifetime: [jupiter, saturn, uranus, neptune, pluto, chiron, mean_node]
+  detail: [sun, mercury, venus, mars]
   optional: [moon, lilith]
+  detail_max_years: 5
 
 # Orbe máxima por PLANETA EM TRÂNSITO (graus): curta para lentos, até 4° para rápidos.
 transit_orbs:
