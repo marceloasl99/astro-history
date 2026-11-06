@@ -20,7 +20,7 @@ import datetime
 import numpy as np
 
 from src.natal.models import BirthInput
-from src.natal.service import build_profile, build_progressions, now_jd
+from src.natal.service import build_profile, build_progressions, now_jd, jd_to_iso
 from src.natal.interpretations import library, describe_window, describe_cycle
 
 
@@ -34,6 +34,95 @@ DOMAIN_TRANSLATIONS = {
     "purpose_transformation": {"label": "Transformação & Crises Evolutivas", "icon": "🌋", "theme_color": "purple"},
     "health_routine": {"label": "Saúde, Rotina & Equilíbrio", "icon": "🌿", "theme_color": "teal"},
 }
+
+CRITICALITY_TIERS = [
+    {
+        "key": "climax",
+        "label": "Pico Transformador",
+        "min_score": 850,
+        "max_score": 1000,
+        "color": "rose",
+        "icon": "💥",
+        "badge_class": "bg-rose-500/20 text-rose-300 border-rose-500/40 shadow-sm shadow-rose-500/10",
+        "text_color": "text-rose-400",
+        "bar_class": "bg-rose-500",
+        "range_label": "Score ≥ 850/1000",
+        "description": "Momentos culminantes de metamorfose radical, pontos de virada máxima de destino ou grandes consagrações."
+    },
+    {
+        "key": "turning_point",
+        "label": "Ponto de Virada",
+        "min_score": 700,
+        "max_score": 849,
+        "color": "orange",
+        "icon": "⚡",
+        "badge_class": "bg-orange-500/20 text-orange-300 border-orange-500/40 shadow-sm shadow-orange-500/10",
+        "text_color": "text-orange-400",
+        "bar_class": "bg-orange-500",
+        "range_label": "Score 700–849/1000",
+        "description": "Transições cruciais, redefinição de prioridades de vida, decisões estruturantes e marcos evolutivos."
+    },
+    {
+        "key": "high_activation",
+        "label": "Alta Ativação",
+        "min_score": 550,
+        "max_score": 699,
+        "color": "amber",
+        "icon": "🔥",
+        "badge_class": "bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-sm shadow-amber-500/10",
+        "text_color": "text-amber-300",
+        "bar_class": "bg-amber-400",
+        "range_label": "Score 550–699/1000",
+        "description": "Forte aceleração de acontecimentos, expansão de oportunidades, produtividade e movimento dinâmico."
+    },
+    {
+        "key": "moderate",
+        "label": "Moderado",
+        "min_score": 400,
+        "max_score": 549,
+        "color": "sky",
+        "icon": "🌊",
+        "badge_class": "bg-sky-500/20 text-sky-300 border-sky-500/40",
+        "text_color": "text-sky-300",
+        "bar_class": "bg-sky-400",
+        "range_label": "Score 400–549/1000",
+        "description": "Desenvolvimento ritmado, evolução gradual, ajustes de rota e maturidade sem sobressaltos agudos."
+    },
+    {
+        "key": "consolidation",
+        "label": "Consolidação",
+        "min_score": 250,
+        "max_score": 399,
+        "color": "emerald",
+        "icon": "🌿",
+        "badge_class": "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
+        "text_color": "text-emerald-300",
+        "bar_class": "bg-emerald-400",
+        "range_label": "Score 250–399/1000",
+        "description": "Fixação de conquistas anteriores, estabilização de rotinas e assimilação tranquila de aprendizados."
+    },
+    {
+        "key": "stability",
+        "label": "Estabilidade & Gestação",
+        "min_score": 0,
+        "max_score": 249,
+        "color": "indigo",
+        "icon": "🌱",
+        "badge_class": "bg-indigo-500/20 text-indigo-300 border-indigo-500/40",
+        "text_color": "text-indigo-300",
+        "bar_class": "bg-indigo-400",
+        "range_label": "Score < 250/1000",
+        "description": "Período de serenidade cósmica, baixa fricção de planetas lentos, planejamento e digestão psíquica."
+    }
+]
+
+
+def classify_criticality(score_1000: float) -> Dict[str, Any]:
+    """Retorna o nível de criticidade (0-1000) correspondente."""
+    for tier in CRITICALITY_TIERS:
+        if score_1000 >= tier["min_score"]:
+            return tier
+    return CRITICALITY_TIERS[-1]
 
 
 def _format_date_pt(iso_date: str) -> str:
@@ -73,16 +162,25 @@ def generate_personal_forecast(
     profile: Optional[Dict[str, Any]] = None,
     prog: Optional[Dict[str, Any]] = None,
     start_year: Optional[int] = None,
-    end_year: Optional[int] = None
+    end_year: Optional[int] = None,
+    scope: str = "all",
+    reference_jd: Optional[float] = None
 ) -> Dict[str, Any]:
     """
-    Gera o forecast pessoal completo ano a ano com scores dinâmicos e acontecimentos reais.
-    Suporta horizontes prospectivos (2026–2050), ciclos de vida históricos (auge biográfico)
-    e projeções personalizadas.
+    Gera o forecast pessoal completo ano a ano com scores dinâmicos, acontecimentos reais
+    e categorização aprofundada de criticidade (6 níveis).
+    Suporta filtros temporais: 'all' (mostrar tudo) ou 'future' (só o futuro que ainda não aconteceu).
     """
     lang = inp.lang or "pt"
     birth_year = int(inp.date[:4])
     is_historical = (birth_year + 100 < 2026)
+
+    ref_jd = reference_jd if reference_jd is not None else now_jd()
+    today_iso = jd_to_iso(ref_jd)[:10]
+    current_year = int(today_iso[:4])
+
+    if scope not in ("all", "future"):
+        scope = "all"
 
     # Determinar janela de anos padrão se não fornecida
     def_start, def_end, def_mode = determine_default_forecast_window(birth_year)
@@ -182,13 +280,17 @@ def generate_personal_forecast(
             if start_year <= i_y <= end_year:
                 planet_ingresses_by_year.setdefault(i_y, []).append(i)
 
-    # Construir linha do tempo pessoal ano a ano
+    # Construir linha do tempo pessoal ano a ano com 6 categorias de criticidade
     timeline: List[Dict[str, Any]] = []
-    impact_counts = {"Ponto de Virada": 0, "Alta Ativação": 0, "Moderado": 0, "Estabilidade": 0}
+    impact_counts = {t["label"]: 0 for t in CRITICALITY_TIERS}
 
     for y in range(start_year, end_year + 1):
         age = y - birth_year
         idx = all_years.index(y) if y in all_years else -1
+
+        is_past = (y < current_year)
+        is_current_year = (y == current_year)
+        is_future = (y > current_year)
 
         # Acontecimentos / Datas Críticas do Ano
         events: List[Dict[str, Any]] = []
@@ -202,9 +304,11 @@ def generate_personal_forecast(
             year_hits = [h for h in hits if h.get("date", "")[:4] == str(y)]
             if year_hits:
                 for h in year_hits:
+                    h_date = h["date"]
+                    ev_is_future = (h_date >= today_iso)
                     events.append({
-                        "date": h["date"],
-                        "formatted_date": _format_date_pt(h["date"]),
+                        "date": h_date,
+                        "formatted_date": _format_date_pt(h_date),
                         "type": "transit",
                         "type_label": "Trânsito Exato",
                         "title": f"{w.get('transit_symbol', '')} {w.get('transit_name', '')} {w.get('aspect_symbol', '')} {w.get('point_symbol', '')} {w.get('point_name', '')} Natal",
@@ -216,13 +320,16 @@ def generate_personal_forecast(
                         "score_1000": max(score_ev, 650),
                         "description": w.get("text") or describe_window(w, lang),
                         "is_retrograde": bool(h.get("retrograde")),
-                        "orb": 0.0
+                        "orb": 0.0,
+                        "is_future": ev_is_future,
+                        "status_label": "Futuro" if ev_is_future else "Concluído"
                     })
             else:
                 w_start = w.get("start", f"{y}-01-01")
                 w_end = w.get("end", f"{y}-12-31")
                 clamped_start = max(w_start, f"{y}-01-01")
                 clamped_end = min(w_end, f"{y}-12-31")
+                ev_is_future = (clamped_end >= today_iso)
                 if clamped_start == f"{y}-01-01" and clamped_end == f"{y}-12-31":
                     fmt_date = f"Ativo ao longo de {y}"
                 else:
@@ -241,14 +348,18 @@ def generate_personal_forecast(
                     "score_1000": max(score_ev, 400),
                     "description": w.get("text") or describe_window(w, lang),
                     "is_retrograde": False,
-                    "orb": 1.0
+                    "orb": 1.0,
+                    "is_future": ev_is_future,
+                    "status_label": "Futuro" if ev_is_future else "Concluído"
                 })
 
         # 2. Aspectos da Lua Progredida
         for ma in moon_aspects_by_year.get(y, []):
+            ma_date = ma.get("date", f"{y}-06-01")
+            ev_is_future = (ma_date >= today_iso)
             events.append({
-                "date": ma["date"],
-                "formatted_date": _format_date_pt(ma["date"]),
+                "date": ma_date,
+                "formatted_date": _format_date_pt(ma_date),
                 "type": "progression",
                 "type_label": "Lua Progredida",
                 "title": f"☽p Lua Progredida {ma.get('aspect_symbol', '')} {ma.get('n_symbol', '')} {ma.get('n_name', '')} Natal",
@@ -260,14 +371,18 @@ def generate_personal_forecast(
                 "score_1000": 780,
                 "description": f"Aspecto exato da Lua progredida ({ma.get('aspect_name', '')}) ao seu {ma.get('n_name', '')} natal. Marca um momento de amadurecimento emocional profundo e reorientação de prioridades internas.",
                 "is_retrograde": False,
-                "orb": float(ma.get("orb", 0.0))
+                "orb": float(ma.get("orb", 0.0)),
+                "is_future": ev_is_future,
+                "status_label": "Futuro" if ev_is_future else "Concluído"
             })
 
         # 3. Ingressos de Casas da Lua Progredida
         for mh in moon_houses_by_year.get(y, []):
+            mh_date = mh.get("date", f"{y}-06-01")
+            ev_is_future = (mh_date >= today_iso)
             events.append({
-                "date": mh["date"],
-                "formatted_date": _format_date_pt(mh["date"]),
+                "date": mh_date,
+                "formatted_date": _format_date_pt(mh_date),
                 "type": "progression",
                 "type_label": "Ingresso da Lua Progredida",
                 "title": f"☽p Lua Progredida ingressa na Casa {mh.get('to')}",
@@ -279,7 +394,9 @@ def generate_personal_forecast(
                 "score_1000": 820,
                 "description": f"A Lua progredida entra na Casa {mh.get('to')}. Nos próximos ~2,5 anos, as temáticas desta área da vida tornam-se o foco central de sua energia psíquica e investimentos práticos.",
                 "is_retrograde": False,
-                "orb": 0.0
+                "orb": 0.0,
+                "is_future": ev_is_future,
+                "status_label": "Futuro" if ev_is_future else "Concluído"
             })
 
         # 4. Ciclos de Vida Monumentais (Saturno, Urano, Quíron, Júpiter)
@@ -288,12 +405,14 @@ def generate_personal_forecast(
             c_end = c.get("end", f"{y}-12-31")
             clamped_start = max(c_start, f"{y}-01-01")
             clamped_end = min(c_end, f"{y}-12-31")
+            c_peak = c.get("peak_date") or clamped_start
+            ev_is_future = (c_end >= today_iso)
             if clamped_start == f"{y}-01-01" and clamped_end == f"{y}-12-31":
                 fmt_date = f"Ativo em {y}"
             else:
                 fmt_date = f"{_format_date_pt(clamped_start)} a {_format_date_pt(clamped_end)}"
             events.append({
-                "date": c.get("peak_date") or clamped_start,
+                "date": c_peak,
                 "formatted_date": fmt_date,
                 "type": "cycle",
                 "type_label": "Grande Ciclo de Vida",
@@ -306,11 +425,16 @@ def generate_personal_forecast(
                 "score_1000": 950,
                 "description": c.get("text") or describe_cycle(c, lang),
                 "is_retrograde": False,
-                "orb": 0.0
+                "orb": 0.0,
+                "is_future": ev_is_future,
+                "status_label": "Futuro" if ev_is_future else "Concluído"
             })
 
         # Deduplicar e ordenar eventos do ano por data e depois score
         events.sort(key=lambda ev: (ev.get("date", ""), -ev.get("score_1000", 0)))
+
+        future_events = [e for e in events if e.get("is_future")]
+        past_events = [e for e in events if not e.get("is_future")]
 
         # Score geral do ano
         if idx >= 0:
@@ -325,24 +449,12 @@ def generate_personal_forecast(
                 year_score_1000 = 350.0 + 40.0 * np.sin(age * 0.4)
             domain_scores = {k: int(year_score_1000 * 0.8) for k in DOMAIN_TRANSLATIONS}
 
-        # Nível de impacto
-        if year_score_1000 >= 800:
-            impact_level = "Ponto de Virada"
-            impact_color = "rose"
-            badge_class = "bg-rose-500/20 text-rose-300 border-rose-500/40"
-        elif year_score_1000 >= 600:
-            impact_level = "Alta Ativação"
-            impact_color = "amber"
-            badge_class = "bg-amber-500/20 text-amber-300 border-amber-500/40"
-        elif year_score_1000 >= 400:
-            impact_level = "Moderado"
-            impact_color = "sky"
-            badge_class = "bg-sky-500/20 text-sky-300 border-sky-500/40"
-        else:
-            impact_level = "Estabilidade"
-            impact_color = "emerald"
-            badge_class = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
-
+        # Classificação de Criticidade Aprofundada (6 Tiers)
+        tier = classify_criticality(year_score_1000)
+        impact_level = tier["label"]
+        impact_color = tier["color"]
+        badge_class = tier["badge_class"]
+        tier_icon = tier["icon"]
         impact_counts[impact_level] += 1
 
         # Domínio mais ativado do ano
@@ -364,8 +476,8 @@ def generate_personal_forecast(
         top_events_titles = [e["title"] for e in events[:3]]
         annual_synthesis = (
             f"Aos {age} anos (em {y}), o período destaca forte ativação em {top_domain_info['label']}. "
-            f"Principais dinâmicas ativas: {', '.join(top_events_titles) if top_events_titles else 'Ciclos estáveis de consolidação'}. "
-            f"Momento relevante para integração e direcionamento de propósitos."
+            f"Classificação: {tier_icon} {impact_level} ({tier['range_label']}). "
+            f"Principais dinâmicas ativas: {', '.join(top_events_titles) if top_events_titles else 'Ciclos estáveis de consolidação'}."
         )
 
         timeline.append({
@@ -376,6 +488,10 @@ def generate_personal_forecast(
             "impact_level": impact_level,
             "impact_color": impact_color,
             "badge_class": badge_class,
+            "tier_icon": tier_icon,
+            "tier_key": tier["key"],
+            "bar_class": tier["bar_class"],
+            "tier_description": tier["description"],
             "top_domain": top_domain_info,
             "top_domain_key": top_domain_key,
             "domains": domain_scores,
@@ -383,11 +499,22 @@ def generate_personal_forecast(
             "moon_text": current_moon_text,
             "events": events,
             "events_count": len(events),
+            "is_past": is_past,
+            "is_current_year": is_current_year,
+            "is_future": is_future,
+            "future_events_count": len(future_events),
+            "past_events_count": len(past_events),
             "annual_synthesis": annual_synthesis
         })
 
-    # Resumo executivo dos anos mais críticos
-    critical_years = [y["year"] for y in timeline if y["impact_level"] == "Ponto de Virada"]
+    # Resumo executivo dos anos mais críticos (Picos Transformadores e Pontos de Virada)
+    critical_years = [y["year"] for y in timeline if y["impact_level"] in ("Pico Transformador", "Ponto de Virada")]
+
+    # Anos futuros e passados
+    future_years = [y for y in timeline if y["year"] >= current_year]
+    past_years = [y for y in timeline if y["year"] < current_year]
+    total_future_events = sum(y["future_events_count"] for y in timeline)
+    total_past_events = sum(y["past_events_count"] for y in timeline)
 
     # Gerar Presets de navegação rápida por ciclos biográficos
     preset_windows = []
@@ -409,6 +536,8 @@ def generate_personal_forecast(
 
     for plabel, sy, ey in p_list:
         q = dict(base_params, start_year=sy, end_year=ey)
+        if scope != "all":
+            q["scope"] = scope
         preset_windows.append({
             "label": f"{plabel} ({sy}–{ey})",
             "start": sy,
@@ -422,11 +551,20 @@ def generate_personal_forecast(
         "end_year": end_year,
         "total_years": len(timeline),
         "impact_counts": impact_counts,
+        "criticality_tiers": CRITICALITY_TIERS,
         "critical_years": critical_years,
         "timeline": timeline,
         "domain_translations": DOMAIN_TRANSLATIONS,
         "birth_date": inp.date,
-        "current_age": round((now_jd() - profile["chart"]["tjd_ut"]) / 365.2422, 1),
+        "current_age": round((ref_jd - profile["chart"]["tjd_ut"]) / 365.2422, 1),
+        "today_iso": today_iso,
+        "today_formatted": _format_date_pt(today_iso),
+        "current_year": current_year,
+        "scope": scope,
+        "future_years_count": len(future_years),
+        "past_years_count": len(past_years),
+        "total_future_events": total_future_events,
+        "total_past_events": total_past_events,
         "is_historical": is_historical,
         "window_mode": window_mode,
         "window_title": window_title,

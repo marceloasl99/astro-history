@@ -411,13 +411,18 @@ async def natal_forecast(request: Request):
     end_year_param = request.query_params.get("end_year")
     start_year = int(start_year_param) if start_year_param and start_year_param.isdigit() else None
     end_year = int(end_year_param) if end_year_param and end_year_param.isdigit() else None
+    scope = request.query_params.get("scope", "all")
+    if scope not in ("all", "future"):
+        scope = "all"
 
     ref_jd = _reference_jd(request) or now_jd()
     profile = build_profile(inp, reference_jd=ref_jd, include_detail=True)
     prog = build_progressions(inp, reference_jd=ref_jd)
     forecast_data = generate_personal_forecast(
         inp, profile=profile, prog=prog,
-        start_year=start_year, end_year=end_year
+        start_year=start_year, end_year=end_year,
+        scope=scope,
+        reference_jd=ref_jd
     )
     return templates.TemplateResponse(
         request=request, name="natal/forecast.html",

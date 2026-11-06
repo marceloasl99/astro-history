@@ -42,12 +42,28 @@ def test_generate_personal_forecast_years():
     assert len(set(scores)) > 5, "Scores não devem formar uma reta plana"
     assert not all(s == 350.0 for s in scores), "Scores não devem ser o fallback estático de 350.0"
 
+    expected_tiers = [
+        "Pico Transformador",
+        "Ponto de Virada",
+        "Alta Ativação",
+        "Moderado",
+        "Consolidação",
+        "Estabilidade & Gestação"
+    ]
+
+    assert "criticality_tiers" in fc
+    assert len(fc["criticality_tiers"]) == 6
+    assert "future_years_count" in fc
+    assert "total_future_events" in fc
+
     for y in fc["timeline"]:
         assert 2026 <= y["year"] <= 2050
         assert "score_1000" in y
         assert 0.0 <= y["score_1000"] <= 1000.0
         assert "impact_level" in y
-        assert y["impact_level"] in ["Ponto de Virada", "Alta Ativação", "Moderado", "Estabilidade"]
+        assert y["impact_level"] in expected_tiers
+        assert "tier_icon" in y
+        assert "is_future" in y
         assert "top_domain_key" in y
         assert "domains" in y
         for domain_key in DOMAIN_TRANSLATIONS:
@@ -56,7 +72,26 @@ def test_generate_personal_forecast_years():
         assert "events" in y
         assert isinstance(y["events"], list)
         assert len(y["events"]) > 0, f"Ano {y['year']} deve trazer dados de acontecimentos"
+        for ev in y["events"]:
+            assert "is_future" in ev
+            assert "status_label" in ev
         assert "annual_synthesis" in y
+
+
+def test_time_scope_future_and_all():
+    # Teste de escopo temporal "future" vs "all"
+    fc_all = generate_personal_forecast(SP1990, start_year=2020, end_year=2030, scope="all")
+    assert fc_all["scope"] == "all"
+    assert len(fc_all["timeline"]) == 11
+
+    past_years = [y for y in fc_all["timeline"] if y["is_past"]]
+    future_years = [y for y in fc_all["timeline"] if not y["is_past"]]
+    assert len(past_years) > 0, "Deve haver anos passados no recorte 2020-2030"
+    assert len(future_years) > 0, "Deve haver anos futuros no recorte 2020-2030"
+
+    fc_future = generate_personal_forecast(SP1990, start_year=2020, end_year=2030, scope="future")
+    assert fc_future["scope"] == "future"
+    assert fc_future["future_years_count"] == len(future_years)
 
 
 def test_generate_personal_forecast_historical_einstein():
@@ -121,6 +156,14 @@ async def test_natal_forecast_web_route():
         assert "2026" in res.text
         assert "2050" in res.text
         assert "Radar dos 8 Domínios de Vida" in res.text
+        assert "Pico Transformador" in res.text
+        assert "Só o Futuro" in res.text
+        assert "Mostrar Tudo" in res.text
+
+        # Forecast route com scope=future
+        res_future = await ac.get(url + "&scope=future")
+        assert res_future.status_code == 200
+        assert "Ainda não aconteceu" in res_future.text
 
         # Forecast route para Einstein (histórico)
         url_einstein = "/natal/forecast?date=1879-03-14&time=11:30&lat=48.4&lon=9.9833&tz=Europe/Berlin&place=Ulm"
