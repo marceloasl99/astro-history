@@ -2428,7 +2428,7 @@ def main():
         assert isinstance(ev["longitude"], (int, float)), f"Longitude inválida no evento {ev['id']}"
         assert len(ev["consequence"].strip()) > 50, f"Consequência curta ou vazia no evento {ev['id']}"
 
-    output_path = "/home/astro/data/historical_events.json"
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "historical_events.json")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(EVENTS, f, ensure_ascii=False, indent=2)

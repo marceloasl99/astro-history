@@ -9,7 +9,9 @@ import json
 import os
 from typing import List, Dict, Any, Optional
 
-DB_PATH = "/home/astro/db/history_astrology.db"
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# v6: caminho relativo à raiz do repositório (worktrees/containers) com override por variável de ambiente.
+DB_PATH = os.environ.get("ASTRO_DB_PATH") or os.path.join(ROOT_DIR, "db", "history_astrology.db")
 
 def get_connection():
     """Retorna uma conexão SQLite configurada com dicionários de linhas."""

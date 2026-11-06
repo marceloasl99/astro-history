@@ -22,15 +22,8 @@ from src.astro_engine import (
 from src.core.scoring import aspect_definitions
 
 # Caminhos de efemérides
-EPHE_PATHS = [
-    "/usr/share/libswe/ephe",
-    "/usr/share/swisseph",
-    "/usr/local/share/swisseph"
-]
-for p in EPHE_PATHS:
-    if os.path.exists(p):
-        swe.set_ephe_path(p)
-        break
+from src.core.ephemeris import ensure_ephe_path
+ensure_ephe_path()
 
 # Corpos celestes considerados na Astrologia Mundana
 MUNDANE_BODIES = [
@@ -57,12 +50,6 @@ TRANSIT_ASPECTS = [
     {"name": "Sextil", "symbol": "⚹", "angle": 60.0, "max_orb": 2.0, "base_nature": "fluido"}
 ]
 
-def ensure_ephe_path():
-    """Garante que o caminho das efemérides esteja ativo no swisseph."""
-    for p in ["/usr/share/libswe/ephe", "/usr/share/swisseph", "/usr/local/share/swisseph"]:
-        if os.path.exists(p):
-            swe.set_ephe_path(p)
-            break
 
 # Cache em memória para cartas natais dos países
 _NATAL_CHARTS_CACHE: Dict[str, Dict[str, Any]] = {}

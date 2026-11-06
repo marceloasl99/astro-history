@@ -26,3 +26,9 @@ Thumbs.db
 
 # v3: grade de features (reconstruída em ~20s com `make features`)
 data/features/
+
+# v6: efemérides Swiss Ephemeris completas (instale com scripts/install_ephemeris.py)
+data/ephemeris/swisseph/
+# v6: dumps brutos do GeoNames (gazetteer construído em data/gazetteer/cities.sqlite)
+data/external/geonames/
+data/staging/

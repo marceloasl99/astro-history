@@ -21,9 +21,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from src.astro_engine import calculate_event_chart, calculate_chart_tension_1000
 from src.correlation_engine import find_similar_events
 
-CACHE_FILE = "/home/astro/data/timeline_1800_2100.json"
-OLD_CACHE_FILE = "/home/astro/data/future_simulation_2026_2060.json"
-DB_PATH = "/home/astro/db/history_astrology.db"
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+CACHE_FILE = os.path.join(_ROOT, "data", "timeline_1800_2100.json")
+OLD_CACHE_FILE = os.path.join(_ROOT, "data", "future_simulation_2026_2060.json")
+DB_PATH = os.environ.get("ASTRO_DB_PATH") or os.path.join(_ROOT, "db", "history_astrology.db")
 
 def load_historical_events_from_db() -> Dict[int, List[Dict[str, Any]]]:
     """Carrega todos os eventos históricos cadastrados no SQLite com data >= 1800 agrupados por ano."""
@@ -374,7 +375,7 @@ def generate_future_timeline_1800_2100(force_refresh: bool = False) -> Dict[str,
 
     return result
 
-PROJECTIONS_CACHE_FILE = "/home/astro/data/projections_2027_2060.json"
+PROJECTIONS_CACHE_FILE = os.path.join(_ROOT, "data", "projections_2027_2060.json")
 
 def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
     """

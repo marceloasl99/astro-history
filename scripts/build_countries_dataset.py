@@ -1363,7 +1363,7 @@ COUNTRIES = [
 ]
 
 def main():
-    target_path = "/home/astro/data/countries_database.json"
+    target_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "countries_database.json")
     with open(target_path, "w", encoding="utf-8") as f:
         json.dump(COUNTRIES, f, indent=2, ensure_ascii=False)
     print(f"Salvo {len(COUNTRIES)} países canônicos em {target_path}")

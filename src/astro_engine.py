@@ -24,15 +24,8 @@ from src.core.timezones import local_to_ut
 logger = logging.getLogger(__name__)
 
 # Configuração do caminho das efemérides suíças
-EPHE_PATHS = [
-    "/usr/share/libswe/ephe",
-    "/usr/share/swisseph",
-    "/usr/local/share/swisseph"
-]
-for p in EPHE_PATHS:
-    if os.path.exists(p):
-        swe.set_ephe_path(p)
-        break
+from src.core.ephemeris import ensure_ephe_path
+ensure_ephe_path()
 
 # Definição dos 12 Signos do Zodíaco Tropical
 ZODIAC_SIGNS = [

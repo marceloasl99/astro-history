@@ -13,15 +13,8 @@ import numpy as np
 import swisseph as swe
 
 # Garantir que caminhos de efemérides estejam configurados
-EPHE_PATHS = [
-    "/usr/share/libswe/ephe",
-    "/usr/share/swisseph",
-    "/usr/local/share/swisseph"
-]
-for p in EPHE_PATHS:
-    if os.path.exists(p):
-        swe.set_ephe_path(p)
-        break
+from src.core.ephemeris import ensure_ephe_path
+ensure_ephe_path()
 
 GRID_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "ephemeris"))
 GRID_FILE = os.path.join(GRID_DIR, "daily_grid_1800_2100.npz")

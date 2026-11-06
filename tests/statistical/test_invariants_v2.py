@@ -23,10 +23,11 @@ from datetime import date
 from src.core.ephemeris_grid import get_daily_grid, get_score_for_date
 from src.future_engine import get_projections_2027_2060, generate_future_timeline_1800_2100
 
-RESULTS_FILE = "/home/astro/data/results.json"
-EXCLUSION_LOG_FILE = "/home/astro/data/exclusion_log.md"
-PROJECTIONS_FILE = "/home/astro/data/projections_2027_2060.json"
-TIMELINE_FILE = "/home/astro/data/timeline_1800_2100.json"
+_DATA = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+RESULTS_FILE = os.path.join(_DATA, "results.json")
+EXCLUSION_LOG_FILE = os.path.join(_DATA, "exclusion_log.md")
+PROJECTIONS_FILE = os.path.join(_DATA, "projections_2027_2060.json")
+TIMELINE_FILE = os.path.join(_DATA, "timeline_1800_2100.json")
 
 ZODIAC_SIGNS = [
     "Áries", "Touro", "Gêmeos", "Câncer",

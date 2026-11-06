@@ -12,10 +12,8 @@ import numpy as np
 import swisseph as swe
 from scipy.optimize import brentq
 
-for _p in ["/usr/share/libswe/ephe", "/usr/share/swisseph", "/usr/local/share/swisseph"]:
-    if os.path.exists(_p):
-        swe.set_ephe_path(_p)
-        break
+from src.core.ephemeris import ensure_ephe_path
+ensure_ephe_path()
 
 SWE_ID = {
     "sun": swe.SUN, "mercury": swe.MERCURY, "venus": swe.VENUS, "mars": swe.MARS,

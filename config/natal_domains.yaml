@@ -1,0 +1,169 @@
+# Classificação dos trânsitos pessoais em DOMÍNIOS de vida (onde), PROCESSOS (como) e TOM (aspecto).
+# Pesos explícitos e auditáveis. Usado por src/natal/domains.py.
+
+version: 1
+
+domains:
+  identity:
+    label_pt: "Identidade, Vitalidade & Direção"
+    label_en: "Identity, Vitality & Direction"
+    icon: "☉"
+    color: amber
+  home_family:
+    label_pt: "Emoções, Lar & Família"
+    label_en: "Emotions, Home & Family"
+    icon: "☽"
+    color: sky
+  mind_learning:
+    label_pt: "Mente, Estudos & Comunicação"
+    label_en: "Mind, Learning & Communication"
+    icon: "☿"
+    color: cyan
+  relationships:
+    label_pt: "Amor, Vínculos & Parcerias"
+    label_en: "Love, Bonds & Partnerships"
+    icon: "♀"
+    color: rose
+  career:
+    label_pt: "Carreira, Vocação & Reconhecimento"
+    label_en: "Career, Vocation & Recognition"
+    icon: "♄"
+    color: indigo
+  resources:
+    label_pt: "Finanças & Recursos"
+    label_en: "Finances & Resources"
+    icon: "♃"
+    color: emerald
+  health_routine:
+    label_pt: "Saúde, Energia & Rotina"
+    label_en: "Health, Energy & Routine"
+    icon: "♂"
+    color: orange
+  purpose_transformation:
+    label_pt: "Propósito, Transformação & Interioridade"
+    label_en: "Purpose, Transformation & Inner Life"
+    icon: "♇"
+    color: purple
+
+# Vetor de domínios por ponto natal (soma 1).
+point_domains:
+  sun:        { identity: 0.70, career: 0.15, health_routine: 0.15 }
+  moon:       { home_family: 0.70, identity: 0.30 }
+  mercury:    { mind_learning: 0.80, career: 0.20 }
+  venus:      { relationships: 0.60, resources: 0.40 }
+  mars:       { health_routine: 0.45, identity: 0.35, career: 0.20 }
+  jupiter:    { resources: 0.40, purpose_transformation: 0.35, mind_learning: 0.25 }
+  saturn:     { career: 0.60, identity: 0.20, resources: 0.20 }
+  uranus:     { purpose_transformation: 0.50, mind_learning: 0.25, identity: 0.25 }
+  neptune:    { purpose_transformation: 0.70, relationships: 0.15, health_routine: 0.15 }
+  pluto:      { purpose_transformation: 0.70, resources: 0.15, relationships: 0.15 }
+  chiron:     { health_routine: 0.45, purpose_transformation: 0.35, relationships: 0.20 }
+  north_node: { purpose_transformation: 0.60, career: 0.20, relationships: 0.20 }
+  lilith:     { purpose_transformation: 0.60, relationships: 0.40 }
+  asc:        { identity: 0.80, health_routine: 0.20 }
+  mc:         { career: 0.85, identity: 0.15 }
+  dsc:        { relationships: 0.85, identity: 0.15 }
+  ic:         { home_family: 0.85, identity: 0.15 }
+  ceres:      { home_family: 0.60, health_routine: 0.40 }
+  pallas:     { mind_learning: 0.60, career: 0.40 }
+  juno:       { relationships: 0.90, resources: 0.10 }
+  vesta:      { career: 0.50, purpose_transformation: 0.50 }
+
+# Domínio associado a cada casa natal (aplicado ao ponto natal pela casa em que está).
+house_domains:
+  1: identity
+  2: resources
+  3: mind_learning
+  4: home_family
+  5: relationships
+  6: health_routine
+  7: relationships
+  8: purpose_transformation
+  9: mind_learning
+  10: career
+  11: purpose_transformation
+  12: purpose_transformation
+house_weight: 0.30                # peso da casa na mistura (0 = ignora casas)
+
+# Processo arquetípico do planeta em trânsito.
+processes:
+  jupiter:   { key: expansion,      label_pt: "Expansão & Oportunidade",     label_en: "Expansion & Opportunity" }
+  saturn:    { key: structure,      label_pt: "Estrutura & Maturidade",       label_en: "Structure & Maturity" }
+  uranus:    { key: rupture,        label_pt: "Ruptura & Libertação",         label_en: "Rupture & Liberation" }
+  neptune:   { key: dissolution,    label_pt: "Dissolução & Inspiração",      label_en: "Dissolution & Inspiration" }
+  pluto:     { key: transformation, label_pt: "Transformação & Poder",        label_en: "Transformation & Power" }
+  chiron:    { key: wound_healing,  label_pt: "Ferida & Cura",                label_en: "Wound & Healing" }
+  mean_node: { key: direction,      label_pt: "Direção & Encontros de Destino", label_en: "Direction & Fated Encounters" }
+  sun:       { key: activation,     label_pt: "Ativação & Foco",              label_en: "Activation & Focus" }
+  mercury:   { key: activation,     label_pt: "Ativação Mental",              label_en: "Mental Activation" }
+  venus:     { key: activation,     label_pt: "Ativação Afetiva",             label_en: "Affective Activation" }
+  mars:      { key: activation,     label_pt: "Ativação & Impulso",           label_en: "Activation & Drive" }
+  moon:      { key: activation,     label_pt: "Ativação Emocional",           label_en: "Emotional Activation" }
+  lilith:    { key: transformation, label_pt: "Sombra & Autonomia",           label_en: "Shadow & Autonomy" }
+
+# Pesos de intensidade: I = w_transit × w_point × w_aspect × (1 − orbe/orbe_max)
+weights:
+  transit:
+    pluto: 1.0
+    neptune: 0.9
+    uranus: 0.9
+    saturn: 0.85
+    chiron: 0.6
+    jupiter: 0.6
+    mean_node: 0.5
+    mars: 0.4
+    sun: 0.35
+    venus: 0.25
+    mercury: 0.2
+    moon: 0.1
+    lilith: 0.3
+  point:
+    sun: 1.0
+    moon: 1.0
+    asc: 1.0
+    mc: 0.95
+    dsc: 0.6
+    ic: 0.6
+    venus: 0.75
+    mars: 0.75
+    mercury: 0.7
+    saturn: 0.7
+    jupiter: 0.6
+    uranus: 0.5
+    neptune: 0.5
+    pluto: 0.5
+    chiron: 0.5
+    north_node: 0.5
+    lilith: 0.3
+    ceres: 0.3
+    pallas: 0.3
+    juno: 0.3
+    vesta: 0.3
+  aspect:
+    conjunction: 1.0
+    opposition: 0.9
+    square: 0.85
+    trine: 0.6
+    sextile: 0.45
+    quincunx: 0.4
+    semisquare: 0.35
+    sesquiquadrate: 0.35
+    semisextile: 0.25
+
+tone:
+  conjunction: focus
+  opposition: challenging
+  square: challenging
+  trine: flowing
+  sextile: flowing
+  quincunx: challenging
+  semisquare: challenging
+  sesquiquadrate: challenging
+  semisextile: flowing
+
+# Calibração 0–1000 por população sintética (gerada por scripts/calibrate_natal_domains.py).
+calibration:
+  reference_file: data/calibration/natal_domains_reference.json
+  synthetic_births: 400
+  seed: 42
+  key_year_min_percentile: 80

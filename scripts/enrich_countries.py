@@ -2,6 +2,7 @@
 Script enriquecedor com mais países do mundo para cobrir todos os continentes.
 """
 import json
+import os
 
 MORE_COUNTRIES = [
     # Europa
@@ -490,7 +491,7 @@ MORE_COUNTRIES = [
 ]
 
 def enrich():
-    target_path = "/home/astro/data/countries_database.json"
+    target_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "countries_database.json")
     with open(target_path, "r", encoding="utf-8") as f:
         existing = json.load(f)
     existing_isos = {c["iso_code"] for c in existing}

@@ -23,10 +23,8 @@ import swisseph as swe
 
 from src.core.scoring import raw_tension_from_array
 
-for _p in ["/usr/share/libswe/ephe", "/usr/share/swisseph", "/usr/local/share/swisseph"]:
-    if os.path.exists(_p):
-        swe.set_ephe_path(_p)
-        break
+from src.core.ephemeris import ensure_ephe_path
+ensure_ephe_path()
 
 FEATURES_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "features"))
 GRID_FILE = os.path.join(FEATURES_DIR, "daily_astro_1750_2150.npz")

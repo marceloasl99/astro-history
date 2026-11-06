@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from src.astro_engine import calculate_event_chart
 from src.db import init_db, save_calculated_event, get_events_stats, get_connection
 
-DATA_FILE = "/home/astro/data/historical_events.json"
+DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "historical_events.json")
 
 def populate():
     print("=" * 75)

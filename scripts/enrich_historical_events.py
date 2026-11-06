@@ -178,7 +178,7 @@ MORE_HISTORICAL_EVENTS = [
 ]
 
 def enrich():
-    target_path = "/home/astro/data/country_historical_events.json"
+    target_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "country_historical_events.json")
     with open(target_path, "r", encoding="utf-8") as f:
         existing = json.load(f)
     existing_ids = {e["event_id"] for e in existing}

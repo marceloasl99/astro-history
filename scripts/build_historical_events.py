@@ -793,7 +793,7 @@ HISTORICAL_EVENTS = [
 ]
 
 def main():
-    target_path = "/home/astro/data/country_historical_events.json"
+    target_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "country_historical_events.json")
     with open(target_path, "w", encoding="utf-8") as f:
         json.dump(HISTORICAL_EVENTS, f, indent=2, ensure_ascii=False)
     print(f"Salvo {len(HISTORICAL_EVENTS)} eventos históricos canônicos e verdadeiros em {target_path}")

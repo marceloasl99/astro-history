@@ -1,0 +1,166 @@
+# Categorias de energia ESTIMÁVEIS (v6): 8 categorias, cada uma com definição operacional,
+# alvo objetivo para o hindcast (quando disponível) e mapeamento mundano auditável.
+# Usado por src/mundane/energy_peaks.py, src/future_engine.py e pela UI de projeções.
+
+version: 1
+
+categories:
+  WAR_CONFLICT:
+    label_pt: "Tensão Geopolítica & Risco de Conflito Militar"
+    label_en: "Geopolitical Tension & Military Conflict Risk"
+    short_pt: "Guerra / Conflito"
+    short_en: "War / Conflict"
+    icon: "⚔️"
+    theme_color: rose
+    border_class: "border-rose-500/50"
+    bg_badge: "bg-rose-500/20 text-rose-300 border-rose-500/40"
+    description_pt: "Ativação de Marte, Plutão ou Urano estimulando assertividade de defesa, choques territoriais ou mobilização bélica."
+    hindcast_targets: [cow_war_onset, ucdp_onset_any]
+    catalog_categories: ["Guerra & Conflito"]
+    macro_categories: [politics_geopolitics]
+    subcategories: [interstate_war, civil_war, armed_conflict]
+    skeptical_control: false
+
+  ECONOMIC_CRASH:
+    label_pt: "Estresse Financeiro & Risco de Quebra Econômica"
+    label_en: "Financial Stress & Economic Crash Risk"
+    short_pt: "Quebra Econômica / Crise Fiscal"
+    short_en: "Economic Crash / Fiscal Crisis"
+    icon: "📉"
+    theme_color: amber
+    border_class: "border-amber-500/50"
+    bg_badge: "bg-amber-500/20 text-amber-300 border-amber-500/40"
+    description_pt: "Tensão sobre Júpiter, Vênus ou eixo Touro/Escorpião indicando aperto de liquidez, contração de crédito ou desvalorização cambial."
+    hindcast_targets: [nber_recession_start, rr_banking_crisis_onset]
+    catalog_categories: ["Crise Financeira & Econômica"]
+    macro_categories: [economics_finance]
+    subcategories: [stock_crash, banking_crisis, sovereign_default, currency_crisis, hyperinflation, recession_start]
+    skeptical_control: false
+
+  REGIME_CRISIS:
+    label_pt: "Instabilidade no Poder & Risco de Crise Institucional"
+    label_en: "Power Instability & Institutional Crisis Risk"
+    short_pt: "Crise de Poder / Ruptura"
+    short_en: "Power Crisis / Rupture"
+    icon: "🏛️"
+    theme_color: purple
+    border_class: "border-purple-500/50"
+    bg_badge: "bg-purple-500/20 text-purple-300 border-purple-500/40"
+    description_pt: "Tensão sobre o Sol nacional ou Saturno gerando perda de governabilidade, ruptura de lideranças ou reformas forçadas de regime."
+    hindcast_targets: [v2_coup_d_etat, v2_regime_change]
+    catalog_categories: ["Revolução & Conflito Interno"]
+    macro_categories: [politics_geopolitics]
+    subcategories: [coup, revolution, regime_collapse, independence, political_assassination]
+    skeptical_control: false
+
+  SOCIAL_UPHEAVAL:
+    label_pt: "Comoção Social & Movimentos de Massa"
+    label_en: "Social Upheaval & Mass Movements"
+    short_pt: "Comoção / Clamor Popular"
+    short_en: "Upheaval / Popular Outcry"
+    icon: "🌊"
+    theme_color: sky
+    border_class: "border-sky-500/50"
+    bg_badge: "bg-sky-500/20 text-sky-300 border-sky-500/40"
+    description_pt: "Tensão sobre a Lua nacional ou Quíron desencadeando manifestações coletivas, greves gerais ou sentimento popular em ebulição."
+    hindcast_targets: [v2_armed_conflict]
+    catalog_categories: ["Revolução & Conflito Interno"]
+    macro_categories: [politics_geopolitics, society_culture]
+    subcategories: [uprising, civil_rights, abolition, suffrage]
+    skeptical_control: false
+
+  NATURAL_DISASTER:
+    label_pt: "Desastres Naturais de Grande Escala"
+    label_en: "Large-Scale Natural Disasters"
+    short_pt: "Desastre Natural"
+    short_en: "Natural Disaster"
+    icon: "🌋"
+    theme_color: orange
+    border_class: "border-orange-500/50"
+    bg_badge: "bg-orange-500/20 text-orange-300 border-orange-500/40"
+    description_pt: "Marte, Urano ou Plutão em signos de Terra. CONTROLE CÉTICO: se o modelo 'prevê' terremotos tão bem quanto guerras, é ruído."
+    hindcast_targets: [ncei_quake_m75, gvp_eruption_vei5]
+    catalog_categories: ["Desastre & Saúde Pública"]
+    macro_categories: [natural_disasters]
+    subcategories: [earthquake, volcanic_eruption, tsunami, hurricane, flood, drought_famine]
+    skeptical_control: true
+
+  HEALTH_EPIDEMIC:
+    label_pt: "Saúde Pública & Epidemias"
+    label_en: "Public Health & Epidemics"
+    short_pt: "Saúde / Epidemia"
+    short_en: "Health / Epidemic"
+    icon: "🦠"
+    theme_color: teal
+    border_class: "border-teal-500/50"
+    bg_badge: "bg-teal-500/20 text-teal-300 border-teal-500/40"
+    description_pt: "Netuno, Quíron e eixo Virgem/Peixes ativados em períodos de eclosão epidêmica ou de descobertas sanitárias."
+    hindcast_targets: [pandemic_onset]
+    catalog_categories: ["Desastre & Saúde Pública"]
+    macro_categories: [health_epidemics]
+    subcategories: [pandemic, epidemic, who_declaration, vaccine_discovery, eradication]
+    skeptical_control: false
+
+  SCIENCE_INNOVATION:
+    label_pt: "Ciência, Inovação & Exploração"
+    label_en: "Science, Innovation & Exploration"
+    short_pt: "Ciência / Inovação"
+    short_en: "Science / Innovation"
+    icon: "🔭"
+    theme_color: cyan
+    border_class: "border-cyan-500/50"
+    bg_badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/40"
+    description_pt: "Urano e Mercúrio em harmonia, Aquário/Gêmeos: polaridade construtiva de descobertas, lançamentos e invenções."
+    hindcast_targets: [science_milestone]
+    catalog_categories: ["Ciência & Tecnologia"]
+    macro_categories: [science_technology]
+    subcategories: [discovery, invention, space_exploration, computing_ai, medicine]
+    skeptical_control: false
+
+  DIPLOMACY_PEACE:
+    label_pt: "Diplomacia, Tratados & Paz"
+    label_en: "Diplomacy, Treaties & Peace"
+    short_pt: "Diplomacia / Paz"
+    short_en: "Diplomacy / Peace"
+    icon: "🕊️"
+    theme_color: emerald
+    border_class: "border-emerald-500/50"
+    bg_badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+    description_pt: "Júpiter e Vênus em harmonia, Libra/Sagitário: tratados, organizações internacionais, fins de guerra e reconciliações."
+    hindcast_targets: [peace_treaty, cow_war_end]
+    catalog_categories: ["Política, Tratados & Cultura"]
+    macro_categories: [diplomacy_peace]
+    subcategories: [peace_treaty, disarmament_treaty, international_organization, reconciliation]
+    skeptical_control: false
+
+# Ordem canônica para a UI.
+order: [WAR_CONFLICT, ECONOMIC_CRASH, REGIME_CRISIS, SOCIAL_UPHEAVAL, NATURAL_DISASTER, HEALTH_EPIDEMIC, SCIENCE_INNOVATION, DIPLOMACY_PEACE]
+
+# Taxonomia em dois níveis do catálogo (Frente A).
+macro_categories:
+  politics_geopolitics: { label_pt: "Política & Geopolítica", label_en: "Politics & Geopolitics" }
+  economics_finance:    { label_pt: "Economia & Finanças",   label_en: "Economics & Finance" }
+  health_epidemics:     { label_pt: "Saúde & Epidemias",     label_en: "Health & Epidemics" }
+  natural_disasters:    { label_pt: "Desastres Naturais",    label_en: "Natural Disasters" }
+  science_technology:   { label_pt: "Ciência & Tecnologia",  label_en: "Science & Technology" }
+  society_culture:      { label_pt: "Sociedade & Cultura",   label_en: "Society & Culture" }
+  diplomacy_peace:      { label_pt: "Diplomacia & Paz",      label_en: "Diplomacy & Peace" }
+
+# Mapeamento dos 6 rótulos legados (coluna `category`) para macro-categoria padrão.
+legacy_category_map:
+  "Guerra & Conflito": politics_geopolitics
+  "Revolução & Conflito Interno": politics_geopolitics
+  "Crise Financeira & Econômica": economics_finance
+  "Desastre & Saúde Pública": natural_disasters
+  "Ciência & Tecnologia": science_technology
+  "Política, Tratados & Cultura": diplomacy_peace
+
+# Rótulo legado padrão para cada macro-categoria (novos eventos precisam de `category` para a UI antiga).
+macro_to_legacy:
+  politics_geopolitics: "Revolução & Conflito Interno"
+  economics_finance: "Crise Financeira & Econômica"
+  health_epidemics: "Desastre & Saúde Pública"
+  natural_disasters: "Desastre & Saúde Pública"
+  science_technology: "Ciência & Tecnologia"
+  society_culture: "Política, Tratados & Cultura"
+  diplomacy_peace: "Política, Tratados & Cultura"

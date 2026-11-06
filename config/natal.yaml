@@ -1,0 +1,116 @@
+# Configuração do Módulo Pessoal (mapa natal, trânsitos de vida e progressões secundárias).
+# Este arquivo é INDEPENDENTE de config/score.yaml (que permanece congelado para a pesquisa).
+# Base: astrologia moderna ocidental — zodíaco tropical, planetas transaturninos, regências modernas.
+
+version: 1
+zodiac: tropical
+
+houses:
+  default: P                      # Placidus
+  allowed:
+    P: Placidus
+    K: Koch
+    W: Signos Inteiros
+    E: Igual (ASC)
+    O: Porphyry
+
+progression:
+  year_length_days: 365.24219     # 1 dia = 1 ano trópico (padrão); alternativa: 365.25 (juliano)
+  mc_method: solar_arc            # solar_arc | naibod_ra
+  naibod_deg_per_year: 0.98564733 # 0°59'08.33" (movimento médio diário do Sol)
+  moon_aspect_orb: 1.0            # orbe da Lua progredida (e demais progredidos) ao natal
+  sample_days: 30                 # amostragem mensal da série progredida
+
+# Orbes para aspectos DENTRO da carta natal (convenção moderna).
+natal_aspect_orbs:
+  luminaries: 8.0
+  planets: 6.0
+  points: 3.0                     # Quíron, Nodo, Lilith, asteroides, ângulos
+
+# Corpos em trânsito (Lua desligada por padrão: trânsitos lunares duram horas).
+transit_bodies:
+  default: [sun, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, chiron, mean_node]
+  optional: [moon, lilith]
+
+# Orbe máxima por PLANETA EM TRÂNSITO (graus): curta para lentos, até 4° para rápidos.
+transit_orbs:
+  pluto: 1.0
+  neptune: 1.0
+  uranus: 1.0
+  saturn: 1.5
+  chiron: 1.0
+  mean_node: 1.5
+  jupiter: 2.0
+  mars: 3.0
+  sun: 4.0
+  mercury: 4.0
+  venus: 4.0
+  moon: 3.0
+  lilith: 1.0
+
+orb_presets:
+  strict: 0.7
+  standard: 1.0
+  wide: 1.3
+
+# Acréscimo de orbe quando o ponto natal é luminar ou ângulo.
+target_bonus:
+  sun: 0.5
+  moon: 0.5
+  asc: 0.5
+  mc: 0.5
+
+aspects:
+  major:
+    - { key: conjunction, name: Conjunção, symbol: "☌", angle: 0,   family: focus }
+    - { key: sextile,     name: Sextil,    symbol: "⚹", angle: 60,  family: flowing }
+    - { key: square,      name: Quadratura, symbol: "□", angle: 90, family: challenging }
+    - { key: trine,       name: Trígono,   symbol: "△", angle: 120, family: flowing }
+    - { key: opposition,  name: Oposição,  symbol: "☍", angle: 180, family: challenging }
+  minor:
+    - { key: semisextile,    name: Semissextil,     symbol: "⚺", angle: 30,  family: flowing }
+    - { key: semisquare,     name: Semiquadratura,  symbol: "∠", angle: 45,  family: challenging }
+    - { key: sesquiquadrate, name: Sesquiquadratura, symbol: "⚼", angle: 135, family: challenging }
+    - { key: quincunx,       name: Quincúncio,      symbol: "⚻", angle: 150, family: challenging }
+  minor_orb_factor: 0.5
+  minors_enabled_default: false
+
+# Pontos natais alvo dos trânsitos.
+targets:
+  natal_default: [sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, chiron, north_node, asc, mc, dsc, ic]
+  optional: [lilith, ceres, pallas, juno, vesta]
+  # Lua em trânsito (se ligada) só faz conjunção/oposição.
+  moon_transit_aspects: [conjunction, opposition]
+
+# Ingressos de planetas lentos nas casas natais.
+house_transits:
+  bodies: [jupiter, saturn, uranus, neptune, pluto, chiron, mean_node]
+
+# Janelas que saem da orbe e voltam em poucos dias são fundidas (planetas lentos).
+window_merge_gap_days:
+  slow: 10
+  fast: 0
+slow_bodies: [jupiter, saturn, uranus, neptune, pluto, chiron, mean_node]
+
+refine: bisection                 # bisection | linear
+refine_tolerance_minutes: 1.0
+lifetime_years: 100
+max_range_years: 120
+
+grid:
+  file: data/ephemeris/natal_grid_1850_2150.npz
+  start_year: 1850
+  end_year: 2150
+  bodies: [sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, chiron, mean_node, lilith]
+
+# Hora desconhecida: carta ao meio-dia local, sem casas; Lua com faixa de incerteza.
+unknown_time:
+  default_local_hour: 12.0
+  moon_orb_extra_factor: 0.5      # orbe efetiva à Lua natal += metade da amplitude da faixa lunar do dia
+
+privacy:
+  cache_ttl_seconds: 600
+  cache_max_entries: 64
+  rate_limit_per_minute: 30
+  places_rate_limit_per_minute: 60
+  max_query_bytes: 4096
