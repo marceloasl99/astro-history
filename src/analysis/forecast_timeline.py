@@ -185,9 +185,9 @@ def build_unified_forecast_data() -> Dict[str, Any]:
         }
         peaks_by_year.setdefault(yr, []).append(processed_peak)
 
-    # Ordenar picos dentro de cada ano por data
+    # Ordenar picos dentro de cada ano pelo score de intensidade decrescente
     for yr in peaks_by_year:
-        peaks_by_year[yr].sort(key=lambda x: (x["peak_date"], -x["energy_score_1000"]))
+        peaks_by_year[yr].sort(key=lambda x: -x["energy_score_1000"])
 
     # 3. Construir lista de anos 2026 a 2060
     years_list: List[Dict[str, Any]] = []

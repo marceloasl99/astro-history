@@ -91,3 +91,22 @@ def test_peaks_attributes():
         assert "category_key" in p
         assert "category_label" in p
         assert "cosmic_signature" in p
+
+
+@pytest.mark.anyio
+async def test_forecast_page_renders_clean_years_without_fake_dates():
+    from httpx import ASGITransport, AsyncClient
+    from src.web.app import app
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.get("/forecast")
+        assert res.status_code == 200
+        # Check that fake sampling date 01/07/ANO is NOT in the page
+        assert "01/07/" not in res.text
+        assert "Data de Pico Anual:" not in res.text
+        # Check that years, categories, and scores are present
+        assert "2026" in res.text
+        assert "2060" in res.text
+        assert "Cenários Projetados &amp; Vetores Estratégicos" in res.text or "Cenários Projetados & Vetores Estratégicos" in res.text
+        assert "Score de Tensão:" in res.text
+        assert "Score de Intensidade:" in res.text

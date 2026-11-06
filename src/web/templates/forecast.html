@@ -11,7 +11,7 @@
         <div class="max-w-4xl space-y-4 relative z-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Previsão Probabilística & Projeções Cronológicas 2026–2060 • 148 Picos de Alta Energia • 8 Categorias Canônicas</span>
+                <span>Previsão Probabilística Anual 2026–2060 • 148 Vetores Estratégicos de Alta Tensão • 8 Categorias Canônicas</span>
             </div>
 
             <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
@@ -20,8 +20,8 @@
 
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
                 Varredura cronológica de alta precisão baseada no <strong>Swiss Ephemeris 2.10</strong> e calibrada na base de <strong>3.406 marcos históricos mundiais</strong>.
-                Cada ano e cada data de ativação extrema recebe um <strong>Score de Pontuação (0–1000)</strong>, classificação em <strong>8 categorias canônicas</strong>,
-                mapeamento dos <strong>possíveis acontecimentos e cenários</strong>, gatilhos cosmológicos e precedentes históricos documentados.
+                Cada ano de 2026 a 2060 recebe um <strong>Score de Tensão Anual (0–1000)</strong>, classificação em <strong>8 categorias canônicas</strong>,
+                mapeamento dos <strong>possíveis acontecimentos e cenários prospectivos</strong>, gatilhos cosmológicos e precedentes históricos documentados.
             </p>
 
             <!-- Quick Metrics Grid -->
@@ -32,9 +32,9 @@
                     <span class="text-[10px] text-slate-400">2026 a 2060</span>
                 </div>
                 <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
-                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Picos de Energia</span>
-                    <div class="text-lg sm:text-xl font-bold font-mono text-rose-300 mt-0.5">{{ unified_forecast.kpis.total_peaks }} Datas</div>
-                    <span class="text-[10px] text-slate-400">Ativações extremas</span>
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Vetores Catalogados</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-rose-300 mt-0.5">{{ unified_forecast.kpis.total_peaks }} Cenários</div>
+                    <span class="text-[10px] text-slate-400">Ativações mundanas</span>
                 </div>
                 <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
                     <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Anos Críticos</span>
@@ -61,7 +61,7 @@
             </div>
             <!-- Campo de Busca em Tempo Real -->
             <div class="relative w-full md:w-72">
-                <input type="text" id="forecastSearch" placeholder="Buscar ano, data, país ou tema..."
+                <input type="text" id="forecastSearch" placeholder="Buscar ano, país, categoria ou tema..."
                     class="w-full bg-slate-900/90 text-slate-100 text-xs rounded-xl border border-slate-700 px-3 py-2 pl-8 focus:outline-none focus:border-amber-400 transition" />
                 <span class="absolute left-2.5 top-2 text-slate-500 text-xs">🔍</span>
             </div>
@@ -140,10 +140,6 @@
                                 🔵 Alerta Moderado
                             </span>
                         {% endif %}
-
-                        <span class="text-xs text-slate-400 font-mono">
-                            Data de Pico Anual: <strong class="text-slate-200">{{ y.formatted_peak_date }}</strong>
-                        </span>
                     </div>
 
                     <div class="text-xs text-slate-400 flex flex-wrap gap-2 items-center pt-0.5">
@@ -190,14 +186,14 @@
                 {% endif %}
             </div>
 
-            <!-- Seção de Picos de Energia e Datas do Ano -->
+            <!-- Seção de Vetores Temáticos e Cenários do Ano -->
             {% if y.peaks %}
             <div class="mt-4 pt-4 border-t border-slate-800/70 space-y-3">
                 <div class="flex items-center justify-between">
                     <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
-                        <span>⚡</span> Acontecimentos Projetados & Datas Críticas ({{ y.peaks|length }})
+                        <span>⚡</span> Cenários Projetados & Vetores Estratégicos de {{ y.year }} ({{ y.peaks|length }})
                     </h4>
-                    <span class="text-[11px] text-slate-400">Picos de ativação mundana</span>
+                    <span class="text-[11px] text-slate-400">Classificados por score de intensidade</span>
                 </div>
 
                 <div class="grid grid-cols-1 gap-3">
@@ -207,10 +203,6 @@
                         
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div class="flex items-center gap-2 flex-wrap">
-                                <span class="font-mono text-xs font-bold text-slate-200 bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-700">
-                                    📅 {{ p.formatted_date }}
-                                </span>
-                                
                                 <!-- Badge da Categoria -->
                                 <span class="px-2.5 py-0.5 rounded-lg text-xs font-semibold border flex items-center gap-1 {{ p.badge_class }}">
                                     <span>{{ p.category_icon }}</span>
@@ -224,7 +216,7 @@
                                 </span>
                             </div>
 
-                            <!-- Score de Pontuação da Data -->
+                            <!-- Score de Pontuação da Ativação -->
                             <div class="flex items-center gap-2 shrink-0">
                                 <span class="text-[11px] font-mono text-slate-400">Score de Intensidade:</span>
                                 <span class="px-2 py-0.5 rounded-lg font-mono text-xs font-bold {% if p.energy_score_1000 >= 900 %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% elif p.energy_score_1000 >= 750 %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% else %}bg-sky-500/20 text-sky-300 border border-sky-500/40{% endif %}">
