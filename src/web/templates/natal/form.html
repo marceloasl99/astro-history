@@ -15,6 +15,26 @@
 <div class="mb-6 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-200 px-4 py-3 text-sm" role="alert">⚠ {{ t('natal.error') }}: {{ error }}</div>
 {% endif %}
 
+<!-- Banner de Pessoas Cadastradas & Mapas Salvos (LocalStorage + Cookies) -->
+<section id="saved-people-banner" class="hidden glass-panel rounded-3xl p-5 sm:p-6 mb-6 border border-indigo-500/30">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+            <span class="text-xl">👥</span>
+            <div>
+                <h2 class="font-display text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                    <span>Pessoas Cadastradas &amp; Mapas Salvos</span>
+                    <span id="saved-count-pill" class="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">0</span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-0.5">Armazenados com privacidade no seu navegador (cookies e armazenamento local).</p>
+            </div>
+        </div>
+        <button type="button" id="btn-clear-all-saved" class="text-xs text-rose-300 hover:text-rose-200 hover:underline font-mono self-start sm:self-auto">
+            Limpar Todos os Salvos
+        </button>
+    </div>
+    <div id="saved-people-cards" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+</section>
+
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 <form method="post" action="/natal" class="glass-panel rounded-3xl p-6 sm:p-8 xl:col-span-2 space-y-6" id="natal-form" autocomplete="off">
     <input type="hidden" name="lang" value="{{ lang }}">
@@ -87,6 +107,17 @@
         </div>
     </details>
 
+    <!-- Opção de Salvar Localmente -->
+    <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <label class="inline-flex items-center gap-2.5 text-xs font-semibold text-amber-200 cursor-pointer">
+            <input type="checkbox" id="save-locally-checkbox" checked class="accent-amber-400 w-4 h-4 rounded">
+            <span>💾 Salvar esta pessoa localmente (cookies/armazenamento do navegador)</span>
+        </label>
+        <button type="button" id="btn-save-draft" class="px-3 py-1.5 rounded-xl text-xs font-mono border border-slate-700 bg-slate-800 text-slate-200 hover:text-white hover:border-amber-400/50 transition">
+            💾 Salvar Cadastro
+        </button>
+    </div>
+
     <div class="flex flex-wrap items-center gap-3">
         <button type="submit" name="goto" value="transits" class="px-5 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-bold hover:bg-amber-300 transition">🪐 {{ t('natal.submit.transits') }}</button>
         <button type="submit" name="goto" value="forecast" class="px-5 py-2.5 rounded-xl border border-amber-500/50 bg-amber-500/10 text-amber-200 font-semibold hover:bg-amber-500/20 transition">🔮 Previsão Pessoal (2026–2050)</button>
@@ -108,11 +139,6 @@
             {% endfor %}
         </ul>
     </section>
-    <section class="glass-panel rounded-3xl p-6" id="saved-box" hidden>
-        <h2 class="font-display text-lg font-bold text-white">★ {{ t('natal.saved_title') }}</h2>
-        <ul id="saved-list" class="mt-3 space-y-2 text-sm"></ul>
-        <button type="button" id="saved-clear" class="mt-3 text-[11px] text-rose-300 hover:underline">{{ t('natal.saved_clear') }}</button>
-    </section>
     <section class="glass-panel rounded-3xl p-6 text-sm text-slate-300 space-y-2">
         <h2 class="font-display text-lg font-bold text-white">{{ t('natal.how.title') }}</h2>
         <p>{{ t('natal.how.1') }}</p>
@@ -128,8 +154,14 @@
   var place = document.getElementById('f-place'), list = document.getElementById('f-place-list');
   var lat = document.getElementById('f-lat'), lon = document.getElementById('f-lon'), tz = document.getElementById('f-tz');
   var timeKnown = document.getElementById('f-time-known'), timeInput = document.getElementById('f-time');
+  var labelInput = document.querySelector('input[name="label"]'), dateInput = document.querySelector('input[name="date"]');
+  var houseSelect = document.querySelector('select[name="house_system"]');
+  var saveCheck = document.getElementById('save-locally-checkbox');
+  var form = document.getElementById('natal-form');
+
   function syncTime(){ timeInput.disabled = !timeKnown.checked; timeInput.classList.toggle('opacity-50', !timeKnown.checked); }
   timeKnown.addEventListener('change', syncTime); syncTime();
+  
   var timer = null;
   if (place) place.addEventListener('input', function(){
     clearTimeout(timer);
@@ -155,21 +187,132 @@
     }, 180);
   });
   document.addEventListener('click', function(e){ if (!list.contains(e.target) && e.target !== place) list.classList.add('hidden'); });
-  // Mapas salvos neste navegador
-  try {
-    var saved = JSON.parse(localStorage.getItem('astro_natal_saved') || '[]');
-    var box = document.getElementById('saved-box'), ul = document.getElementById('saved-list');
-    if (saved.length) {
-      box.hidden = false;
-      saved.forEach(function(s){
-        var li = document.createElement('li');
-        li.innerHTML = '<a class="block rounded-xl border border-slate-700/60 bg-slate-900/40 px-3 py-2 hover:border-amber-400/50" href="' + s.url + '"><span class="font-semibold text-slate-100"></span><span class="block text-[11px] font-mono text-slate-400"></span></a>';
-        li.querySelector('span').textContent = s.label; li.querySelectorAll('span')[1].textContent = s.date;
-        ul.appendChild(li);
-      });
-      document.getElementById('saved-clear').addEventListener('click', function(){ localStorage.removeItem('astro_natal_saved'); box.hidden = true; });
+
+  // Helper para extrair dados do formulário
+  function getFormData() {
+    return {
+      label: labelInput ? labelInput.value.trim() : '',
+      date: dateInput ? dateInput.value : '',
+      time: timeInput ? timeInput.value : '12:00',
+      time_known: timeKnown ? timeKnown.checked : true,
+      place: place ? place.value.trim() : '',
+      lat: lat ? lat.value : '',
+      lon: lon ? lon.value : '',
+      tz: tz ? tz.value : '',
+      house_system: houseSelect ? houseSelect.value : 'P'
+    };
+  }
+
+  // Preencher formulário com dados de uma pessoa salva
+  function populateForm(p) {
+    if (labelInput) labelInput.value = p.label || '';
+    if (dateInput) dateInput.value = p.date || '';
+    if (timeInput) timeInput.value = p.time || '12:00';
+    if (timeKnown) timeKnown.checked = (p.time_known !== false && p.time_known !== '0');
+    if (place) place.value = p.place || '';
+    if (lat) lat.value = p.lat !== undefined ? p.lat : '';
+    if (lon) lon.value = p.lon !== undefined ? p.lon : '';
+    if (tz) tz.value = p.tz || '';
+    if (houseSelect && p.house_system) houseSelect.value = p.house_system;
+    syncTime();
+    form.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Renderizar o banner superior de pessoas salvas
+  function renderSavedBanner() {
+    if (!window.NatalStorage) return;
+    var list = window.NatalStorage.getAll();
+    var banner = document.getElementById('saved-people-banner');
+    var countPill = document.getElementById('saved-count-pill');
+    var container = document.getElementById('saved-people-cards');
+
+    if (!banner || !container) return;
+
+    if (list.length === 0) {
+      banner.classList.add('hidden');
+      return;
     }
-  } catch (e) {}
+
+    banner.classList.remove('hidden');
+    if (countPill) countPill.textContent = list.length + (list.length === 1 ? ' pessoa' : ' pessoas');
+    container.innerHTML = '';
+
+    list.forEach(function(p){
+      var card = document.createElement('div');
+      card.className = 'glass-card-interactive rounded-2xl p-3 border border-slate-700/60 bg-slate-900/60 flex flex-col justify-between gap-2.5 relative group';
+      
+      var urlChart = window.NatalStorage.getUrl(p, 'chart');
+      var urlForecast = window.NatalStorage.getUrl(p, 'forecast');
+      var urlTransits = window.NatalStorage.getUrl(p, 'transits');
+
+      card.innerHTML = 
+        '<div class="space-y-0.5 pr-6">' +
+          '<h3 class="font-bold text-sm text-white group-hover:text-amber-300 transition truncate">' + p.label + '</h3>' +
+          '<p class="text-xs font-mono text-slate-300">' + p.date + ' ' + (p.time || '') + '</p>' +
+          (p.place ? '<p class="text-[11px] text-slate-400 truncate">📍 ' + p.place + '</p>' : '') +
+        '</div>' +
+        '<button type="button" class="btn-del absolute top-2.5 right-2.5 text-slate-500 hover:text-rose-400 p-1 text-xs" title="Remover">✕</button>' +
+        '<div class="pt-2 border-t border-slate-800/80 flex flex-wrap gap-1.5 text-[11px] font-mono">' +
+          '<button type="button" class="btn-load px-2 py-1 rounded bg-slate-800 text-slate-200 hover:bg-slate-700">Preencher Form</button>' +
+          '<a href="' + urlChart + '" class="px-2 py-1 rounded bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/30">Mapa</a>' +
+          '<a href="' + urlForecast + '" class="px-2 py-1 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/30">Previsão</a>' +
+        '</div>';
+
+      card.querySelector('.btn-load').addEventListener('click', function(){ populateForm(p); });
+      card.querySelector('.btn-del').addEventListener('click', function(){
+        window.NatalStorage.remove(p.id || p.label);
+        renderSavedBanner();
+      });
+
+      container.appendChild(card);
+    });
+  }
+
+  // Botão "Salvar Cadastro" avulso
+  var btnSaveDraft = document.getElementById('btn-save-draft');
+  if (btnSaveDraft) {
+    btnSaveDraft.addEventListener('click', function(){
+      var data = getFormData();
+      if (!data.date || !data.lat || !data.lon) {
+        alert('Por favor, preencha pelo menos a data de nascimento e o local com coordenadas para salvar.');
+        return;
+      }
+      if (window.NatalStorage) {
+        window.NatalStorage.save(data);
+        renderSavedBanner();
+        btnSaveDraft.textContent = '✓ Salvo!';
+        setTimeout(function(){ btnSaveDraft.textContent = '💾 Salvar Cadastro'; }, 2000);
+      }
+    });
+  }
+
+  // Interceptar envio do formulário para salvar automaticamente se checkbox estiver marcado
+  if (form) {
+    form.addEventListener('submit', function(){
+      if (saveCheck && saveCheck.checked && window.NatalStorage) {
+        var data = getFormData();
+        if (data.date && data.lat && data.lon) {
+          window.NatalStorage.save(data);
+        }
+      }
+    });
+  }
+
+  // Botão limpar todos
+  var btnClearAll = document.getElementById('btn-clear-all-saved');
+  if (btnClearAll) {
+    btnClearAll.addEventListener('click', function(){
+      if (confirm('Tem certeza que deseja apagar todas as pessoas salvas localmente?')) {
+        if (window.NatalStorage) {
+          window.NatalStorage.clearAll();
+          renderSavedBanner();
+        }
+      }
+    });
+  }
+
+  // Inicializar banner
+  renderSavedBanner();
 })();
 </script>
 {% endblock %}

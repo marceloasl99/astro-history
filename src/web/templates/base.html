@@ -167,7 +167,7 @@
             {% set nav_groups = [
                 ("Explorar", "🌍", [("/", "Dashboard", "Visão geral, achados e gráfico 1800–2100"), ("/events", "Catálogo", "Eventos históricos auditados"), ("/countries", "Países", "Mapas soberanos e trânsitos nacionais")]),
                 ("Analisar", "🔬", [("/simulator", "Simulador", "Teste qualquer data"), ("/correlations", "Correlações", "Hub de correlações"), ("/forecast", "Previsão", "Skill walk-forward 2026–2060"), ("/projections", "Cenários", "Picos de energia e dossiês")]),
-                ("Pessoal", "🪐", [("/natal", "Mapa Natal", "Carta natal com Swiss Ephemeris"), ("/natal#trânsitos", "Trânsitos da Vida", "Datas exatas do nascimento aos 100 anos"), ("/natal#progressões", "Progressões", "Progressões secundárias e Lua progredida"), ("/natal#previsao", "Previsão Pessoal", "Ciclos e acontecimentos 2026–2050")]),
+                ("Pessoal", "🪐", [("/natal", "Mapa Natal", "Carta natal e pessoas salvas"), ("/natal#saved-people-banner", "Pessoas Cadastradas", "Mapas salvos em cookies/localStorage"), ("/natal#trânsitos", "Trânsitos da Vida", "Datas exatas do nascimento aos 100 anos"), ("/natal#progressões", "Progressões", "Progressões secundárias e Lua progredida"), ("/natal#previsao", "Previsão Pessoal", "Ciclos e acontecimentos 2026–2050")]),
                 ("Sobre", "📚", [("/methodology", "Metodologia", "Modelos nulos N1–N3 e hindcast"), ("/dados-fontes", "Dados & Fontes", "Licenças, cobertura e versões"), ("/glossario", "Glossário", "Termos de astrologia e estatística"), ("/sobre", "Sobre o projeto", "Equipe, citação e changelog")])
             ] %}
             {% set nav_items = [] %}
@@ -183,7 +183,7 @@
                     <button type="button" class="nav-group-btn px-2.5 2xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all flex items-center gap-1 {% if group_active %}bg-slate-800 text-amber-300 ring-1 ring-amber-400/40{% else %}text-slate-300 hover:text-white hover:bg-slate-800/60{% endif %}" aria-haspopup="true" aria-expanded="false">
                         <span>{{ icon }}</span><span>{{ group }}</span><svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
                     </button>
-                    <div class="nav-group-menu hidden absolute left-0 top-full mt-1 w-72 rounded-2xl border border-slate-700/70 bg-slate-950/97 backdrop-blur-xl shadow-2xl p-2 z-50">
+                    <div class="nav-group-menu hidden absolute left-0 top-full mt-1 w-72 rounded-2xl border border-slate-700/70 bg-slate-950/97 backdrop-blur-xl shadow-2xl p-2 z-50 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
                         {% for href, label, desc in items %}
                         {% set path = href.split('#')[0] %}{% set active = (current_path == path) or (path != "/" and current_path.startswith(path)) %}
                         <a href="{{ href }}" class="block px-3 py-2 rounded-xl hover:bg-slate-800 {% if active %}bg-slate-800/80 ring-1 ring-amber-400/30{% endif %}" aria-current="{{ 'page' if active else 'false' }}">
@@ -201,15 +201,72 @@
             <script>
                 (function(){
                     var groups = document.querySelectorAll('#nav-desktop .nav-group');
-                    function closeAll(){ groups.forEach(function(g){ g.querySelector('.nav-group-menu').classList.add('hidden'); g.querySelector('.nav-group-btn').setAttribute('aria-expanded','false'); }); }
+                    var hideTimeout = null;
+                    var openGroup = null;
+
+                    function closeGroup(g){
+                        if (!g) return;
+                        var menu = g.querySelector('.nav-group-menu');
+                        var btn = g.querySelector('.nav-group-btn');
+                        if (menu) menu.classList.add('hidden');
+                        if (btn) btn.setAttribute('aria-expanded','false');
+                        if (openGroup === g) openGroup = null;
+                    }
+
+                    function closeAll(){
+                        if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+                        groups.forEach(function(g){ closeGroup(g); });
+                    }
+
+                    function showGroup(g){
+                        if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+                        if (openGroup && openGroup !== g) {
+                            closeGroup(openGroup);
+                        }
+                        var menu = g.querySelector('.nav-group-menu');
+                        var btn = g.querySelector('.nav-group-btn');
+                        if (menu) menu.classList.remove('hidden');
+                        if (btn) btn.setAttribute('aria-expanded','true');
+                        openGroup = g;
+                    }
+
                     groups.forEach(function(g){
-                        var btn = g.querySelector('.nav-group-btn'), menu = g.querySelector('.nav-group-menu');
-                        btn.addEventListener('click', function(e){ e.stopPropagation(); var open = menu.classList.contains('hidden'); closeAll(); if (open) { menu.classList.remove('hidden'); btn.setAttribute('aria-expanded','true'); } });
-                        g.addEventListener('mouseenter', function(){ closeAll(); menu.classList.remove('hidden'); btn.setAttribute('aria-expanded','true'); });
-                        g.addEventListener('mouseleave', function(){ menu.classList.add('hidden'); btn.setAttribute('aria-expanded','false'); });
+                        var btn = g.querySelector('.nav-group-btn');
+                        var menu = g.querySelector('.nav-group-menu');
+
+                        btn.addEventListener('click', function(e){
+                            e.stopPropagation();
+                            var isVisible = menu && !menu.classList.contains('hidden');
+                            if (isVisible) {
+                                closeAll();
+                            } else {
+                                showGroup(g);
+                            }
+                        });
+
+                        g.addEventListener('mouseenter', function(){
+                            showGroup(g);
+                        });
+
+                        g.addEventListener('mouseleave', function(){
+                            if (hideTimeout) clearTimeout(hideTimeout);
+                            hideTimeout = setTimeout(function(){
+                                closeGroup(g);
+                            }, 350); // 350ms grace period so cursor can reach submenus smoothly
+                        });
                     });
-                    document.addEventListener('click', closeAll);
-                    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAll(); if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)) { var s = document.getElementById('global-search'); if (s) { e.preventDefault(); s.focus(); } } });
+
+                    document.addEventListener('click', function(e){
+                        if (!e.target.closest('#nav-desktop')) closeAll();
+                    });
+
+                    document.addEventListener('keydown', function(e){
+                        if (e.key === 'Escape') closeAll();
+                        if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)) {
+                            var s = document.getElementById('global-search');
+                            if (s) { e.preventDefault(); s.focus(); }
+                        }
+                    });
                 })();
             </script>
 
@@ -336,6 +393,7 @@
         </div>
     </footer>
     <script src="/static/js/i18n.js"></script>
+    <script src="/static/js/natal_saved.js"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

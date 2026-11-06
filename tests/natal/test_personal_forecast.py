@@ -106,3 +106,22 @@ async def test_natal_chart_and_progressions_web_routes():
         res_prog = await ac.get(url_prog)
         assert res_prog.status_code == 200
         assert "Confluência Cósmica" in res_prog.text
+
+
+@pytest.mark.anyio
+async def test_natal_saved_people_ui_elements():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Form page has saved people banner and save checkbox
+        res_form = await ac.get("/natal")
+        assert res_form.status_code == 200
+        assert "saved-people-banner" in res_form.text
+        assert "save-locally-checkbox" in res_form.text
+        assert "natal_saved.js" in res_form.text
+
+        # Chart page has saved people switcher and save button
+        url = "/natal/chart?date=1990-05-14&time=08:35&lat=-23.5505&lon=-46.6333&place=Sao+Paulo"
+        res_chart = await ac.get(url)
+        assert res_chart.status_code == 200
+        assert "natal-saved-dropdown-container" in res_chart.text
+        assert "btn-save-current-person" in res_chart.text
+        assert "natal-saved-dropdown-text" in res_chart.text
