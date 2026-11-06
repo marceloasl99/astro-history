@@ -37,6 +37,11 @@ def test_generate_personal_forecast_structure():
 
 def test_generate_personal_forecast_years():
     fc = generate_personal_forecast(SP1990, start_year=2026, end_year=2050)
+    scores = [y["score_1000"] for y in fc["timeline"]]
+    # O gráfico NÃO pode ser uma reta plana
+    assert len(set(scores)) > 5, "Scores não devem formar uma reta plana"
+    assert not all(s == 350.0 for s in scores), "Scores não devem ser o fallback estático de 350.0"
+
     for y in fc["timeline"]:
         assert 2026 <= y["year"] <= 2050
         assert "score_1000" in y
@@ -50,7 +55,30 @@ def test_generate_personal_forecast_years():
             assert 0.0 <= y["domains"][domain_key] <= 1000.0
         assert "events" in y
         assert isinstance(y["events"], list)
+        assert len(y["events"]) > 0, f"Ano {y['year']} deve trazer dados de acontecimentos"
         assert "annual_synthesis" in y
+
+
+def test_generate_personal_forecast_historical_einstein():
+    einstein = BirthInput(date="1879-03-14", time="11:30", lat=48.4, lon=9.9833, tz="Europe/Berlin", place="Ulm")
+    # Padrão para figura histórica: Auge Adulto (1900–1924)
+    fc = generate_personal_forecast(einstein)
+    assert fc["is_historical"] is True
+    assert fc["start_year"] == 1900
+    assert fc["end_year"] == 1924
+    assert len(fc["timeline"]) == 25
+    scores = [y["score_1000"] for y in fc["timeline"]]
+    assert len(set(scores)) > 5, "Scores de Einstein não devem ser uma reta"
+    assert all(len(y["events"]) > 0 for y in fc["timeline"]), "Todos os anos devem trazer dados"
+    assert len(fc["preset_windows"]) == 4
+
+    # Teste de projeção cósmica para 2026-2050 para Einstein
+    fc_future = generate_personal_forecast(einstein, start_year=2026, end_year=2050)
+    assert fc_future["start_year"] == 2026
+    assert fc_future["end_year"] == 2050
+    scores_future = [y["score_1000"] for y in fc_future["timeline"]]
+    assert len(set(scores_future)) > 5, "Projeção 2026-2050 para Einstein não deve ser uma reta"
+    assert any(len(y["events"]) > 0 for y in fc_future["timeline"]), "Deve conter eventos em 2026-2050"
 
 
 def test_biwheel_transits_generation():
@@ -80,6 +108,11 @@ def test_calculate_transits_to_progressed():
 @pytest.mark.anyio
 async def test_natal_forecast_web_route():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Sem query params -> redireciona amigavelmente para /natal
+        res_empty = await ac.get("/natal/forecast", follow_redirects=False)
+        assert res_empty.status_code == 303
+        assert res_empty.headers["location"] == "/natal"
+
         # Forecast route with SP1990 query params
         url = "/natal/forecast?date=1990-05-14&time=08:35&lat=-23.5505&lon=-46.6333&place=Sao+Paulo"
         res = await ac.get(url)
@@ -88,6 +121,14 @@ async def test_natal_forecast_web_route():
         assert "2026" in res.text
         assert "2050" in res.text
         assert "Radar dos 8 Domínios de Vida" in res.text
+
+        # Forecast route para Einstein (histórico)
+        url_einstein = "/natal/forecast?date=1879-03-14&time=11:30&lat=48.4&lon=9.9833&tz=Europe/Berlin&place=Ulm"
+        res_einstein = await ac.get(url_einstein)
+        assert res_einstein.status_code == 200
+        assert "Ciclo Biográfico de Auge" in res_einstein.text
+        assert "1900" in res_einstein.text
+        assert "1924" in res_einstein.text
 
 
 @pytest.mark.anyio

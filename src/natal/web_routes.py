@@ -311,7 +311,7 @@ async def natal_places(request: Request, q: str = ""):
     return JSONResponse(content={"results": search_places(q, limit=8, lang=lang)})
 
 
-@router.get("/natal/chart", response_class=HTMLResponse)
+@router.api_route("/natal/chart", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def natal_chart(request: Request):
     _rate_limit(request)
     lang = resolve_lang(request)
@@ -342,7 +342,7 @@ async def natal_chart(request: Request):
     )
 
 
-@router.get("/natal/transits", response_class=HTMLResponse)
+@router.api_route("/natal/transits", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def natal_transits(request: Request):
     _rate_limit(request)
     lang = resolve_lang(request)
@@ -372,7 +372,7 @@ async def natal_transits(request: Request):
                                                    compact_json=json.dumps(compact, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")))
 
 
-@router.get("/natal/progressions", response_class=HTMLResponse)
+@router.api_route("/natal/progressions", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def natal_progressions(request: Request):
     _rate_limit(request)
     lang = resolve_lang(request)
@@ -396,18 +396,29 @@ async def natal_progressions(request: Request):
     )
 
 
-@router.get("/natal/forecast", response_class=HTMLResponse)
+@router.api_route("/natal/forecast", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def natal_forecast(request: Request):
     _rate_limit(request)
     lang = resolve_lang(request)
+    if not request.query_params.get("date"):
+        return RedirectResponse(url="/natal", status_code=303)
     try:
         inp = _parse_input(request, lang)
     except (ValidationError, ValueError) as e:
         return _render_error(request, lang, e)
+
+    start_year_param = request.query_params.get("start_year")
+    end_year_param = request.query_params.get("end_year")
+    start_year = int(start_year_param) if start_year_param and start_year_param.isdigit() else None
+    end_year = int(end_year_param) if end_year_param and end_year_param.isdigit() else None
+
     ref_jd = _reference_jd(request) or now_jd()
     profile = build_profile(inp, reference_jd=ref_jd, include_detail=True)
     prog = build_progressions(inp, reference_jd=ref_jd)
-    forecast_data = generate_personal_forecast(inp, profile=profile, prog=prog, start_year=2026, end_year=2050)
+    forecast_data = generate_personal_forecast(
+        inp, profile=profile, prog=prog,
+        start_year=start_year, end_year=end_year
+    )
     return templates.TemplateResponse(
         request=request, name="natal/forecast.html",
         context=_ctx(

@@ -12,17 +12,30 @@
         <div class="max-w-4xl space-y-4 relative z-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">
                 <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
-                <span>Previsão Biográfica Pessoal • Trânsitos + Progressões • Horizonte 2026–2050</span>
+                <span>{{ forecast.window_title }} • Trânsitos + Progressões</span>
             </div>
 
             <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
-                Previsão Pessoal & Ciclos de Vida <span class="text-amber-300 text-xl sm:text-3xl font-normal font-sans">(2026–2050)</span>
+                Previsão Pessoal & Ciclos de Vida <span class="text-amber-300 text-xl sm:text-3xl font-normal font-sans">({{ forecast.start_year }}–{{ forecast.end_year }})</span>
             </h1>
 
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
                 Varredura contínua combinando <strong>trânsitos planetários lentos aos pontos natais</strong>, a <strong>progressão secundária dia-por-ano</strong> (com ingressos e aspectos da Lua progredida) e os <strong>grandes ciclos biográficos</strong> (Saturno, Urano, Júpiter e Quíron).
                 Cada ano recebe um <strong>Score de Intensidade (0–1000)</strong>, ativação dos <strong>8 domínios de vida</strong>, mapeamento das datas críticas e orientações de desenvolvimento pessoal.
             </p>
+
+            {% if forecast.preset_windows %}
+            <!-- Seletor Rápido de Horizontes e Ciclos Biográficos -->
+            <div class="pt-1 flex flex-wrap items-center gap-2">
+                <span class="text-xs font-mono text-slate-400 font-semibold">Horizontes Biográficos:</span>
+                {% for pw in forecast.preset_windows %}
+                <a href="{{ pw.url }}"
+                    class="px-3 py-1 rounded-xl text-xs font-semibold transition border {% if pw.active %}border-amber-400 bg-amber-400/20 text-amber-200 ring-1 ring-amber-400/50{% else %}border-slate-700 bg-slate-800/60 text-slate-300 hover:text-white hover:bg-slate-700/60{% endif %}">
+                    {{ pw.label }}
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
 
             <!-- Cards com Indicadores Biográficos -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
@@ -50,14 +63,14 @@
         </div>
     </div>
 
-    <!-- Gráfico Interativo de Intensidade Pessoal (2026–2050) -->
+    <!-- Gráfico Interativo de Intensidade Pessoal ({{ forecast.start_year }}–{{ forecast.end_year }}) -->
     <div class="glass-panel p-5 sm:p-7 rounded-3xl border border-slate-700/60 shadow-xl space-y-3">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
                 <h3 class="font-display text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                    <span>📈</span> Curva de Ativação Cósmica da Vida (2026–2050)
+                    <span>📈</span> Curva de Ativação Cósmica da Vida ({{ forecast.start_year }}–{{ forecast.end_year }})
                 </h3>
-                <p class="text-xs text-slate-400">Evolução do score de intensidade pessoal ao longo das próximas décadas.</p>
+                <p class="text-xs text-slate-400">Evolução do score de intensidade pessoal ao longo do horizonte selecionado.</p>
             </div>
             <span class="text-xs font-mono text-slate-400">Escala Padronizada 0–1000</span>
         </div>
@@ -314,10 +327,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Chart.js do Forecast Pessoal (2026–2050)
+    // Chart.js do Forecast Pessoal
     const timelineData = {{ forecast.timeline | tojson }};
     const years = timelineData.map(y => y.year + ' (' + y.age + 'a)');
     const scores = timelineData.map(y => y.score_1000);
+    const isLight = document.documentElement.classList.contains('theme-light');
+    const gridColor = isLight ? 'rgba(0,0,0,0.07)' : 'rgba(148,163,184,0.1)';
+    const tickColor = isLight ? '#475569' : '#94a3b8';
 
     new Chart(document.getElementById('personalForecastChart'), {
         type: 'line',
@@ -328,42 +344,53 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: 'Score de Intensidade Biográfica',
                     data: scores,
                     borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                    backgroundColor: 'rgba(245, 158, 11, 0.15)',
                     fill: true,
                     tension: 0.35,
                     borderWidth: 2.5,
-                    pointRadius: 3,
-                    pointBackgroundColor: '#f59e0b'
+                    pointRadius: 4,
+                    pointHoverRadius: 7,
+                    pointBackgroundColor: '#f59e0b',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 1.5
                 }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
             plugins: {
                 legend: {
-                    labels: { color: '#cbd5e1' }
+                    labels: { color: tickColor, font: { weight: '600' } }
                 },
                 tooltip: {
                     callbacks: {
                         label: function(context) {
                             const yrItem = timelineData[context.dataIndex];
-                            return `Score: ${yrItem.score_1000}/1000 (${yrItem.impact_level})`;
+                            return [
+                                `Pontuação: ${yrItem.score_1000}/1000 (${yrItem.impact_level})`,
+                                `Foco Central: ${yrItem.top_domain.label}`,
+                                `Passagens Críticas: ${yrItem.events_count} eventos`
+                            ];
                         }
                     }
                 }
             },
             scales: {
                 x: {
-                    ticks: { color: '#94a3b8' },
-                    grid: { color: 'rgba(148,163,184,0.1)' }
+                    ticks: { color: tickColor },
+                    grid: { color: gridColor }
                 },
                 y: {
                     min: 0,
                     max: 1000,
-                    ticks: { color: '#94a3b8' },
-                    grid: { color: 'rgba(148,163,184,0.1)' },
-                    title: { display: true, text: 'Pontuação de Intensidade (0–1000)', color: '#94a3b8' }
+                    ticks: { color: tickColor },
+                    grid: { color: gridColor },
+                    title: { display: true, text: 'Pontuação de Intensidade (0–1000)', color: tickColor }
                 }
             }
         }

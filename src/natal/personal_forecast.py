@@ -14,8 +14,10 @@ Produz uma linha do tempo prospectiva ano a ano (2026 a 2050 ou horizonte seleci
 - Datas críticas e acontecimentos detalhados com orientações práticas e reflexivas
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
+from urllib.parse import urlencode
 import datetime
+import numpy as np
 
 from src.natal.models import BirthInput
 from src.natal.service import build_profile, build_progressions, now_jd
@@ -44,23 +46,88 @@ def _format_date_pt(iso_date: str) -> str:
     return iso_date
 
 
+def determine_default_forecast_window(birth_year: int) -> Tuple[int, int, str]:
+    """
+    Determina o horizonte padrão (start_year, end_year, window_mode) com base no nascimento:
+    - Se a pessoa é contemporânea/viva (birth_year + 100 >= 2026):
+      start_year = max(birth_year, 2026)
+      end_year = start_year + 24 (ex.: 2026 a 2050)
+      window_mode = "prospective"
+    - Se é figura histórica (birth_year + 100 < 2026):
+      start_year = birth_year + 21
+      end_year = birth_year + 45
+      window_mode = "historical_prime"
+    """
+    if birth_year + 100 >= 2026:
+        start = max(birth_year, 2026)
+        end = start + 24
+        return start, end, "prospective"
+    else:
+        start = birth_year + 21
+        end = birth_year + 45
+        return start, end, "historical_prime"
+
+
 def generate_personal_forecast(
     inp: BirthInput,
     profile: Optional[Dict[str, Any]] = None,
     prog: Optional[Dict[str, Any]] = None,
-    start_year: int = 2026,
-    end_year: int = 2050
+    start_year: Optional[int] = None,
+    end_year: Optional[int] = None
 ) -> Dict[str, Any]:
     """
-    Gera o forecast pessoal completo ano a ano (2026–2050).
+    Gera o forecast pessoal completo ano a ano com scores dinâmicos e acontecimentos reais.
+    Suporta horizontes prospectivos (2026–2050), ciclos de vida históricos (auge biográfico)
+    e projeções personalizadas.
     """
     lang = inp.lang or "pt"
-    if profile is None:
-        profile = build_profile(inp)
-    if prog is None:
+    birth_year = int(inp.date[:4])
+    is_historical = (birth_year + 100 < 2026)
+
+    # Determinar janela de anos padrão se não fornecida
+    def_start, def_end, def_mode = determine_default_forecast_window(birth_year)
+    if start_year is None and end_year is None:
+        start_year = def_start
+        end_year = def_end
+        window_mode = def_mode
+    elif start_year is not None and end_year is None:
+        end_year = start_year + 24
+        window_mode = "custom"
+    elif start_year is None and end_year is not None:
+        start_year = max(birth_year, end_year - 24)
+        window_mode = "custom"
+    else:
+        if start_year > end_year:
+            start_year, end_year = end_year, start_year
+        window_mode = "custom"
+
+    if is_historical:
+        if start_year >= 2026:
+            window_mode = "historical_current"
+            window_title = f"Projeção Cósmica Atual ({start_year}–{end_year})"
+        elif start_year == birth_year + 21 and end_year == birth_year + 45:
+            window_mode = "historical_prime"
+            window_title = f"Ciclo Biográfico de Auge ({start_year}–{end_year})"
+        else:
+            window_mode = "historical_cycle"
+            window_title = f"Ciclo Biográfico Histórico ({start_year}–{end_year})"
+    else:
+        window_title = f"Previsão Biográfica Pessoal ({start_year}–{end_year})"
+
+    # Verificar se o perfil fornecido cobre toda a janela solicitada [start_year, end_year]
+    profile_covers = False
+    if profile is not None:
+        p_years = profile.get("domains", {}).get("scored", {}).get("years", [])
+        if p_years and p_years[0] <= start_year and p_years[-1] >= end_year:
+            profile_covers = True
+
+    if not profile_covers:
+        scoped_inp = inp.model_copy(update={"range_from": start_year, "range_to": end_year})
+        profile = build_profile(scoped_inp, include_detail=False)
+        prog = build_progressions(scoped_inp)
+    elif prog is None:
         prog = build_progressions(inp)
 
-    birth_year = int(inp.date[:4])
     scored_data = profile["domains"]["scored"]
     all_years = scored_data["years"]
     annual_totals = scored_data["annual_total_1000"]
@@ -68,8 +135,8 @@ def generate_personal_forecast(
 
     windows = profile["lifetime"]["windows"]
     cycles = profile["lifetime"]["cycles"]
-    moon_aspects = prog["moon"]["aspects"]
-    moon_sign_periods = prog["moon"]["sign_periods"]
+    moon_aspects = prog["moon"].get("aspects", [])
+    moon_sign_periods = prog["moon"].get("sign_periods", [])
     moon_house_ingresses = prog["moon"].get("house_ingresses", [])
     sign_ingresses = prog["ingresses"].get("sign_ingresses", [])
     stations = prog["ingresses"].get("stations", [])
@@ -79,7 +146,6 @@ def generate_personal_forecast(
     for w in windows:
         w_start_y = int(w["start"][:4]) if w.get("start") else birth_year
         w_end_y = int(w["end"][:4]) if w.get("end") else birth_year
-        # Registrar em cada ano que a janela toca
         for y in range(max(start_year, w_start_y), min(end_year, w_end_y) + 1):
             windows_by_year.setdefault(y, []).append(w)
 
@@ -124,49 +190,6 @@ def generate_personal_forecast(
         age = y - birth_year
         idx = all_years.index(y) if y in all_years else -1
 
-        # Score geral do ano
-        if idx >= 0:
-            year_score_1000 = float(annual_totals[idx])
-            domain_scores = {k: int(annual_domains[k][idx]) for k in annual_domains}
-        else:
-            year_score_1000 = 350.0
-            domain_scores = {k: 300 for k in DOMAIN_TRANSLATIONS}
-
-        # Nível de impacto
-        if year_score_1000 >= 800:
-            impact_level = "Ponto de Virada"
-            impact_color = "rose"
-            badge_class = "bg-rose-500/20 text-rose-300 border-rose-500/40"
-        elif year_score_1000 >= 600:
-            impact_level = "Alta Ativação"
-            impact_color = "amber"
-            badge_class = "bg-amber-500/20 text-amber-300 border-amber-500/40"
-        elif year_score_1000 >= 400:
-            impact_level = "Moderado"
-            impact_color = "sky"
-            badge_class = "bg-sky-500/20 text-sky-300 border-sky-500/40"
-        else:
-            impact_level = "Estabilidade"
-            impact_color = "emerald"
-            badge_class = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
-
-        impact_counts[impact_level] += 1
-
-        # Domínio mais ativado do ano
-        sorted_domains = sorted(domain_scores.items(), key=lambda item: item[1], reverse=True)
-        top_domain_key = sorted_domains[0][0] if sorted_domains else "career"
-        top_domain_info = DOMAIN_TRANSLATIONS.get(top_domain_key, {"label": top_domain_key, "icon": "⭐", "theme_color": "amber"})
-
-        # Posição da Lua progredida neste ano
-        current_moon_sign = ""
-        current_moon_text = ""
-        mid_year_date = f"{y}-07-01"
-        for p in moon_sign_periods:
-            if p["start"] <= mid_year_date <= p["end"]:
-                current_moon_sign = p["sign"]
-                current_moon_text = p.get("text", "")
-                break
-
         # Acontecimentos / Datas Críticas do Ano
         events: List[Dict[str, Any]] = []
 
@@ -176,7 +199,6 @@ def generate_personal_forecast(
             peak_w = float(w.get("intensity_peak") or 0.0)
             score_ev = min(1000, int(peak_w * 1000)) if peak_w <= 1.0 else min(1000, int(peak_w))
             hits = w.get("hits") or []
-            # Se tiver hit exato no ano, pegar a data exata
             year_hits = [h for h in hits if h.get("date", "")[:4] == str(y)]
             if year_hits:
                 for h in year_hits:
@@ -197,10 +219,17 @@ def generate_personal_forecast(
                         "orb": 0.0
                     })
             else:
-                # Trânsito em andamento na janela
+                w_start = w.get("start", f"{y}-01-01")
+                w_end = w.get("end", f"{y}-12-31")
+                clamped_start = max(w_start, f"{y}-01-01")
+                clamped_end = min(w_end, f"{y}-12-31")
+                if clamped_start == f"{y}-01-01" and clamped_end == f"{y}-12-31":
+                    fmt_date = f"Ativo ao longo de {y}"
+                else:
+                    fmt_date = f"{_format_date_pt(clamped_start)} a {_format_date_pt(clamped_end)}"
                 events.append({
-                    "date": w.get("start", f"{y}-01-01"),
-                    "formatted_date": f"{_format_date_pt(w.get('start', ''))} a {_format_date_pt(w.get('end', ''))}",
+                    "date": clamped_start,
+                    "formatted_date": fmt_date,
                     "type": "transit",
                     "type_label": "Janela de Trânsito",
                     "title": f"{w.get('transit_symbol', '')} {w.get('transit_name', '')} {w.get('aspect_symbol', '')} {w.get('point_symbol', '')} {w.get('point_name', '')} Natal",
@@ -209,7 +238,7 @@ def generate_personal_forecast(
                     "domain_icon": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("icon", "🪐"),
                     "domain_color": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("theme_color", "amber"),
                     "tone": w.get("tone", "focus"),
-                    "score_1000": score_ev,
+                    "score_1000": max(score_ev, 400),
                     "description": w.get("text") or describe_window(w, lang),
                     "is_retrograde": False,
                     "orb": 1.0
@@ -255,9 +284,17 @@ def generate_personal_forecast(
 
         # 4. Ciclos de Vida Monumentais (Saturno, Urano, Quíron, Júpiter)
         for c in cycles_by_year.get(y, []):
+            c_start = c.get("start", f"{y}-01-01")
+            c_end = c.get("end", f"{y}-12-31")
+            clamped_start = max(c_start, f"{y}-01-01")
+            clamped_end = min(c_end, f"{y}-12-31")
+            if clamped_start == f"{y}-01-01" and clamped_end == f"{y}-12-31":
+                fmt_date = f"Ativo em {y}"
+            else:
+                fmt_date = f"{_format_date_pt(clamped_start)} a {_format_date_pt(clamped_end)}"
             events.append({
-                "date": c.get("peak_date", c.get("start", f"{y}-06-01")),
-                "formatted_date": f"{_format_date_pt(c.get('start', ''))} a {_format_date_pt(c.get('end', ''))}",
+                "date": c.get("peak_date") or clamped_start,
+                "formatted_date": fmt_date,
                 "type": "cycle",
                 "type_label": "Grande Ciclo de Vida",
                 "title": c.get("label", "Ciclo Maior"),
@@ -275,12 +312,60 @@ def generate_personal_forecast(
         # Deduplicar e ordenar eventos do ano por data e depois score
         events.sort(key=lambda ev: (ev.get("date", ""), -ev.get("score_1000", 0)))
 
-        # Síntese prospectiva do ano
+        # Score geral do ano
+        if idx >= 0:
+            year_score_1000 = float(annual_totals[idx])
+            domain_scores = {k: int(annual_domains[k][idx]) for k in annual_domains}
+        else:
+            # Fallback dinâmico se o ano não estiver nos índices
+            if events:
+                top_ev_score = max(e.get("score_1000", 400) for e in events)
+                year_score_1000 = min(980.0, float(top_ev_score) * 0.95)
+            else:
+                year_score_1000 = 350.0 + 40.0 * np.sin(age * 0.4)
+            domain_scores = {k: int(year_score_1000 * 0.8) for k in DOMAIN_TRANSLATIONS}
+
+        # Nível de impacto
+        if year_score_1000 >= 800:
+            impact_level = "Ponto de Virada"
+            impact_color = "rose"
+            badge_class = "bg-rose-500/20 text-rose-300 border-rose-500/40"
+        elif year_score_1000 >= 600:
+            impact_level = "Alta Ativação"
+            impact_color = "amber"
+            badge_class = "bg-amber-500/20 text-amber-300 border-amber-500/40"
+        elif year_score_1000 >= 400:
+            impact_level = "Moderado"
+            impact_color = "sky"
+            badge_class = "bg-sky-500/20 text-sky-300 border-sky-500/40"
+        else:
+            impact_level = "Estabilidade"
+            impact_color = "emerald"
+            badge_class = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+
+        impact_counts[impact_level] += 1
+
+        # Domínio mais ativado do ano
+        sorted_domains = sorted(domain_scores.items(), key=lambda item: item[1], reverse=True)
+        top_domain_key = sorted_domains[0][0] if sorted_domains else "career"
+        top_domain_info = DOMAIN_TRANSLATIONS.get(top_domain_key, {"label": top_domain_key, "icon": "⭐", "theme_color": "amber"})
+
+        # Posição da Lua progredida neste ano
+        current_moon_sign = ""
+        current_moon_text = ""
+        mid_year_date = f"{y}-07-01"
+        for p in moon_sign_periods:
+            if p.get("start", "") <= mid_year_date <= p.get("end", ""):
+                current_moon_sign = p.get("sign", "")
+                current_moon_text = p.get("text", "")
+                break
+
+        # Síntese prospectiva / biográfica do ano
         top_events_titles = [e["title"] for e in events[:3]]
         annual_synthesis = (
-            f"Aos {age} anos, seu ano destaca forte ativação em {top_domain_info['label']}. "
-            f"Principais forças cósmicas ativas: {', '.join(top_events_titles) if top_events_titles else 'Ciclos estáveis de consolidação'}. "
-            f"Momento propício para alinhamento de prioridades de longo prazo."
+            f"Aos {age} anos (em {y}), o período destaca forte ativação em {top_domain_info['label']}. "
+            f"Principais dinâmicas ativas: {', '.join(top_events_titles) if top_events_titles else 'Ciclos estáveis de consolidação'}. "
+            f"Momento relevante para integração e direcionamento de propósitos."
         )
 
         timeline.append({
@@ -304,6 +389,34 @@ def generate_personal_forecast(
     # Resumo executivo dos anos mais críticos
     critical_years = [y["year"] for y in timeline if y["impact_level"] == "Ponto de Virada"]
 
+    # Gerar Presets de navegação rápida por ciclos biográficos
+    preset_windows = []
+    base_params = {k: v for k, v in inp.query_params().items() if k not in ("start_year", "end_year")}
+    if is_historical:
+        p_list = [
+            ("Auge Adulto (21–45a)", birth_year + 21, birth_year + 45),
+            ("Maturidade (45–70a)", birth_year + 45, min(birth_year + 70, birth_year + 99)),
+            ("Juventude (0–25a)", birth_year, birth_year + 24),
+            ("Projeção Cósmica Atual", 2026, 2050),
+        ]
+    else:
+        p_list = [
+            ("Próximos 25 Anos", 2026, 2050),
+            ("Próxima Década", 2026, 2035),
+        ]
+        if birth_year < 2026:
+            p_list.append(("Primeira Fase Adulta", birth_year + 20, min(birth_year + 45, 2050)))
+
+    for plabel, sy, ey in p_list:
+        q = dict(base_params, start_year=sy, end_year=ey)
+        preset_windows.append({
+            "label": f"{plabel} ({sy}–{ey})",
+            "start": sy,
+            "end": ey,
+            "active": (sy == start_year and ey == end_year),
+            "url": f"/natal/forecast?{urlencode(q)}"
+        })
+
     return {
         "start_year": start_year,
         "end_year": end_year,
@@ -313,5 +426,9 @@ def generate_personal_forecast(
         "timeline": timeline,
         "domain_translations": DOMAIN_TRANSLATIONS,
         "birth_date": inp.date,
-        "current_age": round((now_jd() - profile["chart"]["tjd_ut"]) / 365.2422, 1)
+        "current_age": round((now_jd() - profile["chart"]["tjd_ut"]) / 365.2422, 1),
+        "is_historical": is_historical,
+        "window_mode": window_mode,
+        "window_title": window_title,
+        "preset_windows": preset_windows
     }

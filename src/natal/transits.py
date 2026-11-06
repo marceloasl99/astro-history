@@ -395,12 +395,14 @@ def scan_house_ingresses(cusps: List[float], axis: np.ndarray, bodies: Sequence[
 # ----------------------------------------------------------------------------- utilidades
 def lifetime_axis(birth_jd: float, years: float, range_from: Optional[int] = None,
                   range_to: Optional[int] = None) -> np.ndarray:
-    start = birth_jd
-    end = birth_jd + years * TROPICAL_YEAR
     if range_from is not None:
-        start = max(start, swe.julday(range_from, 1, 1, 0.0, swe.GREG_CAL))
+        start = swe.julday(range_from, 1, 1, 0.0, swe.GREG_CAL)
+    else:
+        start = birth_jd
     if range_to is not None:
-        end = min(end, swe.julday(range_to, 12, 31, 0.0, swe.GREG_CAL))
+        end = swe.julday(range_to, 12, 31, 0.0, swe.GREG_CAL)
+    else:
+        end = birth_jd + years * TROPICAL_YEAR
     if end < start:
         end = start + 1.0
     return day_axis(start, end)
