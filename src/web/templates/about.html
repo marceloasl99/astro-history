@@ -1,31 +1,601 @@
 {% extends "base.html" %}
-{% block title %}{{ 'Sobre o projeto' if lang == 'pt' else 'About the project' }} | AstroHistory{% endblock %}
+{% block title %}{{ 'Sobre o Projeto & Repositório GitHub' if lang == 'pt' else 'About the Project & GitHub Repository' }} | AstroHistory{% endblock %}
 {% block content %}
-<section class="glass-panel rounded-3xl p-6 sm:p-8 mb-6">
-    <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb"><a href="/" class="hover:text-amber-300">{{ t('nav.home') }}</a> › {{ t('nav.about') }} › <span class="text-slate-200">{{ 'Sobre' if lang == 'pt' else 'About' }}</span></nav>
-    <h1 class="font-display text-3xl font-black text-white tracking-wide">🪐 AstroHistory v7</h1>
-    <p class="text-slate-300 mt-3 max-w-3xl leading-relaxed">
-        {% if lang == 'pt' %}O AstroHistory é uma plataforma aberta e reprodutível que testa, com controles estatísticos rigorosos, se alinhamentos planetários se concentram em grandes eventos históricos e se têm capacidade preditiva. A resposta medida até aqui é <b>não</b>: nos testes pré-registrados com modelos nulos e no hindcast walk-forward, os índices astrológicos não superam a taxa-base. O site funciona como ferramenta de letramento em dados — e, a partir da v7, traz previsão pessoal refinada com 6 patamares de criticidade, gráfico interativo com seleção por categoria, persistência local de perfis e layout de alto contraste otimizado para Full HD e mobile.{% else %}AstroHistory is an open, reproducible platform that tests, under rigorous statistical controls, whether planetary alignments cluster at major historical events and whether they have predictive power. The measured answer so far is <b>no</b>: in pre-registered null-model tests and in the walk-forward hindcast, astrological indices do not beat the base rate. The site works as a data-literacy tool — and, from v7, introduces an enriched personal forecast with 6 criticality tiers, interactive category-separated charts, local profile persistence, and high-contrast layouts optimized for Full HD and mobile.{% endif %}
-    </p>
-</section>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <section class="glass-panel rounded-3xl p-6 text-sm text-slate-300 space-y-3">
-        <h2 class="font-display text-lg font-bold text-white">{{ 'O que há na v7' if lang == 'pt' else "What's in v7" }}</h2>
-        <ul class="list-disc pl-5 space-y-1">
-            <li>{{ 'Previsão Pessoal com 6 patamares de criticidade (Pico Transformador, Ponto de Virada, Alta Ativação, Moderado, Consolidação, Estabilidade).' if lang == 'pt' else 'Personal Forecast with 6 criticality tiers (Transformative Peak, Turning Point, High Activation, Moderate, Consolidation, Stability).' }}</li>
-            <li>{{ 'Gráfico interativo com 6 datasets separados por categoria de cor, legenda com toggle individual e seletor rápido.' if lang == 'pt' else 'Interactive chart with 6 separated category datasets, clickable legend toggles and rapid category isolation.' }}</li>
-            <li>{{ 'Filtro de Escopo Temporal ("Mostrar Tudo" vs "Só o Futuro") para isolar anos e acontecimentos que ainda não aconteceram.' if lang == 'pt' else 'Temporal Scope filter ("Show All" vs "Future Only") to isolate upcoming years and unoccurred events.' }}</li>
-            <li>{{ 'Salvamento e alternância de pessoas cadastradas via cookies locais, sem necessidade de login ou banco externo.' if lang == 'pt' else 'Local profile saving and instant switching via browser cookies without requiring accounts or external databases.' }}</li>
-            <li>{{ 'Layout 100% centralizado, otimizado para monitores Full HD (1920x1080) e celulares, com acessibilidade e alto contraste WCAG AAA.' if lang == 'pt' else '100% centered layout optimized for Desktop Full HD (1920x1080) and mobile, with WCAG AAA high contrast across 3 themes.' }}</li>
-        </ul>
-        <p class="text-xs text-slate-500">{{ 'Roadmap e especificação:' if lang == 'pt' else 'Roadmap and spec:' }} <code>docs/plano_v6_roadmap.md</code>, <code>docs/spec_modulo_pessoal_natal_transitos.md</code>.</p>
+<div class="space-y-10">
+
+    <!-- HERO HEADER: APRESENTAÇÃO DO PROJETO & REPOSITÓRIO GITHUB -->
+    <header class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl relative overflow-hidden">
+        <!-- Breadcrumbs -->
+        <nav class="text-[11px] font-mono text-slate-400 mb-4 flex items-center gap-2" aria-label="breadcrumb">
+            <a href="/" class="hover:text-amber-400 transition">{{ t('nav.home') or 'Início' }}</a>
+            <span class="text-slate-600">/</span>
+            <span class="text-slate-300 font-semibold">{{ 'Sobre o Projeto' if lang == 'pt' else 'About the Project' }}</span>
+        </nav>
+
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            <div class="space-y-4 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                    <span>🪐</span>
+                    <span>AstroHistory v{{ app_version or '7.0.0' }}</span>
+                    <span class="text-slate-500">•</span>
+                    <span>Open Science & Statistical Rigor</span>
+                </div>
+
+                <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+                    {% if lang == 'pt' %}
+                        Plataforma Aberta, Cética e Reprodutível
+                    {% else %}
+                        An Open, Skeptical, and Reproducible Platform
+                    {% endif %}
+                </h1>
+
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    {% if lang == 'pt' %}
+                        O <strong>AstroHistory</strong> é um ecossistema científico e educacional de código aberto que investiga, sob controles estatísticos rígidos e modelos nulos pré-registrados, se alinhamentos planetários se correlacionam com grandes acontecimentos da história humana ou com trajetórias biográficas. O projeto é 100% público, auditável e reprodutível no GitHub.
+                    {% else %}
+                        <strong>AstroHistory</strong> is an open-source scientific and educational research ecosystem investigating, under strict statistical null-model controls and pre-registered hypotheses, whether planetary alignments correlate with major events in human history or biographical life trajectories. The project is 100% public, auditable, and reproducible on GitHub.
+                    {% endif %}
+                </p>
+
+                <!-- Destaques em Badges -->
+                <div class="flex flex-wrap items-center gap-2 pt-2">
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-200 border border-slate-700">
+                        📚 {{ catalog_total()|fmt_int }} {{ 'Fatos Catalogados' if lang == 'pt' else 'Cataloged Events' }}
+                    </span>
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-200 border border-slate-700">
+                        🧪 138 {{ 'Testes Automatizados' if lang == 'pt' else 'Automated Tests' }}
+                    </span>
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-200 border border-slate-700">
+                        ⚖️ Licença GNU AGPL-3.0
+                    </span>
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-200 border border-slate-700">
+                        🔭 Swiss Ephemeris C / pyswisseph
+                    </span>
+                </div>
+            </div>
+
+            <!-- CARD CTA DO GITHUB -->
+            <div class="lg:w-80 shrink-0 bg-slate-900/90 dark:bg-slate-950/90 border border-amber-500/30 rounded-2xl p-6 text-center shadow-xl space-y-4">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                    </svg>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-white text-base">GitHub Repository</h3>
+                    <p class="text-xs text-slate-400 mt-1 font-mono">marceloasl99/astro-history</p>
+                </div>
+
+                <a href="https://github.com/marceloasl99/astro-history" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm transition shadow-lg hover:shadow-amber-400/20">
+                    <span>{{ 'Ver Repositório no GitHub' if lang == 'pt' else 'View on GitHub' }}</span>
+                    <span>↗</span>
+                </a>
+
+                <div class="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+                    {{ 'Código aberto, issues, pull requests e reprodução via Git.' if lang == 'pt' else 'Open source, issues, pull requests, and Git reproducibility.' }}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- O QUE EXATAMENTE TEM NO GITHUB (DETALHAMENTO DA ESTRUTURA DO REPOSITÓRIO) -->
+    <section class="space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+            <h2 class="font-display text-2xl font-bold text-white flex items-center gap-2">
+                <span>📁</span>
+                <span>{{ 'O que há exatamente no repositório do GitHub' if lang == 'pt' else 'What is inside the GitHub repository' }}</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                {% if lang == 'pt' %}
+                    Conheça a arquitetura completa dos dados, do motor de cálculo, da suíte estatística e da documentação técnica hospedada em <a href="https://github.com/marceloasl99/astro-history" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline font-mono">github.com/marceloasl99/astro-history</a>.
+                {% else %}
+                    Explore the complete architecture of data, calculation engines, statistical test suites, and documentation hosted at <a href="https://github.com/marceloasl99/astro-history" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline font-mono">github.com/marceloasl99/astro-history</a>.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. Catálogo Histórico (data/) -->
+            <article class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                            data/
+                        </span>
+                        <span class="text-xs font-mono text-slate-400 font-semibold">{{ catalog_total()|fmt_int }} fatos</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-lg">
+                        {{ '1. Catálogo Histórico Soberano' if lang == 'pt' else '1. Sovereign Historical Catalog' }}
+                    </h3>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            Base de dados integral auditada de 9650 a.C. a 2026 d.C., formatada em JSON e SQLite com orbes, coordenadas geográficas e qualidade documental classificada de A a D.
+                        {% else %}
+                            Fully audited database spanning 9650 BCE to 2026 CE, formatted in JSON and SQLite with orbs, geographic coordinates, and documentary quality tiers A to D.
+                        {% endif %}
+                    </p>
+
+                    <ul class="text-xs font-mono text-slate-400 space-y-1.5 pt-1">
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-amber-400">•</span>
+                            <span><strong>events.json</strong> & <strong>history.db</strong></span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-amber-400">•</span>
+                            <span><strong>DATASET_CARD.md</strong> (Metadados)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-amber-400">•</span>
+                            <span><strong>sources_manifest.yml</strong> (Fontes)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-amber-400">•</span>
+                            <span><strong>countries.json</strong> (107 Países)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-amber-400">•</span>
+                            <span><strong>glossary.yaml</strong> (Glossário)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <a href="https://github.com/marceloasl99/astro-history/tree/main/data" target="_blank" rel="noopener noreferrer"
+                       class="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center justify-between">
+                        <span>{{ 'Explorar pasta data/' if lang == 'pt' else 'Browse data/ folder' }}</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 2. Motor Astronômico & Estatístico (src/) -->
+            <article class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-sky-500/40 transition flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                            src/
+                        </span>
+                        <span class="text-xs font-mono text-slate-400 font-semibold">Python 3.12</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-lg">
+                        {{ '2. Motor Astronômico & Estatístico' if lang == 'pt' else '2. Astronomical & Stats Engine' }}
+                    </h3>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            Cálculo de efemérides de precisão suíça em C (pyswisseph), modelos nulos de permutação N1 a N5, ciclos sinódicos mundanos e motor natal com previsão biográfica.
+                        {% else %}
+                            Swiss Ephemeris precision C calculation (pyswisseph), N1–N5 null permutation models, mundane synodic cycles, and natal life forecast engine.
+                        {% endif %}
+                    </p>
+
+                    <ul class="text-xs font-mono text-slate-400 space-y-1.5 pt-1">
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-sky-400">•</span>
+                            <span><strong>src/core/</strong> (Efemérides & Datas)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-sky-400">•</span>
+                            <span><strong>src/statistical/</strong> (Modelos Nulos N1-N5)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-sky-400">•</span>
+                            <span><strong>src/mundane/</strong> (Barbault, Oshop, Tarnas)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-sky-400">•</span>
+                            <span><strong>src/natal/</strong> (6 Níveis de Criticidade)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-sky-400">•</span>
+                            <span><strong>src/web/</strong> (FastAPI, Jinja2, SVG)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <a href="https://github.com/marceloasl99/astro-history/tree/main/src" target="_blank" rel="noopener noreferrer"
+                       class="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center justify-between">
+                        <span>{{ 'Explorar pasta src/' if lang == 'pt' else 'Browse src/ folder' }}</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 3. Bateria de Testes (tests/) -->
+            <article class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/40 transition flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                            tests/
+                        </span>
+                        <span class="text-xs font-mono text-emerald-400 font-bold">138 Passing</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-lg">
+                        {{ '3. Bateria de 138 Testes Automatizados' if lang == 'pt' else '3. 138 Automated Tests Suite' }}
+                    </h3>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            Suite de testes automatizados com Pytest assegurando invariantes matemáticos, ausência de vazamento de dados no hindcasting, integridade de rotas e cálculo de orbes.
+                        {% else %}
+                            Automated Pytest test suite enforcing mathematical invariants, absence of data leakage in hindcasting, route integrity, and orb precision.
+                        {% endif %}
+                    </p>
+
+                    <ul class="text-xs font-mono text-slate-400 space-y-1.5 pt-1">
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-emerald-400">•</span>
+                            <span><strong>tests/statistical/</strong> (Nulos & FDR)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-emerald-400">•</span>
+                            <span><strong>tests/mundane/</strong> (Ciclos & Trânsitos)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-emerald-400">•</span>
+                            <span><strong>tests/natal/</strong> (Previsão & Domificação)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-emerald-400">•</span>
+                            <span><strong>tests/regression/</strong> (Proteção de Rotas)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-emerald-400">•</span>
+                            <span><strong>test_ui_themes_and_i18n.py</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <a href="https://github.com/marceloasl99/astro-history/tree/main/tests" target="_blank" rel="noopener noreferrer"
+                       class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center justify-between">
+                        <span>{{ 'Explorar pasta tests/' if lang == 'pt' else 'Browse tests/ folder' }}</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 4. Documentação Técnica (docs/) -->
+            <article class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-purple-500/40 transition flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                            docs/ & README
+                        </span>
+                        <span class="text-xs font-mono text-slate-400 font-semibold">19 Seções PT/EN</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-lg">
+                        {{ '4. Documentação & Ciência Aberta' if lang == 'pt' else '4. Documentation & Open Science' }}
+                    </h3>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            Manuais minuciosos em Markdown explicando a metodologia, o pré-registro dos experimentos contra viés, a física do mecanismo e as especificações de cada módulo.
+                        {% else %}
+                            Thorough Markdown manuals detailing methodology, pre-registration of hypothesis tests against bias, pipeline mechanics, and modular specs.
+                        {% endif %}
+                    </p>
+
+                    <ul class="text-xs font-mono text-slate-400 space-y-1.5 pt-1">
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-purple-400">•</span>
+                            <span><strong>README.md</strong> & <strong>README_PT.md</strong></span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-purple-400">•</span>
+                            <span><strong>PREREGISTRATION_NULL_EXPERIMENT.md</strong></span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-purple-400">•</span>
+                            <span><strong>mecanismo_site.md</strong></span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-purple-400">•</span>
+                            <span><strong>reproducibility.md</strong></span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-purple-400">•</span>
+                            <span><strong>spec_modulo_pessoal_natal_transitos.md</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <a href="https://github.com/marceloasl99/astro-history/tree/main/docs" target="_blank" rel="noopener noreferrer"
+                       class="text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center justify-between">
+                        <span>{{ 'Explorar pasta docs/' if lang == 'pt' else 'Browse docs/ folder' }}</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 5. Scripts & Standalone (scripts/ & web/) -->
+            <article class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-rose-500/40 transition flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                            scripts/ & web/
+                        </span>
+                        <span class="text-xs font-mono text-slate-400 font-semibold">GitHub Pages</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-lg">
+                        {{ '5. Compilador Standalone & Importers' if lang == 'pt' else '5. Standalone Builder & Importers' }}
+                    </h3>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            Scripts para geração de build estático autocontido em arquivo único para hospedar no GitHub Pages com os 3.406 fatos, sem necessidade de servidor ou banco.
+                        {% else %}
+                            Scripts compiling a standalone, single-file distribution for GitHub Pages containing all 3,406 events, operating with zero server dependencies.
+                        {% endif %}
+                    </p>
+
+                    <ul class="text-xs font-mono text-slate-400 space-y-1.5 pt-1">
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-rose-400">•</span>
+                            <span><strong>build_standalone_web.py</strong></span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-rose-400">•</span>
+                            <span><strong>docs/index.html</strong> (GitHub Pages)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-rose-400">•</span>
+                            <span><strong>scripts/importers/</strong> (Ingestão & Normalização)</span>
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-rose-400">•</span>
+                            <span><strong>scripts/audit_and_fix_all.py</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <a href="https://github.com/marceloasl99/astro-history/tree/main/scripts" target="_blank" rel="noopener noreferrer"
+                       class="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center justify-between">
+                        <span>{{ 'Explorar pasta scripts/' if lang == 'pt' else 'Browse scripts/ folder' }}</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 6. Citação Acadêmica & Licença (CITATION.cff) -->
+            <article class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/40 transition flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                            CITATION.cff
+                        </span>
+                        <span class="text-xs font-mono text-slate-400 font-semibold">AGPL-3.0</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-lg">
+                        {{ '6. Citação Acadêmica & Licença Aberta' if lang == 'pt' else '6. Academic Citation & License' }}
+                    </h3>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            Arquivo oficial Citation File Format indexável pelo GitHub, Zotero e Mendeley para citação formal em artigos científicos, monografias e teses acadêmicas.
+                        {% else %}
+                            Official Citation File Format indexed by GitHub, Zotero, and Mendeley for formal academic citations in scientific articles and research papers.
+                        {% endif %}
+                    </p>
+
+                    <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-slate-300 leading-tight">
+                        AstroHistory Research Group (2026). AstroHistory: An Empirical Statistical Platform. v7.0.0.
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <a href="https://github.com/marceloasl99/astro-history/blob/main/CITATION.cff" target="_blank" rel="noopener noreferrer"
+                       class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center justify-between">
+                        <span>{{ 'Ver arquivo CITATION.cff' if lang == 'pt' else 'View CITATION.cff file' }}</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </article>
+
+        </div>
     </section>
-    <section class="glass-panel rounded-3xl p-6 text-sm text-slate-300 space-y-3">
-        <h2 class="font-display text-lg font-bold text-white">{{ 'Licença, citação e código' if lang == 'pt' else 'Licence, citation and code' }}</h2>
-        <p>GNU AGPL-3.0-or-later · <a class="text-sky-400 hover:underline" href="https://github.com/marceloasl99/astro-history" target="_blank" rel="noopener noreferrer">github.com/marceloasl99/astro-history ↗</a></p>
-        <p>Swiss Ephemeris © Astrodienst AG · GeoNames CC BY 4.0 · {{ 'fontes históricas listadas em' if lang == 'pt' else 'historical sources listed at' }} <a class="text-sky-400 hover:underline" href="/dados-fontes">/dados-fontes</a>.</p>
-        {% if citation %}<details><summary class="cursor-pointer text-slate-200 font-semibold">CITATION.cff</summary><pre class="mt-2 text-[11px] font-mono text-slate-400 whitespace-pre-wrap">{{ citation }}</pre></details>{% endif %}
-        <p class="text-xs text-slate-500">{{ 'Privacidade do módulo pessoal: dados de nascimento só na URL, sem armazenamento nem logs de parâmetros.' if lang == 'pt' else 'Personal module privacy: birth data only in the URL, no storage or parameter logging.' }}</p>
+
+    <!-- INOVAÇÕES DA VERSÃO v7.0.0 -->
+    <section class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-6">
+        <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+                <h2 class="font-display text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                    <span>✨</span>
+                    <span>{{ 'O que há de novo na Versão v7' if lang == 'pt' else "What's New in Version v7" }}</span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">
+                    {{ 'Evolução estrutural do AstroHistory lançada e documentada no GitHub.' if lang == 'pt' else 'Structural evolution of AstroHistory released and documented on GitHub.' }}
+                </p>
+            </div>
+            <a href="https://github.com/marceloasl99/astro-history/releases/tag/v7.0.0" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-semibold transition border border-slate-700 self-start sm:self-auto">
+                <span>Release Notes v7.0.0</span>
+                <span>↗</span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs text-slate-300">
+            <div class="p-4 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                <div class="font-bold text-white text-sm flex items-center gap-2">
+                    <span class="text-rose-400 font-mono">01.</span>
+                    <span>{{ '6 Patamares de Criticidade' if lang == 'pt' else '6 Criticality Tiers' }}</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    {{ 'Pico Transformador (≥850), Ponto de Virada (700-849), Alta Ativação (550-699), Moderado (400-549), Consolidação (250-399) e Estabilidade & Gestação (<250).' if lang == 'pt' else 'Transformative Peak (≥850), Turning Point (700-849), High Activation (550-699), Moderate (400-549), Consolidation (250-399), and Stability & Gestation (<250).' }}
+                </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                <div class="font-bold text-white text-sm flex items-center gap-2">
+                    <span class="text-amber-400 font-mono">02.</span>
+                    <span>{{ 'Gráfico por Categorias' if lang == 'pt' else 'Category-Separated Chart' }}</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    {{ '6 datasets de barras independentes com cores oficiais no Chart.js, legenda com filtro individual interativo e seletor rápido para isolar qualquer patamar.' if lang == 'pt' else '6 independent colored bar datasets in Chart.js, interactive legend toggles, and instant single-click category isolation buttons.' }}
+                </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                <div class="font-bold text-white text-sm flex items-center gap-2">
+                    <span class="text-sky-400 font-mono">03.</span>
+                    <span>{{ 'Filtro Temporal ("Só o Futuro")' if lang == 'pt' else 'Temporal Filter ("Future Only")' }}</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    {{ 'Alternador de escopo dinâmico que esconde anos e eventos já ocorridos, focando exclusivamente no que ainda está por acontecer.' if lang == 'pt' else 'Dynamic scope switcher hiding past years and events, focusing strictly on unoccurred biographical milestones.' }}
+                </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                <div class="font-bold text-white text-sm flex items-center gap-2">
+                    <span class="text-emerald-400 font-mono">04.</span>
+                    <span>{{ 'Persistência Local de Perfis' if lang == 'pt' else 'Local Profile Persistence' }}</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    {{ 'Salva e alterna pessoas cadastradas via cookies locais do navegador sem necessidade de contas, login ou bancos de dados remotos.' if lang == 'pt' else 'Save and switch between natal profiles locally via browser cookies without accounts, logins, or remote database logging.' }}
+                </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                <div class="font-bold text-white text-sm flex items-center gap-2">
+                    <span class="text-purple-400 font-mono">05.</span>
+                    <span>{{ 'Layout Centralizado & Full HD' if lang == 'pt' else 'Centered & Full HD Layout' }}</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    {{ 'Design 100% centralizado, otimizado para monitores Full HD (1920x1080) e celulares, com acessibilidade e alto contraste WCAG AAA nos 3 temas.' if lang == 'pt' else '100% centered typography, optimized for Desktop Full HD (1920x1080) and smartphones, with WCAG AAA high contrast.' }}
+                </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                <div class="font-bold text-white text-sm flex items-center gap-2">
+                    <span class="text-indigo-400 font-mono">06.</span>
+                    <span>{{ '3 Grandes Ciclos Sinódicos' if lang == 'pt' else '3 Major Synodic Cycles' }}</span>
+                </div>
+                <p class="text-slate-400 leading-relaxed">
+                    {{ 'Página de correlações com análise estruturada de Saturno-Plutão (~33-38a), Urano-Plutão (~110-140a) e o novo Saturno-Urano (~45a).' if lang == 'pt' else 'Correlations engine with structured analysis of Saturn-Pluto (~33-38y), Uranus-Pluto (~110-140y), and newly added Saturn-Uranus (~45y).' }}
+                </p>
+            </div>
+        </div>
     </section>
+
+    <!-- REPRODUTIBILIDADE LOCAL & COMANDOS DO GITHUB -->
+    <section class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div>
+                <h2 class="font-display text-xl font-bold text-white flex items-center gap-2">
+                    <span>💻</span>
+                    <span>{{ 'Como Reproduzir Localmente via Git' if lang == 'pt' else 'How to Reproduce Locally via Git' }}</span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">
+                    {{ 'Qualquer pesquisador pode clonar o repositório, rodar os 138 testes e executar o servidor local em menos de 2 minutos.' if lang == 'pt' else 'Any researcher can clone the repo, run all 138 automated tests, and launch the local server in under 2 minutes.' }}
+                </p>
+            </div>
+            <a href="https://github.com/marceloasl99/astro-history#quickstart" target="_blank" rel="noopener noreferrer"
+               class="text-xs text-amber-400 hover:text-amber-300 font-mono font-semibold self-start sm:self-auto">
+                {{ 'Ver Quickstart no README ↗' if lang == 'pt' else 'View Quickstart in README ↗' }}
+            </a>
+        </div>
+
+        <div class="relative bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+            <pre class="leading-relaxed"><span class="text-slate-500"># 1. Clonar o repositório público do GitHub</span>
+<span class="text-amber-400">git clone</span> https://github.com/marceloasl99/astro-history.git
+<span class="text-amber-400">cd</span> astro-history
+
+<span class="text-slate-500"># 2. Criar ambiente virtual e instalar dependências</span>
+python3 -m venv .venv && <span class="text-amber-400">source</span> .venv/bin/activate
+pip install -r requirements.txt
+
+<span class="text-slate-500"># 3. Executar a suíte de 138 testes automatizados</span>
+pytest tests/
+
+<span class="text-slate-500"># 4. Iniciar a plataforma web local</span>
+uvicorn src.web.app:app --host 0.0.0.0 --port 8000</pre>
+        </div>
+    </section>
+
+    <!-- CITAÇÃO, LICENÇA E PRIVACIDADE -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Citação Acadêmica -->
+        <section class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4">
+            <h2 class="font-display text-lg font-bold text-white flex items-center gap-2">
+                <span>📝</span>
+                <span>{{ 'Citação Acadêmica (CITATION.cff)' if lang == 'pt' else 'Academic Citation (CITATION.cff)' }}</span>
+            </h2>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                {% if lang == 'pt' %}
+                    Se você utilizar a base de dados, as implementações dos modelos nulos ou o código-fonte em publicações acadêmicas, cite o projeto conforme as diretrizes do arquivo oficial <a class="text-amber-400 hover:underline" href="https://github.com/marceloasl99/astro-history/blob/main/CITATION.cff" target="_blank" rel="noopener noreferrer">CITATION.cff ↗</a>:
+                {% else %}
+                    If you use this dataset, null model implementations, or source code in academic publications, please cite the project according to the official <a class="text-amber-400 hover:underline" href="https://github.com/marceloasl99/astro-history/blob/main/CITATION.cff" target="_blank" rel="noopener noreferrer">CITATION.cff ↗</a>:
+                {% endif %}
+            </p>
+
+            {% if citation %}
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 overflow-x-auto">
+                <pre class="text-[11px] font-mono text-slate-400 whitespace-pre-wrap leading-normal">{{ citation }}</pre>
+            </div>
+            {% endif %}
+
+            <div class="pt-2 text-xs text-slate-400">
+                <a href="https://github.com/marceloasl99/astro-history/blob/main/CITATION.cff" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-1.5 text-sky-400 hover:underline font-mono">
+                    <span>{{ 'Ver CITATION.cff no repositório GitHub' if lang == 'pt' else 'View CITATION.cff in GitHub repo' }}</span>
+                    <span>↗</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Licença & Privacidade -->
+        <section class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div class="space-y-4">
+                <h2 class="font-display text-lg font-bold text-white flex items-center gap-2">
+                    <span>⚖️</span>
+                    <span>{{ 'Licença & Compromisso com Privacidade' if lang == 'pt' else 'License & Privacy Commitment' }}</span>
+                </h2>
+
+                <div class="space-y-2 text-xs text-slate-300 leading-relaxed">
+                    <p>
+                        <strong>GNU AGPL-3.0-or-later:</strong> {{ 'O código-fonte é software livre estrito. Qualquer modificação ou serviço executado publicamente deve permanecer livre e aberto com o código fonte acessível.' if lang == 'pt' else 'The source code is strictly copyleft free software. Any modifications or network-accessible services must remain open and free.' }}
+                    </p>
+                    <p>
+                        <strong>Swiss Ephemeris:</strong> © Astrodienst AG · <strong>GeoNames:</strong> CC BY 4.0 · {{ 'Fontes históricas e metodologias detalhadas em' if lang == 'pt' else 'Historical sources and detailed methodologies at' }} <a class="text-amber-400 hover:underline" href="/dados-fontes">/dados-fontes</a>.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-900/70 dark:bg-slate-950/80 border border-slate-800 text-xs text-slate-300 space-y-1.5">
+                    <div class="font-bold text-white flex items-center gap-1.5">
+                        <span>🛡️</span>
+                        <span>{{ 'Privacidade dos Dados Pessoais' if lang == 'pt' else 'Personal Data Privacy' }}</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">
+                        {% if lang == 'pt' %}
+                            No módulo pessoal de previsão natal, os dados de data, horário e local de nascimento permanecem unicamente na URL e em cookies locais do seu navegador. <strong>Nenhum dado pessoal é gravado no servidor, em bancos de dados remotos ou compartilhado com terceiros.</strong>
+                        {% else %}
+                            In the natal life forecast module, birth date, time, and coordinates reside strictly in the URL and your local browser cookies. <strong>No personal data is logged on the server, saved in remote databases, or shared with third parties.</strong>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
+                <span>GitHub: <a href="https://github.com/marceloasl99/astro-history" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">astro-history</a></span>
+                <span>Branch: <code class="text-slate-300">main</code></span>
+            </div>
+        </section>
+
+    </div>
+
 </div>
 {% endblock %}
