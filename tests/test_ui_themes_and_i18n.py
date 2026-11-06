@@ -16,6 +16,9 @@ def test_static_themes_css():
     assert ".lang-btn" in css
     assert ".nav-submenu-item" in css
     assert ".nav-submenu-item:hover" in css
+    assert ".nav-group-menu.hidden" in css
+    assert "display: none !important" in css
+    assert "#nav-mobile" in css
 
 def test_static_i18n_js():
     response = client.get("/static/js/i18n.js")
@@ -47,6 +50,10 @@ def test_base_html_renders_theme_and_lang_controls():
     assert 'data-lang="en"' in html
     assert "nav-submenu-item" in html
     assert 'id="global-search"' not in html
+    assert 'id="nav-desktop"' in html
+    assert 'hidden lg:flex' in html
+    assert 'id="nav-toggle"' in html
+    assert 'id="nav-mobile"' in html
     # Ensure nav bar contains no search input
     nav_html = html.split('<nav')[1].split('</nav>')[0]
     assert 'type="search"' not in nav_html

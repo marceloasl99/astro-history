@@ -347,16 +347,75 @@ html.theme-dark body {
 }
 
 /* ==========================================================================
-   Mega-Menu Submenu Items & Hover Styling (All 3 Themes)
+   Mega-Menu Navigation System (Pure Web Design & UX Optimization)
    ========================================================================== */
 
-.nav-group-menu {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+.nav-group {
+    position: relative;
 }
 
+.nav-group-btn {
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-group-btn svg {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-group.is-open .nav-group-btn svg,
+.nav-group-btn[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+/* Nav Menu Dropdown */
+.nav-group-menu {
+    box-sizing: border-box;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 0.375rem;
+    width: 20.5rem;
+    border-radius: 1rem;
+    padding: 0.625rem;
+    z-index: 60;
+    overflow: visible;
+}
+
+/* Invisible bridge: covers the gap so cursor never drops hover focus */
+.nav-group-menu::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: transparent;
+}
+
+/* Display rules with absolute priority over utilities */
+.nav-group-menu.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.nav-group-menu.is-open,
+.nav-group.is-open > .nav-group-menu,
+.nav-group-menu:not(.hidden) {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Submenu Items */
 .nav-submenu-item {
     display: block;
     position: relative;
@@ -365,6 +424,7 @@ html.theme-dark body {
     box-sizing: border-box;
     overflow: visible;
     text-decoration: none !important;
+    border: 1px solid transparent !important;
     transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -386,17 +446,20 @@ html.theme-dark body {
 /* 1. TEMA CLARO (LIGHT) */
 html.theme-light .nav-group-btn {
     color: #334155 !important;
+    background-color: transparent !important;
 }
 html.theme-light .nav-group-btn:hover {
     color: #0f172a !important;
     background-color: #f1f5f9 !important;
 }
 html.theme-light .nav-group-btn.is-active,
+html.theme-light .nav-group.is-open > .nav-group-btn,
 html.theme-light .nav-group-btn[aria-expanded="true"] {
     background-color: #fef3c7 !important;
     color: #b45309 !important;
     border: 1px solid #f59e0b !important;
 }
+
 html.theme-light .nav-group-menu {
     background-color: #ffffff !important;
     border: 1px solid #cbd5e1 !important;
@@ -442,17 +505,20 @@ html.theme-light .nav-submenu-item.active-item .item-desc {
 /* 2. TEMA ESCURO (COSMIC NAVY / DARK) */
 html.theme-dark .nav-group-btn {
     color: #cbd5e1 !important;
+    background-color: transparent !important;
 }
 html.theme-dark .nav-group-btn:hover {
     color: #ffffff !important;
     background-color: #1e293b !important;
 }
 html.theme-dark .nav-group-btn.is-active,
+html.theme-dark .nav-group.is-open > .nav-group-btn,
 html.theme-dark .nav-group-btn[aria-expanded="true"] {
     background-color: #1e293b !important;
     color: #fbbf24 !important;
     border: 1px solid rgba(245, 158, 11, 0.5) !important;
 }
+
 html.theme-dark .nav-group-menu {
     background-color: rgba(15, 23, 42, 0.98) !important;
     border: 1px solid #334155 !important;
@@ -498,17 +564,20 @@ html.theme-dark .nav-submenu-item.active-item .item-desc {
 /* 3. TEMA PRETO (OLED) */
 html.theme-oled .nav-group-btn {
     color: #94a3b8 !important;
+    background-color: transparent !important;
 }
 html.theme-oled .nav-group-btn:hover {
     color: #ffffff !important;
     background-color: #0f172a !important;
 }
 html.theme-oled .nav-group-btn.is-active,
+html.theme-oled .nav-group.is-open > .nav-group-btn,
 html.theme-oled .nav-group-btn[aria-expanded="true"] {
     background-color: #0f172a !important;
     color: #fbbf24 !important;
     border: 1px solid rgba(251, 191, 36, 0.6) !important;
 }
+
 html.theme-oled .nav-group-menu {
     background-color: #000000 !important;
     border: 1px solid #1e293b !important;
@@ -549,4 +618,44 @@ html.theme-oled .nav-submenu-item.active-item .item-title {
 }
 html.theme-oled .nav-submenu-item.active-item .item-desc {
     color: #cbd5e1 !important;
+}
+
+/* Mobile Drawer (#nav-mobile) */
+html.theme-light #nav-mobile {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05) !important;
+}
+html.theme-light #nav-mobile .mobile-controls-pill {
+    background-color: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+}
+html.theme-light #nav-mobile .nav-group-heading {
+    color: #475569 !important;
+}
+
+html.theme-dark #nav-mobile {
+    background-color: rgba(15, 23, 42, 0.98) !important;
+    border: 1px solid #334155 !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7) !important;
+}
+html.theme-dark #nav-mobile .mobile-controls-pill {
+    background-color: rgba(30, 41, 59, 0.9) !important;
+    border-color: #334155 !important;
+}
+html.theme-dark #nav-mobile .nav-group-heading {
+    color: #94a3b8 !important;
+}
+
+html.theme-oled #nav-mobile {
+    background-color: #000000 !important;
+    border: 1px solid #1e293b !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.9) !important;
+}
+html.theme-oled #nav-mobile .mobile-controls-pill {
+    background-color: #0b1120 !important;
+    border-color: #1e293b !important;
+}
+html.theme-oled #nav-mobile .nav-group-heading {
+    color: #94a3b8 !important;
 }

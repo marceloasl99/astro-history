@@ -388,11 +388,13 @@
             if (dict[t]) el.setAttribute('title', dict[t]);
         });
 
-        // 4. Tradução de botões e links específicos
+        // 4. Tradução de botões e links específicos (somente nós folha para preservar ícones e spans internos)
         document.querySelectorAll('a, button, span, th, td').forEach(el => {
-            const text = el.innerText ? el.innerText.trim() : '';
-            if (dict[text]) {
-                el.innerText = dict[text];
+            if (el.children.length === 0) {
+                const text = el.innerText ? el.innerText.trim() : '';
+                if (dict[text]) {
+                    el.innerText = dict[text];
+                }
             }
         });
     }
