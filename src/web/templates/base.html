@@ -186,7 +186,8 @@
                     </button>
                     <div class="nav-group-menu hidden absolute {% if is_last_group %}right-0 lg:right-0 xl:left-0{% else %}left-0{% endif %} top-full mt-1.5 w-80 rounded-2xl border border-slate-700/70 bg-slate-950/97 backdrop-blur-xl shadow-2xl p-2.5 z-50">
                         {% for href, label, desc in items %}
-                        {% set path = href.split('#')[0] %}{% set active = (current_path == path) or (path != "/" and current_path.startswith(path)) %}
+                        {% set has_hash = '#' in href %}
+                        {% set active = (not has_hash) and ((current_path == href) or (href != "/" and current_path.startswith(href + "/"))) %}
                         <a href="{{ href }}" class="nav-submenu-item {% if active %}active-item{% endif %}" aria-current="{{ 'page' if active else 'false' }}">
                             <span class="item-title">{{ label }}</span>
                             <span class="item-desc">{{ desc }}</span>
@@ -280,6 +281,52 @@
                         document.addEventListener('keydown', function(e){
                             if (e.key === 'Escape') closeAll();
                         });
+
+                        function updateSubmenuActiveItems() {
+                            var path = window.location.pathname;
+                            var hash = window.location.hash;
+                            var decodedHash = hash ? decodeURIComponent(hash) : '';
+
+                            var allSubmenuItems = document.querySelectorAll('.nav-submenu-item');
+                            allSubmenuItems.forEach(function(el) {
+                                var href = el.getAttribute('href');
+                                if (!href) return;
+                                var decodedHref = decodeURIComponent(href);
+                                var hasHash = decodedHref.indexOf('#') !== -1;
+
+                                var isActive = false;
+                                if (decodedHash) {
+                                    if (hasHash) {
+                                        var targetHash = decodedHref.substring(decodedHref.indexOf('#'));
+                                        isActive = (targetHash === decodedHash);
+                                    } else {
+                                        isActive = false;
+                                    }
+                                } else {
+                                    if (!hasHash) {
+                                        isActive = (decodedHref === path) || (decodedHref !== '/' && path.startsWith(decodedHref + '/'));
+                                    } else {
+                                        isActive = false;
+                                    }
+                                }
+
+                                if (isActive) {
+                                    el.classList.add('active-item');
+                                    el.setAttribute('aria-current', 'page');
+                                } else {
+                                    el.classList.remove('active-item');
+                                    el.setAttribute('aria-current', 'false');
+                                }
+                            });
+                        }
+
+                        updateSubmenuActiveItems();
+                        window.addEventListener('hashchange', updateSubmenuActiveItems);
+                        document.addEventListener('click', function(e) {
+                            if (e.target.closest('.nav-submenu-item')) {
+                                setTimeout(updateSubmenuActiveItems, 25);
+                            }
+                        });
                     }
 
                     if (document.readyState === 'loading') {
@@ -360,7 +407,8 @@
                 </div>
                 <div class="flex flex-col gap-1 mt-0.5">
                     {% for href, label, desc in items %}
-                    {% set path = href.split('#')[0] %}{% set active = (current_path == path) or (path != "/" and current_path.startswith(path)) %}
+                    {% set has_hash = '#' in href %}
+                    {% set active = (not has_hash) and ((current_path == href) or (href != "/" and current_path.startswith(href + "/"))) %}
                     <a href="{{ href }}" class="nav-submenu-item {% if active %}active-item{% endif %}" aria-current="{{ 'page' if active else 'false' }}">
                         <span class="item-title">{{ label }}</span>
                         <span class="item-desc">{{ desc }}</span>

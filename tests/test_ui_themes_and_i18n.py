@@ -104,3 +104,19 @@ def test_footer_version_and_no_v2_v3_mentions():
     assert res_meth.status_code == 200
     assert "Validação Científica v2" not in res_meth.text
     assert "Validação Científica" in res_meth.text
+
+
+def test_pessoal_submenu_single_active_item():
+    """Garante que no menu superior 'Pessoal', apenas o item ativo recebe 'active-item' (e nunca todas as opções)."""
+    res = client.get("/natal")
+    assert res.status_code == 200
+    html = res.text
+
+    # No menu desktop de Pessoal
+    assert 'class="nav-submenu-item active-item" aria-current="page">\n                            <span class="item-title">Mapa Natal</span>' in html
+    # Os outros itens do submenu não devem ter 'active-item'
+    assert 'href="/natal#saved-people-banner" class="nav-submenu-item " aria-current="false"' in html
+    assert 'href="/natal#trânsitos" class="nav-submenu-item " aria-current="false"' in html
+    assert 'href="/natal#progressões" class="nav-submenu-item " aria-current="false"' in html
+    assert 'href="/natal#previsao" class="nav-submenu-item " aria-current="false"' in html
+
