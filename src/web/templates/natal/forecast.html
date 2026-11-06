@@ -24,36 +24,84 @@
                 Cada ano recebe um <strong>Score de Intensidade (0–1000)</strong>, ativação dos <strong>8 domínios de vida</strong>, mapeamento das datas críticas e orientações de desenvolvimento pessoal.
             </p>
 
-            {% if forecast.preset_windows %}
-            <!-- Seletor Rápido de Horizontes e Ciclos Biográficos -->
-            <div class="pt-1 flex flex-wrap items-center gap-2">
-                <span class="text-xs font-mono text-slate-400 font-semibold">Horizontes Biográficos:</span>
-                {% for pw in forecast.preset_windows %}
-                <a href="{{ pw.url }}"
-                    class="px-3 py-1 rounded-xl text-xs font-semibold transition border {% if pw.active %}border-amber-400 bg-amber-400/20 text-amber-200 ring-1 ring-amber-400/50{% else %}border-slate-700 bg-slate-800/60 text-slate-300 hover:text-white hover:bg-slate-700/60{% endif %}">
-                    {{ pw.label }}
-                </a>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <!-- Cards com Indicadores Biográficos e Criticidade (6 Categorias) -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 pt-2">
-                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-mono">Hoje / Idade</span>
-                    <div class="text-base sm:text-lg font-bold font-mono text-white mt-0.5">{{ forecast.current_age }} anos</div>
-                    <span class="text-[10px] text-slate-400 truncate block">{{ forecast.today_formatted }}</span>
-                </div>
-                {% for tier in forecast.criticality_tiers %}
-                {% set cnt = forecast.impact_counts.get(tier.label, 0) %}
-                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-mono flex items-center gap-1 truncate">
-                        <span>{{ tier.icon }}</span> {{ tier.label }}
+            <!-- Barra de Contexto Biográfico & Horizontes Rápidos -->
+            <div class="pt-3 pb-2 flex flex-col md:flex-row md:items-center justify-between gap-3 border-t border-slate-800/60">
+                {% if forecast.preset_windows %}
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-mono text-slate-400 font-semibold flex items-center gap-1">
+                        <span>🧭</span> Horizontes Biográficos:
                     </span>
-                    <div class="text-base sm:text-lg font-bold font-mono {{ tier.text_color }} mt-0.5">{{ cnt }} {{ 'Ano' if cnt == 1 else 'Anos' }}</div>
-                    <span class="text-[9px] text-slate-400 block truncate">{{ tier.range_label }}</span>
+                    {% for pw in forecast.preset_windows %}
+                    <a href="{{ pw.url }}"
+                        class="px-3 py-1.5 rounded-xl text-xs font-semibold transition border shadow-sm {% if pw.active %}border-amber-400 bg-amber-400/20 text-amber-200 ring-1 ring-amber-400/50 font-bold{% else %}border-slate-700/80 bg-slate-800/70 text-slate-300 hover:text-white hover:bg-slate-700/80{% endif %}">
+                        {{ pw.label }}
+                    </a>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                {% endif %}
+
+                <!-- Badge de Referência Biográfica Atual -->
+                <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/80 text-xs font-mono shadow-inner shrink-0">
+                    <span class="text-slate-400 flex items-center gap-1"><span>🎂</span> Idade Atual:</span>
+                    <strong class="text-amber-300 font-bold font-mono text-sm">{{ forecast.current_age }} anos</strong>
+                    <span class="text-slate-500">•</span>
+                    <span class="text-slate-300">{{ forecast.today_formatted }}</span>
+                </div>
+            </div>
+
+            <!-- Cards das 6 Categorias de Criticidade Cósmica (Aprofundadas, Nítidas e Responsivas) -->
+            <div class="pt-2">
+                <div class="flex items-center justify-between pb-2 mb-1">
+                    <span class="text-xs font-mono uppercase tracking-wider font-bold text-slate-300 flex items-center gap-1.5">
+                        <span>⚡</span> Patamares de Ativação Biográfica ({{ forecast.timeline|length }} anos)
+                    </span>
+                    <span class="text-[11px] font-mono text-slate-400 hidden sm:inline">
+                        Toque em um card para filtrar a linha do tempo
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
+                    {% for tier in forecast.criticality_tiers %}
+                    {% set cnt = forecast.impact_counts.get(tier.label, 0) %}
+                    <div class="category-kpi-card category-card-{{ tier.key }} rounded-2xl p-3.5 border transition-all duration-200 cursor-pointer flex flex-col justify-between hover:scale-[1.02] hover:shadow-lg select-none"
+                         data-impact="{{ tier.label }}"
+                         role="button"
+                         tabindex="0"
+                         title="Filtrar por {{ tier.label }}: {{ tier.description }}">
+                        
+                        <!-- Topo: Ícone + Título Completo sem Truncate -->
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-1.5 min-h-[1.75rem]">
+                                <span class="text-base shrink-0 leading-none">{{ tier.icon }}</span>
+                                <span class="text-xs font-bold leading-tight category-title break-words">
+                                    {{ tier.label }}
+                                </span>
+                            </div>
+                            <!-- Faixa de Score (Badge Legível e Contido) -->
+                            <div class="pt-0.5">
+                                <span class="category-score-badge inline-block px-2 py-0.5 rounded-md font-mono text-[10px] font-semibold tracking-tight">
+                                    {{ tier.range_label }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Rodapé: Contagem Grande + Porcentagem -->
+                        <div class="mt-3 pt-2 border-t category-card-footer flex items-baseline justify-between">
+                            <div>
+                                <span class="text-xl sm:text-2xl font-black font-mono category-count leading-none">
+                                    {{ cnt }}
+                                </span>
+                                <span class="text-xs font-mono font-medium category-unit ml-1">
+                                    {{ 'ano' if cnt == 1 else 'anos' }}
+                                </span>
+                            </div>
+                            <span class="text-[10px] font-mono font-bold opacity-75 category-pct">
+                                {{ ((cnt / forecast.timeline|length) * 100)|round|int }}%
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
@@ -423,7 +471,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Atualizar o gráfico Chart.js
         updateChartData();
+
+        // Sincronizar estado visual dos cards de categoria KPI
+        syncCategoryCardsActive(currentImpact);
     }
+
+    function syncCategoryCardsActive(impact) {
+        document.querySelectorAll('.category-kpi-card').forEach(card => {
+            const cardImpact = card.getAttribute('data-impact');
+            if (impact === 'all') {
+                card.classList.remove('ring-2', 'ring-amber-400', 'opacity-40');
+            } else if (cardImpact === impact) {
+                card.classList.add('ring-2', 'ring-amber-400');
+                card.classList.remove('opacity-40');
+            } else {
+                card.classList.remove('ring-2', 'ring-amber-400');
+                card.classList.add('opacity-40');
+            }
+        });
+    }
+
+    // Interação de Clique nos Cards de Categoria KPI (Filtro Direto + Scroll)
+    document.querySelectorAll('.category-kpi-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const impactLabel = this.getAttribute('data-impact');
+            if (currentImpact === impactLabel) {
+                // Alternar: se já estiver filtrado nesta categoria, retorna para "Todos"
+                const allBtn = document.querySelector('.p-impact-btn[data-impact="all"]');
+                if (allBtn) allBtn.click();
+            } else {
+                const targetBtn = document.querySelector(`.p-impact-btn[data-impact="${impactLabel}"]`);
+                if (targetBtn) {
+                    targetBtn.click();
+                } else {
+                    currentImpact = impactLabel;
+                    applyPersonalFilters();
+                }
+                const timelineContainer = document.getElementById('personalTimelineContainer');
+                if (timelineContainer) {
+                    timelineContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
 
     // Alternador de Escopo Temporal (Mostrar Tudo vs Só o Futuro)
     document.querySelectorAll('.scope-btn').forEach(btn => {
