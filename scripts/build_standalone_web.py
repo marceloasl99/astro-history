@@ -173,7 +173,7 @@ def build_standalone():
 def generate_html_template(bundle_json: str) -> str:
     # Retorna o HTML único completo com Tailwind, Chart.js, CSS e todo o Javascript reativo
     return f"""<!DOCTYPE html>
-<html lang="pt-BR" class="dark theme-oled">
+<html lang="pt-BR" class="theme-light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -183,7 +183,7 @@ def generate_html_template(bundle_json: str) -> str:
     <script>
         (function() {{
             try {{
-                var theme = localStorage.getItem('astro_theme') || 'oled';
+                var theme = localStorage.getItem('astro_theme') || 'light';
                 var doc = document.documentElement;
                 doc.classList.remove('theme-light', 'theme-dark', 'theme-oled');
                 doc.classList.add('theme-' + theme);
@@ -965,7 +965,7 @@ def generate_html_template(bundle_json: str) -> str:
         // State
         let currentTab = 'dashboard';
         let currentLang = localStorage.getItem('astro_lang') || 'pt';
-        let currentTheme = localStorage.getItem('astro_theme') || 'oled';
+        let currentTheme = localStorage.getItem('astro_theme') || 'light';
 
         let catalogActiveCat = 'Todas';
         let countryActiveCont = 'Todos';

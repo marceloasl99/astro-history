@@ -345,3 +345,208 @@ html.theme-oled ::-webkit-scrollbar-thumb:hover {
 html.theme-dark body {
     background-color: #060913;
 }
+
+/* ==========================================================================
+   Mega-Menu Submenu Items & Hover Styling (All 3 Themes)
+   ========================================================================== */
+
+.nav-group-menu {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nav-submenu-item {
+    display: block;
+    position: relative;
+    border-radius: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    box-sizing: border-box;
+    overflow: visible;
+    text-decoration: none !important;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-submenu-item .item-title {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: color 0.15s ease-in-out;
+}
+
+.nav-submenu-item .item-desc {
+    display: block;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    margin-top: 0.125rem;
+    transition: color 0.15s ease-in-out;
+}
+
+/* 1. TEMA CLARO (LIGHT) */
+html.theme-light .nav-group-btn {
+    color: #334155 !important;
+}
+html.theme-light .nav-group-btn:hover {
+    color: #0f172a !important;
+    background-color: #f1f5f9 !important;
+}
+html.theme-light .nav-group-btn.is-active,
+html.theme-light .nav-group-btn[aria-expanded="true"] {
+    background-color: #fef3c7 !important;
+    color: #b45309 !important;
+    border: 1px solid #f59e0b !important;
+}
+html.theme-light .nav-group-menu {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06) !important;
+}
+html.theme-light .nav-submenu-item {
+    border: 1px solid transparent !important;
+    background-color: transparent !important;
+}
+html.theme-light .nav-submenu-item .item-title {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+html.theme-light .nav-submenu-item .item-desc {
+    color: #64748b !important;
+}
+html.theme-light .nav-submenu-item:hover {
+    background-color: #f8fafc !important;
+    border: 1px solid #d97706 !important;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.18), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-1px);
+}
+html.theme-light .nav-submenu-item:hover .item-title {
+    color: #b45309 !important;
+    font-weight: 700 !important;
+}
+html.theme-light .nav-submenu-item:hover .item-desc {
+    color: #1e293b !important;
+}
+html.theme-light .nav-submenu-item.active-item {
+    background-color: #fef3c7 !important;
+    border: 1px solid #f59e0b !important;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.15) !important;
+}
+html.theme-light .nav-submenu-item.active-item .item-title {
+    color: #92400e !important;
+    font-weight: 700 !important;
+}
+html.theme-light .nav-submenu-item.active-item .item-desc {
+    color: #78350f !important;
+}
+
+/* 2. TEMA ESCURO (COSMIC NAVY / DARK) */
+html.theme-dark .nav-group-btn {
+    color: #cbd5e1 !important;
+}
+html.theme-dark .nav-group-btn:hover {
+    color: #ffffff !important;
+    background-color: #1e293b !important;
+}
+html.theme-dark .nav-group-btn.is-active,
+html.theme-dark .nav-group-btn[aria-expanded="true"] {
+    background-color: #1e293b !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(245, 158, 11, 0.5) !important;
+}
+html.theme-dark .nav-group-menu {
+    background-color: rgba(15, 23, 42, 0.98) !important;
+    border: 1px solid #334155 !important;
+    box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.65), 0 0 20px rgba(15, 23, 42, 0.6) !important;
+}
+html.theme-dark .nav-submenu-item {
+    border: 1px solid transparent !important;
+    background-color: transparent !important;
+}
+html.theme-dark .nav-submenu-item .item-title {
+    color: #f1f5f9 !important;
+    font-weight: 600 !important;
+}
+html.theme-dark .nav-submenu-item .item-desc {
+    color: #94a3b8 !important;
+}
+html.theme-dark .nav-submenu-item:hover {
+    background-color: rgba(30, 41, 59, 0.95) !important;
+    border: 1px solid #f59e0b !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(245, 158, 11, 0.25) !important;
+    transform: translateY(-1px);
+}
+html.theme-dark .nav-submenu-item:hover .item-title {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+}
+html.theme-dark .nav-submenu-item:hover .item-desc {
+    color: #e2e8f0 !important;
+}
+html.theme-dark .nav-submenu-item.active-item {
+    background-color: rgba(30, 41, 59, 0.98) !important;
+    border: 1px solid rgba(251, 191, 36, 0.6) !important;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.18) !important;
+}
+html.theme-dark .nav-submenu-item.active-item .item-title {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+}
+html.theme-dark .nav-submenu-item.active-item .item-desc {
+    color: #e2e8f0 !important;
+}
+
+/* 3. TEMA PRETO (OLED) */
+html.theme-oled .nav-group-btn {
+    color: #94a3b8 !important;
+}
+html.theme-oled .nav-group-btn:hover {
+    color: #ffffff !important;
+    background-color: #0f172a !important;
+}
+html.theme-oled .nav-group-btn.is-active,
+html.theme-oled .nav-group-btn[aria-expanded="true"] {
+    background-color: #0f172a !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(251, 191, 36, 0.6) !important;
+}
+html.theme-oled .nav-group-menu {
+    background-color: #000000 !important;
+    border: 1px solid #1e293b !important;
+    box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 0, 0, 0.95) !important;
+}
+html.theme-oled .nav-submenu-item {
+    border: 1px solid transparent !important;
+    background-color: transparent !important;
+}
+html.theme-oled .nav-submenu-item .item-title {
+    color: #f8fafc !important;
+    font-weight: 600 !important;
+}
+html.theme-oled .nav-submenu-item .item-desc {
+    color: #94a3b8 !important;
+}
+html.theme-oled .nav-submenu-item:hover {
+    background-color: #0b1120 !important;
+    border: 1px solid #fbbf24 !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 14px rgba(251, 191, 36, 0.28) !important;
+    transform: translateY(-1px);
+}
+html.theme-oled .nav-submenu-item:hover .item-title {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+}
+html.theme-oled .nav-submenu-item:hover .item-desc {
+    color: #f1f5f9 !important;
+}
+html.theme-oled .nav-submenu-item.active-item {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(251, 191, 36, 0.7) !important;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.22) !important;
+}
+html.theme-oled .nav-submenu-item.active-item .item-title {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+}
+html.theme-oled .nav-submenu-item.active-item .item-desc {
+    color: #cbd5e1 !important;
+}

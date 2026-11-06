@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark theme-oled">
+<html lang="pt-BR" class="theme-light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AstroHistory | Astrologia Moderna & Fatos Históricos{% endblock %}</title>
 
-    <!-- FOUC prevention & immediate theme restoration -->
+    <!-- FOUC prevention & immediate theme restoration (Light theme is default) -->
     <script>
         (function() {
             try {
-                var savedTheme = localStorage.getItem('astro_theme') || 'oled';
+                var savedTheme = localStorage.getItem('astro_theme') || 'light';
                 var docEl = document.documentElement;
                 docEl.classList.remove('theme-light', 'theme-dark', 'theme-oled');
                 docEl.classList.add('theme-' + savedTheme);
@@ -180,23 +180,20 @@
                 {% set group_active = [] %}
                 {% for href, label, desc in items %}{% set path = href.split('#')[0] %}{% if (current_path == path) or (path != "/" and current_path.startswith(path)) %}{% set _ = group_active.append(1) %}{% endif %}{% endfor %}
                 <div class="relative nav-group">
-                    <button type="button" class="nav-group-btn px-2.5 2xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all flex items-center gap-1 {% if group_active %}bg-slate-800 text-amber-300 ring-1 ring-amber-400/40{% else %}text-slate-300 hover:text-white hover:bg-slate-800/60{% endif %}" aria-haspopup="true" aria-expanded="false">
-                        <span>{{ icon }}</span><span>{{ group }}</span><svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                    <button type="button" class="nav-group-btn px-2.5 2xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all flex items-center gap-1.5 {% if group_active %}is-active ring-1 ring-amber-400/40{% endif %}" aria-haspopup="true" aria-expanded="false">
+                        <span>{{ icon }}</span><span class="nav-group-label">{{ group }}</span><svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
                     </button>
-                    <div class="nav-group-menu hidden absolute left-0 top-full mt-1 w-72 rounded-2xl border border-slate-700/70 bg-slate-950/97 backdrop-blur-xl shadow-2xl p-2 z-50 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
+                    <div class="nav-group-menu hidden absolute left-0 top-full mt-1.5 w-80 rounded-2xl border border-slate-700/70 bg-slate-950/97 backdrop-blur-xl shadow-2xl p-2.5 z-50 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3">
                         {% for href, label, desc in items %}
                         {% set path = href.split('#')[0] %}{% set active = (current_path == path) or (path != "/" and current_path.startswith(path)) %}
-                        <a href="{{ href }}" class="block px-3 py-2 rounded-xl hover:bg-slate-800 {% if active %}bg-slate-800/80 ring-1 ring-amber-400/30{% endif %}" aria-current="{{ 'page' if active else 'false' }}">
-                            <span class="block text-sm font-semibold {% if active %}text-amber-300{% else %}text-slate-100{% endif %}">{{ label }}</span>
-                            <span class="block text-[11px] text-slate-400">{{ desc }}</span>
+                        <a href="{{ href }}" class="nav-submenu-item {% if active %}active-item{% endif %}" aria-current="{{ 'page' if active else 'false' }}">
+                            <span class="item-title">{{ label }}</span>
+                            <span class="item-desc">{{ desc }}</span>
                         </a>
                         {% endfor %}
                     </div>
                 </div>
                 {% endfor %}
-                <form action="/search" method="get" role="search" class="ml-2 hidden 2xl:block">
-                    <input type="search" name="q" placeholder="Buscar… ( / )" id="global-search" aria-label="Busca global" class="w-44 rounded-lg bg-slate-900/80 border border-slate-700 px-2.5 py-1.5 text-xs text-slate-100 focus:border-amber-400 focus:outline-none">
-                </form>
             </div>
             <script>
                 (function(){
@@ -262,10 +259,6 @@
 
                     document.addEventListener('keydown', function(e){
                         if (e.key === 'Escape') closeAll();
-                        if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)) {
-                            var s = document.getElementById('global-search');
-                            if (s) { e.preventDefault(); s.focus(); }
-                        }
                     });
                 })();
             </script>
@@ -333,14 +326,20 @@
                 </div>
             </div>
 
-            <form action="/search" method="get" role="search" class="px-1"><input type="search" name="q" placeholder="Buscar eventos, países, anos, termos…" aria-label="Busca global" class="w-full rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-sm text-slate-100"></form>
             {% for group, icon, items in nav_groups %}
-            <div class="mt-1">
-                <div class="px-3 pt-2 pb-1 text-[10px] uppercase tracking-wider text-slate-500 font-mono">{{ icon }} {{ group }}</div>
-                {% for href, label, desc in items %}
-                {% set path = href.split('#')[0] %}{% set active = (current_path == path) or (path != "/" and current_path.startswith(path)) %}
-                <a href="{{ href }}" class="block px-4 py-2 rounded-xl text-sm font-semibold transition {% if active %}bg-slate-800 text-amber-300 ring-1 ring-amber-400/40 font-bold{% else %}text-slate-200 hover:bg-slate-800{% endif %}">{{ label }} <span class="block text-[11px] font-normal text-slate-400">{{ desc }}</span></a>
-                {% endfor %}
+            <div class="mt-2">
+                <div class="px-3 pt-2 pb-1 text-[10px] uppercase tracking-wider text-slate-500 font-mono flex items-center gap-1.5">
+                    <span>{{ icon }}</span><span class="nav-group-heading">{{ group }}</span>
+                </div>
+                <div class="flex flex-col gap-1 mt-0.5">
+                    {% for href, label, desc in items %}
+                    {% set path = href.split('#')[0] %}{% set active = (current_path == path) or (path != "/" and current_path.startswith(path)) %}
+                    <a href="{{ href }}" class="nav-submenu-item {% if active %}active-item{% endif %}" aria-current="{{ 'page' if active else 'false' }}">
+                        <span class="item-title">{{ label }}</span>
+                        <span class="item-desc">{{ desc }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
             {% endfor %}
         </div>

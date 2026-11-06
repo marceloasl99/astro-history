@@ -5,6 +5,10 @@
     const translations = {
         en: {
             // Navigation
+            "Explorar": "Explore",
+            "Analisar": "Analyze",
+            "Pessoal": "Personal",
+            "Sobre": "About",
             "Dashboard": "Dashboard",
             "Catálogo (1.342)": "Catalog (1,342)",
             "Catálogo": "Catalog",
@@ -51,6 +55,32 @@
             "Astrologia Mundana Computacional": "Computational Mundane Astrology",
             "1800–2100 Ativo": "1800–2100 Active",
             "1.342 Fatos": "1,342 Events",
+
+            // Navigation Mega-Menu Submenu Items & Descriptions
+            "Mapa Natal": "Natal Chart",
+            "Carta natal e pessoas salvas": "Natal chart and saved profiles",
+            "Pessoas Cadastradas": "Saved Profiles",
+            "Mapas salvos em cookies/localStorage": "Charts saved locally in cookies/storage",
+            "Trânsitos da Vida": "Life Transits",
+            "Datas exatas do nascimento aos 100 anos": "Exact transit dates from birth to age 100",
+            "Progressões": "Progressions",
+            "Progressões secundárias e Lua progredida": "Secondary progressions & progressed Moon",
+            "Previsão Pessoal": "Personal Forecast",
+            "Ciclos e acontecimentos 2026–2050": "Planetary cycles and events 2026–2050",
+            "Dados & Fontes": "Data & Sources",
+            "Licenças, cobertura e versões": "Licenses, coverage and versions",
+            "Glossário": "Glossary",
+            "Termos de astrologia e estatística": "Astrological and statistical terms",
+            "Sobre o projeto": "About the Project",
+            "Equipe, citação e changelog": "Team, citation and changelog",
+            "Visão geral, achados e gráfico 1800–2100": "Overview, findings and 1800–2100 chart",
+            "Eventos históricos auditados": "Audited historical events",
+            "Mapas soberanos e trânsitos nacionais": "Sovereign charts and national transits",
+            "Teste qualquer data": "Test any historical or future date",
+            "Hub de correlações": "Modern astrology correlations hub",
+            "Skill walk-forward 2026–2060": "Walk-forward skill & predictions 2026–2060",
+            "Picos de energia e dossiês": "Energy peaks and prospective dossiers",
+            "Modelos nulos N1–N3 e hindcast": "N1–N3 null models & walk-forward hindcast",
 
             // Theme & Language Controls
             "Tema": "Theme",
@@ -367,11 +397,11 @@
         });
     }
 
-    // Theme Management
-    let currentTheme = localStorage.getItem('astro_theme') || 'oled';
+    // Theme Management (Light is default)
+    let currentTheme = localStorage.getItem('astro_theme') || 'light';
 
     function setTheme(theme) {
-        if (!['light', 'dark', 'oled'].includes(theme)) theme = 'oled';
+        if (!['light', 'dark', 'oled'].includes(theme)) theme = 'light';
         currentTheme = theme;
         localStorage.setItem('astro_theme', theme);
         document.cookie = `astro_theme=${theme};path=/;max-age=31536000;SameSite=Lax`;

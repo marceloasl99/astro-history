@@ -14,6 +14,8 @@ def test_static_themes_css():
     assert "#000000" in css
     assert ".theme-btn" in css
     assert ".lang-btn" in css
+    assert ".nav-submenu-item" in css
+    assert ".nav-submenu-item:hover" in css
 
 def test_static_i18n_js():
     response = client.get("/static/js/i18n.js")
@@ -25,14 +27,17 @@ def test_static_i18n_js():
     assert "translations" in js
     assert "Guerra & Conflito" in js
     assert "War & Conflict" in js
-    assert "let currentTheme = localStorage.getItem('astro_theme') || 'oled'" in js
+    assert "let currentTheme = localStorage.getItem('astro_theme') || 'light'" in js
+    assert '"Explorar": "Explore"' in js
+    assert '"Mapa Natal": "Natal Chart"' in js
+    assert '"Pessoas Cadastradas": "Saved Profiles"' in js
 
 def test_base_html_renders_theme_and_lang_controls():
     response = client.get("/")
     assert response.status_code == 200
     html = response.text
-    assert 'class="dark theme-oled"' in html
-    assert "savedTheme = localStorage.getItem('astro_theme') || 'oled'" in html
+    assert 'class="theme-light"' in html
+    assert "savedTheme = localStorage.getItem('astro_theme') || 'light'" in html
     assert "/static/css/themes.css" in html
     assert "/static/js/i18n.js" in html
     assert 'data-theme="light"' in html
@@ -40,6 +45,12 @@ def test_base_html_renders_theme_and_lang_controls():
     assert 'data-theme="oled"' in html
     assert 'data-lang="pt"' in html
     assert 'data-lang="en"' in html
+    assert "nav-submenu-item" in html
+    assert 'id="global-search"' not in html
+    # Ensure nav bar contains no search input
+    nav_html = html.split('<nav')[1].split('</nav>')[0]
+    assert 'type="search"' not in nav_html
+    assert 'action="/search"' not in nav_html
     assert "Resumo Prospectivo: Picos de Energia Cósmica" in html
     assert "Total de Picos" in html
 
