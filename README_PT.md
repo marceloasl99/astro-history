@@ -4,9 +4,9 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-122_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-138_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-6.0.0-blue)
+![Version](https://img.shields.io/badge/Version-7.0.0-blue)
 
 > 🌍 **Idiomas / Languages**: **Português** • [English version (README.md)](README.md)
 
@@ -15,7 +15,7 @@
 ## Sumário
 
 1. [O que é este projeto](#1-o-que-é-este-projeto)
-2. [Inovações da v6.0.0](#2-inovações-da-v600)
+2. [Inovações da v7.0.0](#2-inovações-da-v700)
 3. [A pergunta de pesquisa e os resultados empíricos](#3-a-pergunta-de-pesquisa-e-os-resultados-empíricos)
 4. [Arquitetura da plataforma & páginas interativas](#4-arquitetura-da-plataforma--páginas-interativas)
 5. [O pipeline computacional](#5-o-pipeline-computacional)
@@ -51,20 +51,29 @@ A plataforma funciona como **ferramenta de literacia de dados**: demonstra como 
 
 ---
 
-## 2. Inovações da v6.0.0
+## 2. Inovações da v7.0.0
 
-A versão `v6.0.0` consolida grandes avanços estruturais, metodológicos, de dados e de astrologia pessoal:
+A versão `v7.0.0` introduz grandes avanços em visualização de previsão pessoal, centralização responsiva de interface, persistência local de perfis e acessibilidade aprimorada:
 
-1. **Base Expandida para 3.406 Eventos Históricos:** Expansão massiva de 1.342 para **3.406 marcos históricos verificados** sob o esquema v3 (`date_precision`, `calendar`, `source_id`/`source_url`, tiers de qualidade A/B/C, macro/subcategorias e polaridade). Incorporação do NOAA NCEI Significant Earthquakes (944 terremotos, grupo de controle cético), erupções vulcânicas do Smithsonian GVP (150 eventos), marcos selecionados do Wikidata (682 eventos) e eventos curados da Antiguidade e Idade Média (710 eventos pré-1800, 165 a.C.).
-2. **Módulo Pessoal (`/natal`):** Cálculos de mapa natal de alta precisão com múltiplos sistemas de casas (Placidus, Signos Inteiros, Iguais, Koch, Regiomontanus, Porphyry), trânsitos diários vetorizados para a vida inteira (0 a 100 anos processados em < 1,5 s), datas exatas de aspectos, progressões secundárias (`dia-por-ano`), linha do tempo da Lua progredida, ciclos de vida (retornos de Saturno, Júpiter, Quíron e oposição de Urano), 8 domínios de vida calibrados (escala 0–1000) e gazetteer GeoNames offline em SQLite com 34.204 cidades.
-3. **Navegação Estruturada em 4 Áreas & Busca Global:** Reorganização completa da experiência em 4 áreas conceituais (*Explorar, Analisar, Pessoal, Sobre*), mega-menus interativos, busca global (`/search` com atalho de teclado `/`) e trilhas de navegação (*breadcrumbs*) em todas as telas.
-4. **Glossário Bilíngue & Hub de Transparência:** Glossário dedicado (`/glossario`) definindo ~60 termos astronômicos e estatísticos com âncoras na interface, e página de manifesto de fontes (`/dados-fontes`) com licenças, cobertura e links acadêmicos.
-5. **8 Categorias Estimáveis & Pré-registro v4:** Formalização de 8 categorias estimáveis em `config/categories.yaml` (Guerra, Crise Econômica, Crise de Regime, Conflito Social, Desastre Natural, Saúde/Epidemia, Ciência/Inovação, Diplomacia/Paz) com selos de skill BSS e pré-registro v4 (`docs/hipoteses_v4.md`).
-6. **Modernização do Motor Astronômico:** Arquivos completos de efemérides Swiss Ephemeris (`sepl_*.se1`, `seplm_*.se1`, `semom_*.se1`), eliminação total de aproximações Moshier, correção no cálculo de casas Placidus (`houses_ex2`) e fusos horários legais históricos via IANA.
-7. **Internacionalização no Servidor com Filtro `t()`:** Suporte bilíngue renderizado no servidor via dicionários JSON indexados por chaves (`src/web/i18n/{en,pt}.json`), eliminando cintilação de tradução no cliente (*flicker*).
-8. **100% de Cobertura de Testes Automatizados:** Suíte com **122 testes automatizados** passando integralmente nas rotinas astronômicas, astrologia mundana, módulo pessoal, validação estatística e rotas web.
-9. **Dossiês Soberanos & Picos de Energia Geopolítica (2026–2060):** 148 picos de energia calculados e agrupados em 7 anos-chave de virada (2026, 2028, 2029, 2032, 2034, 2036, 2040), dossiês interativos de inteligência geopolítica para 12 potências soberanas e matriz de calor de risco geopolítico.
-10. **Arquitetura de Segurança Endurecida & Bloqueio Edge Cloudflare:** Bloqueio público de todas as rotas de API (`/api/*`) e documentação Swagger/OpenAPI (`/docs`, `/redoc`, `/openapi.json`) com resposta `404 Not Found` para tráfego externo, mantendo funcionalidades de API estritamente para processos de loopback local e suíte de testes. Cabeçalhos de defesa em profundidade OWASP habilitados.
+1. **Motor de Previsão Pessoal com 6 Patamares de Criticidade (Escala 0–1000):** Varredura completa da vida integrando trânsitos planetários lentos aos pontos natais, progressões secundárias (`dia-por-ano` com fases e aspectos da Lua progredida) e marcos de ciclos biográficos (retorno de Saturno, oposição de Urano, retorno de Quíron). Introduz 6 patamares calibrados de ativação:
+   - 💥 **Pico Transformador** (Score ≥ 850): Momentos culminantes de metamorfose radical, pontos de virada máxima de destino ou grandes consagrações.
+   - ⚡ **Ponto de Virada** (Score 700–849): Transições cruciais, redefinição de prioridades de vida, decisões estruturantes e marcos evolutivos.
+   - 🔥 **Alta Ativação** (Score 550–699): Forte aceleração de acontecimentos, expansão de oportunidades, produtividade e movimento dinâmico.
+   - 🌊 **Moderado** (Score 400–549): Desenvolvimento ritmado, evolução gradual, ajustes de rota e maturidade sem sobressaltos agudos.
+   - 🌿 **Consolidação** (Score 250–399): Fixação de conquistas anteriores, estabilização de rotinas e assimilação tranquila de aprendizados.
+   - 🌱 **Estabilidade & Gestação** (Score < 250): Período de serenidade cósmica, baixa fricção de planetas lentos, planejamento e digestão psíquica.
+2. **Gráfico Interativo com Séries Separadas por Categoria & Seleção Rápida:** Visualização avançada em Chart.js com 6 séries de barras independentes (uma para cada patamar de criticidade na sua respectiva cor de acento) aliada a uma linha contínua fluida de tendência. Barra seletora de categorias (`.chart-cat-btn`) e legenda nativa interativa permitem isolar ou comparar categorias individuais com um único clique.
+3. **Alternador de Escopo Temporal ("Mostrar Tudo" vs "Só o Futuro"):** Filtro instantâneo entre a visão biográfica completa e o horizonte estritamente futuro (`ano >= ano_atual`). Badges temporais diferenciam datas concluídas (`✓ Concluído`) de passagens ativas por acontecer (`⚡ Futuro`), com banner explicativo inteligente para figuras históricas.
+4. **Persistência Local de Perfis ("Salvar Pessoa" via Cookie / Local Storage):** Permite salvar mapas astrais personalizados localmente no navegador em um clique, preservando nome, data, hora, latitude e longitude entre sessões. Menu dropdown na barra de abas e navegação para alternar rapidamente entre pessoas cadastradas sem necessidade de conta ou banco externo.
+5. **Layout Centralizado & Acessibilidade WCAG AAA:** Revisão tipográfica e estética 100% centralizada otimizada para monitores Full HD (1920×1080) e celulares. Motor de cores de alto contraste nos 3 temas (Claro com tons profundos e contrastados, Escuro Cosmic Navy e Preto OLED). Cards de categoria exibem textos completos sem qualquer truncamento (`truncate`).
+6. **Sistema de Mega-Menus Otimizado:** Ponte de foco anti-flicker impedindo fechamento precoce ao passar o mouse, bordas visíveis delimitadas e realce em ambos os idiomas (PT/EN) nos 3 temas.
+7. **Suíte de Testes Expandida:** Mais de **138 testes automatizados** passando com 100% de sucesso em testes astronômicos, mundanos, pessoais, estatísticos e de interface web.
+
+### Fundação Arquitetural (v6.0)
+- **Base Expandida para 3.406 Eventos Históricos:** Expansão massiva de 1.342 para **3.406 marcos históricos verificados** sob o esquema v3 (`date_precision`, `calendar`, `source_id`/`source_url`, tiers de qualidade A/B/C, macro/subcategorias e polaridade). Incorporação do NOAA NCEI Significant Earthquakes (944 terremotos, grupo de controle cético), erupções vulcânicas do Smithsonian GVP (150 eventos), marcos selecionados do Wikidata (682 eventos) e eventos curados da Antiguidade e Idade Média.
+- **Módulo Pessoal (`/natal`):** Cálculos de mapa natal de alta precisão com múltiplos sistemas de casas (Placidus, Signos Inteiros, Iguais, Koch, Regiomontanus, Porphyry), trânsitos diários vetorizados para a vida inteira (< 1,5 s), progressões secundárias, 8 domínios de vida calibrados (escala 0–1000) e gazetteer GeoNames offline em SQLite com 34.204 cidades.
+- **Picos de Energia Geopolítica (2026–2060):** 148 picos de energia calculados e agrupados em 7 anos-chave de virada (2026, 2028, 2029, 2032, 2034, 2036, 2040) com dossiês de inteligência soberana.
+- **Arquitetura de Segurança Endurecida:** Bloqueio público de todas as rotas de API (`/api/*`) e documentação Swagger/OpenAPI (`/docs`, `/redoc`, `/openapi.json`) com resposta `404 Not Found` para tráfego externo, mantendo funcionalidades de API estritamente para processos de loopback local e suíte de testes. Cabeçalhos de defesa em profundidade OWASP habilitados.
 
 ---
 
@@ -492,7 +501,7 @@ astro-history/
 │       └── templates/             # Templates Jinja2 (habilitados para 3 temas)
 ├── web/
 │   └── index.html                 # Aplicação standalone para GitHub Pages (zero backend)
-└── tests/                         # 122 testes automatizados (astronomia, mundana, natal, stats, web)
+└── tests/                         # 138+ testes automatizados (astronomia, mundana, natal, stats, web)
 ```
 
 ---
@@ -501,7 +510,7 @@ astro-history/
 
 Se usar esta plataforma, seus dados ou seu código em pesquisas acadêmicas ou projetos de código aberto, cite:
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, versão 6.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, versão 7.0.0. https://github.com/marceloasl99/astro-history
 
 - **Código-fonte**: [GNU Affero General Public License v3 ou posterior (AGPL-3.0)](LICENSE).
 - **Swiss Ephemeris**: © Astrodienst AG. Em conformidade com os termos da Astrodienst, o projeto é licenciado sob AGPL; uso comercial requer licença profissional da Astrodienst AG.

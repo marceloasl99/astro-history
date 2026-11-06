@@ -47,7 +47,7 @@ import ipaddress
 app = FastAPI(
     title="AstroHistory - Astrologia Moderna & 1.342 Fatos Históricos Mundiais",
     description="Plataforma Internacional de Correlação Astrológica Histórica com Swiss Ephemeris",
-    version="6.0.0",
+    version="7.0.0",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,

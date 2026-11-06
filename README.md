@@ -4,9 +4,9 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-122_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-138_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-6.0.0-blue)
+![Version](https://img.shields.io/badge/Version-7.0.0-blue)
 
 > 🌍 **Languages / Idiomas**: **English** • [Versão em Português (README_PT.md)](README_PT.md)
 
@@ -15,7 +15,7 @@
 ## Table of contents
 
 1. [What this project is](#1-what-this-project-is)
-2. [Key innovations in v6.0.0](#2-key-innovations-in-v600)
+2. [Key innovations in v7.0.0](#2-key-innovations-in-v700)
 3. [The research question and empirical results](#3-the-research-question-and-empirical-results)
 4. [Platform architecture & interactive pages](#4-platform-architecture--interactive-pages)
 5. [The computational pipeline](#5-the-computational-pipeline)
@@ -51,20 +51,29 @@ The platform functions as a **data-literacy tool**: it demonstrates how retrospe
 
 ---
 
-## 2. Key innovations in v6.0.0
+## 2. Key innovations in v7.0.0
 
-The `v6.0.0` release introduces major structural, methodological, data, and personal astrology advancements:
+The `v7.0.0` release introduces major personal astrology visualization advancements, responsive layout centering, local profile persistence, and rigorous accessibility upgrades:
 
-1. **Expanded 3,406 Historical Events Database:** Massive expansion from 1,342 to **3,406 historically verified milestones** with schema v3 (data precision, calendar, source IDs/URLs, quality tiers A/B/C, macro/subcategories, and polarities). Includes NOAA NCEI Significant Earthquakes (944 events, skeptical control), Smithsonian GVP Volcanic Eruptions (150 events), Wikidata curated events (682 events), and curated antiquity/medieval events (710 pre-1800 events, 165 BCE events).
-2. **Personal Module (`/natal`):** High-precision natal chart calculations with multiple house systems (Placidus, Whole Sign, Equal, Koch, Regiomontanus, Porphyry), vectorized lifetime daily transits (0 to 100 years computed in < 1.5s), exact aspect dates, secondary progressions (`day-for-a-year`), progressed Moon timeline, life cycles (Saturn/Jupiter/Chiron returns, Uranus opposition), 8 calibrated life domains (0–1000 scale), and an offline GeoNames SQLite gazetteer with 34,204 cities.
-3. **Four-Area Structured Navigation & Global Search:** Reorganized navigation into 4 conceptual areas (*Explore, Analyze, Personal, About*), interactive mega-menus, global search (`/search` with `/` shortcut), and breadcrumbs across all views.
-4. **Bilingual Glossary & Transparency Hub:** Dedicated bilingual glossary (`/glossario`) defining ~60 astronomical and statistical terms with UI anchors, and a data sources manifest page (`/dados-fontes`) detailing licenses and coverage.
-5. **8 Estimable Energy Categories & Preregistration v4:** Formal expansion to 8 estimable categories in `config/categories.yaml` (War, Economic Crash, Regime Crisis, Social Upheaval, Natural Disaster, Health/Epidemic, Science/Innovation, Diplomacy/Peace) with BSS skill badges and preregistration v4 (`docs/hipoteses_v4.md`).
-6. **Astronomical Engine Upgrades:** Full Swiss Ephemeris files (`sepl_*.se1`, `seplm_*.se1`, `semom_*.se1`) eliminating Moshier fallback, corrected Placidus house calculation (`houses_ex2` bug fix), and real historical IANA legal timezones.
-7. **Bilingual Engine with Server-Side `t()` Filter:** Server-rendered i18n support via key-based JSON dictionaries (`src/web/i18n/{en,pt}.json`) eliminating client-side translation flicker.
-8. **100% Test Coverage:** Comprehensive test suite with **122 automated tests** passing across astronomical routines, mundane astrology, personal module, statistical validation, and web UI.
-9. **Geopolitical Energy Peaks & Sovereign Intelligence Dossiers (2026–2060):** 148 calculated planetary energy peaks categorized into 7 pivotal turning point years (2026, 2028, 2029, 2032, 2034, 2036, 2040), interactive intelligence dossiers for 12 sovereign powers, and a geopolitical risk matrix heatmap.
-10. **Hardened Security Architecture & Cloudflare Edge Lockdown:** Public exposure of all API routes (`/api/*`) and Swagger/OpenAPI documentation (`/docs`, `/redoc`, `/openapi.json`) is blocked with HTTP `404 Not Found` for external traffic, preserving API functionality strictly for internal loopback processes and automated test suites. Full OWASP defense-in-depth headers are enforced.
+1. **Personal Forecast Engine with 6 Criticality Tiers (0–1000 Scale):** Full lifetime scan combining slow planetary transits, secondary progressions (`day-for-a-year` with progressed Moon sign and aspect ingress dates), and life-cycle turning points (Saturn return, Uranus opposition, Chiron return). Introduces 6 calibrated criticality tiers:
+   - 💥 **Pico Transformador / Transformative Peak** (Score ≥ 850): Culminating points of radical life transformation, evolutionary turning points, and major milestone consolidations.
+   - ⚡ **Ponto de Virada / Turning Point** (Score 700–849): Crucial life transitions, structural decisions, career or relationship pivots, and path-redefining cycles.
+   - 🔥 **Alta Ativação / High Activation** (Score 550–699): Dynamic acceleration of events, rapid expansion of opportunities, high productivity, and external momentum.
+   - 🌊 **Moderado / Moderate** (Score 400–549): Rhythmic development, steady evolutionary adjustments, and gradual consolidation without acute crises.
+   - 🌿 **Consolidação / Consolidation** (Score 250–399): Anchoring previous achievements, routinization, integration, and grounded maturation.
+   - 🌱 **Estabilidade & Gestação / Stability & Gestation** (Score < 250): Serene cosmic cycles, low outer-planet tension, incubation, internal reflection, and strategic planning.
+2. **Category-Separated Chart with Interactive Legend & Rapid Toggles:** Advanced Chart.js visualization featuring 6 independent bar series (one for each criticality tier rendered in its vibrant theme accent color) alongside a smooth continuous trendline. A dedicated Category Selector Bar (`.chart-cat-btn`) and clickable legend allow users to isolate or compare specific tiers with a single click.
+3. **Temporal Scope Engine ("Mostrar Tudo" vs "Só o Futuro"):** Instant filtering between complete lifetime horizon and upcoming/unoccurred periods (`year >= current_year`). Chronological status indicators differentiate occurred events (`✓ Concluído`) from active upcoming events (`⚡ Futuro`), with automatic empty-state guidance for past historical figures.
+4. **Local Profile Persistence via Browser Cookies ("Salvar Pessoa"):** Save customized natal charts locally in the browser with one click, preserving name, date, time, latitude, and longitude across sessions. A quick-switch dropdown menu in the navigation bar allows alternating between saved profiles without accounts or external storage.
+5. **Frontend Web Design & Accessibility Overhaul (WCAG AAA):** Complete layout centralization optimized for Desktop Full HD (1920×1080) and Mobile/Cellular screens. High-contrast color engine across all 3 themes (Light mode with deep jewel tones on soft pastel cards, Cosmic Dark Navy, and OLED Pitch Black). Category KPI summary cards feature 100% visible text, zero truncation, and single-click timeline filter navigation.
+6. **Mega-Menu Navigation System:** Smooth hover bridge preventing rapid dropdown dismissal, clean bounded borders, and active state highlights across all three themes and both languages (PT/EN).
+7. **Expanded Automated Test Suite:** Comprehensive test suite with **138+ automated tests** passing across astronomical routines, mundane astrology, personal module, statistical validation, and web UI.
+
+### Architectural Foundation (v6.0)
+- **Expanded 3,406 Historical Events Database:** Massive expansion from 1,342 to **3,406 historically verified milestones** with schema v3 (data precision, calendar, source IDs/URLs, quality tiers A/B/C, macro/subcategories, and polarities). Includes NOAA NCEI Significant Earthquakes (944 events), Smithsonian GVP Volcanic Eruptions (150 events), and Wikidata curated milestones.
+- **Personal Module (`/natal`):** High-precision natal chart calculations with multiple house systems, vectorized lifetime daily transits (< 1.5s), secondary progressions, 8 calibrated life domains (0–1000 scale), and an offline GeoNames SQLite gazetteer with 34,204 cities.
+- **Geopolitical Energy Peaks (2026–2060):** 148 calculated planetary energy peaks categorized into 7 pivotal turning point years (2026, 2028, 2029, 2032, 2034, 2036, 2040) with sovereign intelligence dossiers.
+- **Hardened Security Architecture:** Public exposure of all API routes (`/api/*`) and Swagger/OpenAPI documentation blocked with HTTP `404 Not Found` for external traffic, with full OWASP defense-in-depth headers.
 
 ---
 
@@ -462,7 +471,7 @@ astro-history/
 │       └── templates/             # Jinja2 templates (triple-theme enabled)
 ├── web/
 │   └── index.html                 # Standalone single-file application for GitHub Pages (zero backend)
-└── tests/                         # 122 automated tests (astronomy, mundane, natal, stats, API, UI)
+└── tests/                         # 138+ automated tests (astronomy, mundane, natal, stats, API, UI)
 ```
 
 ---
@@ -471,7 +480,7 @@ astro-history/
 
 If you utilize this software, its historical dataset, or its statistical testing framework in academic or open-source research, please cite:
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 6.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 7.0.0. https://github.com/marceloasl99/astro-history
 
 - **Source Code License:** [GNU Affero General Public License v3 or later (AGPL-3.0)](LICENSE).
 - **Swiss Ephemeris:** © Astrodienst AG. Licensed under AGPL. Commercial applications require a commercial license from Astrodienst AG.

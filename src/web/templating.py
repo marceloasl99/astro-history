@@ -10,7 +10,7 @@ from fastapi.templating import Jinja2Templates
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
-APP_VERSION = "6.0.0"
+APP_VERSION = "7.0.0"
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
