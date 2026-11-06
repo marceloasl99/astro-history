@@ -85,17 +85,17 @@
     <h2 class="font-display text-lg font-bold text-white">🔥 {{ t('natal.heatmap.title') }}</h2>
     <p class="text-xs text-slate-400 mt-1">{{ t('natal.heatmap.help') }} {% if not profile.meta.calibrated %}<span class="text-amber-300">{{ t('natal.heatmap.uncalibrated') }}</span>{% endif %}</p>
     <div class="overflow-x-auto mt-3">
-        <table class="text-[10px] font-mono border-separate" style="border-spacing:1px">
+        <table id="heatmap" class="text-[10px] font-mono border-separate cursor-pointer" style="border-spacing:1px">
             <thead><tr><th class="text-left pr-2 text-slate-400 font-sans text-xs sticky left-0 bg-transparent"></th>{% for y in sc.years %}<th class="text-slate-500 {% if y % 10 != 0 %}opacity-0{% endif %}" style="min-width:7px">{{ y if y % 10 == 0 else '' }}</th>{% endfor %}</tr></thead>
             <tbody>
             {% for k, meta in dm.items() %}
             <tr><th class="text-left pr-2 text-slate-300 font-sans text-xs whitespace-nowrap">{{ meta.icon }} {{ meta.label }}</th>
                 {% for y in sc.years %}{% set v = sc.annual_1000[k][loop.index0] %}
-                <td><a href="{{ urls.transits }}&focus_year={{ y }}#ano-foco" title="{{ y }} · {{ meta.label }} · {{ v }}" class="block w-[7px] h-[14px] rounded-[2px] hm-{{ (v // 200) if v < 1000 else 4 }}{% if v >= 900 %} hm-5{% endif %}"></a></td>
+                <td data-y="{{ y }}" title="{{ y }} · {{ v }}" class="w-[7px] h-[14px] rounded-[2px] hm-{{ 5 if v >= 900 else (v // 200) }}"></td>
                 {% endfor %}</tr>
             {% endfor %}
             <tr><th class="text-left pr-2 text-white font-sans text-xs whitespace-nowrap">Σ {{ t('natal.heatmap.total') }}</th>
-                {% for y in sc.years %}{% set v = sc.annual_total_1000[loop.index0] %}<td><a href="{{ urls.transits }}&focus_year={{ y }}#ano-foco" title="{{ y }} · {{ v }}" class="block w-[7px] h-[14px] rounded-[2px] hm-{{ (v // 200) if v < 1000 else 4 }}{% if v >= 900 %} hm-5{% endif %}"></a></td>{% endfor %}</tr>
+                {% for y in sc.years %}{% set v = sc.annual_total_1000[loop.index0] %}<td data-y="{{ y }}" title="{{ y }} · {{ v }}" class="w-[7px] h-[14px] rounded-[2px] hm-{{ 5 if v >= 900 else (v // 200) }}"></td>{% endfor %}</tr>
             </tbody>
         </table>
     </div>

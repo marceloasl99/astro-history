@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Glossário' if lang == 'pt' else 'Glossary' }} | AstroHistory{% endblock %}
+{% block content %}
+<section class="glass-panel rounded-3xl p-6 sm:p-8 mb-6">
+    <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb"><a href="/" class="hover:text-amber-300">{{ t('nav.home') }}</a> › {{ t('nav.about') }} › <span class="text-slate-200">{{ t('nav.glossary') }}</span></nav>
+    <h1 class="font-display text-3xl font-black text-white tracking-wide">📚 {{ 'Glossário' if lang == 'pt' else 'Glossary' }}</h1>
+    <p class="text-slate-300 mt-2 max-w-3xl">{{ 'Termos de astrologia moderna, tempo/efemérides, método e estatística usados em todo o site. Cada termo tem um link permanente (âncora).' if lang == 'pt' else 'Terms of modern astrology, time/ephemerides, method and statistics used across the site. Each term has a permanent anchor link.' }}</p>
+    <form method="get" class="mt-4 flex gap-2"><input type="search" name="q" value="{{ q }}" placeholder="{{ 'Filtrar termos…' if lang == 'pt' else 'Filter terms…' }}" class="w-full max-w-md rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100"><button class="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold">OK</button></form>
+</section>
+{% for ckey, (cpt, cen) in cats.items() %}
+{% set group = terms|selectattr('cat', 'equalto', ckey)|list %}
+{% if group %}
+<section class="glass-panel rounded-3xl p-6 mb-6">
+    <h2 class="font-display text-xl font-bold text-amber-300 mb-3">{{ cpt if lang == 'pt' else cen }}</h2>
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+        {% for term in group %}
+        <div id="{{ term.key }}" class="border-l-2 border-slate-700 pl-3 target:border-amber-400">
+            <dt class="font-semibold text-slate-100">{{ term.pt if lang == 'pt' else term.en }} <a href="#{{ term.key }}" class="text-slate-600 hover:text-amber-300 text-xs" aria-label="link">#</a> <span class="text-[11px] text-slate-500 font-normal">{{ term.en if lang == 'pt' else term.pt }}</span></dt>
+            <dd class="text-sm text-slate-300 mt-1">{{ term.def_pt if lang == 'pt' else term.def_en }}</dd>
+        </div>
+        {% endfor %}
+    </dl>
+</section>
+{% endif %}
+{% endfor %}
+{% if not terms %}<p class="text-slate-400">{{ 'Nenhum termo encontrado.' if lang == 'pt' else 'No term found.' }}</p>{% endif %}
+{% endblock %}

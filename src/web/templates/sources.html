@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Dados & Fontes' if lang == 'pt' else 'Data & Sources' }} | AstroHistory{% endblock %}
+{% block content %}
+<section class="glass-panel rounded-3xl p-6 sm:p-8 mb-6">
+    <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb"><a href="/" class="hover:text-amber-300">{{ t('nav.home') }}</a> › {{ t('nav.about') }} › <span class="text-slate-200">{{ t('nav.sources') }}</span></nav>
+    <h1 class="font-display text-3xl font-black text-white tracking-wide">🗄 {{ 'Dados & Fontes' if lang == 'pt' else 'Data & Sources' }}</h1>
+    <p class="text-slate-300 mt-2 max-w-3xl">{{ 'Toda fonte usada pelo AstroHistory, com período, licença e contagem — gerado a partir de data/sources_manifest.yml. Catálogo com' if lang == 'pt' else 'Every source used by AstroHistory, with period, licence and count — generated from data/sources_manifest.yml. Catalog with' }} <b class="text-amber-300">{{ '{:,}'.format(coverage.total).replace(',', '.') }}</b> {{ 'eventos' if lang == 'pt' else 'events' }} · manifest v{{ manifest.version }} ({{ manifest.updated_at }}).</p>
+    <div class="flex flex-wrap gap-2 mt-3 text-[11px] font-mono">
+        <span class="px-2 py-0.5 rounded border {{ 'border-emerald-500/40 text-emerald-300' if ephe.full_planets else 'border-amber-500/40 text-amber-300' }}">Swiss Ephemeris {{ ephe.swisseph_version }} · {{ 'arquivos completos' if ephe.full_planets else 'fallback Moshier' }}</span>
+        <span class="px-2 py-0.5 rounded border border-slate-700 text-slate-300">{{ 'planetas d.C.' if lang == 'pt' else 'planets CE' }}: {{ ephe.planet_files_ce }}/9 · a.C./BCE: {{ ephe.planet_files_bce }}/9 · {{ 'Lua a.C.' if lang == 'pt' else 'Moon BCE' }}: {{ ephe.moon_files_bce }}/9</span>
+    </div>
+</section>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+    <section class="glass-panel rounded-3xl p-6">
+        <h2 class="font-display text-lg font-bold text-white mb-3">{{ 'Cobertura por século' if lang == 'pt' else 'Coverage by century' }}</h2>
+        {% set mx = coverage.centuries|map(attribute=1)|max if coverage.centuries else 1 %}
+        <div class="space-y-1 text-xs font-mono">
+        {% for c, n in coverage.centuries %}
+            <div class="flex items-center gap-2"><span class="w-16 text-right text-slate-400">{{ (c|abs ~ ' a.C.') if c < 0 else (c ~ 's') }}</span><div class="flex-1 h-3 rounded bg-slate-800"><div class="h-3 rounded bg-amber-400/80" style="width: {{ (100 * n / mx)|round(1) }}%"></div></div><span class="w-10 text-slate-300">{{ n }}</span></div>
+        {% endfor %}
+        </div>
+    </section>
+    <section class="glass-panel rounded-3xl p-6">
+        <h2 class="font-display text-lg font-bold text-white mb-3">{{ 'Por categoria' if lang == 'pt' else 'By category' }}</h2>
+        <ul class="text-sm space-y-1">{% for r in coverage.by_category %}<li class="flex justify-between border-b border-slate-800/60 py-1"><span class="text-slate-300">{{ r.category }}</span><span class="font-mono text-slate-400">{{ r.n }}</span></li>{% endfor %}</ul>
+        {% if coverage.by_macro %}<h3 class="text-sm font-semibold text-slate-200 mt-4 mb-1">{{ 'Macro-categoria (v6)' if lang == 'pt' else 'Macro category (v6)' }}</h3><ul class="text-xs space-y-0.5">{% for r in coverage.by_macro %}<li class="flex justify-between"><span class="text-slate-300 font-mono">{{ r.m }}</span><span class="font-mono text-slate-400">{{ r.n }}</span></li>{% endfor %}</ul>{% endif %}
+    </section>
+    <section class="glass-panel rounded-3xl p-6">
+        <h2 class="font-display text-lg font-bold text-white mb-3">{{ 'Qualidade' if lang == 'pt' else 'Quality' }}</h2>
+        {% if coverage.by_tier %}<h3 class="text-sm font-semibold text-slate-200 mb-1">{{ 'Tier de fonte' if lang == 'pt' else 'Source tier' }}</h3><ul class="text-sm space-y-1">{% for r in coverage.by_tier %}<li class="flex justify-between border-b border-slate-800/60 py-1"><span class="text-slate-300">{{ r.tier }}</span><span class="font-mono text-slate-400">{{ r.n }}</span></li>{% endfor %}</ul>{% endif %}
+        {% if coverage.by_precision %}<h3 class="text-sm font-semibold text-slate-200 mt-4 mb-1">{{ 'Precisão da data' if lang == 'pt' else 'Date precision' }}</h3><ul class="text-sm space-y-1">{% for r in coverage.by_precision %}<li class="flex justify-between border-b border-slate-800/60 py-1"><span class="text-slate-300">{{ r.p }}</span><span class="font-mono text-slate-400">{{ r.n }}</span></li>{% endfor %}</ul>{% endif %}
+        <p class="text-[11px] text-slate-500 mt-3"><a class="text-sky-400 hover:underline" href="/glossario#tier">{{ 'O que são tiers e precisão →' if lang == 'pt' else 'What tiers and precision mean →' }}</a></p>
+    </section>
+</div>
+
+<section class="glass-panel rounded-3xl p-6 mb-6">
+    <h2 class="font-display text-lg font-bold text-white mb-3">{{ 'Fontes' if lang == 'pt' else 'Sources' }} ({{ manifest.sources|length }})</h2>
+    <div class="overflow-x-auto"><table class="w-full text-sm">
+        <thead class="text-[11px] uppercase tracking-wide text-slate-400"><tr><th class="text-left py-1">{{ 'Fonte' if lang == 'pt' else 'Source' }}</th><th class="text-left">{{ 'Período' if lang == 'pt' else 'Period' }}</th><th class="text-left">{{ 'Categoria' if lang == 'pt' else 'Category' }}</th><th class="text-right">{{ 'Registros' if lang == 'pt' else 'Records' }}</th><th class="text-left pl-3">{{ 'Licença' if lang == 'pt' else 'Licence' }}</th></tr></thead>
+        <tbody>
+        {% for s in manifest.sources %}
+        <tr class="border-t border-slate-800/70 align-top">
+            <td class="py-2"><a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" class="text-sky-300 hover:underline font-semibold">{{ s.name }}</a><span class="block text-[11px] text-slate-500">{{ s.institution }}</span></td>
+            <td class="font-mono text-xs text-slate-300 whitespace-nowrap">{{ s.time_span }}</td>
+            <td class="text-xs text-slate-300">{{ s.category }}</td>
+            <td class="text-right font-mono text-slate-300">{{ s.records_count }}</td>
+            <td class="pl-3 text-xs text-slate-400">{{ s.license }}</td>
+        </tr>
+        {% endfor %}
+        </tbody></table></div>
+    <p class="text-[11px] text-slate-500 mt-3">Swiss Ephemeris © Astrodienst AG (AGPL) · GeoNames (CC BY 4.0) · {{ 'Código e dados derivados sob AGPL-3.0.' if lang == 'pt' else 'Code and derived data under AGPL-3.0.' }}</p>
+</section>
+{% endblock %}

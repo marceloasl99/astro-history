@@ -30,7 +30,14 @@
       start: e.s, end: e.e, hits: e.h.map(dateToYear), hitsRaw: e.h, retro: e.r, name: e.n, w: e.w, nw: e.nw, label: e.bs + ' ' + e.as + ' ' + e.ps };
   });
   var cycleByEpisode = {};
-  D.windows.forEach(function (w) { if (w.c && w.ep) cycleByEpisode[w.ep] = w.c; });
+  D.episodes.forEach(function (e) { if (e.c) cycleByEpisode[e.i] = e.c; });
+  // Mapa de calor: navegação por clique sem URL por célula
+  var hm = document.getElementById('heatmap');
+  if (hm) hm.addEventListener('click', function (evt) {
+    var cell = evt.target.closest('[data-y]'); if (!cell) return;
+    var url = new URL(window.location.href); url.searchParams.set('focus_year', cell.getAttribute('data-y')); url.hash = 'ano-foco';
+    window.location.href = url.toString();
+  });
 
   var ctx = canvas.getContext('2d');
   var hitboxes = [];

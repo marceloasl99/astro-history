@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Sobre o projeto' if lang == 'pt' else 'About the project' }} | AstroHistory{% endblock %}
+{% block content %}
+<section class="glass-panel rounded-3xl p-6 sm:p-8 mb-6">
+    <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb"><a href="/" class="hover:text-amber-300">{{ t('nav.home') }}</a> › {{ t('nav.about') }} › <span class="text-slate-200">{{ 'Sobre' if lang == 'pt' else 'About' }}</span></nav>
+    <h1 class="font-display text-3xl font-black text-white tracking-wide">🪐 AstroHistory v6</h1>
+    <p class="text-slate-300 mt-3 max-w-3xl leading-relaxed">
+        {% if lang == 'pt' %}O AstroHistory é uma plataforma aberta e reprodutível que testa, com controles estatísticos rigorosos, se alinhamentos planetários se concentram em grandes eventos históricos e se têm capacidade preditiva. A resposta medida até aqui é <b>não</b>: nos testes pré-registrados com modelos nulos e no hindcast walk-forward, os índices astrológicos não superam a taxa-base. O site funciona como ferramenta de letramento em dados — e, a partir da v6, oferece também um módulo pessoal (mapa natal, trânsitos de vida e progressões) explicitamente rotulado como leitura simbólica.{% else %}AstroHistory is an open, reproducible platform that tests, under rigorous statistical controls, whether planetary alignments cluster at major historical events and whether they have predictive power. The measured answer so far is <b>no</b>: in pre-registered null-model tests and in the walk-forward hindcast, astrological indices do not beat the base rate. The site works as a data-literacy tool — and, from v6, also offers a personal module (natal chart, life transits and progressions) explicitly labelled as a symbolic reading.{% endif %}
+    </p>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <section class="glass-panel rounded-3xl p-6 text-sm text-slate-300 space-y-3">
+        <h2 class="font-display text-lg font-bold text-white">{{ 'O que há na v6' if lang == 'pt' else "What's in v6" }}</h2>
+        <ul class="list-disc pl-5 space-y-1">
+            <li>{{ 'Efemérides Swiss Ephemeris completas (planetas 5400 a.C.–5400 d.C.), sem fallback Moshier.' if lang == 'pt' else 'Full Swiss Ephemeris files (planets 5400 BCE–5400 CE), no Moshier fallback.' }}</li>
+            <li>{{ 'Hora legal histórica por zona IANA (hora média local antes da 1ª transição) e casas Placidus corrigidas.' if lang == 'pt' else 'Historical standard time per IANA zone (local mean time before the first transition) and corrected Placidus houses.' }}</li>
+            <li>{{ 'Módulo pessoal: carta natal, trânsitos de toda a vida com datas exatas, ciclos, domínios de vida, progressões secundárias.' if lang == 'pt' else 'Personal module: natal chart, lifetime transits with exact dates, cycles, life domains, secondary progressions.' }}</li>
+            <li>{{ 'Catálogo com esquema v3 (fonte, precisão, tier, polaridade, macro-categoria) e novas fontes.' if lang == 'pt' else 'Catalog with schema v3 (source, precision, tier, polarity, macro category) and new sources.' }}</li>
+            <li>{{ 'Oito categorias estimáveis com badge de skill; navegação em 4 áreas, busca global, glossário.' if lang == 'pt' else 'Eight estimable categories with skill badges; 4-area navigation, global search, glossary.' }}</li>
+        </ul>
+        <p class="text-xs text-slate-500">{{ 'Roadmap e especificação:' if lang == 'pt' else 'Roadmap and spec:' }} <code>docs/plano_v6_roadmap.md</code>, <code>docs/spec_modulo_pessoal_natal_transitos.md</code>.</p>
+    </section>
+    <section class="glass-panel rounded-3xl p-6 text-sm text-slate-300 space-y-3">
+        <h2 class="font-display text-lg font-bold text-white">{{ 'Licença, citação e código' if lang == 'pt' else 'Licence, citation and code' }}</h2>
+        <p>GNU AGPL-3.0-or-later · <a class="text-sky-400 hover:underline" href="https://github.com/marceloasl99/astro-history" target="_blank" rel="noopener noreferrer">github.com/marceloasl99/astro-history ↗</a></p>
+        <p>Swiss Ephemeris © Astrodienst AG · GeoNames CC BY 4.0 · {{ 'fontes históricas listadas em' if lang == 'pt' else 'historical sources listed at' }} <a class="text-sky-400 hover:underline" href="/dados-fontes">/dados-fontes</a>.</p>
+        {% if citation %}<details><summary class="cursor-pointer text-slate-200 font-semibold">CITATION.cff</summary><pre class="mt-2 text-[11px] font-mono text-slate-400 whitespace-pre-wrap">{{ citation }}</pre></details>{% endif %}
+        <p class="text-xs text-slate-500">{{ 'Privacidade do módulo pessoal: dados de nascimento só na URL, sem armazenamento nem logs de parâmetros.' if lang == 'pt' else 'Personal module privacy: birth data only in the URL, no storage or parameter logging.' }}</p>
+    </section>
+</div>
+{% endblock %}

@@ -138,11 +138,12 @@ def _compact_windows(windows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return out
 
 
-def _compact_episodes(episodes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def _compact_episodes(episodes: List[Dict[str, Any]], windows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    cycle_by_ep = {w["episode_id"]: w["cycle_label"] for w in windows if w.get("cycle_label") and w.get("episode_id")}
     return [{"i": e["id"], "b": e["transit_body"], "p": e["natal_point"], "a": e["aspect"], "f": e["family"],
              "s": e["start"], "e": e["end"], "h": [h["date"] for h in e["hits"]], "r": [1 if h["retrograde"] else 0 for h in e["hits"]],
              "n": f"{e['transit_name']} {e['aspect_name']} {e['point_name']}", "bs": e["transit_symbol"], "ps": e["point_symbol"],
-             "as": e["aspect_symbol"], "nw": e["n_windows"], "w": e["peak_closeness"]} for e in episodes]
+             "as": e["aspect_symbol"], "nw": e["n_windows"], "w": e["peak_closeness"], "c": cycle_by_ep.get(e["id"])} for e in episodes]
 
 
 def _render_error(request: Request, lang: str, err: Exception, status: int = 400) -> HTMLResponse:
@@ -256,7 +257,7 @@ async def natal_transits(request: Request):
     year_windows.sort(key=lambda w: (-w.get("intensity_peak", 0), w["start"]))
     detail_windows = sorted(profile["detail"]["windows"], key=lambda w: w["start"])
     compact = {
-        "windows": _compact_windows(lt["windows"]), "episodes": _compact_episodes(lt["episodes"]),
+        "episodes": _compact_episodes(lt["episodes"], lt["windows"]),
         "years": profile["domains"]["scored"]["years"], "annual_total": profile["domains"]["scored"]["annual_total_1000"],
         "annual": profile["domains"]["scored"]["annual_1000"], "months": profile["domains"]["scored"]["months"],
         "monthly_total": profile["domains"]["scored"]["monthly_total_1000"],

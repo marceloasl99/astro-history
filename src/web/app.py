@@ -681,6 +681,10 @@ app.include_router(mundane_router)
 from src.natal.web_routes import router as natal_router
 app.include_router(natal_router)
 
+# v6: páginas de apoio (glossário, dados & fontes, sobre, busca global)
+from src.web.pages import router as pages_router
+app.include_router(pages_router)
+
 # v6: compressão das páginas (as páginas do módulo pessoal embutem JSON compacto)
 from starlette.middleware.gzip import GZipMiddleware
 app.add_middleware(GZipMiddleware, minimum_size=1024)

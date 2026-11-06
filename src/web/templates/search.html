@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Busca' if lang == 'pt' else 'Search' }}: {{ q }} | AstroHistory{% endblock %}
+{% block content %}
+<section class="glass-panel rounded-3xl p-6 sm:p-8 mb-6">
+    <h1 class="font-display text-2xl font-black text-white tracking-wide">🔎 {{ 'Busca global' if lang == 'pt' else 'Global search' }}</h1>
+    <form method="get" class="mt-3 flex gap-2"><input type="search" name="q" value="{{ q }}" autofocus placeholder="{{ t('nav.search') }}" class="w-full max-w-xl rounded-xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-slate-100"><button class="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold">OK</button></form>
+</section>
+{% if q %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <section class="glass-panel rounded-3xl p-6 lg:col-span-2">
+        <h2 class="font-display text-lg font-bold text-white mb-3">{{ 'Eventos' if lang == 'pt' else 'Events' }} ({{ results.events|length }}{% if results.events|length == 60 %}+{% endif %})</h2>
+        {% if results.events %}
+        <ul class="divide-y divide-slate-800/70 text-sm">{% for e in results.events %}<li class="py-2"><a href="/events/{{ e.id }}" class="text-slate-100 hover:text-amber-300 font-semibold">{{ e.title }}</a><span class="block text-[11px] font-mono text-slate-400">{{ e.date }} · {{ e.country }} · {{ e.category }}</span></li>{% endfor %}</ul>
+        <p class="mt-3 text-xs"><a class="text-sky-400 hover:underline" href="/events?search={{ q|urlencode }}">{{ 'Ver no catálogo com filtros →' if lang == 'pt' else 'Open in the catalog with filters →' }}</a></p>
+        {% else %}<p class="text-sm text-slate-400">{{ 'Nenhum evento.' if lang == 'pt' else 'No events.' }}</p>{% endif %}
+    </section>
+    <div class="space-y-6">
+        {% if results.years %}<section class="glass-panel rounded-3xl p-6"><h2 class="font-display text-lg font-bold text-white mb-2">{{ 'Anos' if lang == 'pt' else 'Years' }}</h2>{% for y in results.years %}<div class="text-sm text-slate-300 flex flex-wrap gap-3"><b class="text-amber-300">{{ y.year }}</b><a class="text-sky-400 hover:underline" href="{{ y.simulator }}">{{ 'Simulador' if lang == 'pt' else 'Simulator' }}</a><a class="text-sky-400 hover:underline" href="{{ y.events }}">{{ 'Eventos' if lang == 'pt' else 'Events' }}</a>{% if y.forecast %}<a class="text-sky-400 hover:underline" href="{{ y.forecast }}">{{ 'Previsão' if lang == 'pt' else 'Forecast' }}</a>{% endif %}</div>{% endfor %}</section>{% endif %}
+        {% if results.countries %}<section class="glass-panel rounded-3xl p-6"><h2 class="font-display text-lg font-bold text-white mb-2">{{ 'Países' if lang == 'pt' else 'Countries' }}</h2><ul class="text-sm space-y-1">{% for c in results.countries %}<li><a class="text-slate-100 hover:text-amber-300" href="/countries/{{ c.iso_code }}">{{ c.flag_emoji }} {{ c.name_pt if lang == 'pt' else c.name_en }}</a> <span class="text-[11px] font-mono text-slate-500">{{ c.date }}</span></li>{% endfor %}</ul></section>{% endif %}
+        {% if results.terms %}<section class="glass-panel rounded-3xl p-6"><h2 class="font-display text-lg font-bold text-white mb-2">{{ 'Glossário' if lang == 'pt' else 'Glossary' }}</h2><ul class="text-sm space-y-1">{% for t_ in results.terms %}<li><a class="text-slate-100 hover:text-amber-300" href="/glossario#{{ t_.key }}">{{ t_.pt if lang == 'pt' else t_.en }}</a></li>{% endfor %}</ul></section>{% endif %}
+        {% if results.pages %}<section class="glass-panel rounded-3xl p-6"><h2 class="font-display text-lg font-bold text-white mb-2">{{ 'Páginas' if lang == 'pt' else 'Pages' }}</h2><ul class="text-sm space-y-1">{% for p in results.pages %}<li><a class="text-slate-100 hover:text-amber-300" href="{{ p.href }}">{{ p.title }}</a></li>{% endfor %}</ul></section>{% endif %}
+        {% if not (results.years or results.countries or results.terms or results.pages) %}<p class="text-sm text-slate-400">—</p>{% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
