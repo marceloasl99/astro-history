@@ -397,12 +397,8 @@ def calculate_activation_timeline(
 
     years = []
     scores = []
-    cat_series = {
-        "WAR_CONFLICT": [],
-        "ECONOMIC_CRASH": [],
-        "REGIME_CRISIS": [],
-        "SOCIAL_UPHEAVAL": []
-    }
+    from src.mundane.energy_peaks import ENERGY_CATEGORIES
+    cat_series = {k: [] for k in ENERGY_CATEGORIES}
     major_transits_summary = []
 
     for yr in range(start_year, end_year + 1):
@@ -412,12 +408,7 @@ def calculate_activation_timeline(
         scores.append(res["activation_index_1000"])
 
         # Decomposição categórica por aspecto
-        cat_sums = {
-            "WAR_CONFLICT": 0.0,
-            "ECONOMIC_CRASH": 0.0,
-            "REGIME_CRISIS": 0.0,
-            "SOCIAL_UPHEAVAL": 0.0
-        }
+        cat_sums = {k: 0.0 for k in ENERGY_CATEGORIES}
         for t in res["transits"]:
             c_key = classify_transit_recurrence_theme(
                 t["transit_planet_id"],

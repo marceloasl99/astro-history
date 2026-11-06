@@ -44,6 +44,14 @@ FORECAST_TARGETS = {
     "nber_recession": "Mês em recessão nos EUA (NBER, 1857–2024)",
     "nber_recession_start": "Início de recessão nos EUA (NBER, 1857–2024)",
     "v2_any": "Evento da amostra validada (1800–2025)",
+    # v4 (pré-registro docs/hipoteses_v4.md)
+    "ncei_quake_m75": "Terremoto M ≥ 7,5 (NCEI, 1850–2024) — controle cético",
+    "gvp_eruption_vei5": "Erupção VEI ≥ 5 (GVP, 1800–2024) — controle cético",
+    "pandemic_onset": "Início de pandemia/epidemia ou declaração OMS (1850–2024)",
+    "science_milestone": "Marco científico/tecnológico (1850–2024)",
+    "peace_treaty": "Tratado/acordo de paz ou organização internacional (1850–2024)",
+    "rr_banking_crisis_onset": "Início de crise bancária/cambial/default (1850–2024)",
+    "cow_war_end": "Término de guerra interestatal (COW, 1816–2007)",
 }
 ASTRO_MODELS = ["legacy_index", "barbault", "tarnas_outer", "outer_phases", "astro_full"]
 FUTURE_START, FUTURE_END = 2026, 2060

@@ -218,7 +218,11 @@ def save_calculated_event(event_dict: Dict[str, Any], chart_data: Dict[str, Any]
             "sun_sign": sun_sign,
             "moon_sign": moon_sign,
             "ascendant_sign": asc_sign,
-            "chart_json": json.dumps(chart_data, ensure_ascii=False)
+            "chart_json": json.dumps(
+                {k: v for k, v in chart_data.items() if k != "fixed_stars"},
+                separators=(",", ":"),
+                ensure_ascii=False
+            )
         })
 
         # Limpar registros prévios do evento para recálculo integral

@@ -1,79 +1,153 @@
-# Manifesto de Fontes e Dados do AstroHistory (sources_manifest.yml)
-# Registro reprodutível de todas as bases históricas, acadêmicas e astronômicas integradas.
-
-version: "3.1.0"
-updated_at: "2026-11-02"
-license: "AGPL-3.0"
-
+version: 6.0.0
+updated_at: '2026-11-06'
+license: AGPL-3.0
 sources:
-  - id: "correlates_of_war_interstate"
-    name: "Correlates of War (COW) Inter-State War Data v4.0"
-    institution: "Correlates of War Project (Sarkees & Wayman, 2010)"
-    url: "https://correlatesofwar.org/data-sets/cow-war/"
-    license: "Uso acadêmico e de pesquisa aberto (Citação obrigatória)"
-    file_path: "data/external/Inter-StateWarData_v4.0.csv"
-    time_span: "1816-01-01 / 2007-12-31"
-    records_count: 95
-    category: "politics_geopolitics"
-    date_precision: "day"
-    features: ["war_onset", "combat_fatalities", "interstate_belligerents"]
-
-  - id: "ucdp_prio_armed_conflict"
-    name: "UCDP/PRIO Armed Conflict Dataset v24.1"
-    institution: "Uppsala Conflict Data Program & Peace Research Institute Oslo (Davies, Pettersson & Öberg, 2024)"
-    url: "https://ucdp.uu.se/downloads/"
-    license: "Creative Commons Attribution 4.0 International (CC BY 4.0)"
-    file_path: "data/external/UcdpPrioConflict_v24_1.csv"
-    time_span: "1946-01-01 / 2023-12-31"
-    records_count: 299
-    category: "politics_geopolitics"
-    date_precision: "day"
-    features: ["conflict_episode_onset", "incompatibility", "intensity_level"]
-
-  - id: "powell_thyne_coups"
-    name: "Global Instances of Coups (Powell & Thyne Coup Dataset)"
-    institution: "University of Kentucky & University of Central Florida (Powell & Thyne, 2011; atualizado 2026)"
-    url: "https://jonathanmpowell.com/coups/"
-    license: "Uso acadêmico e científico aberto"
-    file_path: "data/external/powell_thyne_coups.csv"
-    time_span: "1950-01-01 / 2026-08-29"
-    records_count: 497
-    category: "politics_geopolitics"
-    date_precision: "day"
-    features: ["coup_onset", "successful_vs_failed", "regime_impact"]
-
-  - id: "usgs_major_earthquakes"
-    name: "USGS Significant Global Earthquake Catalog (M >= 7.8)"
-    institution: "United States Geological Survey (USGS) Earthquake Hazards Program"
-    url: "https://earthquake.usgs.gov/fdsnws/event/1/"
-    license: "Domínio Público (US Government Work)"
-    file_path: "data/external/usgs_earthquakes_m78.json"
-    time_span: "1900-01-01 / 2024-12-31"
-    records_count: 90
-    category: "natural_disasters"
-    date_precision: "day_second"
-    features: ["magnitude_m", "exact_utc_instant", "latitude", "longitude"]
-
-  - id: "nber_business_cycles"
-    name: "US Business Cycle Expansions and Contractions"
-    institution: "National Bureau of Economic Research (NBER)"
-    url: "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions"
-    license: "Domínio Público / Uso acadêmico livre"
-    file_path: "data/external/business_cycle_dates.json"
-    time_span: "1854-12-01 / 2024-12-31"
-    records_count: 34
-    category: "economics_finance"
-    date_precision: "month_day"
-    features: ["recession_onset", "peak_to_trough_duration"]
-
-  - id: "curated_positive_milestones"
-    name: "Curated Scientific, Health and Peace Milestones"
-    institution: "AstroHistory Research Team (Consolidação Auditada de Fontes Primárias: NASA, Nobel, OMS, Tratados Diplomáticos)"
-    url: "https://github.com/marceloasl99/astro-history"
-    license: "AGPL-3.0"
-    file_path: "data/external/curated_milestones.json"
-    time_span: "1000 BCE / 2024 CE"
-    records_count: 150
-    category: "science_technology, health_epidemics, constructive_positive"
-    date_precision: "day"
-    features: ["peace_treaties", "scientific_discoveries", "space_missions", "disease_eradication"]
+- id: correlates_of_war_interstate
+  name: Correlates of War (COW) Inter-State War Data v4.0
+  institution: Correlates of War Project (Sarkees & Wayman, 2010)
+  url: https://correlatesofwar.org/data-sets/cow-war/
+  license: Uso acadêmico e de pesquisa aberto (Citação obrigatória)
+  file_path: data/external/Inter-StateWarData_v4.0.csv
+  time_span: 1816-01-01 / 2007-12-31
+  records_count: 95
+  category: politics_geopolitics
+  date_precision: day
+  features:
+  - war_onset
+  - combat_fatalities
+  - interstate_belligerents
+- id: ucdp_prio_armed_conflict
+  name: UCDP/PRIO Armed Conflict Dataset v24.1
+  institution: Uppsala Conflict Data Program & Peace Research Institute Oslo (Davies, Pettersson & Öberg, 2024)
+  url: https://ucdp.uu.se/downloads/
+  license: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  file_path: data/external/UcdpPrioConflict_v24_1.csv
+  time_span: 1946-01-01 / 2023-12-31
+  records_count: 299
+  category: politics_geopolitics
+  date_precision: day
+  features:
+  - conflict_episode_onset
+  - incompatibility
+  - intensity_level
+- id: powell_thyne_coups
+  name: Global Instances of Coups (Powell & Thyne Coup Dataset)
+  institution: University of Kentucky & University of Central Florida (Powell & Thyne, 2011; atualizado 2026)
+  url: https://jonathanmpowell.com/coups/
+  license: Uso acadêmico e científico aberto
+  file_path: data/external/powell_thyne_coups.csv
+  time_span: 1950-01-01 / 2026-08-29
+  records_count: 497
+  category: politics_geopolitics
+  date_precision: day
+  features:
+  - coup_onset
+  - successful_vs_failed
+  - regime_impact
+- id: usgs_major_earthquakes
+  name: USGS Significant Global Earthquake Catalog (M >= 7.8)
+  institution: United States Geological Survey (USGS) Earthquake Hazards Program
+  url: https://earthquake.usgs.gov/fdsnws/event/1/
+  license: Domínio Público (US Government Work)
+  file_path: data/external/usgs_earthquakes_m78.json
+  time_span: 1900-01-01 / 2024-12-31
+  records_count: 90
+  category: natural_disasters
+  date_precision: day_second
+  features:
+  - magnitude_m
+  - exact_utc_instant
+  - latitude
+  - longitude
+- id: nber_business_cycles
+  name: US Business Cycle Expansions and Contractions
+  institution: National Bureau of Economic Research (NBER)
+  url: https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions
+  license: Domínio Público / Uso acadêmico livre
+  file_path: data/external/business_cycle_dates.json
+  time_span: 1854-12-01 / 2024-12-31
+  records_count: 34
+  category: economics_finance
+  date_precision: month_day
+  features:
+  - recession_onset
+  - peak_to_trough_duration
+- id: curated_positive_milestones
+  name: Curated Scientific, Health and Peace Milestones
+  institution: 'AstroHistory Research Team (Consolidação Auditada de Fontes Primárias: NASA, Nobel, OMS, Tratados Diplomáticos)'
+  url: https://github.com/marceloasl99/astro-history
+  license: AGPL-3.0
+  file_path: data/external/curated_milestones.json
+  time_span: 1000 BCE / 2024 CE
+  records_count: 150
+  category: science_technology, health_epidemics, constructive_positive
+  date_precision: day
+  features:
+  - peace_treaties
+  - scientific_discoveries
+  - space_missions
+  - disease_eradication
+- id: astrohistory_curated_v6
+  name: AstroHistory — marcos curados v6 (Antiguidade/Medievo, ciência, saúde, diplomacia, sociedade, economia, Brasil/América
+    Latina)
+  institution: AstroHistory Research Team (consolidação de cronologias acadêmicas e documentos oficiais)
+  url: https://github.com/marceloasl99/astro-history/tree/main/data/curated
+  license: AGPL-3.0
+  file_path: data/curated/
+  time_span: 1750 BCE / 2024 CE
+  records_count: 291
+  category: múltiplas
+  date_precision: day|month|year|decade (declarada por registro)
+  features:
+  - title_pt
+  - consequence_pt
+  - coordinates
+  - tier
+  quality_tier: C (A quando documento primário)
+- id: ncei_significant_earthquakes
+  name: NOAA NCEI Significant Earthquake Database (M ≥ 7.5)
+  institution: National Centers for Environmental Information (NOAA)
+  url: https://www.ngdc.noaa.gov/hazel/view/hazards/earthquake/search
+  license: Domínio Público (US Government Work)
+  file_path: data/external/ncei/earthquakes_m7.5.json
+  time_span: 2150 BCE / 2025 CE
+  records_count: 944
+  category: natural_disasters
+  date_precision: day|month|year
+  features:
+  - magnitude
+  - deaths
+  - tsunami_flag
+  - coordinates
+  skeptical_control: true
+- id: gvp_holocene_eruptions_vei5
+  name: Smithsonian GVP — Volcanoes of the World, erupções do Holoceno VEI ≥ 5
+  institution: Smithsonian Institution, Global Volcanism Program
+  url: https://volcano.si.edu/
+  license: Uso livre com citação (Global Volcanism Program, 2024)
+  file_path: data/external/gvp/eruptions_vei5.json
+  time_span: Holoceno / 2025 CE
+  records_count: 150
+  category: natural_disasters
+  date_precision: day|month|year|decade
+  features:
+  - vei
+  - coordinates
+  - volcano_number
+  skeptical_control: true
+- id: wikidata_events
+  name: Wikidata — eventos históricos datados com coordenadas (≥ 25 sitelinks)
+  institution: Wikimedia Foundation / comunidade Wikidata
+  url: https://query.wikidata.org/
+  license: CC0 1.0 (domínio público)
+  file_path: data/external/wikidata/
+  time_span: 1000 BCE / 2025 CE
+  records_count: 682
+  category: múltiplas
+  date_precision: day|month|year (qualificador P585/P580)
+  features:
+  - sitelinks
+  - coordinates
+  - country
+  - date_precision
+  quality_tier: C

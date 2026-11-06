@@ -41,6 +41,9 @@ REPORT_MD = os.path.join(ROOT, "reports", "hindcast_v3.md")
 DEFAULT_TARGETS = [
     "v2_any", "cow_war_onset", "cow_war_ongoing", "nber_recession", "nber_recession_start",
     "ucdp_onset_any", "ucdp_onset_interstate",
+    # v4 (docs/hipoteses_v4.md): novas categorias estimáveis + controles céticos
+    "ncei_quake_m75", "gvp_eruption_vei5", "pandemic_onset", "science_milestone", "peace_treaty",
+    "rr_banking_crisis_onset", "cow_war_end",
 ]
 GAP_MONTHS = 12
 EPS = 1e-4

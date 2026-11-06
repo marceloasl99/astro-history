@@ -27,49 +27,46 @@ def load_energy_peaks_catalog() -> Dict[str, Any]:
     return {"peaks": [], "kpis": {}, "scenario_meta": ENERGY_CATEGORIES, "countries_meta": []}
 
 
-ENERGY_CATEGORIES = {
-    "WAR_CONFLICT": {
-        "label": "Tensão Geopolítica & Risco de Conflito Militar",
-        "short_label": "Guerra / Conflito",
-        "icon": "⚔️",
-        "theme_color": "rose",
-        "border_class": "border-rose-500/50",
-        "bg_badge": "bg-rose-500/20 text-rose-300 border-rose-500/40",
-        "description": "Ativação de Marte, Plutão ou Urano estimulando assertividade de defesa, choques territoriais ou mobilização bélica."
-    },
-    "ECONOMIC_CRASH": {
-        "label": "Estresse Financeiro & Risco de Quebra Econômica",
-        "short_label": "Quebra Econômica / Crise Fiscal",
-        "icon": "📉",
-        "theme_color": "amber",
-        "border_class": "border-amber-500/50",
-        "bg_badge": "bg-amber-500/20 text-amber-300 border-amber-500/40",
-        "description": "Tensão sobre Júpiter, Vênus ou eixo Touro/Escorpião indicando aperto de liquidez, contração de crédito ou desvalorização cambial."
-    },
-    "REGIME_CRISIS": {
-        "label": "Instabilidade no Poder & Risco de Crise Institucional",
-        "short_label": "Crise de Poder / Ruptura",
-        "icon": "🏛️",
-        "theme_color": "purple",
-        "border_class": "border-purple-500/50",
-        "bg_badge": "bg-purple-500/20 text-purple-300 border-purple-500/40",
-        "description": "Tensão sobre o Sol nacional ou Saturno gerando perda de governabilidade, ruptura de lideranças ou reformas forçadas de regime."
-    },
-    "SOCIAL_UPHEAVAL": {
-        "label": "Comoção Social & Movimentos de Massa",
-        "short_label": "Comoção / Clamor Popular",
-        "icon": "🌊",
-        "theme_color": "sky",
-        "border_class": "border-sky-500/50",
-        "bg_badge": "bg-sky-500/20 text-sky-300 border-sky-500/40",
-        "description": "Tensão sobre a Lua nacional ou Quíron desencadeando manifestações coletivas, greves gerais ou sentimento popular em ebulição."
-    }
-}
+def _load_energy_categories():
+    """v6: 8 categorias estimáveis de config/categories.yaml (compatível com o dicionário legado de 4)."""
+    import yaml
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "config", "categories.yaml"))
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f)
+    except Exception:
+        cfg = {"categories": {}, "order": []}
+    out = {}
+    for key in cfg.get("order", []) or cfg.get("categories", {}).keys():
+        c = cfg["categories"][key]
+        out[key] = {
+            "label": c["label_pt"], "label_en": c.get("label_en", c["label_pt"]), "short_label": c["short_pt"],
+            "short_label_en": c.get("short_en", c["short_pt"]), "icon": c["icon"], "theme_color": c["theme_color"],
+            "border_class": c["border_class"], "bg_badge": c["bg_badge"], "description": c["description_pt"],
+            "hindcast_targets": c.get("hindcast_targets", []), "skeptical_control": bool(c.get("skeptical_control", False)),
+        }
+    return out
+
+
+ENERGY_CATEGORIES = _load_energy_categories()
+LEGACY_CATEGORY_KEYS = ["WAR_CONFLICT", "ECONOMIC_CRASH", "REGIME_CRISIS", "SOCIAL_UPHEAVAL"]
 
 def classify_transit_recurrence_theme(transit_planet_id: str, natal_planet_id: str, aspect_nature: str) -> str:
     """Classifica um aspecto de trânsito em uma das 4 categorias de eventos históricos recorrentes."""
     t_id = transit_planet_id.lower()
     n_id = natal_planet_id.lower()
+    nature = (aspect_nature or "").lower()
+    harmonious = nature in ("fluido", "harmonico", "harmônico", "harmonioso", "flowing")
+
+    # 0. v6 — categorias construtivas e controles (regras explícitas e auditáveis; ver config/categories.yaml)
+    if harmonious and t_id in ("jupiter", "venus") and n_id in ("sun", "venus", "jupiter", "moon"):
+        return "DIPLOMACY_PEACE"
+    if harmonious and t_id in ("uranus", "mercury", "jupiter") and n_id in ("mercury", "uranus"):
+        return "SCIENCE_INNOVATION"
+    if t_id in ("neptune", "chiron") and n_id in ("moon", "mercury", "chiron") and not harmonious:
+        return "HEALTH_EPIDEMIC"
+    if t_id == "uranus" and n_id == "saturn" and not harmonious:
+        return "NATURAL_DISASTER"  # controle cético: ruptura de estrutura; não há mecanismo plausível
 
     # 1. Risco de Conflito Militar / Guerra
     if n_id == "mars" or t_id == "mars":

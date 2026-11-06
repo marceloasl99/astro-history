@@ -50,7 +50,7 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Aspectos-chave: ☉☌♀, ☉□⚴, ☽□⚵. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
@@ -90,35 +90,34 @@
           ]
         },
         {
-          "id": 25,
-          "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-          "category": "Ciência & Tecnologia",
-          "date": "1543-03-21",
-          "city": "Nuremberg",
-          "country": "Alemanha",
-          "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
+          "id": 332,
+          "title": "Eclosão da Guerra First Central American",
+          "category": "Guerra & Conflito",
+          "date": "1876-03-27",
+          "city": "Cidade do México",
+          "country": "México",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #60: First Central American). Beligerantes principais: Guatemala vs El Salvador. Estimativa de baixas militares diretas: 4,000 mortes em combate.",
           "tension_index": 100.0,
-          "match_percent": 40.4,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Urano em Leão (mesmo signo)",
-            "Saturno em Escorpião (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Vênus"
-          ]
-        },
-        {
-          "id": 222,
-          "title": "Invenção do Telefone por Alexander Graham Bell",
-          "category": "Ciência & Tecnologia",
-          "date": "1876-03-10",
-          "city": "Boston",
-          "country": "Estados Unidos",
-          "consequence": "Alexander Graham Bell transmitiu pela primeira vez a voz humana inteligível através de um fio elétrico ao dizer a seu assistente: 'Mr. Watson, come here, I want to see you'. A patente do telefone revolucionou o comércio, a diplomacia e a sociabilidade humana, transformando-se na base para a criação da AT&T e para a estruturação das primeiras redes mundiais de comunicações de voz conectadas.",
-          "tension_index": 90.0,
-          "match_percent": 38.6,
+          "match_percent": 42.5,
           "matching_traits": [
             "Netuno em Touro (mesmo signo)",
             "Urano em Leão (mesmo signo)"
+          ]
+        },
+        {
+          "id": 1197,
+          "title": "Tentativa de Golpe Militar em Madagascar (1974)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1974-12-31",
+          "city": "Capital",
+          "country": "Madagascar",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Madagascar (Madagascar, COW ccode: 580). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 42.3,
+          "matching_traits": [
+            "Aspecto comum: Marte em Quadratura com Júpiter",
+            "Aspecto comum: Júpiter em Conjunção com Ceres",
+            "Aspecto comum: Netuno em Conjunção com Nodo Norte"
           ]
         }
       ],
@@ -171,7 +170,7 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Capricórnio. Aspectos-chave: ☉△♅, ☉☌⚵, ☿☌⚳. ★ Estrela Ativa: Alcyone",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
@@ -180,7 +179,7 @@
       "top_precedent": {
         "id": 155,
         "title": "Massacre da Praça da Paz Celestial (Tiananmen)",
-        "category": "Revolução Política",
+        "category": "Revolução & Conflito Interno",
         "date": "1989-06-04",
         "city": "Pequim",
         "country": "China",
@@ -197,7 +196,7 @@
         {
           "id": 155,
           "title": "Massacre da Praça da Paz Celestial (Tiananmen)",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1989-06-04",
           "city": "Pequim",
           "country": "China",
@@ -213,7 +212,7 @@
         {
           "id": 162,
           "title": "Acordos de Oslo entre Israel e a OLP",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1993-09-13",
           "city": "Washington, D.C.",
           "country": "Estados Unidos",
@@ -228,19 +227,17 @@
           ]
         },
         {
-          "id": 13,
-          "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
-          "category": "Guerra & Conflito",
-          "date": "1066-10-14",
-          "city": "Hastings",
-          "country": "Reino Unido",
-          "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+          "id": 1187,
+          "title": "Tentativa de Golpe Militar em Etiópia (1989)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1989-05-16",
+          "city": "Adis Abeba",
+          "country": "Etiópia",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Etiópia (Ethiopia, COW ccode: 530). Resultado: Tentativa frustrada / debelada.",
           "tension_index": 100.0,
-          "match_percent": 42.5,
+          "match_percent": 43.3,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Touro (mesmo signo)",
-            "Aspecto comum: Urano em Quadratura com Nodo Norte"
+            "Saturno em Capricórnio (mesmo signo)"
           ]
         }
       ],
@@ -293,7 +290,7 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Aspectos-chave: ☉☌♀, ☉□⚴, ☽□⚵. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
@@ -333,35 +330,34 @@
           ]
         },
         {
-          "id": 25,
-          "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-          "category": "Ciência & Tecnologia",
-          "date": "1543-03-21",
-          "city": "Nuremberg",
-          "country": "Alemanha",
-          "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
+          "id": 332,
+          "title": "Eclosão da Guerra First Central American",
+          "category": "Guerra & Conflito",
+          "date": "1876-03-27",
+          "city": "Cidade do México",
+          "country": "México",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #60: First Central American). Beligerantes principais: Guatemala vs El Salvador. Estimativa de baixas militares diretas: 4,000 mortes em combate.",
           "tension_index": 100.0,
-          "match_percent": 40.4,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Urano em Leão (mesmo signo)",
-            "Saturno em Escorpião (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Vênus"
-          ]
-        },
-        {
-          "id": 222,
-          "title": "Invenção do Telefone por Alexander Graham Bell",
-          "category": "Ciência & Tecnologia",
-          "date": "1876-03-10",
-          "city": "Boston",
-          "country": "Estados Unidos",
-          "consequence": "Alexander Graham Bell transmitiu pela primeira vez a voz humana inteligível através de um fio elétrico ao dizer a seu assistente: 'Mr. Watson, come here, I want to see you'. A patente do telefone revolucionou o comércio, a diplomacia e a sociabilidade humana, transformando-se na base para a criação da AT&T e para a estruturação das primeiras redes mundiais de comunicações de voz conectadas.",
-          "tension_index": 90.0,
-          "match_percent": 38.6,
+          "match_percent": 42.5,
           "matching_traits": [
             "Netuno em Touro (mesmo signo)",
             "Urano em Leão (mesmo signo)"
+          ]
+        },
+        {
+          "id": 1197,
+          "title": "Tentativa de Golpe Militar em Madagascar (1974)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1974-12-31",
+          "city": "Capital",
+          "country": "Madagascar",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Madagascar (Madagascar, COW ccode: 580). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 42.3,
+          "matching_traits": [
+            "Aspecto comum: Marte em Quadratura com Júpiter",
+            "Aspecto comum: Júpiter em Conjunção com Ceres",
+            "Aspecto comum: Netuno em Conjunção com Nodo Norte"
           ]
         }
       ],
@@ -425,29 +421,45 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Áries. Aspectos-chave: ☉☌☿, ☉☍♂, ☉□♅. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Gêmeos",
       "saturn_sign": "Áries",
       "top_precedent": {
-        "id": 43,
-        "title": "Descoberta do Planeta Urano por William Herschel",
-        "category": "Ciência & Tecnologia",
-        "date": "1781-03-13",
-        "city": "Bath",
-        "country": "Reino Unido",
-        "consequence": "A primeira descoberta de um novo planeta do Sistema Solar desde a Antiguidade expandiu as fronteiras conhecidas do cosmos e inaugurou na astrologia moderna o arquétipo dos planetas transpessoais associados a rupturas revolucionárias, inovação e iluminação tecnológica.",
-        "tension_index": 95.0,
-        "match_percent": 40.4,
+        "id": 1201,
+        "title": "Golpe de Estado Consumado em Madagascar (2025)",
+        "category": "Revolução & Conflito Interno",
+        "date": "2025-10-12",
+        "city": "Capital",
+        "country": "Madagascar",
+        "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Madagascar (Madagascar, COW ccode: 580). Resultado: Poder deposto com sucesso.",
+        "tension_index": 75.0,
+        "match_percent": 43.3,
         "matching_traits": [
           "Plutão em Aquário (mesmo signo)",
-          "Urano em Gêmeos (mesmo signo)",
-          "Aspecto comum: Sol em Quadratura com Urano"
+          "Netuno em Áries (mesmo signo)",
+          "Urano em Gêmeos (mesmo signo)"
         ]
       },
       "top_matches": [
+        {
+          "id": 1201,
+          "title": "Golpe de Estado Consumado em Madagascar (2025)",
+          "category": "Revolução & Conflito Interno",
+          "date": "2025-10-12",
+          "city": "Capital",
+          "country": "Madagascar",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Madagascar (Madagascar, COW ccode: 580). Resultado: Poder deposto com sucesso.",
+          "tension_index": 75.0,
+          "match_percent": 43.3,
+          "matching_traits": [
+            "Plutão em Aquário (mesmo signo)",
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Gêmeos (mesmo signo)"
+          ]
+        },
         {
           "id": 43,
           "title": "Descoberta do Planeta Urano por William Herschel",
@@ -467,7 +479,7 @@
         {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -480,23 +492,9 @@
             "Saturno em Áries (mesmo signo)",
             "Aspecto comum: Sol em Quadratura com Urano"
           ]
-        },
-        {
-          "id": 264,
-          "title": "O Atentado de 20 de Julho contra Adolf Hitler (Operação Valquíria)",
-          "category": "Revolução Política",
-          "date": "1944-07-20",
-          "city": "Rastenburg (Toca do Lobo)",
-          "country": "Polônia",
-          "consequence": "O coronel Claus von Stauffenberg detonou uma bomba em uma pasta sob a mesa de conferências do quartel-general de Hitler na Prússia Oriental com o objetivo de depor o regime nazista e negociar a paz com os Aliados. A sobrevivência milagrosa de Hitler com ferimentos leves provocou o fracasso do golpe, desencadeando uma purga implacável da Gestapo que executou quase 5.000 militares e civis da oposição conservadora alemã, incluindo o marechal Erwin Rommel forçado ao suicídio.",
-          "tension_index": 100.0,
-          "match_percent": 37.0,
-          "matching_traits": [
-            "Urano em Gêmeos (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2027: Percentil Médio Anual de 96.3/1000 (Percentil Basal), com 1 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Áries. Isomorfismo geométrico mais próximo: 'Descoberta do Planeta Urano por William Herschel' (40.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2027: Percentil Médio Anual de 96.3/1000 (Percentil Basal), com 1 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Áries. Isomorfismo geométrico mais próximo: 'Golpe de Estado Consumado em Madagascar (2025)' (43.3% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2028,
@@ -545,80 +543,81 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Touro. Aspectos-chave: ☽△⚳, ☽△⚸, ☿☌♂. ★ Estrela Ativa: Alphard",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Gêmeos",
       "saturn_sign": "Touro",
       "top_precedent": {
-        "id": 43,
-        "title": "Descoberta do Planeta Urano por William Herschel",
-        "category": "Ciência & Tecnologia",
-        "date": "1781-03-13",
-        "city": "Bath",
-        "country": "Reino Unido",
-        "consequence": "A primeira descoberta de um novo planeta do Sistema Solar desde a Antiguidade expandiu as fronteiras conhecidas do cosmos e inaugurou na astrologia moderna o arquétipo dos planetas transpessoais associados a rupturas revolucionárias, inovação e iluminação tecnológica.",
-        "tension_index": 95.0,
-        "match_percent": 41.1,
+        "id": 1084,
+        "title": "Tentativa de Golpe Militar em Níger (2026)",
+        "category": "Revolução & Conflito Interno",
+        "date": "2026-08-29",
+        "city": "Capital",
+        "country": "Níger",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 86.0,
+        "match_percent": 48.4,
         "matching_traits": [
           "Plutão em Aquário (mesmo signo)",
+          "Netuno em Áries (mesmo signo)",
           "Urano em Gêmeos (mesmo signo)",
-          "Aspecto comum: Plutão em Quadratura com Quíron"
+          "Aspecto comum: Urano em Trígono com Plutão"
         ]
       },
       "top_matches": [
         {
-          "id": 43,
-          "title": "Descoberta do Planeta Urano por William Herschel",
-          "category": "Ciência & Tecnologia",
-          "date": "1781-03-13",
-          "city": "Bath",
-          "country": "Reino Unido",
-          "consequence": "A primeira descoberta de um novo planeta do Sistema Solar desde a Antiguidade expandiu as fronteiras conhecidas do cosmos e inaugurou na astrologia moderna o arquétipo dos planetas transpessoais associados a rupturas revolucionárias, inovação e iluminação tecnológica.",
-          "tension_index": 95.0,
-          "match_percent": 41.1,
+          "id": 1084,
+          "title": "Tentativa de Golpe Militar em Níger (2026)",
+          "category": "Revolução & Conflito Interno",
+          "date": "2026-08-29",
+          "city": "Capital",
+          "country": "Níger",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 86.0,
+          "match_percent": 48.4,
           "matching_traits": [
             "Plutão em Aquário (mesmo signo)",
+            "Netuno em Áries (mesmo signo)",
             "Urano em Gêmeos (mesmo signo)",
-            "Aspecto comum: Plutão em Quadratura com Quíron"
+            "Aspecto comum: Urano em Trígono com Plutão"
           ]
         },
         {
-          "id": 218,
-          "title": "Início da Batalha de Gettysburg na Guerra Civil Americana",
+          "id": 325,
+          "title": "Eclosão da Guerra Franco-Mexican",
           "category": "Guerra & Conflito",
-          "date": "1863-07-01",
-          "city": "Gettysburg",
-          "country": "Estados Unidos",
-          "consequence": "Três dias de confronto sangrento entre o Exército da União do general Meade e os Confederados do general Robert E. Lee deixaram mais de 50.000 baixas, culminando no desastre tático confederado da 'Carga de Pickett'. A vitória da União encerrou para sempre as pretensões de invasão do Norte pelo Sul escravagista, reverteu o curso estratégico da Guerra de Secessão e forneceu a conjuntura histórica para o célebre Discurso de Gettysburg de Abraham Lincoln, que redefiniu a democracia moderna como o 'governo do povo, pelo povo e para o povo'.",
-          "tension_index": 70.0,
-          "match_percent": 39.3,
+          "date": "1862-04-16",
+          "city": "Cidade do México",
+          "country": "México",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #40: Franco-Mexican). Beligerantes principais: Mexico vs France. Estimativa de baixas militares diretas: 20,000 mortes em combate.",
+          "tension_index": 78.0,
+          "match_percent": 43.7,
           "matching_traits": [
             "Netuno em Áries (mesmo signo)",
-            "Urano em Gêmeos (mesmo signo)",
-            "Aspecto comum: Mercúrio em Conjunção com Urano"
+            "Urano em Gêmeos (mesmo signo)"
           ]
         },
         {
-          "id": 25,
-          "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-          "category": "Ciência & Tecnologia",
-          "date": "1543-03-21",
-          "city": "Nuremberg",
-          "country": "Alemanha",
-          "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
-          "tension_index": 100.0,
-          "match_percent": 39.2,
+          "id": 1201,
+          "title": "Golpe de Estado Consumado em Madagascar (2025)",
+          "category": "Revolução & Conflito Interno",
+          "date": "2025-10-12",
+          "city": "Capital",
+          "country": "Madagascar",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Madagascar (Madagascar, COW ccode: 580). Resultado: Poder deposto com sucesso.",
+          "tension_index": 75.0,
+          "match_percent": 42.5,
           "matching_traits": [
             "Plutão em Aquário (mesmo signo)",
             "Netuno em Áries (mesmo signo)",
-            "Aspecto comum: Saturno em Quadratura com Plutão",
-            "Aspecto comum: Plutão em Quadratura com Quíron"
+            "Urano em Gêmeos (mesmo signo)",
+            "Aspecto comum: Urano em Trígono com Plutão"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2028: Percentil Médio Anual de 614.6/1000 (Percentil Moderado), com 45 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Touro. Isomorfismo geométrico mais próximo: 'Descoberta do Planeta Urano por William Herschel' (41.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2028: Percentil Médio Anual de 614.6/1000 (Percentil Moderado), com 45 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Touro. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Níger (2026)' (48.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2029,
@@ -667,30 +666,47 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Touro. Aspectos-chave: ☉☌☿, ☉☌♀, ☉☍♂. ★ Estrela Ativa: Regulus",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Gêmeos",
       "saturn_sign": "Touro",
       "top_precedent": {
-        "id": 25,
-        "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-        "category": "Ciência & Tecnologia",
-        "date": "1543-03-21",
-        "city": "Nuremberg",
-        "country": "Alemanha",
-        "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
-        "tension_index": 100.0,
-        "match_percent": 46.8,
+        "id": 1084,
+        "title": "Tentativa de Golpe Militar em Níger (2026)",
+        "category": "Revolução & Conflito Interno",
+        "date": "2026-08-29",
+        "city": "Capital",
+        "country": "Níger",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 86.0,
+        "match_percent": 47.4,
         "matching_traits": [
           "Plutão em Aquário (mesmo signo)",
           "Netuno em Áries (mesmo signo)",
-          "Aspecto comum: Sol em Conjunção com Vênus",
-          "Aspecto comum: Saturno em Quadratura com Plutão"
+          "Urano em Gêmeos (mesmo signo)",
+          "Aspecto comum: Sol em Conjunção com Mercúrio"
         ]
       },
       "top_matches": [
+        {
+          "id": 1084,
+          "title": "Tentativa de Golpe Militar em Níger (2026)",
+          "category": "Revolução & Conflito Interno",
+          "date": "2026-08-29",
+          "city": "Capital",
+          "country": "Níger",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 86.0,
+          "match_percent": 47.4,
+          "matching_traits": [
+            "Plutão em Aquário (mesmo signo)",
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Gêmeos (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Mercúrio"
+          ]
+        },
         {
           "id": 25,
           "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
@@ -709,39 +725,23 @@
           ]
         },
         {
-          "id": 11,
-          "title": "Coroação de Carlos Magno como Imperador",
-          "category": "Revolução Política",
-          "date": "0800-12-25",
-          "city": "Roma",
-          "country": "Itália",
-          "consequence": "Ao ser coroado pelo Papa Leão III no dia de Natal, Carlos Magno restaurou o conceito de Império no Ocidente e selou a aliança definitiva entre a monarquia germânica e o papado, estabelecendo as bases institucionais e educacionais do chamado Renascimento Carolíngio.",
-          "tension_index": 98.0,
-          "match_percent": 42.0,
+          "id": 731,
+          "title": "Grande Terremoto M7.9 - 199 km S of Lata, Solomon Islands",
+          "category": "Desastre & Saúde Pública",
+          "date": "1980-07-17",
+          "city": "199 km S of Lata",
+          "country": "Solomon Islands",
+          "consequence": "Grande sismo com magnitude de momento M 7.9 e profundidade focal de 33.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 199 km S of Lata, Solomon Islands (-12.525°, 165.916°). Ocorrência em 19:42 UTC.",
+          "tension_index": 100.0,
+          "match_percent": 44.0,
           "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Aspecto comum: Urano em Trígono com Ceres"
-          ]
-        },
-        {
-          "id": 59,
-          "title": "Proclamação de Emancipação por Abraham Lincoln",
-          "category": "Revolução Política",
-          "date": "1863-01-01",
-          "city": "Washington, D.C.",
-          "country": "Estados Unidos",
-          "consequence": "Ao decretar a liberdade imediata de mais de três milhões de pessoas escravizadas nos estados rebeldes confederados, Lincoln transformou o conflito civil em uma cruzada moral pelos direitos humanos fundamentais e abriu caminho para a 13ª Emenda Constitucional americana.",
-          "tension_index": 84.0,
-          "match_percent": 41.2,
-          "matching_traits": [
-            "Netuno em Áries (mesmo signo)",
-            "Urano em Gêmeos (mesmo signo)",
-            "Aspecto comum: Mercúrio em Conjunção com Vênus",
-            "Aspecto comum: Pallas em Conjunção com Nodo Norte"
+            "Aspecto comum: Saturno em Quadratura com Ceres",
+            "Aspecto comum: Vesta em Quadratura com Lilith (Lua Negra)",
+            "★ Estrela Fixa Regulus ativada simultaneamente (Lua)"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2029: Percentil Médio Anual de 445.2/1000 (Percentil Moderado), com 29 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Touro. Isomorfismo geométrico mais próximo: 'Publicação do Modelo Heliocêntrico de Nicolau Copérnico' (46.8% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2029: Percentil Médio Anual de 445.2/1000 (Percentil Moderado), com 29 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Touro. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Níger (2026)' (47.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2030,
@@ -832,35 +832,35 @@
           ]
         },
         {
-          "id": 25,
-          "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-          "category": "Ciência & Tecnologia",
-          "date": "1543-03-21",
-          "city": "Nuremberg",
-          "country": "Alemanha",
-          "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
-          "tension_index": 100.0,
-          "match_percent": 40.1,
+          "id": 468,
+          "title": "Conflito Armado em Paraguai (UCDP #220)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1947-03-07",
+          "city": "Assunção",
+          "country": "Paraguai",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #220). Beligerantes: Government of Paraguay versus Opposition coalition (Febreristas, Liberals and Communists) (pelo controle do governo central). Tipo UCDP: 3 (precisão cronológica: nível 2).",
+          "tension_index": 98.0,
+          "match_percent": 46.4,
           "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Netuno em Áries (mesmo signo)",
+            "Urano em Gêmeos (mesmo signo)",
             "Aspecto comum: Urano em Quadratura com Ceres",
             "Aspecto comum: Plutão em Quadratura com Quíron"
           ]
         },
         {
-          "id": 78,
-          "title": "Naufrágio do RMS Titanic",
-          "category": "Pandemia & Desastre",
-          "date": "1912-04-15",
-          "city": "Atlântico Norte",
-          "country": "Internacional",
-          "consequence": "A perda trágica do transatlântico considerado 'inafundável' e a morte de mais de 1.500 passageiros abalou a confiança cega na infalibilidade tecnológica do homem ocidental e impôs reformas globais obrigatórias de segurança marítima, incluindo a patrulha internacional de icebergs.",
+          "id": 327,
+          "title": "Eclosão da Guerra Second Schleswig-Holstein",
+          "category": "Guerra & Conflito",
+          "date": "1864-02-01",
+          "city": "Berlim",
+          "country": "Alemanha",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #46: Second Schleswig-Holstein). Beligerantes principais: Germany, Austria vs Denmark. Estimativa de baixas militares diretas: 4,481 mortes em combate.",
           "tension_index": 100.0,
-          "match_percent": 37.0,
+          "match_percent": 45.2,
           "matching_traits": [
-            "Saturno em Touro (mesmo signo)",
-            "Aspecto comum: Sol em Quadratura com Lilith (Lua Negra)"
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Gêmeos (mesmo signo)",
+            "Aspecto comum: Vênus em Quadratura com Netuno"
           ]
         }
       ],
@@ -913,30 +913,63 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Gêmeos. Aspectos-chave: ☉☍♂, ☉□♇, ☉☌⚷. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Gêmeos",
       "saturn_sign": "Gêmeos",
       "top_precedent": {
-        "id": 60,
-        "title": "Assassinato de Abraham Lincoln",
-        "category": "Guerra & Conflito",
-        "date": "1865-04-14",
-        "city": "Washington, D.C.",
-        "country": "Estados Unidos",
-        "consequence": "O atentado executado pelo ator confederado John Wilkes Booth no Teatro Ford apenas dias após o término da Guerra Civil privou os EUA de sua maior liderança conciliadora, traumatizando a Reconstrução do Sul e fomentando tensões raciais que perduraram por gerações.",
-        "tension_index": 72.0,
-        "match_percent": 45.6,
+        "id": 1084,
+        "title": "Tentativa de Golpe Militar em Níger (2026)",
+        "category": "Revolução & Conflito Interno",
+        "date": "2026-08-29",
+        "city": "Capital",
+        "country": "Níger",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 86.0,
+        "match_percent": 48.4,
         "matching_traits": [
+          "Plutão em Aquário (mesmo signo)",
           "Netuno em Áries (mesmo signo)",
           "Urano em Gêmeos (mesmo signo)",
-          "Aspecto comum: Vênus em Quadratura com Juno",
-          "Aspecto comum: Juno em Trígono com Nodo Norte"
+          "Aspecto comum: Plutão em Quadratura com Quíron"
         ]
       },
       "top_matches": [
+        {
+          "id": 1084,
+          "title": "Tentativa de Golpe Militar em Níger (2026)",
+          "category": "Revolução & Conflito Interno",
+          "date": "2026-08-29",
+          "city": "Capital",
+          "country": "Níger",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 86.0,
+          "match_percent": 48.4,
+          "matching_traits": [
+            "Plutão em Aquário (mesmo signo)",
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Gêmeos (mesmo signo)",
+            "Aspecto comum: Plutão em Quadratura com Quíron"
+          ]
+        },
+        {
+          "id": 849,
+          "title": "Pico do Ciclo Econômico e Início de Recessão NBER (1865)",
+          "category": "Crise Financeira & Econômica",
+          "date": "1865-04-01",
+          "city": "Nova York",
+          "country": "Estados Unidos",
+          "consequence": "Ponto de inflexão macroeconômica certificado pelo Business Cycle Dating Committee do NBER. Marca a transição de expansão para contração econômica (recessão até o vale em 1867-12-01).",
+          "tension_index": 100.0,
+          "match_percent": 47.2,
+          "matching_traits": [
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Gêmeos (mesmo signo)",
+            "Aspecto comum: Vênus em Quadratura com Juno"
+          ]
+        },
         {
           "id": 60,
           "title": "Assassinato de Abraham Lincoln",
@@ -953,41 +986,9 @@
             "Aspecto comum: Vênus em Quadratura com Juno",
             "Aspecto comum: Juno em Trígono com Nodo Norte"
           ]
-        },
-        {
-          "id": 105,
-          "title": "Suicídio de Adolf Hitler e Rendição de Berlim",
-          "category": "Guerra & Conflito",
-          "date": "1945-04-30",
-          "city": "Berlim",
-          "country": "Alemanha",
-          "consequence": "O suicídio de Hitler no Führerbunker cercado pelas tropas soviéticas culminou na capitulação incondicional da Alemanha nazista dias depois, pondo fim à guerra na Europa e abrindo a partilha do continente e a ocupação da Alemanha pelas potências aliadas.",
-          "tension_index": 100.0,
-          "match_percent": 42.1,
-          "matching_traits": [
-            "Urano em Gêmeos (mesmo signo)",
-            "Aspecto comum: Sol em Quadratura com Plutão",
-            "Aspecto comum: Vênus em Quadratura com Juno",
-            "Aspecto comum: Marte em Oposição com Quíron"
-          ]
-        },
-        {
-          "id": 204,
-          "title": "Cerco e Destruição de Jerusalém e do Segundo Templo por Tito",
-          "category": "Guerra & Conflito",
-          "date": "0070-08-30",
-          "city": "Jerusalém",
-          "country": "Israel",
-          "consequence": "O general romano Tito reprimiu a Primeira Guerra Judaico-Romana arrasando a cidade fortificada de Jerusalém e incinerando completamente o Segundo Templo, centro teológico supremo do judaísmo. O acontecimento encerrou o sacerdócio sacrificial do templo, consolidou a grande Diáspora judaica pelo Império Romano e acelerou a transição para o judaísmo rabínico baseado no estudo da Torá nas sinagogas, além de formalizar a separação definitiva entre a nascente teologia cristã e as instituições tradicionais da Judeia.",
-          "tension_index": 79.0,
-          "match_percent": 42.1,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Netuno em Áries (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2031: Percentil Médio Anual de 192.7/1000 (Percentil Basal), com 3 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Gêmeos. Isomorfismo geométrico mais próximo: 'Assassinato de Abraham Lincoln' (45.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2031: Percentil Médio Anual de 192.7/1000 (Percentil Basal), com 3 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Gêmeos. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Níger (2026)' (48.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2032,
@@ -1036,7 +1037,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Política, Tratados & Cultura",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Gêmeos, Saturno em Gêmeos. Aspectos-chave: ☉☌♂, ☉□♆, ☽☌☿. ★ Estrela Ativa: Betelgeuse",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
@@ -1045,7 +1046,7 @@
       "top_precedent": {
         "id": 12,
         "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-        "category": "Transformação Cultural",
+        "category": "Política, Tratados & Cultura",
         "date": "1054-07-16",
         "city": "Constantinopla",
         "country": "Turquia",
@@ -1062,7 +1063,7 @@
         {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -1073,6 +1074,21 @@
             "Plutão em Aquário (mesmo signo)",
             "Netuno em Áries (mesmo signo)",
             "Aspecto comum: Sol em Quadratura com Netuno"
+          ]
+        },
+        {
+          "id": 1284,
+          "title": "Golpe de Estado Consumado em Afeganistão (1973)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1973-07-17",
+          "city": "Capital",
+          "country": "Afeganistão",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Afeganistão (Afghanistan, COW ccode: 700). Resultado: Poder deposto com sucesso.",
+          "tension_index": 96.0,
+          "match_percent": 43.2,
+          "matching_traits": [
+            "Saturno em Gêmeos (mesmo signo)",
+            "★ Estrela Fixa Betelgeuse ativada simultaneamente (Saturno)"
           ]
         },
         {
@@ -1089,21 +1105,6 @@
             "Netuno em Áries (mesmo signo)",
             "Urano em Gêmeos (mesmo signo)",
             "Aspecto comum: Marte em Quadratura com Netuno"
-          ]
-        },
-        {
-          "id": 204,
-          "title": "Cerco e Destruição de Jerusalém e do Segundo Templo por Tito",
-          "category": "Guerra & Conflito",
-          "date": "0070-08-30",
-          "city": "Jerusalém",
-          "country": "Israel",
-          "consequence": "O general romano Tito reprimiu a Primeira Guerra Judaico-Romana arrasando a cidade fortificada de Jerusalém e incinerando completamente o Segundo Templo, centro teológico supremo do judaísmo. O acontecimento encerrou o sacerdócio sacrificial do templo, consolidou a grande Diáspora judaica pelo Império Romano e acelerou a transição para o judaísmo rabínico baseado no estudo da Torá nas sinagogas, além de formalizar a separação definitiva entre a nascente teologia cristã e as instituições tradicionais da Judeia.",
-          "tension_index": 79.0,
-          "match_percent": 39.7,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Netuno em Áries (mesmo signo)"
           ]
         }
       ],
@@ -1156,33 +1157,49 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Transformação Cultural",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Câncer. Aspectos-chave: ☉□♅, ☽□♀, ☽□⚶. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Câncer",
       "saturn_sign": "Câncer",
       "top_precedent": {
-        "id": 12,
-        "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-        "category": "Transformação Cultural",
-        "date": "1054-07-16",
-        "city": "Constantinopla",
-        "country": "Turquia",
-        "consequence": "As excomunhões mútuas entre os enviados papais de Roma e o Patriarca de Constantinopla cindiram permanentemente o cristianismo em Igreja Católica Apostólica Romana e Igreja Ortodoxa Oriental, gerando fraturas teológicas, políticas e geopolíticas que persistem até a contemporaneidade.",
+        "id": 329,
+        "title": "Eclosão da Guerra Naval War",
+        "category": "Guerra & Conflito",
+        "date": "1865-09-25",
+        "city": "Santiago",
+        "country": "Chile",
+        "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #52: Naval War). Beligerantes principais: Chile, Peru vs Spain. Estimativa de baixas militares diretas: 1,000 mortes em combate.",
         "tension_index": 100.0,
-        "match_percent": 42.6,
+        "match_percent": 44.8,
         "matching_traits": [
-          "Plutão em Aquário (mesmo signo)",
           "Netuno em Áries (mesmo signo)",
+          "Urano em Câncer (mesmo signo)",
           "Aspecto comum: Sol em Quadratura com Urano"
         ]
       },
       "top_matches": [
         {
+          "id": 329,
+          "title": "Eclosão da Guerra Naval War",
+          "category": "Guerra & Conflito",
+          "date": "1865-09-25",
+          "city": "Santiago",
+          "country": "Chile",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #52: Naval War). Beligerantes principais: Chile, Peru vs Spain. Estimativa de baixas militares diretas: 1,000 mortes em combate.",
+          "tension_index": 100.0,
+          "match_percent": 44.8,
+          "matching_traits": [
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Câncer (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Urano"
+          ]
+        },
+        {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -1196,38 +1213,22 @@
           ]
         },
         {
-          "id": 61,
-          "title": "Restauração Meiji no Japão",
-          "category": "Revolução Política",
-          "date": "1868-01-03",
-          "city": "Quioto",
-          "country": "Japão",
-          "consequence": "A restauração do poder direto ao imperador Meiji desmantelou séculos de feudalismo e isolacionismo do Xogunato Tokugawa, desencadeando uma vertiginosa modernização industrial, jurídica e militar que converteu o Japão na primeira potência asiática de calibre mundial.",
-          "tension_index": 100.0,
-          "match_percent": 40.2,
+          "id": 330,
+          "title": "Eclosão da Guerra Seven Weeks",
+          "category": "Guerra & Conflito",
+          "date": "1866-06-15",
+          "city": "Roma",
+          "country": "Itália",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #55: Seven Weeks). Beligerantes principais: Italy, Germany, Mecklenburg Schwerin vs Hesse Grand Ducal, Wuerttemburg, Bavaria. Estimativa de baixas militares diretas: 44,100 mortes em combate.",
+          "tension_index": 73.0,
+          "match_percent": 42.1,
           "matching_traits": [
             "Netuno em Áries (mesmo signo)",
-            "Urano em Câncer (mesmo signo)",
-            "Aspecto comum: Marte em Quadratura com Netuno"
-          ]
-        },
-        {
-          "id": 25,
-          "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-          "category": "Ciência & Tecnologia",
-          "date": "1543-03-21",
-          "city": "Nuremberg",
-          "country": "Alemanha",
-          "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
-          "tension_index": 100.0,
-          "match_percent": 39.1,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Netuno em Áries (mesmo signo)"
+            "Urano em Câncer (mesmo signo)"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2033: Percentil Médio Anual de 524.9/1000 (Percentil Moderado), com 19 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Câncer. Isomorfismo geométrico mais próximo: 'O Grande Cisma do Oriente (Divisão da Igreja)' (42.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2033: Percentil Médio Anual de 524.9/1000 (Percentil Moderado), com 19 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Câncer. Isomorfismo geométrico mais próximo: 'Eclosão da Guerra Naval War' (44.8% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2034,
@@ -1276,7 +1277,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Transformação Cultural",
+      "dominant_category": "Política, Tratados & Cultura",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Câncer. Aspectos-chave: ☉☌♅, ☽□♀, ☽□♇. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
@@ -1285,7 +1286,7 @@
       "top_precedent": {
         "id": 12,
         "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-        "category": "Transformação Cultural",
+        "category": "Política, Tratados & Cultura",
         "date": "1054-07-16",
         "city": "Constantinopla",
         "country": "Turquia",
@@ -1301,7 +1302,7 @@
         {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -1395,28 +1396,60 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Crise Financeira & Econômica",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Aspectos-chave: ☉△☽, ☉△⚵, ☽△⚵. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Câncer",
       "saturn_sign": "Leão",
       "top_precedent": {
-        "id": 62,
-        "title": "Inauguração do Canal de Suez",
-        "category": "Ciência & Tecnologia",
-        "date": "1869-11-17",
-        "city": "Port Said",
-        "country": "Egito",
-        "consequence": "A abertura da hidrovia artificial interligando o Mar Mediterrâneo ao Mar Vermelho reduziu drasticamente a rota de navegação entre a Europa e a Ásia ao contornar a África, transformando a geopolítica comercial do planeta e intensificando o colonialismo europeu no Oriente.",
-        "tension_index": 69.0,
-        "match_percent": 42.1,
+        "id": 850,
+        "title": "Pico do Ciclo Econômico e Início de Recessão NBER (1869)",
+        "category": "Crise Financeira & Econômica",
+        "date": "1869-06-01",
+        "city": "Nova York",
+        "country": "Estados Unidos",
+        "consequence": "Ponto de inflexão macroeconômica certificado pelo Business Cycle Dating Committee do NBER. Marca a transição de expansão para contração econômica (recessão até o vale em 1870-12-01).",
+        "tension_index": 90.0,
+        "match_percent": 45.9,
         "matching_traits": [
           "Netuno em Áries (mesmo signo)",
-          "Urano em Câncer (mesmo signo)"
+          "Urano em Câncer (mesmo signo)",
+          "Aspecto comum: Sol em Trígono com Juno"
         ]
       },
       "top_matches": [
+        {
+          "id": 850,
+          "title": "Pico do Ciclo Econômico e Início de Recessão NBER (1869)",
+          "category": "Crise Financeira & Econômica",
+          "date": "1869-06-01",
+          "city": "Nova York",
+          "country": "Estados Unidos",
+          "consequence": "Ponto de inflexão macroeconômica certificado pelo Business Cycle Dating Committee do NBER. Marca a transição de expansão para contração econômica (recessão até o vale em 1870-12-01).",
+          "tension_index": 90.0,
+          "match_percent": 45.9,
+          "matching_traits": [
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Câncer (mesmo signo)",
+            "Aspecto comum: Sol em Trígono com Juno"
+          ]
+        },
+        {
+          "id": 1148,
+          "title": "Tentativa de Golpe Militar em Chade (1977)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1977-04-01",
+          "city": "Capital",
+          "country": "Chade",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Chade (Chad, COW ccode: 483). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 42.6,
+          "matching_traits": [
+            "Saturno em Leão (mesmo signo)",
+            "Aspecto comum: Marte em Trígono com Urano"
+          ]
+        },
         {
           "id": 62,
           "title": "Inauguração do Canal de Suez",
@@ -1431,38 +1464,9 @@
             "Netuno em Áries (mesmo signo)",
             "Urano em Câncer (mesmo signo)"
           ]
-        },
-        {
-          "id": 12,
-          "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
-          "date": "1054-07-16",
-          "city": "Constantinopla",
-          "country": "Turquia",
-          "consequence": "As excomunhões mútuas entre os enviados papais de Roma e o Patriarca de Constantinopla cindiram permanentemente o cristianismo em Igreja Católica Apostólica Romana e Igreja Ortodoxa Oriental, gerando fraturas teológicas, políticas e geopolíticas que persistem até a contemporaneidade.",
-          "tension_index": 100.0,
-          "match_percent": 40.9,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Netuno em Áries (mesmo signo)"
-          ]
-        },
-        {
-          "id": 142,
-          "title": "Descoberta do Centauro Quíron no Sistema Solar",
-          "category": "Ciência & Tecnologia",
-          "date": "1977-10-18",
-          "city": "Palomar",
-          "country": "Estados Unidos",
-          "consequence": "A descoberta do primeiro asteróide-cometa orbitando entre Saturno e Urano pelo astrônomo Charles Kowal incorporou na astrologia moderna a figura do 'curador ferido', simbolizando a integração de dores profundas e a ponte entre o destino cósmico e a consciência humana.",
-          "tension_index": 98.0,
-          "match_percent": 35.8,
-          "matching_traits": [
-            "Saturno em Leão (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2035: Percentil Médio Anual de 621.3/1000 (Percentil Moderado), com 46 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Isomorfismo geométrico mais próximo: 'Inauguração do Canal de Suez' (42.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2035: Percentil Médio Anual de 621.3/1000 (Percentil Moderado), com 46 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Isomorfismo geométrico mais próximo: 'Pico do Ciclo Econômico e Início de Recessão NBER (1869)' (45.9% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2036,
@@ -1511,7 +1515,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Transformação Cultural",
+      "dominant_category": "Política, Tratados & Cultura",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Aspectos-chave: ☽☌♅, ☿☌♂, ☿☌♄. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
@@ -1520,7 +1524,7 @@
       "top_precedent": {
         "id": 12,
         "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-        "category": "Transformação Cultural",
+        "category": "Política, Tratados & Cultura",
         "date": "1054-07-16",
         "city": "Constantinopla",
         "country": "Turquia",
@@ -1537,7 +1541,7 @@
         {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -1548,6 +1552,22 @@
             "Plutão em Aquário (mesmo signo)",
             "Netuno em Áries (mesmo signo)",
             "Aspecto comum: Mercúrio em Conjunção com Marte"
+          ]
+        },
+        {
+          "id": 331,
+          "title": "Eclosão da Guerra Franco-Prussian",
+          "category": "Guerra & Conflito",
+          "date": "1870-07-19",
+          "city": "Buenos Aires",
+          "country": "Argentina",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #58: Franco-Prussian). Beligerantes principais: Wuerttemburg, Baden, Germany vs France. Estimativa de baixas militares diretas: 204,313 mortes em combate.",
+          "tension_index": 99.0,
+          "match_percent": 44.0,
+          "matching_traits": [
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Câncer (mesmo signo)",
+            "Aspecto comum: Mercúrio em Conjunção com Nodo Norte"
           ]
         },
         {
@@ -1563,21 +1583,6 @@
           "matching_traits": [
             "Plutão em Aquário (mesmo signo)",
             "Netuno em Áries (mesmo signo)"
-          ]
-        },
-        {
-          "id": 64,
-          "title": "A Comuna de Paris",
-          "category": "Revolução Política",
-          "date": "1871-03-18",
-          "city": "Paris",
-          "country": "França",
-          "consequence": "O primeiro governo operário socialista autogerido da história durou apenas 72 dias até sua repressão sangrenta pelo exército francês durante a 'Semana Sangrenta', deixando um legado mitológico e programático indelével para o movimento comunista internacional.",
-          "tension_index": 100.0,
-          "match_percent": 36.8,
-          "matching_traits": [
-            "Netuno em Áries (mesmo signo)",
-            "Urano em Câncer (mesmo signo)"
           ]
         }
       ],
@@ -1630,32 +1635,49 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Aspectos-chave: ☉□☽, ☉☍⚵, ☉☌⚸. ★ Estrela Ativa: Vega",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
       "uranus_sign": "Câncer",
       "saturn_sign": "Leão",
       "top_precedent": {
-        "id": 12,
-        "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-        "category": "Transformação Cultural",
-        "date": "1054-07-16",
-        "city": "Constantinopla",
-        "country": "Turquia",
-        "consequence": "As excomunhões mútuas entre os enviados papais de Roma e o Patriarca de Constantinopla cindiram permanentemente o cristianismo em Igreja Católica Apostólica Romana e Igreja Ortodoxa Oriental, gerando fraturas teológicas, políticas e geopolíticas que persistem até a contemporaneidade.",
-        "tension_index": 100.0,
-        "match_percent": 43.7,
+        "id": 331,
+        "title": "Eclosão da Guerra Franco-Prussian",
+        "category": "Guerra & Conflito",
+        "date": "1870-07-19",
+        "city": "Buenos Aires",
+        "country": "Argentina",
+        "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #58: Franco-Prussian). Beligerantes principais: Wuerttemburg, Baden, Germany vs France. Estimativa de baixas militares diretas: 204,313 mortes em combate.",
+        "tension_index": 99.0,
+        "match_percent": 44.6,
         "matching_traits": [
-          "Plutão em Aquário (mesmo signo)",
-          "Netuno em Áries (mesmo signo)"
+          "Netuno em Áries (mesmo signo)",
+          "Urano em Câncer (mesmo signo)",
+          "Aspecto comum: Vênus em Oposição com Saturno"
         ]
       },
       "top_matches": [
         {
+          "id": 331,
+          "title": "Eclosão da Guerra Franco-Prussian",
+          "category": "Guerra & Conflito",
+          "date": "1870-07-19",
+          "city": "Buenos Aires",
+          "country": "Argentina",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #58: Franco-Prussian). Beligerantes principais: Wuerttemburg, Baden, Germany vs France. Estimativa de baixas militares diretas: 204,313 mortes em combate.",
+          "tension_index": 99.0,
+          "match_percent": 44.6,
+          "matching_traits": [
+            "Netuno em Áries (mesmo signo)",
+            "Urano em Câncer (mesmo signo)",
+            "Aspecto comum: Vênus em Oposição com Saturno"
+          ]
+        },
+        {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -1670,7 +1692,7 @@
         {
           "id": 219,
           "title": "A Comuna de Paris e o Primeiro Governo Proletário",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1871-03-18",
           "city": "Paris",
           "country": "França",
@@ -1681,24 +1703,9 @@
             "Netuno em Áries (mesmo signo)",
             "Urano em Câncer (mesmo signo)"
           ]
-        },
-        {
-          "id": 64,
-          "title": "A Comuna de Paris",
-          "category": "Revolução Política",
-          "date": "1871-03-18",
-          "city": "Paris",
-          "country": "França",
-          "consequence": "O primeiro governo operário socialista autogerido da história durou apenas 72 dias até sua repressão sangrenta pelo exército francês durante a 'Semana Sangrenta', deixando um legado mitológico e programático indelével para o movimento comunista internacional.",
-          "tension_index": 100.0,
-          "match_percent": 42.9,
-          "matching_traits": [
-            "Netuno em Áries (mesmo signo)",
-            "Urano em Câncer (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2037: Percentil Médio Anual de 186.0/1000 (Percentil Basal), com 1 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Isomorfismo geométrico mais próximo: 'O Grande Cisma do Oriente (Divisão da Igreja)' (43.7% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2037: Percentil Médio Anual de 186.0/1000 (Percentil Basal), com 1 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Leão. Isomorfismo geométrico mais próximo: 'Eclosão da Guerra Franco-Prussian' (44.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2038,
@@ -1747,7 +1754,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Áries, Urano em Câncer, Saturno em Virgem. Aspectos-chave: ☉☌♀, ☉□♅, ☉☍♆. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Áries",
@@ -1756,7 +1763,7 @@
       "top_precedent": {
         "id": 12,
         "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-        "category": "Transformação Cultural",
+        "category": "Política, Tratados & Cultura",
         "date": "1054-07-16",
         "city": "Constantinopla",
         "country": "Turquia",
@@ -1774,7 +1781,7 @@
         {
           "id": 12,
           "title": "O Grande Cisma do Oriente (Divisão da Igreja)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1054-07-16",
           "city": "Constantinopla",
           "country": "Turquia",
@@ -1791,7 +1798,7 @@
         {
           "id": 15,
           "title": "Assinatura da Magna Carta",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1215-06-15",
           "city": "Runnymede",
           "country": "Reino Unido",
@@ -1806,18 +1813,20 @@
           ]
         },
         {
-          "id": 145,
-          "title": "Revolução Islâmica no Irã e Queda do Xá",
-          "category": "Revolução Política",
-          "date": "1979-02-11",
-          "city": "Teerã",
-          "country": "Irã",
-          "consequence": "A queda do monarca pró-ocidental Mohammad Reza Pahlavi e a instauração da República Islâmica teocrática pelo Aiatolá Khomeini transformaram o Irã em um polo anti-imperialista xiita, deflagrando a crise dos reféns americanos e desestabilizando a geopolítica do Oriente Médio.",
+          "id": 490,
+          "title": "Conflito Armado em Argentina (UCDP #247)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1955-06-16",
+          "city": "Buenos Aires",
+          "country": "Argentina",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #247). Beligerantes: Government of Argentina versus Military faction (forces of Eduardo A. Lonardi Doucet), Military faction (forces of Samuel Toranzo Calderón) (pelo controle do governo central). Tipo UCDP: 3 (precisão cronológica: nível 1).",
           "tension_index": 100.0,
-          "match_percent": 42.2,
+          "match_percent": 43.4,
           "matching_traits": [
-            "Saturno em Virgem (mesmo signo)",
-            "Aspecto comum: Sol em Quadratura com Urano"
+            "Urano em Câncer (mesmo signo)",
+            "Aspecto comum: Urano em Quadratura com Netuno",
+            "Aspecto comum: Urano em Oposição com Ceres",
+            "Aspecto comum: Netuno em Quadratura com Ceres"
           ]
         }
       ],
@@ -1870,43 +1879,60 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Desastre & Saúde Pública",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Aspectos-chave: ☉□♂, ☉☌♄, ☽☍♂. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
       "uranus_sign": "Leão",
       "saturn_sign": "Libra",
       "top_precedent": {
-        "id": 2,
-        "title": "Morte de Alexandre, o Grande",
-        "category": "Transformação Cultural",
-        "date": "0323-06-10",
-        "city": "Babilônia",
-        "country": "Iraque",
-        "consequence": "O desaparecimento precoce de Alexandre aos 32 anos desencadeou as Guerras dos Diádocos e a partilha de seu império colossal, inaugurando o Período Helenístico, marcado pela fusão das culturas grega, persa e egípcia, com a difusão da língua grega e a criação de centros científicos como Alexandria.",
+        "id": 766,
+        "title": "Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake",
+        "category": "Desastre & Saúde Pública",
+        "date": "1957-03-09",
+        "city": "1957 Atka",
+        "country": "Alaska Earthquake",
+        "consequence": "Grande sismo com magnitude de momento M 8.6 e profundidade focal de 25.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1957 Atka, Alaska Earthquake (51.499°, -175.626°). Ocorrência em 14:22 UTC.",
         "tension_index": 100.0,
-        "match_percent": 41.1,
+        "match_percent": 40.2,
         "matching_traits": [
-          "Plutão em Aquário (mesmo signo)",
-          "Aspecto comum: Marte em Quadratura com Saturno",
-          "Aspecto comum: Júpiter em Quadratura com Nodo Norte"
+          "Urano em Leão (mesmo signo)",
+          "Aspecto comum: Urano em Quadratura com Netuno",
+          "Aspecto comum: Urano em Quadratura com Ceres",
+          "Aspecto comum: Pallas em Trígono com Nodo Norte"
         ]
       },
       "top_matches": [
         {
-          "id": 2,
-          "title": "Morte de Alexandre, o Grande",
-          "category": "Transformação Cultural",
-          "date": "0323-06-10",
-          "city": "Babilônia",
-          "country": "Iraque",
-          "consequence": "O desaparecimento precoce de Alexandre aos 32 anos desencadeou as Guerras dos Diádocos e a partilha de seu império colossal, inaugurando o Período Helenístico, marcado pela fusão das culturas grega, persa e egípcia, com a difusão da língua grega e a criação de centros científicos como Alexandria.",
+          "id": 766,
+          "title": "Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake",
+          "category": "Desastre & Saúde Pública",
+          "date": "1957-03-09",
+          "city": "1957 Atka",
+          "country": "Alaska Earthquake",
+          "consequence": "Grande sismo com magnitude de momento M 8.6 e profundidade focal de 25.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1957 Atka, Alaska Earthquake (51.499°, -175.626°). Ocorrência em 14:22 UTC.",
           "tension_index": 100.0,
-          "match_percent": 41.1,
+          "match_percent": 40.2,
           "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Aspecto comum: Marte em Quadratura com Saturno",
-            "Aspecto comum: Júpiter em Quadratura com Nodo Norte"
+            "Urano em Leão (mesmo signo)",
+            "Aspecto comum: Urano em Quadratura com Netuno",
+            "Aspecto comum: Urano em Quadratura com Ceres",
+            "Aspecto comum: Pallas em Trígono com Nodo Norte"
+          ]
+        },
+        {
+          "id": 929,
+          "title": "Golpe de Estado Consumado em Colombia (1957)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1957-05-10",
+          "city": "Bogotá",
+          "country": "Colombia",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Colombia (Colombia, COW ccode: 100). Resultado: Poder deposto com sucesso.",
+          "tension_index": 100.0,
+          "match_percent": 39.1,
+          "matching_traits": [
+            "Urano em Leão (mesmo signo)",
+            "Aspecto comum: Urano em Quadratura com Netuno"
           ]
         },
         {
@@ -1925,24 +1951,9 @@
             "Aspecto comum: Mercúrio em Trígono com Lilith (Lua Negra)",
             "Aspecto comum: Marte em Quadratura com Saturno"
           ]
-        },
-        {
-          "id": 221,
-          "title": "Batalha de Little Bighorn",
-          "category": "Guerra & Conflito",
-          "date": "1876-06-25",
-          "city": "Crow Agency (Montana)",
-          "country": "Estados Unidos",
-          "consequence": "Guerreiros confederados das nações Lakota, Cheyenne e Arapaho sob a liderança de Touro Sentado e Cavalo Louco cercaram e aniquilaram completamente o 7º Regimento de Cavalaria dos EUA comandado pelo tenente-coronel George Armstrong Custer. A maior vitória indígena das Guerras Indígenas norte-americanas gerou furor em Washington, desencadeando uma retaliação militar implacável que forçou a rendição de todos os chefes rebeldes e confinou definitivamente os povos originários às reservas federais.",
-          "tension_index": 100.0,
-          "match_percent": 36.9,
-          "matching_traits": [
-            "Netuno em Touro (mesmo signo)",
-            "Urano em Leão (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2039: Percentil Médio Anual de 561.5/1000 (Percentil Moderado), com 20 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Morte de Alexandre, o Grande' (41.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2039: Percentil Médio Anual de 561.5/1000 (Percentil Moderado), com 20 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake' (40.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2040,
@@ -1991,7 +2002,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Aspectos-chave: ☉☌☿, ☉☍♂, ☉□♄. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
@@ -2000,7 +2011,7 @@
       "top_precedent": {
         "id": 45,
         "title": "Início da Revolução Haitiana (Revolta de Bois Caïman)",
-        "category": "Revolução Política",
+        "category": "Revolução & Conflito Interno",
         "date": "1791-08-22",
         "city": "Cabo Haitiano",
         "country": "Haiti",
@@ -2017,7 +2028,7 @@
         {
           "id": 45,
           "title": "Início da Revolução Haitiana (Revolta de Bois Caïman)",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1791-08-22",
           "city": "Cabo Haitiano",
           "country": "Haiti",
@@ -2033,7 +2044,7 @@
         {
           "id": 5,
           "title": "Erupção do Monte Vesúvio e Destruição de Pompeia",
-          "category": "Pandemia & Desastre",
+          "category": "Desastre & Saúde Pública",
           "date": "0079-08-24",
           "city": "Pompeia",
           "country": "Itália",
@@ -2047,20 +2058,18 @@
           ]
         },
         {
-          "id": 44,
-          "title": "Queda da Bastilha e Início da Revolução Francesa",
-          "category": "Revolução Política",
-          "date": "1789-07-14",
-          "city": "Paris",
-          "country": "França",
-          "consequence": "A tomada da fortaleza-prisão pela população parisiense sublevada pulverizou as estruturas do Antigo Regime absolutista na Europa, estabelecendo a Declaração dos Direitos do Homem e do Cidadão e difundindo universalmente os ideais de liberdade, igualdade e fraternidade.",
-          "tension_index": 71.0,
-          "match_percent": 35.9,
+          "id": 1048,
+          "title": "Tentativa de Golpe Militar em Gâmbia (1981)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1981-07-29",
+          "city": "Capital",
+          "country": "Gâmbia",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Gâmbia (Gambia, COW ccode: 420). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 90.0,
+          "match_percent": 36.2,
           "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Urano em Leão (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Mercúrio",
-            "Aspecto comum: Saturno em Quadratura com Quíron"
+            "Saturno em Libra (mesmo signo)",
+            "Aspecto comum: Marte em Quadratura com Saturno"
           ]
         }
       ],
@@ -2113,34 +2122,68 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Aspectos-chave: ☉☌☿, ☉☌♅, ☉□♆. ★ Estrela Ativa: Polaris",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
       "uranus_sign": "Leão",
       "saturn_sign": "Libra",
       "top_precedent": {
-        "id": 199,
-        "title": "Abolição dos Feudos e Privilégios Feudais pela Assembleia Constituinte Francesa",
-        "category": "Revolução Política",
-        "date": "1789-08-04",
-        "city": "Versalhes",
-        "country": "França",
-        "consequence": "Em uma sessão histórica durante a noite, a nobreza e o clero renunciaram aos dízimos e direitos senhoriais, liquidando séculos de feudalismo jurídico na França e consagrando a igualdade perante a lei fiscal e civil para todos os cidadãos.",
-        "tension_index": 61.0,
-        "match_percent": 41.4,
+        "id": 497,
+        "title": "Eclosão do Conflito em Honduras: Government of Honduras vs Government of Nicaragua",
+        "category": "Guerra & Conflito",
+        "date": "1957-05-01",
+        "city": "Tegucigalpa",
+        "country": "Honduras",
+        "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #255). Beligerantes: Government of Honduras versus Government of Nicaragua (pelo controle de Common Border). Tipo UCDP: 2 (precisão cronológica: nível 1).",
+        "tension_index": 100.0,
+        "match_percent": 42.2,
         "matching_traits": [
-          "Plutão em Aquário (mesmo signo)",
           "Urano em Leão (mesmo signo)",
-          "Aspecto comum: Mercúrio em Quadratura com Netuno",
-          "★ Estrela Fixa Spica ativada simultaneamente (Júpiter)"
+          "Aspecto comum: Urano em Quadratura com Netuno",
+          "★ Estrela Fixa Polaris ativada simultaneamente (Vênus)",
+          "★ Estrela Fixa Betelgeuse ativada simultaneamente (Vênus)"
         ]
       },
       "top_matches": [
         {
+          "id": 497,
+          "title": "Eclosão do Conflito em Honduras: Government of Honduras vs Government of Nicaragua",
+          "category": "Guerra & Conflito",
+          "date": "1957-05-01",
+          "city": "Tegucigalpa",
+          "country": "Honduras",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #255). Beligerantes: Government of Honduras versus Government of Nicaragua (pelo controle de Common Border). Tipo UCDP: 2 (precisão cronológica: nível 1).",
+          "tension_index": 100.0,
+          "match_percent": 42.2,
+          "matching_traits": [
+            "Urano em Leão (mesmo signo)",
+            "Aspecto comum: Urano em Quadratura com Netuno",
+            "★ Estrela Fixa Polaris ativada simultaneamente (Vênus)",
+            "★ Estrela Fixa Betelgeuse ativada simultaneamente (Vênus)"
+          ]
+        },
+        {
+          "id": 1122,
+          "title": "Tentativa de Golpe Militar em Gana (1982)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1982-11-23",
+          "city": "Acra",
+          "country": "Gana",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Gana (Ghana, COW ccode: 452). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 42.2,
+          "matching_traits": [
+            "Saturno em Libra (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Mercúrio",
+            "Aspecto comum: Sol em Conjunção com Pallas",
+            "Aspecto comum: Mercúrio em Conjunção com Urano"
+          ]
+        },
+        {
           "id": 199,
           "title": "Abolição dos Feudos e Privilégios Feudais pela Assembleia Constituinte Francesa",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1789-08-04",
           "city": "Versalhes",
           "country": "França",
@@ -2153,41 +2196,9 @@
             "Aspecto comum: Mercúrio em Quadratura com Netuno",
             "★ Estrela Fixa Spica ativada simultaneamente (Júpiter)"
           ]
-        },
-        {
-          "id": 44,
-          "title": "Queda da Bastilha e Início da Revolução Francesa",
-          "category": "Revolução Política",
-          "date": "1789-07-14",
-          "city": "Paris",
-          "country": "França",
-          "consequence": "A tomada da fortaleza-prisão pela população parisiense sublevada pulverizou as estruturas do Antigo Regime absolutista na Europa, estabelecendo a Declaração dos Direitos do Homem e do Cidadão e difundindo universalmente os ideais de liberdade, igualdade e fraternidade.",
-          "tension_index": 71.0,
-          "match_percent": 40.7,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Urano em Leão (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Mercúrio",
-            "Aspecto comum: Sol em Quadratura com Netuno"
-          ]
-        },
-        {
-          "id": 5,
-          "title": "Erupção do Monte Vesúvio e Destruição de Pompeia",
-          "category": "Pandemia & Desastre",
-          "date": "0079-08-24",
-          "city": "Pompeia",
-          "country": "Itália",
-          "consequence": "A devastadora erupção soterrou Pompeia e Herculano sob metros de cinzas vulcânicas, interrompendo abruptamente a vida de milhares de cidadãos, mas preservando de forma ímpar um registro urbano, cultural e arqueológico inestimável da civilização greco-romana do século I.",
-          "tension_index": 100.0,
-          "match_percent": 40.6,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Netuno em Touro (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2041: Percentil Médio Anual de 830.6/1000 (Percentil Superior), com 38 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Abolição dos Feudos e Privilégios Feudais pela Assembleia Constituinte Francesa' (41.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2041: Percentil Médio Anual de 830.6/1000 (Percentil Superior), com 38 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Eclosão do Conflito em Honduras: Government of Honduras vs Government of Nicaragua' (42.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2042,
@@ -2236,7 +2247,7 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Aspectos-chave: ☉☌♀, ☉□⚴, ☽□⚵. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
@@ -2276,35 +2287,34 @@
           ]
         },
         {
-          "id": 25,
-          "title": "Publicação do Modelo Heliocêntrico de Nicolau Copérnico",
-          "category": "Ciência & Tecnologia",
-          "date": "1543-03-21",
-          "city": "Nuremberg",
-          "country": "Alemanha",
-          "consequence": "Com o tratado 'De revolutionibus orbium coelestium', Copérnico removeu a Terra do centro do universo e colocou o Sol no centro do sistema planetário, iniciando a Revolução Científica moderna e desafiando o dogma aristotélico-ptolomaico aceito por mais de mil anos.",
+          "id": 332,
+          "title": "Eclosão da Guerra First Central American",
+          "category": "Guerra & Conflito",
+          "date": "1876-03-27",
+          "city": "Cidade do México",
+          "country": "México",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #60: First Central American). Beligerantes principais: Guatemala vs El Salvador. Estimativa de baixas militares diretas: 4,000 mortes em combate.",
           "tension_index": 100.0,
-          "match_percent": 40.4,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Urano em Leão (mesmo signo)",
-            "Saturno em Escorpião (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Vênus"
-          ]
-        },
-        {
-          "id": 222,
-          "title": "Invenção do Telefone por Alexander Graham Bell",
-          "category": "Ciência & Tecnologia",
-          "date": "1876-03-10",
-          "city": "Boston",
-          "country": "Estados Unidos",
-          "consequence": "Alexander Graham Bell transmitiu pela primeira vez a voz humana inteligível através de um fio elétrico ao dizer a seu assistente: 'Mr. Watson, come here, I want to see you'. A patente do telefone revolucionou o comércio, a diplomacia e a sociabilidade humana, transformando-se na base para a criação da AT&T e para a estruturação das primeiras redes mundiais de comunicações de voz conectadas.",
-          "tension_index": 90.0,
-          "match_percent": 38.6,
+          "match_percent": 42.5,
           "matching_traits": [
             "Netuno em Touro (mesmo signo)",
             "Urano em Leão (mesmo signo)"
+          ]
+        },
+        {
+          "id": 1197,
+          "title": "Tentativa de Golpe Militar em Madagascar (1974)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1974-12-31",
+          "city": "Capital",
+          "country": "Madagascar",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Madagascar (Madagascar, COW ccode: 580). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 42.3,
+          "matching_traits": [
+            "Aspecto comum: Marte em Quadratura com Júpiter",
+            "Aspecto comum: Júpiter em Conjunção com Ceres",
+            "Aspecto comum: Netuno em Conjunção com Nodo Norte"
           ]
         }
       ],
@@ -2357,80 +2367,78 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Aspectos-chave: ☉□♇, ☽□⚳, ☽△☊. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Leão",
       "saturn_sign": "Escorpião",
       "top_precedent": {
-        "id": 13,
-        "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
+        "id": 332,
+        "title": "Eclosão da Guerra First Central American",
         "category": "Guerra & Conflito",
-        "date": "1066-10-14",
-        "city": "Hastings",
-        "country": "Reino Unido",
-        "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+        "date": "1876-03-27",
+        "city": "Cidade do México",
+        "country": "México",
+        "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #60: First Central American). Beligerantes principais: Guatemala vs El Salvador. Estimativa de baixas militares diretas: 4,000 mortes em combate.",
         "tension_index": 100.0,
-        "match_percent": 42.5,
+        "match_percent": 45.4,
         "matching_traits": [
-          "Plutão em Peixes (mesmo signo)",
           "Netuno em Touro (mesmo signo)",
-          "Aspecto comum: Juno em Quadratura com Nodo Norte"
+          "Urano em Leão (mesmo signo)",
+          "Aspecto comum: Vênus em Conjunção com Marte",
+          "Aspecto comum: Vênus em Quadratura com Urano"
         ]
       },
       "top_matches": [
         {
-          "id": 13,
-          "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
+          "id": 332,
+          "title": "Eclosão da Guerra First Central American",
           "category": "Guerra & Conflito",
-          "date": "1066-10-14",
-          "city": "Hastings",
-          "country": "Reino Unido",
-          "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+          "date": "1876-03-27",
+          "city": "Cidade do México",
+          "country": "México",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #60: First Central American). Beligerantes principais: Guatemala vs El Salvador. Estimativa de baixas militares diretas: 4,000 mortes em combate.",
           "tension_index": 100.0,
-          "match_percent": 42.5,
+          "match_percent": 45.4,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
             "Netuno em Touro (mesmo signo)",
-            "Aspecto comum: Juno em Quadratura com Nodo Norte"
+            "Urano em Leão (mesmo signo)",
+            "Aspecto comum: Vênus em Conjunção com Marte",
+            "Aspecto comum: Vênus em Quadratura com Urano"
           ]
         },
         {
-          "id": 118,
-          "title": "Gesto de Desobediência Civil de Rosa Parks e Início do Boicote aos Ônibus",
-          "category": "Revolução Política",
-          "date": "1955-12-01",
-          "city": "Montgomery",
-          "country": "Estados Unidos",
-          "consequence": "A recusa da costureira negra em ceder seu assento a um passageiro branco no Alabama deflagrou o boicote aos ônibus liderado por Martin Luther King Jr., tornando-se o catalisador decisivo do Movimento pelos Direitos Civis que derrubou as leis segregacionistas Jim Crow nos EUA.",
+          "id": 592,
+          "title": "Eclosão do Conflito em Índia: Government of India vs Kashmir insurgents",
+          "category": "Revolução & Conflito Interno",
+          "date": "1984-02-06",
+          "city": "Nova Delhi",
+          "country": "Índia",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #364). Beligerantes: Government of India versus Kashmir insurgents (pelo controle de Kashmir). Tipo UCDP: 3 (precisão cronológica: nível 1).",
           "tension_index": 100.0,
-          "match_percent": 41.9,
+          "match_percent": 45.0,
           "matching_traits": [
-            "Urano em Leão (mesmo signo)",
+            "Saturno em Escorpião (mesmo signo)"
+          ]
+        },
+        {
+          "id": 1124,
+          "title": "Tentativa de Golpe Militar em Gana (1984)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1984-03-23",
+          "city": "Acra",
+          "country": "Gana",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Gana (Ghana, COW ccode: 452). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 43.2,
+          "matching_traits": [
             "Saturno em Escorpião (mesmo signo)",
-            "Aspecto comum: Marte em Quadratura com Urano",
-            "Aspecto comum: Marte em Conjunção com Netuno"
-          ]
-        },
-        {
-          "id": 222,
-          "title": "Invenção do Telefone por Alexander Graham Bell",
-          "category": "Ciência & Tecnologia",
-          "date": "1876-03-10",
-          "city": "Boston",
-          "country": "Estados Unidos",
-          "consequence": "Alexander Graham Bell transmitiu pela primeira vez a voz humana inteligível através de um fio elétrico ao dizer a seu assistente: 'Mr. Watson, come here, I want to see you'. A patente do telefone revolucionou o comércio, a diplomacia e a sociabilidade humana, transformando-se na base para a criação da AT&T e para a estruturação das primeiras redes mundiais de comunicações de voz conectadas.",
-          "tension_index": 90.0,
-          "match_percent": 41.8,
-          "matching_traits": [
-            "Netuno em Touro (mesmo signo)",
-            "Urano em Leão (mesmo signo)",
-            "Aspecto comum: Vênus em Conjunção com Netuno"
+            "Aspecto comum: Vênus em Quadratura com Urano"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2043: Percentil Médio Anual de 893.7/1000 (Percentil Superior), com 87 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Isomorfismo geométrico mais próximo: 'Batalha de Hastings e Conquista Normanda da Inglaterra' (42.5% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2043: Percentil Médio Anual de 893.7/1000 (Percentil Superior), com 87 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Isomorfismo geométrico mais próximo: 'Eclosão da Guerra First Central American' (45.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2044,
@@ -2479,28 +2487,57 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Aspectos-chave: ☉☌☿, ☉☍⚶, ♀□♂. ★ Estrela Ativa: Aldebaran",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Leão",
       "saturn_sign": "Escorpião",
       "top_precedent": {
-        "id": 13,
-        "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
-        "category": "Guerra & Conflito",
-        "date": "1066-10-14",
-        "city": "Hastings",
-        "country": "Reino Unido",
-        "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+        "id": 592,
+        "title": "Eclosão do Conflito em Índia: Government of India vs Kashmir insurgents",
+        "category": "Revolução & Conflito Interno",
+        "date": "1984-02-06",
+        "city": "Nova Delhi",
+        "country": "Índia",
+        "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #364). Beligerantes: Government of India versus Kashmir insurgents (pelo controle de Kashmir). Tipo UCDP: 3 (precisão cronológica: nível 1).",
         "tension_index": 100.0,
-        "match_percent": 42.2,
+        "match_percent": 43.8,
         "matching_traits": [
-          "Plutão em Peixes (mesmo signo)",
-          "Netuno em Touro (mesmo signo)"
+          "Saturno em Escorpião (mesmo signo)",
+          "Aspecto comum: Ceres em Quadratura com Nodo Norte"
         ]
       },
       "top_matches": [
+        {
+          "id": 592,
+          "title": "Eclosão do Conflito em Índia: Government of India vs Kashmir insurgents",
+          "category": "Revolução & Conflito Interno",
+          "date": "1984-02-06",
+          "city": "Nova Delhi",
+          "country": "Índia",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #364). Beligerantes: Government of India versus Kashmir insurgents (pelo controle de Kashmir). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 100.0,
+          "match_percent": 43.8,
+          "matching_traits": [
+            "Saturno em Escorpião (mesmo signo)",
+            "Aspecto comum: Ceres em Quadratura com Nodo Norte"
+          ]
+        },
+        {
+          "id": 1124,
+          "title": "Tentativa de Golpe Militar em Gana (1984)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1984-03-23",
+          "city": "Acra",
+          "country": "Gana",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Gana (Ghana, COW ccode: 452). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 43.2,
+          "matching_traits": [
+            "Saturno em Escorpião (mesmo signo)"
+          ]
+        },
         {
           "id": 13,
           "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
@@ -2515,38 +2552,9 @@
             "Plutão em Peixes (mesmo signo)",
             "Netuno em Touro (mesmo signo)"
           ]
-        },
-        {
-          "id": 296,
-          "title": "A Catástrofe da Destruição do Ônibus Espacial Challenger",
-          "category": "Pandemia & Desastre",
-          "date": "1986-01-28",
-          "city": "Cabo Canaveral (Flórida)",
-          "country": "Estados Unidos",
-          "consequence": "O ônibus espacial Challenger desintegrou-se 73 segundos após o lançamento diante de milhões de crianças que assistiam pela televisão à decolagem da professora civil Christa McAuliffe, vitimando todos os sete astronautas a bordo. A comissão de inquérito chefiada pelo físico Richard Feynman expôs a falha nos anéis de vedação de borracha (O-rings) sob baixas temperaturas e a negligência do gerenciamento da NASA, paralisando o programa de voos tripulados dos EUA por quase três anos.",
-          "tension_index": 100.0,
-          "match_percent": 40.0,
-          "matching_traits": [
-            "Aspecto comum: Sol em Conjunção com Mercúrio",
-            "★ Estrela Fixa Aldebaran ativada simultaneamente (Ceres)"
-          ]
-        },
-        {
-          "id": 151,
-          "title": "Comício das Diretas Já na Candelária e Vale do Anhangabaú",
-          "category": "Revolução Política",
-          "date": "1984-04-16",
-          "city": "São Paulo",
-          "country": "Brasil",
-          "consequence": "O maior movimento popular da história brasileira reuniu mais de um milhão de manifestantes exigindo eleições presidenciais diretas, e embora a Emenda Dante de Oliveira tenha sido rejeitada no Congresso, a mobilização selou o fim irreversível do regime militar no ano seguinte.",
-          "tension_index": 84.0,
-          "match_percent": 38.9,
-          "matching_traits": [
-            "Saturno em Escorpião (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2044: Percentil Médio Anual de 764.1/1000 (Percentil Moderado), com 58 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Isomorfismo geométrico mais próximo: 'Batalha de Hastings e Conquista Normanda da Inglaterra' (42.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2044: Percentil Médio Anual de 764.1/1000 (Percentil Moderado), com 58 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Leão, Saturno em Escorpião. Isomorfismo geométrico mais próximo: 'Eclosão do Conflito em Índia: Government of India vs Kashmir insurgents' (43.8% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2045,
@@ -2595,29 +2603,47 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Sagitário. Aspectos-chave: ☉□♃, ☉□♅, ☉□♇. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Virgem",
       "saturn_sign": "Sagitário",
       "top_precedent": {
-        "id": 67,
-        "title": "Patente da Lâmpada Incandescente Prática de Thomas Edison",
-        "category": "Ciência & Tecnologia",
-        "date": "1879-11-04",
-        "city": "Menlo Park",
-        "country": "Estados Unidos",
-        "consequence": "Ao criar um filamento de carbono durável em vácuo, Edison viabilizou a iluminação elétrica comercial em larga escala, estendendo o dia produtivo nas fábricas, iluminando centros urbanos noturnos e catalisando a criação de redes elétricas de potência.",
+        "id": 905,
+        "title": "Tentativa de Golpe Militar em Guatemala (1962)",
+        "category": "Revolução & Conflito Interno",
+        "date": "1962-11-25",
+        "city": "Cidade da Guatemala",
+        "country": "Guatemala",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Guatemala (Guatemala, COW ccode: 90). Resultado: Tentativa frustrada / debelada.",
         "tension_index": 100.0,
-        "match_percent": 42.6,
+        "match_percent": 47.2,
         "matching_traits": [
-          "Netuno em Touro (mesmo signo)",
           "Urano em Virgem (mesmo signo)",
-          "Aspecto comum: Plutão em Conjunção com Lilith (Lua Negra)"
+          "Aspecto comum: Sol em Quadratura com Júpiter",
+          "Aspecto comum: Sol em Quadratura com Urano",
+          "Aspecto comum: Júpiter em Oposição com Urano"
         ]
       },
       "top_matches": [
+        {
+          "id": 905,
+          "title": "Tentativa de Golpe Militar em Guatemala (1962)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1962-11-25",
+          "city": "Cidade da Guatemala",
+          "country": "Guatemala",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Guatemala (Guatemala, COW ccode: 90). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 47.2,
+          "matching_traits": [
+            "Urano em Virgem (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Júpiter",
+            "Aspecto comum: Sol em Quadratura com Urano",
+            "Aspecto comum: Júpiter em Oposição com Urano"
+          ]
+        },
         {
           "id": 67,
           "title": "Patente da Lâmpada Incandescente Prática de Thomas Edison",
@@ -2635,38 +2661,22 @@
           ]
         },
         {
-          "id": 245,
-          "title": "Formulação do Princípio da Incerteza por Werner Heisenberg",
-          "category": "Ciência & Tecnologia",
-          "date": "1927-03-23",
-          "city": "Copenhague",
-          "country": "Dinamarca",
-          "consequence": "Werner Heisenberg submeteu seu histórico artigo científico demonstrando que é fisicamente impossível determinar simultaneamente e com precisão absoluta a posição e o momento linear de uma partícula subatômica. O Princípio da Incerteza estabeleceu o indeterminismo quântico fundamental da matéria, derrubou o determinismo estrito de Laplace na física moderna e redefiniu profundamente as bases epistemológicas da ciência ocidental contemporânea.",
+          "id": 513,
+          "title": "Conflito Armado em Brunei (UCDP #273)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1962-12-08",
+          "city": "Brunei",
+          "country": "Brunei",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #273). Beligerantes: Government of United Kingdom versus North Kalimantan Liberation Army (pelo controle de North Borneo). Tipo UCDP: 1 (precisão cronológica: nível 1).",
           "tension_index": 100.0,
-          "match_percent": 39.9,
+          "match_percent": 41.9,
           "matching_traits": [
-            "Saturno em Sagitário (mesmo signo)",
-            "Aspecto comum: Urano em Oposição com Lilith (Lua Negra)"
-          ]
-        },
-        {
-          "id": 296,
-          "title": "A Catástrofe da Destruição do Ônibus Espacial Challenger",
-          "category": "Pandemia & Desastre",
-          "date": "1986-01-28",
-          "city": "Cabo Canaveral (Flórida)",
-          "country": "Estados Unidos",
-          "consequence": "O ônibus espacial Challenger desintegrou-se 73 segundos após o lançamento diante de milhões de crianças que assistiam pela televisão à decolagem da professora civil Christa McAuliffe, vitimando todos os sete astronautas a bordo. A comissão de inquérito chefiada pelo físico Richard Feynman expôs a falha nos anéis de vedação de borracha (O-rings) sob baixas temperaturas e a negligência do gerenciamento da NASA, paralisando o programa de voos tripulados dos EUA por quase três anos.",
-          "tension_index": 100.0,
-          "match_percent": 38.4,
-          "matching_traits": [
-            "Saturno em Sagitário (mesmo signo)",
-            "Aspecto comum: Sol em Quadratura com Plutão",
-            "Aspecto comum: Mercúrio em Quadratura com Nodo Norte"
+            "Urano em Virgem (mesmo signo)",
+            "Aspecto comum: Júpiter em Oposição com Urano"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2045: Percentil Médio Anual de 814.0/1000 (Percentil Superior), com 67 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Sagitário. Isomorfismo geométrico mais próximo: 'Patente da Lâmpada Incandescente Prática de Thomas Edison' (42.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2045: Percentil Médio Anual de 814.0/1000 (Percentil Superior), com 67 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Sagitário. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Guatemala (1962)' (47.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2046,
@@ -2715,65 +2725,75 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Sagitário. Aspectos-chave: ☉□♄, ☉△♆, ☽□♆. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Virgem",
       "saturn_sign": "Sagitário",
       "top_precedent": {
-        "id": 252,
-        "title": "O Bombardeio de Guernica pela Legião Condor",
-        "category": "Guerra & Conflito",
-        "date": "1937-04-26",
-        "city": "Guernica",
-        "country": "Espanha",
-        "consequence": "Bombardeiros Heinkel e Junkers da Legião Condor alemã e da aviação italiana despejaram toneladas de bombas incendiárias sobre a histórica cidade basca de Guernica em pleno dia de mercado, matando centenas de civis indefesos. O ataque pioneiro de terror aéreo e destruição de infraestrutura civil chocou a opinião pública mundial e inspirou a célebre obra-prima monumental de Pablo Picasso, tornando-se o símbolo eterno da denúncia dos horrores da guerra mecanizada.",
-        "tension_index": 69.0,
-        "match_percent": 36.1,
-        "matching_traits": []
+        "id": 1333,
+        "title": "Tentativa de Golpe Militar em Filipinas (1987)",
+        "category": "Revolução & Conflito Interno",
+        "date": "1987-08-27",
+        "city": "Manila",
+        "country": "Filipinas",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Filipinas (Philippines, COW ccode: 840). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 52.0,
+        "match_percent": 41.3,
+        "matching_traits": [
+          "Saturno em Sagitário (mesmo signo)",
+          "Aspecto comum: Sol em Trígono com Netuno"
+        ]
       },
       "top_matches": [
         {
-          "id": 252,
-          "title": "O Bombardeio de Guernica pela Legião Condor",
-          "category": "Guerra & Conflito",
-          "date": "1937-04-26",
-          "city": "Guernica",
-          "country": "Espanha",
-          "consequence": "Bombardeiros Heinkel e Junkers da Legião Condor alemã e da aviação italiana despejaram toneladas de bombas incendiárias sobre a histórica cidade basca de Guernica em pleno dia de mercado, matando centenas de civis indefesos. O ataque pioneiro de terror aéreo e destruição de infraestrutura civil chocou a opinião pública mundial e inspirou a célebre obra-prima monumental de Pablo Picasso, tornando-se o símbolo eterno da denúncia dos horrores da guerra mecanizada.",
-          "tension_index": 69.0,
-          "match_percent": 36.1,
-          "matching_traits": []
-        },
-        {
-          "id": 153,
-          "title": "Crash da Segunda-Feira Negra (Black Monday de 1987)",
-          "category": "Crise Econômica",
-          "date": "1987-10-19",
-          "city": "Nova York",
-          "country": "Estados Unidos",
-          "consequence": "A maior queda percentual em um único dia do índice Dow Jones (-22,6%), amplificada por ordens automatizadas de venda em computadores, levou à criação obrigatória de 'circuit breakers' nas bolsas mundiais e inaugurou a política do Fed de socorro aos mercados financeiros ('Greenspan put').",
-          "tension_index": 77.0,
-          "match_percent": 36.0,
+          "id": 1333,
+          "title": "Tentativa de Golpe Militar em Filipinas (1987)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1987-08-27",
+          "city": "Manila",
+          "country": "Filipinas",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Filipinas (Philippines, COW ccode: 840). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 52.0,
+          "match_percent": 41.3,
           "matching_traits": [
-            "Saturno em Sagitário (mesmo signo)"
+            "Saturno em Sagitário (mesmo signo)",
+            "Aspecto comum: Sol em Trígono com Netuno"
           ]
         },
         {
-          "id": 158,
-          "title": "Início da Guerra do Golfo (Operação Tempestade no Deserto)",
-          "category": "Guerra & Conflito",
-          "date": "1991-01-17",
-          "city": "Bagdá",
-          "country": "Iraque",
-          "consequence": "A coalizão liderada pelos EUA expulsou as tropas de Saddam Hussein do Kuwait através de bombardeios cirúrgicos e armas guiadas por laser exibidas ao vivo na televisão pela CNN, consagrando a supremacia militar tecnológica unipolar americana pós-Guerra Fria.",
-          "tension_index": 76.0,
-          "match_percent": 35.0,
-          "matching_traits": []
+          "id": 1340,
+          "title": "Golpe de Estado Consumado em Fiji (1987)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1987-05-14",
+          "city": "Capital",
+          "country": "Fiji",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Fiji (Fiji, COW ccode: 950). Resultado: Poder deposto com sucesso.",
+          "tension_index": 91.0,
+          "match_percent": 40.7,
+          "matching_traits": [
+            "Saturno em Sagitário (mesmo signo)",
+            "Aspecto comum: Júpiter em Trígono com Saturno"
+          ]
+        },
+        {
+          "id": 716,
+          "title": "Grande Terremoto M8.0 - 1995 Colima-Jalisco, Mexico Earthquake",
+          "category": "Desastre & Saúde Pública",
+          "date": "1995-10-09",
+          "city": "1995 Colima-Jalisco",
+          "country": "Mexico Earthquake",
+          "consequence": "Grande sismo com magnitude de momento M 8.0 e profundidade focal de 33.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1995 Colima-Jalisco, Mexico Earthquake (19.055°, -104.205°). Ocorrência em 15:35 UTC.",
+          "tension_index": 60.0,
+          "match_percent": 39.5,
+          "matching_traits": [
+            "Aspecto comum: Mercúrio em Conjunção com Quíron",
+            "Aspecto comum: Pallas em Conjunção com Vesta"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2046: Percentil Médio Anual de 478.4/1000 (Percentil Moderado), com 28 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Sagitário. Isomorfismo geométrico mais próximo: 'O Bombardeio de Guernica pela Legião Condor' (36.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2046: Percentil Médio Anual de 478.4/1000 (Percentil Moderado), com 28 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Sagitário. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Filipinas (1987)' (41.3% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2047,
@@ -2822,7 +2842,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Capricórnio. Aspectos-chave: ☉☍♅, ☉☌♇, ☿□♆. ★ Estrela Ativa: Fomalhaut",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
@@ -2831,7 +2851,7 @@
       "top_precedent": {
         "id": 280,
         "title": "O Golpe Militar de 1964 no Brasil",
-        "category": "Revolução Política",
+        "category": "Revolução & Conflito Interno",
         "date": "1964-03-31",
         "city": "Juiz de Fora / Brasília",
         "country": "Brasil",
@@ -2848,7 +2868,7 @@
         {
           "id": 280,
           "title": "O Golpe Militar de 1964 no Brasil",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1964-03-31",
           "city": "Juiz de Fora / Brasília",
           "country": "Brasil",
@@ -2864,7 +2884,7 @@
         {
           "id": 128,
           "title": "Golpe Militar de 1964 no Brasil",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1964-03-31",
           "city": "Rio de Janeiro",
           "country": "Brasil",
@@ -2878,18 +2898,19 @@
           ]
         },
         {
-          "id": 223,
-          "title": "Assassinato do Czar Alexandre II da Rússia pelo Narodnaya Volya",
-          "category": "Revolução Política",
-          "date": "1881-03-13",
-          "city": "São Petersburgo",
-          "country": "Rússia",
-          "consequence": "Militantes terroristas do grupo revolucionário 'Vontade do Povo' (Narodnaya Volya) detonaram bombas contra a carruagem do imperador Alexandre II nas margens do canal Griboedov, matando o monarca que havia libertado os servos em 1861. O assassinato encerrou brutalmente a era das reformas liberais no Império Russo, levando à ascensão reacionária de Alexandre III e Nicolau II, à criação da temida polícia secreta Okhrana e ao aumento da repressão estatal que germinaria o solo fértil para as revoluções bolcheviques de 1917.",
-          "tension_index": 97.0,
-          "match_percent": 39.1,
+          "id": 970,
+          "title": "Golpe de Estado Consumado em Brazil (1964)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1964-04-01",
+          "city": "Brasília",
+          "country": "Brazil",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Brazil (Brazil, COW ccode: 140). Resultado: Poder deposto com sucesso.",
+          "tension_index": 94.0,
+          "match_percent": 43.4,
           "matching_traits": [
-            "Netuno em Touro (mesmo signo)",
-            "Urano em Virgem (mesmo signo)"
+            "Urano em Virgem (mesmo signo)",
+            "Aspecto comum: Marte em Quadratura com Ceres",
+            "Aspecto comum: Urano em Trígono com Ceres"
           ]
         }
       ],
@@ -2942,7 +2963,7 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Capricórnio. Aspectos-chave: ☉☌☿, ☉☌♀, ☉☌♃. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
@@ -2984,33 +3005,37 @@
           ]
         },
         {
-          "id": 155,
-          "title": "Massacre da Praça da Paz Celestial (Tiananmen)",
-          "category": "Revolução Política",
-          "date": "1989-06-04",
-          "city": "Pequim",
-          "country": "China",
-          "consequence": "A violenta repressão armada executada pelo Exército Popular de Libertação com tanques contra manifestantes pró-democracia encerrou abruptamente as aspirações de reforma política pluralista na China, consolidando o monopólio absoluto do poder pelo Partido Comunista Chinês.",
-          "tension_index": 90.0,
-          "match_percent": 40.8,
+          "id": 606,
+          "title": "Conflito Armado em Haiti (UCDP #381)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1989-04-03",
+          "city": "Porto Príncipe",
+          "country": "Haiti",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #381). Beligerantes: Government of Haiti versus Military faction (forces of Himmler Rebu and Guy Francois) (pelo controle do governo central). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 100.0,
+          "match_percent": 50.2,
           "matching_traits": [
-            "Saturno em Capricórnio (mesmo signo)"
+            "Saturno em Capricórnio (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Mercúrio",
+            "Aspecto comum: Sol em Conjunção com Vênus",
+            "Aspecto comum: Mercúrio em Conjunção com Vênus"
           ]
         },
         {
-          "id": 213,
-          "title": "Batalha de Austerlitz (Batalha dos Três Imperadores)",
-          "category": "Guerra & Conflito",
-          "date": "1805-12-02",
-          "city": "Austerlitz (Slavkov u Brna)",
-          "country": "República Tcheca",
-          "consequence": "Napoleão Bonaparte desferiu uma das maiores obras-primas táticas da história bélica ao simular fraqueza em seu flanco direito e esmagar o centro russo-austríaco nas colinas de Pratzen. A vitória demoliu a Terceira Coligação, forçou a Áustria a assinar a humilhante Paz de Pressburg, expulsou os exércitos russos da Europa Central e levou à dissolução formal do milenar Sacro Império Romano-Germânico em 1806, consolidando a hegemonia napoleônica absoluta sobre o continente europeu.",
-          "tension_index": 100.0,
-          "match_percent": 39.0,
+          "id": 596,
+          "title": "Eclosão do Conflito em Papua New Guinea: Government of Papua New Guinea vs BRA",
+          "category": "Revolução & Conflito Interno",
+          "date": "1989-04-06",
+          "city": "Papua New Guinea",
+          "country": "Papua New Guinea",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #369). Beligerantes: Government of Papua New Guinea versus BRA (pelo controle de Bougainville). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 92.0,
+          "match_percent": 49.9,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Aspecto comum: Sol em Quadratura com Plutão",
-            "Aspecto comum: Vênus em Quadratura com Urano"
+            "Saturno em Capricórnio (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Mercúrio",
+            "Aspecto comum: Sol em Conjunção com Vênus",
+            "Aspecto comum: Mercúrio em Conjunção com Vênus"
           ]
         }
       ],
@@ -3063,7 +3088,7 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Capricórnio. Aspectos-chave: ☉△♅, ☉☌⚵, ☿☌⚳. ★ Estrela Ativa: Alcyone",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
@@ -3072,7 +3097,7 @@
       "top_precedent": {
         "id": 155,
         "title": "Massacre da Praça da Paz Celestial (Tiananmen)",
-        "category": "Revolução Política",
+        "category": "Revolução & Conflito Interno",
         "date": "1989-06-04",
         "city": "Pequim",
         "country": "China",
@@ -3089,7 +3114,7 @@
         {
           "id": 155,
           "title": "Massacre da Praça da Paz Celestial (Tiananmen)",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1989-06-04",
           "city": "Pequim",
           "country": "China",
@@ -3105,7 +3130,7 @@
         {
           "id": 162,
           "title": "Acordos de Oslo entre Israel e a OLP",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1993-09-13",
           "city": "Washington, D.C.",
           "country": "Estados Unidos",
@@ -3120,19 +3145,17 @@
           ]
         },
         {
-          "id": 13,
-          "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
-          "category": "Guerra & Conflito",
-          "date": "1066-10-14",
-          "city": "Hastings",
-          "country": "Reino Unido",
-          "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+          "id": 1187,
+          "title": "Tentativa de Golpe Militar em Etiópia (1989)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1989-05-16",
+          "city": "Adis Abeba",
+          "country": "Etiópia",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Etiópia (Ethiopia, COW ccode: 530). Resultado: Tentativa frustrada / debelada.",
           "tension_index": 100.0,
-          "match_percent": 42.5,
+          "match_percent": 43.3,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Touro (mesmo signo)",
-            "Aspecto comum: Urano em Quadratura com Nodo Norte"
+            "Saturno em Capricórnio (mesmo signo)"
           ]
         }
       ],
@@ -3185,79 +3208,77 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Aquário. Aspectos-chave: ☉□♂, ☉□♅, ☉□⚴. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Virgem",
       "saturn_sign": "Aquário",
       "top_precedent": {
-        "id": 13,
-        "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
-        "category": "Guerra & Conflito",
-        "date": "1066-10-14",
-        "city": "Hastings",
-        "country": "Reino Unido",
-        "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
-        "tension_index": 100.0,
-        "match_percent": 42.0,
+        "id": 943,
+        "title": "Tentativa de Golpe Militar em Venezuela (1992)",
+        "category": "Revolução & Conflito Interno",
+        "date": "1992-11-27",
+        "city": "Caracas",
+        "country": "Venezuela",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Venezuela (Venezuela, COW ccode: 101). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 94.0,
+        "match_percent": 47.7,
         "matching_traits": [
-          "Plutão em Peixes (mesmo signo)",
-          "Netuno em Touro (mesmo signo)",
-          "Aspecto comum: Júpiter em Oposição com Plutão"
+          "Saturno em Aquário (mesmo signo)",
+          "Aspecto comum: Sol em Quadratura com Lilith (Lua Negra)",
+          "Aspecto comum: Urano em Conjunção com Pallas"
         ]
       },
       "top_matches": [
         {
-          "id": 13,
-          "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
-          "category": "Guerra & Conflito",
-          "date": "1066-10-14",
-          "city": "Hastings",
-          "country": "Reino Unido",
-          "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
-          "tension_index": 100.0,
-          "match_percent": 42.0,
+          "id": 943,
+          "title": "Tentativa de Golpe Militar em Venezuela (1992)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1992-11-27",
+          "city": "Caracas",
+          "country": "Venezuela",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Venezuela (Venezuela, COW ccode: 101). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 94.0,
+          "match_percent": 47.7,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Touro (mesmo signo)",
-            "Aspecto comum: Júpiter em Oposição com Plutão"
+            "Saturno em Aquário (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Lilith (Lua Negra)",
+            "Aspecto comum: Urano em Conjunção com Pallas"
           ]
         },
         {
-          "id": 68,
-          "title": "Conferência de Berlim e a Partilha da África",
-          "category": "Guerra & Conflito",
-          "date": "1884-11-15",
-          "city": "Berlim",
-          "country": "Alemanha",
-          "consequence": "As potências coloniais europeias retalharam arbitrariamente o continente africano sem qualquer consulta às populações locais, impondo fronteiras artificiais que alimentaram conflitos étnicos catastróficos e espoliaram violentamente os recursos naturais africanos.",
-          "tension_index": 87.0,
-          "match_percent": 40.7,
+          "id": 1287,
+          "title": "Golpe de Estado Consumado em Afeganistão (1992)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1992-04-15",
+          "city": "Capital",
+          "country": "Afeganistão",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Afeganistão (Afghanistan, COW ccode: 700). Resultado: Poder deposto com sucesso.",
+          "tension_index": 92.0,
+          "match_percent": 46.3,
           "matching_traits": [
-            "Netuno em Touro (mesmo signo)",
-            "Aspecto comum: Vênus em Conjunção com Juno",
-            "Aspecto comum: Vênus em Conjunção com Nodo Norte",
-            "Aspecto comum: Netuno em Trígono com Pallas"
+            "Saturno em Aquário (mesmo signo)",
+            "Aspecto comum: Vênus em Conjunção com Juno"
           ]
         },
         {
-          "id": 253,
-          "title": "O Massacre de Nanquim pelo Exército Imperial Japonês",
-          "category": "Guerra & Conflito",
-          "date": "1937-12-13",
-          "city": "Nanquim",
-          "country": "China",
-          "consequence": "Tropas invasoras japonesas capturaram a então capital da República da China e perpetraram seis semanas de atrocidades maciças, estuprando dezenas de milhares de mulheres e massacrando um número estimado entre 200.000 e 300.000 prisioneiros de guerra e civis desarmados. A barbárie gerou repúdio internacional imediato, acirrou sanções econômicas dos EUA contra o Japão e permanece até hoje como uma das feridas históricas e diplomáticas mais dolorosas nas relações sino-japonesas.",
-          "tension_index": 100.0,
-          "match_percent": 38.8,
+          "id": 612,
+          "title": "Conflito Armado em Bósnia e Herzegovina (UCDP #389)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1992-04-05",
+          "city": "Sarajevo",
+          "country": "Bósnia e Herzegovina",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #389). Beligerantes: Government of Bosnia-Herzegovina versus Serbian irregulars, Serbian Republic of Bosnia-Herzegovina (pelo controle de Serb). Tipo UCDP: 4 (precisão cronológica: nível 1).",
+          "tension_index": 90.0,
+          "match_percent": 46.2,
           "matching_traits": [
-            "Aspecto comum: Vênus em Conjunção com Nodo Norte",
-            "Aspecto comum: Júpiter em Oposição com Plutão"
+            "Saturno em Aquário (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Urano"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2050: Percentil Médio Anual de 222.6/1000 (Percentil Basal), com 1 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Aquário. Isomorfismo geométrico mais próximo: 'Batalha de Hastings e Conquista Normanda da Inglaterra' (42.0% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2050: Percentil Médio Anual de 222.6/1000 (Percentil Basal), com 1 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Aquário. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Venezuela (1992)' (47.7% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2051,
@@ -3306,77 +3327,76 @@
       "tier_color": "emerald",
       "alert_level": "Percentil Basal",
       "alert_color": "green",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Aquário. Aspectos-chave: ♀□♂, ♀☍♃, ♀□♆. ★ Estrela Ativa: Altair",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Virgem",
       "saturn_sign": "Aquário",
       "top_precedent": {
-        "id": 132,
-        "title": "Maio de 1968 em Paris (Revoltas Estudantis e Greve Geral)",
-        "category": "Revolução Política",
-        "date": "1968-05-03",
-        "city": "Paris",
-        "country": "França",
-        "consequence": "Os protestos estudantis iniciados na Sorbonne se uniram a uma greve geral de 10 milhões de trabalhadores, abalando o governo Charles de Gaulle e revolucionando os costumes contemporâneos, as liberdades individuais, os direitos civis e a pedagogia no Ocidente.",
-        "tension_index": 94.0,
-        "match_percent": 44.6,
+        "id": 1029,
+        "title": "Tentativa de Golpe Militar em Russia (1991)",
+        "category": "Revolução & Conflito Interno",
+        "date": "1991-08-21",
+        "city": "Moscou",
+        "country": "Russia",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Russia (Russia, COW ccode: 365). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 100.0,
+        "match_percent": 47.0,
         "matching_traits": [
-          "Urano em Virgem (mesmo signo)",
-          "Aspecto comum: Marte em Quadratura com Júpiter",
-          "Aspecto comum: Júpiter em Quadratura com Netuno"
+          "Saturno em Aquário (mesmo signo)",
+          "★ Estrela Fixa Altair ativada simultaneamente (Vesta)"
         ]
       },
       "top_matches": [
         {
-          "id": 132,
-          "title": "Maio de 1968 em Paris (Revoltas Estudantis e Greve Geral)",
-          "category": "Revolução Política",
-          "date": "1968-05-03",
-          "city": "Paris",
-          "country": "França",
-          "consequence": "Os protestos estudantis iniciados na Sorbonne se uniram a uma greve geral de 10 milhões de trabalhadores, abalando o governo Charles de Gaulle e revolucionando os costumes contemporâneos, as liberdades individuais, os direitos civis e a pedagogia no Ocidente.",
-          "tension_index": 94.0,
-          "match_percent": 44.6,
-          "matching_traits": [
-            "Urano em Virgem (mesmo signo)",
-            "Aspecto comum: Marte em Quadratura com Júpiter",
-            "Aspecto comum: Júpiter em Quadratura com Netuno"
-          ]
-        },
-        {
-          "id": 284,
-          "title": "Assassinato do Líder dos Direitos Civis Martin Luther King Jr.",
-          "category": "Revolução Política",
-          "date": "1968-04-04",
-          "city": "Memphis (Tennessee)",
-          "country": "Estados Unidos",
-          "consequence": "O atirador racista James Earl Ray alvejou mortalmente Martin Luther King Jr. na sacada do Lorraine Motel em Memphis enquanto o líder laureado com o Prêmio Nobel apoiava uma greve de saneamento. O assassinato detonou uma onda de revoltas e motins violentos em mais de cem cidades norte-americanas, acelerou a aprovação da histórica Lei dos Direitos Civis de 1968 (Fair Housing Act) e consagrou King como a voz moral perene da luta contra a segregação racial.",
-          "tension_index": 84.0,
-          "match_percent": 43.3,
-          "matching_traits": [
-            "Urano em Virgem (mesmo signo)",
-            "Aspecto comum: Júpiter em Quadratura com Netuno"
-          ]
-        },
-        {
-          "id": 19,
-          "title": "Chegada de Cristóvão Colombo à América",
-          "category": "Transformação Cultural",
-          "date": "1492-10-12",
-          "city": "San Salvador",
-          "country": "Bahamas",
-          "consequence": "O contato entre o Velho e o Novo Mundo iniciou a primeira globalização da história, desencadeando a colonização das Américas, a exploração massiva de prata e ouro, a catástrofe demográfica indígena e o intercâmbio colombino de espécies biológicas e culturas.",
-          "tension_index": 88.0,
-          "match_percent": 39.7,
+          "id": 1029,
+          "title": "Tentativa de Golpe Militar em Russia (1991)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1991-08-21",
+          "city": "Moscou",
+          "country": "Russia",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Russia (Russia, COW ccode: 365). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 47.0,
           "matching_traits": [
             "Saturno em Aquário (mesmo signo)",
-            "Aspecto comum: Vesta em Quadratura com Nodo Norte"
+            "★ Estrela Fixa Altair ativada simultaneamente (Vesta)"
+          ]
+        },
+        {
+          "id": 622,
+          "title": "Eclosão do Conflito em Rússia: Government of Russia (Soviet Union) vs Parliamentary Forces",
+          "category": "Revolução & Conflito Interno",
+          "date": "1991-08-20",
+          "city": "Moscou",
+          "country": "Rússia",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #399). Beligerantes: Government of Russia (Soviet Union) versus Parliamentary Forces (pelo controle do governo central). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 100.0,
+          "match_percent": 46.9,
+          "matching_traits": [
+            "Saturno em Aquário (mesmo signo)",
+            "★ Estrela Fixa Altair ativada simultaneamente (Vesta)"
+          ]
+        },
+        {
+          "id": 336,
+          "title": "Eclosão da Guerra Sino-French",
+          "category": "Guerra & Conflito",
+          "date": "1884-06-15",
+          "city": "Paris",
+          "country": "França",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #67: Sino-French). Beligerantes principais: France vs China. Estimativa de baixas militares diretas: 12,100 mortes em combate.",
+          "tension_index": 85.0,
+          "match_percent": 45.6,
+          "matching_traits": [
+            "Netuno em Touro (mesmo signo)",
+            "Urano em Virgem (mesmo signo)",
+            "Aspecto comum: Urano em Trígono com Netuno"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2051: Percentil Médio Anual de 292.4/1000 (Percentil Basal), com 0 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Aquário. Isomorfismo geométrico mais próximo: 'Maio de 1968 em Paris (Revoltas Estudantis e Greve Geral)' (44.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2051: Percentil Médio Anual de 292.4/1000 (Percentil Basal), com 0 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Aquário. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Russia (1991)' (47.0% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2052,
@@ -3425,72 +3445,83 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Peixes. Aspectos-chave: ♀□♇, ♀△☊, ♂☌♄. ★ Estrela Ativa: Menkar",
       "pluto_sign": "Peixes",
       "neptune_sign": "Touro",
       "uranus_sign": "Virgem",
       "saturn_sign": "Peixes",
       "top_precedent": {
-        "id": 252,
-        "title": "O Bombardeio de Guernica pela Legião Condor",
+        "id": 378,
+        "title": "Eclosão da Guerra Vietnam War, Phase 2",
         "category": "Guerra & Conflito",
-        "date": "1937-04-26",
-        "city": "Guernica",
-        "country": "Espanha",
-        "consequence": "Bombardeiros Heinkel e Junkers da Legião Condor alemã e da aviação italiana despejaram toneladas de bombas incendiárias sobre a histórica cidade basca de Guernica em pleno dia de mercado, matando centenas de civis indefesos. O ataque pioneiro de terror aéreo e destruição de infraestrutura civil chocou a opinião pública mundial e inspirou a célebre obra-prima monumental de Pablo Picasso, tornando-se o símbolo eterno da denúncia dos horrores da guerra mecanizada.",
-        "tension_index": 69.0,
-        "match_percent": 37.6,
+        "date": "1965-02-07",
+        "city": "Nova Délhi",
+        "country": "Índia",
+        "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #163: Vietnam War, Phase 2). Beligerantes principais: Vietnam vs United States of America, Cambodia, South Korea. Estimativa de baixas militares diretas: 1,021,442 mortes em combate.",
+        "tension_index": 64.0,
+        "match_percent": 44.6,
         "matching_traits": [
-          "Aspecto comum: Júpiter em Trígono com Juno"
+          "Urano em Virgem (mesmo signo)",
+          "Saturno em Peixes (mesmo signo)",
+          "Aspecto comum: Júpiter em Trígono com Juno",
+          "Aspecto comum: Urano em Trígono com Juno"
         ]
       },
       "top_matches": [
         {
-          "id": 252,
-          "title": "O Bombardeio de Guernica pela Legião Condor",
+          "id": 378,
+          "title": "Eclosão da Guerra Vietnam War, Phase 2",
           "category": "Guerra & Conflito",
-          "date": "1937-04-26",
-          "city": "Guernica",
-          "country": "Espanha",
-          "consequence": "Bombardeiros Heinkel e Junkers da Legião Condor alemã e da aviação italiana despejaram toneladas de bombas incendiárias sobre a histórica cidade basca de Guernica em pleno dia de mercado, matando centenas de civis indefesos. O ataque pioneiro de terror aéreo e destruição de infraestrutura civil chocou a opinião pública mundial e inspirou a célebre obra-prima monumental de Pablo Picasso, tornando-se o símbolo eterno da denúncia dos horrores da guerra mecanizada.",
-          "tension_index": 69.0,
-          "match_percent": 37.6,
+          "date": "1965-02-07",
+          "city": "Nova Délhi",
+          "country": "Índia",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #163: Vietnam War, Phase 2). Beligerantes principais: Vietnam vs United States of America, Cambodia, South Korea. Estimativa de baixas militares diretas: 1,021,442 mortes em combate.",
+          "tension_index": 64.0,
+          "match_percent": 44.6,
           "matching_traits": [
-            "Aspecto comum: Júpiter em Trígono com Juno"
+            "Urano em Virgem (mesmo signo)",
+            "Saturno em Peixes (mesmo signo)",
+            "Aspecto comum: Júpiter em Trígono com Juno",
+            "Aspecto comum: Urano em Trígono com Juno"
           ]
         },
         {
-          "id": 20,
-          "title": "Assinatura do Tratado de Tordesilhas",
-          "category": "Revolução Política",
-          "date": "1494-06-07",
-          "city": "Tordesilhas",
-          "country": "Espanha",
-          "consequence": "Portugal e Espanha dividiram entre si as terras recém-descobertas e por descobrir fora da Europa através de um meridiano oceânico, assegurando a futura posse portuguesa do território que viria a ser o Brasil e estabelecendo o primeiro tratado geopolítico de alcance verdadeiramente global.",
-          "tension_index": 72.0,
-          "match_percent": 35.6,
+          "id": 752,
+          "title": "Grande Terremoto M8.7 - 1965 Western Aleutian Islands (Hawadax/Rat Islands) Earthquake",
+          "category": "Desastre & Saúde Pública",
+          "date": "1965-02-04",
+          "city": "1965 Western Aleutian Islands (Hawadax/Rat Islands) Earthquake",
+          "country": "1965 Western Aleutian Islands (Hawadax/Rat Islands) Earthquake",
+          "consequence": "Grande sismo com magnitude de momento M 8.7 e profundidade focal de 30.3 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1965 Western Aleutian Islands (Hawadax/Rat Islands) Earthquake (51.251°, 178.715°). Ocorrência em 05:01 UTC.",
+          "tension_index": 64.0,
+          "match_percent": 43.3,
           "matching_traits": [
-            "Saturno em Peixes (mesmo signo)"
+            "Urano em Virgem (mesmo signo)",
+            "Saturno em Peixes (mesmo signo)",
+            "Aspecto comum: Júpiter em Trígono com Juno",
+            "Aspecto comum: Urano em Trígono com Juno"
           ]
         },
         {
-          "id": 47,
-          "title": "Golpe do 18 de Brumário e Ascensão de Napoleão Bonaparte",
-          "category": "Revolução Política",
-          "date": "1799-11-09",
-          "city": "Paris",
-          "country": "França",
-          "consequence": "Napoleão derrubou o Diretório enfraquecido e instituiu o Consulado, consolidando as conquistas jurídicas da Revolução Francesa através do Código Civil Napoleônico, mas mergulhando o continente em duas décadas de guerras que remodelaram as fronteiras europeias.",
-          "tension_index": 79.0,
-          "match_percent": 35.6,
+          "id": 1320,
+          "title": "Tentativa de Golpe Militar em Laos (1965)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1965-01-31",
+          "city": "Capital",
+          "country": "Laos",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Laos (Laos, COW ccode: 812). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 48.0,
+          "match_percent": 41.4,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Urano em Virgem (mesmo signo)"
+            "Urano em Virgem (mesmo signo)",
+            "Saturno em Peixes (mesmo signo)",
+            "Aspecto comum: Júpiter em Trígono com Juno",
+            "Aspecto comum: Urano em Trígono com Juno"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2052: Percentil Médio Anual de 691.0/1000 (Percentil Moderado), com 48 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Peixes. Isomorfismo geométrico mais próximo: 'O Bombardeio de Guernica pela Legião Condor' (37.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2052: Percentil Médio Anual de 691.0/1000 (Percentil Moderado), com 48 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Peixes, Netuno em Touro, Urano em Virgem, Saturno em Peixes. Isomorfismo geométrico mais próximo: 'Eclosão da Guerra Vietnam War, Phase 2' (44.6% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2053,
@@ -3539,77 +3570,80 @@
       "tier_color": "indigo",
       "alert_level": "Percentil Superior",
       "alert_color": "red",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Peixes. Aspectos-chave: ☉☌☿, ☉☌⚶, ☽☌♂. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Gêmeos",
       "uranus_sign": "Libra",
       "saturn_sign": "Peixes",
       "top_precedent": {
-        "id": 27,
-        "title": "Batalha de Lepanto",
-        "category": "Guerra & Conflito",
-        "date": "1571-10-07",
-        "city": "Golfo de Corinto",
-        "country": "Grécia",
-        "consequence": "A vitória naval decisiva da Liga Santa cristã sobre a frota otomana no Mar Jônico quebrou o mito da invencibilidade militar otomana no mar e conteve a expansão do Império Turco no Mediterrâneo Ocidental, preservando a segurança das rotas marítimas italianas e espanholas.",
-        "tension_index": 80.0,
-        "match_percent": 38.2,
+        "id": 1324,
+        "title": "Tentativa de Golpe Militar em Laos (1973)",
+        "category": "Revolução & Conflito Interno",
+        "date": "1973-08-20",
+        "city": "Capital",
+        "country": "Laos",
+        "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Laos (Laos, COW ccode: 812). Resultado: Tentativa frustrada / debelada.",
+        "tension_index": 100.0,
+        "match_percent": 41.5,
         "matching_traits": [
-          "Plutão em Peixes (mesmo signo)",
-          "Netuno em Gêmeos (mesmo signo)",
-          "Aspecto comum: Mercúrio em Conjunção com Vesta"
+          "Urano em Libra (mesmo signo)",
+          "Aspecto comum: Mercúrio em Conjunção com Vesta",
+          "Aspecto comum: Marte em Trígono com Lilith (Lua Negra)",
+          "Aspecto comum: Netuno em Conjunção com Juno"
         ]
       },
       "top_matches": [
         {
-          "id": 27,
-          "title": "Batalha de Lepanto",
-          "category": "Guerra & Conflito",
-          "date": "1571-10-07",
-          "city": "Golfo de Corinto",
-          "country": "Grécia",
-          "consequence": "A vitória naval decisiva da Liga Santa cristã sobre a frota otomana no Mar Jônico quebrou o mito da invencibilidade militar otomana no mar e conteve a expansão do Império Turco no Mediterrâneo Ocidental, preservando a segurança das rotas marítimas italianas e espanholas.",
-          "tension_index": 80.0,
-          "match_percent": 38.2,
+          "id": 1324,
+          "title": "Tentativa de Golpe Militar em Laos (1973)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1973-08-20",
+          "city": "Capital",
+          "country": "Laos",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Laos (Laos, COW ccode: 812). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 100.0,
+          "match_percent": 41.5,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Gêmeos (mesmo signo)",
-            "Aspecto comum: Mercúrio em Conjunção com Vesta"
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Mercúrio em Conjunção com Vesta",
+            "Aspecto comum: Marte em Trígono com Lilith (Lua Negra)",
+            "Aspecto comum: Netuno em Conjunção com Juno"
           ]
         },
         {
-          "id": 164,
-          "title": "Início do Genocídio de Ruanda",
-          "category": "Guerra & Conflito",
-          "date": "1994-04-07",
-          "city": "Kigali",
-          "country": "Ruanda",
-          "consequence": "O abate do avião presidencial ruandês desencadeou um massacre orquestrado em que extremistas hutus assassinaram cerca de 800 mil tutsis e hutus moderados a golpes de facão em apenas 100 dias, expondo a passividade cúmplice da comunidade internacional.",
-          "tension_index": 86.0,
-          "match_percent": 36.6,
+          "id": 307,
+          "title": "Ato de Abolição do Comércio de Escravos Britânico",
+          "category": "Política, Tratados & Cultura",
+          "date": "1807-03-25",
+          "city": "Londres",
+          "country": "Reino Unido",
+          "consequence": "O Parlamento do Reino Unido aprova o Slave Trade Act, proibindo o comércio transatlântico de escravos em todo o Império.",
+          "tension_index": 57.0,
+          "match_percent": 40.6,
           "matching_traits": [
-            "Saturno em Peixes (mesmo signo)"
+            "Plutão em Peixes (mesmo signo)",
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Netuno em Conjunção com Juno"
           ]
         },
         {
-          "id": 26,
-          "title": "Conclusão do Concílio de Trento (Contrarreforma Católica)",
-          "category": "Transformação Cultural",
-          "date": "1563-12-04",
-          "city": "Trento",
-          "country": "Itália",
-          "consequence": "A Igreja Católica redefiniu seus dogmas, instituiu seminários sacerdotais rigorosos, fortaleceu o Tribunal da Inquisição e criou o Index de Livros Proibidos, estruturando a Contrarreforma que deteve o avanço do protestantismo no sul da Europa e nas colônias ultramarinas.",
-          "tension_index": 65.0,
-          "match_percent": 36.3,
+          "id": 1158,
+          "title": "Tentativa de Golpe Militar em República do Congo (1970)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1970-03-22",
+          "city": "Capital",
+          "country": "República do Congo",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: República do Congo (Congo, COW ccode: 484). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 91.0,
+          "match_percent": 39.1,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Gêmeos (mesmo signo)",
-            "Aspecto comum: Lilith (Lua Negra) em Trígono com Nodo Norte"
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Mercúrio"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2053: Percentil Médio Anual de 867.1/1000 (Percentil Superior), com 95 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Peixes. Isomorfismo geométrico mais próximo: 'Batalha de Lepanto' (38.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2053: Percentil Médio Anual de 867.1/1000 (Percentil Superior), com 95 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Peixes. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Laos (1973)' (41.5% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2054,
@@ -3696,33 +3730,33 @@
           ]
         },
         {
-          "id": 213,
-          "title": "Batalha de Austerlitz (Batalha dos Três Imperadores)",
-          "category": "Guerra & Conflito",
-          "date": "1805-12-02",
-          "city": "Austerlitz (Slavkov u Brna)",
-          "country": "República Tcheca",
-          "consequence": "Napoleão Bonaparte desferiu uma das maiores obras-primas táticas da história bélica ao simular fraqueza em seu flanco direito e esmagar o centro russo-austríaco nas colinas de Pratzen. A vitória demoliu a Terceira Coligação, forçou a Áustria a assinar a humilhante Paz de Pressburg, expulsou os exércitos russos da Europa Central e levou à dissolução formal do milenar Sacro Império Romano-Germânico em 1806, consolidando a hegemonia napoleônica absoluta sobre o continente europeu.",
-          "tension_index": 100.0,
-          "match_percent": 35.9,
+          "id": 545,
+          "title": "Eclosão do Conflito em Sri Lanka: Government of Sri Lanka vs JVP",
+          "category": "Revolução & Conflito Interno",
+          "date": "1971-04-05",
+          "city": "Colombo",
+          "country": "Sri Lanka",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #313). Beligerantes: Government of Sri Lanka versus JVP (pelo controle do governo central). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 72.0,
+          "match_percent": 37.6,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Urano em Libra (mesmo signo)"
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Marte em Quadratura com Urano"
           ]
         },
         {
-          "id": 27,
-          "title": "Batalha de Lepanto",
-          "category": "Guerra & Conflito",
-          "date": "1571-10-07",
-          "city": "Golfo de Corinto",
-          "country": "Grécia",
-          "consequence": "A vitória naval decisiva da Liga Santa cristã sobre a frota otomana no Mar Jônico quebrou o mito da invencibilidade militar otomana no mar e conteve a expansão do Império Turco no Mediterrâneo Ocidental, preservando a segurança das rotas marítimas italianas e espanholas.",
-          "tension_index": 80.0,
-          "match_percent": 34.7,
+          "id": 739,
+          "title": "Grande Terremoto M7.9 - Azores-Cape St. Vincent Ridge",
+          "category": "Desastre & Saúde Pública",
+          "date": "1975-05-26",
+          "city": "Azores-Cape St. Vincent Ridge",
+          "country": "Azores-Cape St. Vincent Ridge",
+          "consequence": "Grande sismo com magnitude de momento M 7.9 e profundidade focal de 33.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: Azores-Cape St. Vincent Ridge (35.997°, -17.649°). Ocorrência em 09:11 UTC.",
+          "tension_index": 98.0,
+          "match_percent": 37.3,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Gêmeos (mesmo signo)"
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Marte em Trígono com Nodo Norte"
           ]
         }
       ],
@@ -3775,7 +3809,7 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Revolução Política",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Aspectos-chave: ☉☍⚷, ☽△⚷, ☿△⚸. ★ Estrela Ativa: Procyon",
       "pluto_sign": "Peixes",
       "neptune_sign": "Gêmeos",
@@ -3784,7 +3818,7 @@
       "top_precedent": {
         "id": 71,
         "title": "Proclamação da República no Brasil",
-        "category": "Revolução Política",
+        "category": "Revolução & Conflito Interno",
         "date": "1889-11-15",
         "city": "Rio de Janeiro",
         "country": "Brasil",
@@ -3801,7 +3835,7 @@
         {
           "id": 71,
           "title": "Proclamação da República no Brasil",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1889-11-15",
           "city": "Rio de Janeiro",
           "country": "Brasil",
@@ -3815,9 +3849,23 @@
           ]
         },
         {
+          "id": 458,
+          "title": "Eclosão do Conflito em Bolívia: Government of Bolivia vs Popular Revolutionary Movement",
+          "category": "Revolução & Conflito Interno",
+          "date": "1946-07-18",
+          "city": "Sucre / La Paz",
+          "country": "Bolívia",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #200). Beligerantes: Government of Bolivia versus Popular Revolutionary Movement (pelo controle do governo central). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 49.0,
+          "match_percent": 35.9,
+          "matching_traits": [
+            "★ Estrela Fixa Procyon ativada simultaneamente (Sol)"
+          ]
+        },
+        {
           "id": 26,
           "title": "Conclusão do Concílio de Trento (Contrarreforma Católica)",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1563-12-04",
           "city": "Trento",
           "country": "Itália",
@@ -3827,20 +3875,6 @@
           "matching_traits": [
             "Plutão em Peixes (mesmo signo)",
             "Netuno em Gêmeos (mesmo signo)"
-          ]
-        },
-        {
-          "id": 241,
-          "title": "Execução da Família Imperial Romanov em Ecaterimburgo",
-          "category": "Revolução Política",
-          "date": "1918-07-17",
-          "city": "Ecaterimburgo",
-          "country": "Rússia",
-          "consequence": "Pistoleiros bolcheviques sob ordens do Soviete dos Urais executaram a tiros e baionetas o deposto czar Nicolau II, sua esposa Alexandra e seus cinco filhos no porão da Casa Ipatiev para impedir que fossem resgatados pelas tropas do Exército Branco contrarrevolucionário. O regicídio encerrou três séculos de reinado da Casa Romanov na Rússia, eliminando qualquer perspectiva de restauração monárquica e formalizando a radicalização do 'Terror Vermelho'.",
-          "tension_index": 74.0,
-          "match_percent": 33.5,
-          "matching_traits": [
-            "★ Estrela Fixa Vindemiatrix ativada simultaneamente (Urano)"
           ]
         }
       ],
@@ -3893,30 +3927,47 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Política, Tratados & Cultura",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Aspectos-chave: ☉△♆, ☿□⚳, ♂□♄. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Gêmeos",
       "uranus_sign": "Libra",
       "saturn_sign": "Áries",
       "top_precedent": {
-        "id": 48,
-        "title": "Batalha de Trafalgar",
-        "category": "Guerra & Conflito",
-        "date": "1805-10-21",
-        "city": "Cabo Trafalgar",
-        "country": "Espanha",
-        "consequence": "A esmagadora vitória naval do almirante britânico Horatio Nelson sobre as esquadras combinadas da França e Espanha impediu a invasão napoleônica da Grã-Bretanha e garantiu à Marinha Real britânica o domínio absoluto dos oceanos globais por mais de um século.",
-        "tension_index": 100.0,
-        "match_percent": 43.1,
+        "id": 307,
+        "title": "Ato de Abolição do Comércio de Escravos Britânico",
+        "category": "Política, Tratados & Cultura",
+        "date": "1807-03-25",
+        "city": "Londres",
+        "country": "Reino Unido",
+        "consequence": "O Parlamento do Reino Unido aprova o Slave Trade Act, proibindo o comércio transatlântico de escravos em todo o Império.",
+        "tension_index": 57.0,
+        "match_percent": 43.3,
         "matching_traits": [
           "Plutão em Peixes (mesmo signo)",
           "Urano em Libra (mesmo signo)",
-          "Aspecto comum: Mercúrio em Quadratura com Ceres",
-          "Aspecto comum: Júpiter em Oposição com Vesta"
+          "Aspecto comum: Sol em Trígono com Netuno",
+          "Aspecto comum: Júpiter em Conjunção com Quíron"
         ]
       },
       "top_matches": [
+        {
+          "id": 307,
+          "title": "Ato de Abolição do Comércio de Escravos Britânico",
+          "category": "Política, Tratados & Cultura",
+          "date": "1807-03-25",
+          "city": "Londres",
+          "country": "Reino Unido",
+          "consequence": "O Parlamento do Reino Unido aprova o Slave Trade Act, proibindo o comércio transatlântico de escravos em todo o Império.",
+          "tension_index": 57.0,
+          "match_percent": 43.3,
+          "matching_traits": [
+            "Plutão em Peixes (mesmo signo)",
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Sol em Trígono com Netuno",
+            "Aspecto comum: Júpiter em Conjunção com Quíron"
+          ]
+        },
         {
           "id": 48,
           "title": "Batalha de Trafalgar",
@@ -3935,38 +3986,23 @@
           ]
         },
         {
-          "id": 27,
-          "title": "Batalha de Lepanto",
-          "category": "Guerra & Conflito",
-          "date": "1571-10-07",
-          "city": "Golfo de Corinto",
-          "country": "Grécia",
-          "consequence": "A vitória naval decisiva da Liga Santa cristã sobre a frota otomana no Mar Jônico quebrou o mito da invencibilidade militar otomana no mar e conteve a expansão do Império Turco no Mediterrâneo Ocidental, preservando a segurança das rotas marítimas italianas e espanholas.",
-          "tension_index": 80.0,
-          "match_percent": 38.4,
+          "id": 854,
+          "title": "Pico do Ciclo Econômico e Início de Recessão NBER (1890)",
+          "category": "Crise Financeira & Econômica",
+          "date": "1890-07-01",
+          "city": "Nova York",
+          "country": "Estados Unidos",
+          "consequence": "Ponto de inflexão macroeconômica certificado pelo Business Cycle Dating Committee do NBER. Marca a transição de expansão para contração econômica (recessão até o vale em 1891-05-01).",
+          "tension_index": 90.0,
+          "match_percent": 41.9,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
             "Netuno em Gêmeos (mesmo signo)",
-            "Aspecto comum: Sol em Trígono com Netuno",
-            "Aspecto comum: Saturno em Quadratura com Nodo Norte"
-          ]
-        },
-        {
-          "id": 138,
-          "title": "Primeiro Choque do Petróleo da OPEP",
-          "category": "Crise Econômica",
-          "date": "1973-10-17",
-          "city": "Kuwait",
-          "country": "Kuwait",
-          "consequence": "O embargo petrolífero imposto pelos países árabes contra os apoiadores de Israel na Guerra do Yom Kippur quadruplicou os preços globais do barril de petróleo, provocando a pior crise de estagflação no Ocidente e transformando a energia em arma geopolítica de primeira grandeza.",
-          "tension_index": 93.0,
-          "match_percent": 38.4,
-          "matching_traits": [
-            "Urano em Libra (mesmo signo)"
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Marte em Quadratura com Saturno"
           ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2056: Percentil Médio Anual de 485.0/1000 (Percentil Moderado), com 31 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Isomorfismo geométrico mais próximo: 'Batalha de Trafalgar' (43.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2056: Percentil Médio Anual de 485.0/1000 (Percentil Moderado), com 31 dias acima do percentil 90 da era (esperado ao acaso: 36.6 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Isomorfismo geométrico mais próximo: 'Ato de Abolição do Comércio de Escravos Britânico' (43.3% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2057,
@@ -4015,29 +4051,43 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Desastre & Saúde Pública",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Aspectos-chave: ☽△♇, ☿☌♄, ☿☍♅. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Gêmeos",
       "uranus_sign": "Libra",
       "saturn_sign": "Áries",
       "top_precedent": {
-        "id": 27,
-        "title": "Batalha de Lepanto",
-        "category": "Guerra & Conflito",
-        "date": "1571-10-07",
-        "city": "Golfo de Corinto",
-        "country": "Grécia",
-        "consequence": "A vitória naval decisiva da Liga Santa cristã sobre a frota otomana no Mar Jônico quebrou o mito da invencibilidade militar otomana no mar e conteve a expansão do Império Turco no Mediterrâneo Ocidental, preservando a segurança das rotas marítimas italianas e espanholas.",
-        "tension_index": 80.0,
-        "match_percent": 39.2,
+        "id": 708,
+        "title": "Grande Terremoto M8.1 - 1998 Balleny Islands Earthquake",
+        "category": "Desastre & Saúde Pública",
+        "date": "1998-03-25",
+        "city": "1998 Balleny Islands Earthquake",
+        "country": "1998 Balleny Islands Earthquake",
+        "consequence": "Grande sismo com magnitude de momento M 8.1 e profundidade focal de 10.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1998 Balleny Islands Earthquake (-62.877°, 149.527°). Ocorrência em 03:12 UTC.",
+        "tension_index": 100.0,
+        "match_percent": 42.8,
         "matching_traits": [
-          "Plutão em Peixes (mesmo signo)",
-          "Netuno em Gêmeos (mesmo signo)",
-          "Aspecto comum: Netuno em Trígono com Quíron"
+          "Saturno em Áries (mesmo signo)",
+          "Aspecto comum: Mercúrio em Conjunção com Saturno"
         ]
       },
       "top_matches": [
+        {
+          "id": 708,
+          "title": "Grande Terremoto M8.1 - 1998 Balleny Islands Earthquake",
+          "category": "Desastre & Saúde Pública",
+          "date": "1998-03-25",
+          "city": "1998 Balleny Islands Earthquake",
+          "country": "1998 Balleny Islands Earthquake",
+          "consequence": "Grande sismo com magnitude de momento M 8.1 e profundidade focal de 10.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1998 Balleny Islands Earthquake (-62.877°, 149.527°). Ocorrência em 03:12 UTC.",
+          "tension_index": 100.0,
+          "match_percent": 42.8,
+          "matching_traits": [
+            "Saturno em Áries (mesmo signo)",
+            "Aspecto comum: Mercúrio em Conjunção com Saturno"
+          ]
+        },
         {
           "id": 27,
           "title": "Batalha de Lepanto",
@@ -4057,7 +4107,7 @@
         {
           "id": 290,
           "title": "A Revolução dos Cravos em Portugal e a Queda do Estado Novo",
-          "category": "Revolução Política",
+          "category": "Revolução & Conflito Interno",
           "date": "1974-04-25",
           "city": "Lisboa",
           "country": "Portugal",
@@ -4070,25 +4120,9 @@
             "Aspecto comum: Mercúrio em Oposição com Urano",
             "Aspecto comum: Ceres em Conjunção com Juno"
           ]
-        },
-        {
-          "id": 26,
-          "title": "Conclusão do Concílio de Trento (Contrarreforma Católica)",
-          "category": "Transformação Cultural",
-          "date": "1563-12-04",
-          "city": "Trento",
-          "country": "Itália",
-          "consequence": "A Igreja Católica redefiniu seus dogmas, instituiu seminários sacerdotais rigorosos, fortaleceu o Tribunal da Inquisição e criou o Index de Livros Proibidos, estruturando a Contrarreforma que deteve o avanço do protestantismo no sul da Europa e nas colônias ultramarinas.",
-          "tension_index": 65.0,
-          "match_percent": 37.2,
-          "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Gêmeos (mesmo signo)",
-            "Aspecto comum: Quíron em Trígono com Lilith (Lua Negra)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2057: Percentil Médio Anual de 455.1/1000 (Percentil Moderado), com 17 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Isomorfismo geométrico mais próximo: 'Batalha de Lepanto' (39.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2057: Percentil Médio Anual de 455.1/1000 (Percentil Moderado), com 17 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Libra, Saturno em Áries. Isomorfismo geométrico mais próximo: 'Grande Terremoto M8.1 - 1998 Balleny Islands Earthquake' (42.8% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2058,
@@ -4177,34 +4211,33 @@
           ]
         },
         {
-          "id": 168,
-          "title": "Entrada em Circulação do Euro como Moeda Oficial",
-          "category": "Crise Econômica",
-          "date": "1999-01-01",
-          "city": "Frankfurt",
-          "country": "Alemanha",
-          "consequence": "A adoção da moeda única por onze países europeus consolidou a integração econômica da União Europeia, criando uma moeda de reserva global capaz de desafiar a hegemonia do dólar americano e subordinando políticas monetárias ao Banco Central Europeu.",
-          "tension_index": 98.0,
-          "match_percent": 39.3,
+          "id": 401,
+          "title": "Eclosão da Guerra Badme Border",
+          "category": "Guerra & Conflito",
+          "date": "1998-05-06",
+          "city": "Paris",
+          "country": "França",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #219: Badme Border). Beligerantes principais: Eritrea vs Ethiopia. Estimativa de baixas militares diretas: 120,000 mortes em combate.",
+          "tension_index": 100.0,
+          "match_percent": 41.0,
           "matching_traits": [
-            "Saturno em Áries (mesmo signo)"
+            "Saturno em Áries (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Marte"
           ]
         },
         {
-          "id": 213,
-          "title": "Batalha de Austerlitz (Batalha dos Três Imperadores)",
+          "id": 632,
+          "title": "Eclosão do Conflito em Eritrea: Government of Eritrea vs Government of Ethiopia",
           "category": "Guerra & Conflito",
-          "date": "1805-12-02",
-          "city": "Austerlitz (Slavkov u Brna)",
-          "country": "República Tcheca",
-          "consequence": "Napoleão Bonaparte desferiu uma das maiores obras-primas táticas da história bélica ao simular fraqueza em seu flanco direito e esmagar o centro russo-austríaco nas colinas de Pratzen. A vitória demoliu a Terceira Coligação, forçou a Áustria a assinar a humilhante Paz de Pressburg, expulsou os exércitos russos da Europa Central e levou à dissolução formal do milenar Sacro Império Romano-Germânico em 1806, consolidando a hegemonia napoleônica absoluta sobre o continente europeu.",
+          "date": "1998-05-06",
+          "city": "Eritrea",
+          "country": "Eritrea",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #409). Beligerantes: Government of Eritrea versus Government of Ethiopia (pelo controle de Common border). Tipo UCDP: 2 (precisão cronológica: nível 1).",
           "tension_index": 100.0,
-          "match_percent": 38.8,
+          "match_percent": 41.0,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Urano em Libra (mesmo signo)",
-            "Aspecto comum: Mercúrio em Quadratura com Juno",
-            "Aspecto comum: Netuno em Oposição com Vesta"
+            "Saturno em Áries (mesmo signo)",
+            "Aspecto comum: Sol em Conjunção com Marte"
           ]
         }
       ],
@@ -4257,30 +4290,43 @@
       "tier_color": "sky",
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
-      "dominant_category": "Ciência & Tecnologia",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Gêmeos, Urano em Escorpião, Saturno em Gêmeos. Aspectos-chave: ☉□⚴, ☽☍♃, ☿☌♅. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Gêmeos",
       "uranus_sign": "Escorpião",
       "saturn_sign": "Gêmeos",
       "top_precedent": {
-        "id": 27,
-        "title": "Batalha de Lepanto",
+        "id": 338,
+        "title": "Eclosão da Guerra First Sino-Japanese",
         "category": "Guerra & Conflito",
-        "date": "1571-10-07",
-        "city": "Golfo de Corinto",
-        "country": "Grécia",
-        "consequence": "A vitória naval decisiva da Liga Santa cristã sobre a frota otomana no Mar Jônico quebrou o mito da invencibilidade militar otomana no mar e conteve a expansão do Império Turco no Mediterrâneo Ocidental, preservando a segurança das rotas marítimas italianas e espanholas.",
-        "tension_index": 80.0,
-        "match_percent": 39.2,
+        "date": "1894-07-25",
+        "city": "Tóquio",
+        "country": "Japão",
+        "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #73: First Sino-Japanese). Beligerantes principais: Japan vs China. Estimativa de baixas militares diretas: 15,000 mortes em combate.",
+        "tension_index": 100.0,
+        "match_percent": 39.4,
         "matching_traits": [
-          "Plutão em Peixes (mesmo signo)",
           "Netuno em Gêmeos (mesmo signo)",
-          "Aspecto comum: Mercúrio em Conjunção com Juno",
-          "Aspecto comum: Netuno em Trígono com Quíron"
+          "Urano em Escorpião (mesmo signo)"
         ]
       },
       "top_matches": [
+        {
+          "id": 338,
+          "title": "Eclosão da Guerra First Sino-Japanese",
+          "category": "Guerra & Conflito",
+          "date": "1894-07-25",
+          "city": "Tóquio",
+          "country": "Japão",
+          "consequence": "Guerra interestatal certificada pelo Correlates of War (COW War #73: First Sino-Japanese). Beligerantes principais: Japan vs China. Estimativa de baixas militares diretas: 15,000 mortes em combate.",
+          "tension_index": 100.0,
+          "match_percent": 39.4,
+          "matching_traits": [
+            "Netuno em Gêmeos (mesmo signo)",
+            "Urano em Escorpião (mesmo signo)"
+          ]
+        },
         {
           "id": 27,
           "title": "Batalha de Lepanto",
@@ -4313,25 +4359,9 @@
             "Urano em Escorpião (mesmo signo)",
             "Aspecto comum: Netuno em Trígono com Quíron"
           ]
-        },
-        {
-          "id": 72,
-          "title": "Descoberta dos Raios-X por Wilhelm Röntgen",
-          "category": "Ciência & Tecnologia",
-          "date": "1895-11-08",
-          "city": "Würzburg",
-          "country": "Alemanha",
-          "consequence": "A revelação acidental de uma radiação eletromagnética invisível capaz de atravessar a matéria sólida revolucionou o diagnóstico médico e permitiu enxergar o interior do corpo humano sem cirurgia invasiva, inaugurando a física atômica moderna.",
-          "tension_index": 70.0,
-          "match_percent": 38.0,
-          "matching_traits": [
-            "Netuno em Gêmeos (mesmo signo)",
-            "Urano em Escorpião (mesmo signo)",
-            "Aspecto comum: Netuno em Trígono com Quíron"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2059: Percentil Médio Anual de 402.0/1000 (Percentil Moderado), com 6 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Escorpião, Saturno em Gêmeos. Isomorfismo geométrico mais próximo: 'Batalha de Lepanto' (39.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2059: Percentil Médio Anual de 402.0/1000 (Percentil Moderado), com 6 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Peixes, Netuno em Gêmeos, Urano em Escorpião, Saturno em Gêmeos. Isomorfismo geométrico mais próximo: 'Eclosão da Guerra First Sino-Japanese' (39.4% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2060,
@@ -4422,7 +4452,7 @@
         {
           "id": 73,
           "title": "Primeiros Jogos Olímpicos Modernos em Atenas",
-          "category": "Transformação Cultural",
+          "category": "Política, Tratados & Cultura",
           "date": "1896-04-06",
           "city": "Atenas",
           "country": "Grécia",
@@ -4437,17 +4467,19 @@
           ]
         },
         {
-          "id": 171,
-          "title": "Atentados Terroristas de 11 de Setembro às Torres Gêmeas e Pentágono",
-          "category": "Guerra & Conflito",
-          "date": "2001-09-11",
+          "id": 855,
+          "title": "Pico do Ciclo Econômico e Início de Recessão NBER (1893)",
+          "category": "Crise Financeira & Econômica",
+          "date": "1893-01-01",
           "city": "Nova York",
           "country": "Estados Unidos",
-          "consequence": "O sequestro de quatro aviões comerciais por terroristas da Al-Qaeda e o desabamento das Torres Gêmeas do World Trade Center ceifaram cerca de três mil vidas, inaugurando a 'Guerra Global ao Terror', a invasão do Afeganistão e a aprovação de leis draconianas de vigilância em massa como o Patriot Act.",
-          "tension_index": 91.0,
-          "match_percent": 36.3,
+          "consequence": "Ponto de inflexão macroeconômica certificado pelo Business Cycle Dating Committee do NBER. Marca a transição de expansão para contração econômica (recessão até o vale em 1894-06-01).",
+          "tension_index": 64.0,
+          "match_percent": 39.7,
           "matching_traits": [
-            "Saturno em Gêmeos (mesmo signo)"
+            "Netuno em Gêmeos (mesmo signo)",
+            "Urano em Escorpião (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Saturno"
           ]
         }
       ],

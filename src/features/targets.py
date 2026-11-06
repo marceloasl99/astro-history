@@ -113,6 +113,13 @@ class MonthlyTargets:
             j = self._idx(*w["end"]) if w["end"][0] > 0 else i
             if i >= 0 and j >= i:
                 ongoing[i:j + 1] = 1.0
+        war_end = np.zeros(self.n)
+        for w in wars.values():
+            if w["end"][0] > 0:
+                j = self._idx(*w["end"])
+                if j >= 0:
+                    war_end[j] += 1
+        self.add("cow_war_end", (war_end > 0).astype(float), (1816, 2007), "binary", "COW v4: mês com término de guerra interestatal (v4: diplomacia/paz)")
         self.add("cow_war_onset", (onset > 0).astype(float), (1816, 2007), "binary", "COW v4: mês com início de guerra interestatal")
         self.add("cow_war_onset_count", onset, (1816, 2007), "count", "COW v4: nº de guerras interestatais iniciadas no mês")
         self.add("cow_war_ongoing", ongoing, (1816, 2007), "binary", "COW v4: guerra interestatal em curso no mês")
@@ -173,11 +180,49 @@ class MonthlyTargets:
         self.add("ucdp_onset_interstate", (onsets_inter > 0).astype(float), (1946, 2023), "binary", "UCDP/PRIO: mês com início de conflito interestatal")
         self.add("ucdp_wars_active", wars_month, (1946, 2023), "count", "UCDP/PRIO: nº de conflitos com ≥1000 mortes no ano")
 
+    def load_catalog_v3(self):
+        """Alvos pré-registrados em docs/hipoteses_v4.md derivados do catálogo v3 (apenas date_precision = 'day')."""
+        if not os.path.exists(DB_PATH):
+            return
+        conn = sqlite3.connect(DB_PATH)
+        try:
+            rows = conn.execute("""SELECT date, macro_category, subcategory, source_id, magnitude FROM events
+                                   WHERE COALESCE(date_precision,'day') = 'day' AND date NOT LIKE '-%'""").fetchall()
+        except sqlite3.OperationalError:
+            rows = []
+        conn.close()
+        specs = {
+            "ncei_quake_m75": (lambda r: r[3] == "ncei_significant_earthquakes" and (r[4] or 0) >= 7.5, (1850, 2024),
+                               "NCEI: mês com terremoto M ≥ 7,5 (controle cético)"),
+            "gvp_eruption_vei5": (lambda r: r[2] == "volcanic_eruption", (1800, 2024), "GVP/catálogo: mês com erupção VEI ≥ 5 (controle cético)"),
+            "pandemic_onset": (lambda r: r[1] == "health_epidemics" and r[2] in ("pandemic", "epidemic", "who_declaration"), (1850, 2024),
+                               "Catálogo v3: mês com início de pandemia/epidemia ou declaração OMS"),
+            "science_milestone": (lambda r: r[1] == "science_technology", (1850, 2024), "Catálogo v3: mês com marco científico/tecnológico"),
+            "peace_treaty": (lambda r: r[1] == "diplomacy_peace", (1850, 2024), "Catálogo v3: mês com tratado/acordo de paz ou organização internacional"),
+            "rr_banking_crisis_onset": (lambda r: r[1] == "economics_finance" and r[2] in ("banking_crisis", "currency_crisis", "sovereign_default", "stock_crash", "financial_crisis"),
+                                        (1850, 2024), "Catálogo v3: mês com início de crise bancária/cambial/default/crash"),
+        }
+        arrays = {k: np.zeros(self.n) for k in specs}
+        for r in rows:
+            try:
+                y, m = int(r[0][:4]), int(r[0][5:7])
+            except ValueError:
+                continue
+            i = self._idx(y, m)
+            if i < 0:
+                continue
+            for k, (pred, _, _) in specs.items():
+                if pred(r):
+                    arrays[k][i] += 1
+        for k, (_, cov, desc) in specs.items():
+            self.add(k, (arrays[k] > 0).astype(float), cov, "binary", desc)
+
     def load_all(self) -> "MonthlyTargets":
         self.load_events_v2()
         self.load_cow_wars()
         self.load_nber()
         self.load_ucdp()
+        self.load_catalog_v3()
         return self
 
     def summary(self) -> List[Dict[str, Any]]:
