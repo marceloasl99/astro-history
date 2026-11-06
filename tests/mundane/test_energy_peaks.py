@@ -42,10 +42,15 @@ def test_classify_transit_recurrence_theme():
 
     # Sol ou Saturno afetados -> Crise Institucional / Governo
     assert classify_transit_recurrence_theme("uranus", "sun", "tenso") == "REGIME_CRISIS"
-    assert classify_transit_recurrence_theme("uranus", "saturn", "tenso") == "REGIME_CRISIS"
+    assert classify_transit_recurrence_theme("pluto", "saturn", "tenso") == "REGIME_CRISIS"
+
+    # v6: Novas categorias e controles céticos
+    assert classify_transit_recurrence_theme("uranus", "saturn", "tenso") == "NATURAL_DISASTER"
+    assert classify_transit_recurrence_theme("neptune", "moon", "tenso") == "HEALTH_EPIDEMIC"
+    assert classify_transit_recurrence_theme("jupiter", "sun", "harmonico") == "DIPLOMACY_PEACE"
+    assert classify_transit_recurrence_theme("uranus", "mercury", "harmonico") == "SCIENCE_INNOVATION"
 
     # Lua ou Quíron afetados -> Comoção Social
-    assert classify_transit_recurrence_theme("neptune", "moon", "tenso") == "SOCIAL_UPHEAVAL"
     assert classify_transit_recurrence_theme("saturn", "moon", "tenso") == "SOCIAL_UPHEAVAL"
 
 def test_detect_energy_peaks_brazil():

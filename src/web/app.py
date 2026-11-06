@@ -46,7 +46,7 @@ import ipaddress
 app = FastAPI(
     title="AstroHistory - Astrologia Moderna & 1.342 Fatos Históricos Mundiais",
     description="Plataforma Internacional de Correlação Astrológica Histórica com Swiss Ephemeris",
-    version="5.0.0",
+    version="6.0.0",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
@@ -429,6 +429,44 @@ async def simulator_get_view(request: Request, title: Optional[str] = None, date
         }
     )
 
+def _category_skill_badges() -> list:
+    """v6: para cada categoria estimável (config/categories.yaml), o melhor BSS astrológico do hindcast dos alvos associados."""
+    import yaml as _yaml
+    try:
+        with open(os.path.join(BASE_DIR, "config", "categories.yaml"), "r", encoding="utf-8") as f:
+            cats = _yaml.safe_load(f)
+    except Exception:
+        return []
+    hc = {}
+    hc_file = os.path.join(BASE_DIR, "reports", "hindcast_v3.json")
+    if os.path.exists(hc_file):
+        with open(hc_file, "r", encoding="utf-8") as f:
+            hc = json.load(f).get("targets", {})
+    astro_models = ("legacy_index", "barbault", "tarnas_outer", "outer_phases", "astro_full")
+    out = []
+    for key in cats.get("order", []):
+        c = cats["categories"][key]
+        best = None
+        for tname in c.get("hindcast_targets", []):
+            t = hc.get(tname)
+            if not t:
+                continue
+            for m, r in t.get("models", {}).items():
+                if m in astro_models and (best is None or r["bss"] > best["bss"]):
+                    best = {"target": tname, "model": m, "bss": r["bss"], "ci": r.get("bss_ci") or r.get("ci"), "auc": r.get("auc"),
+                            "p_pos": r.get("p_bss_pos") or r.get("p_positive")}
+        if best is None:
+            verdict, badge = "não testado", "slate"
+        else:
+            ci = best.get("ci") or [None, None]
+            positive = best["bss"] > 0 and ci and ci[0] is not None and ci[0] > 0
+            verdict, badge = ("skill positivo", "emerald") if positive else ("sem skill demonstrado", "amber")
+        out.append({"key": key, "label": c["label_pt"], "short": c["short_pt"], "icon": c["icon"], "color": c["theme_color"],
+                    "skeptical": bool(c.get("skeptical_control")), "best": best, "verdict": verdict, "badge": badge,
+                    "targets": c.get("hindcast_targets", [])})
+    return out
+
+
 @app.api_route("/projections", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def projections_view(request: Request, decade: str = "Todas", alert: str = "Todos", search: str = ""):
     data = get_projections_2027_2060(force_refresh=False)
@@ -451,6 +489,7 @@ async def projections_view(request: Request, decade: str = "Todas", alert: str =
             or s_lower in p["dominant_category"].lower()
         ]
 
+    category_skill = _category_skill_badges()
     return templates.TemplateResponse(
         request=request,
         name="projections.html",
@@ -458,6 +497,7 @@ async def projections_view(request: Request, decade: str = "Todas", alert: str =
             "data": data,
             "projections": filtered,
             "peaks_catalog": peaks_catalog,
+            "category_skill": category_skill,
             "selected_decade": decade,
             "selected_alert": alert,
             "search_query": search

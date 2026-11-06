@@ -4,6 +4,29 @@
 
 {% block content %}
 <div class="space-y-8 print:space-y-4">
+    {# v6: 8 categorias estimáveis com badge de skill (hindcast walk-forward, pré-registro v4) #}
+    {% if category_skill %}
+    <section class="glass-panel p-5 sm:p-6 rounded-3xl border border-slate-700/60">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+                <h2 class="font-display text-lg font-bold text-white">Categorias estimáveis e skill medido</h2>
+                <p class="text-xs text-slate-400 mt-1 max-w-3xl">Cada cenário abaixo tem um alvo histórico objetivo testado por hindcast walk-forward (<a class="text-sky-400 hover:underline" href="/forecast">detalhes</a>; pré-registro <code>docs/hipoteses_v4.md</code>). O badge mostra o melhor BSS entre os modelos astrológicos: <span class="text-emerald-300">skill positivo</span> só quando o IC 95% fica acima de zero. Terremotos e erupções são <b>controles céticos</b>.</p>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500">BSS &gt; 0 = melhor que a taxa-base</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+            {% for c in category_skill %}
+            <div class="rounded-2xl border border-slate-700/60 bg-slate-900/50 p-3">
+                <div class="flex items-center justify-between"><span class="text-xl">{{ c.icon }}</span>{% if c.skeptical %}<span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700" title="controle cético">controle</span>{% endif %}</div>
+                <div class="text-sm font-semibold text-slate-100 mt-1 leading-tight">{{ c.short }}</div>
+                <div class="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono border {% if c.badge == 'emerald' %}bg-emerald-500/10 text-emerald-300 border-emerald-500/40{% elif c.badge == 'amber' %}bg-amber-500/10 text-amber-300 border-amber-500/40{% else %}bg-slate-800 text-slate-400 border-slate-700{% endif %}">{{ c.verdict }}</div>
+                {% if c.best %}<div class="text-[10px] font-mono text-slate-500 mt-1">BSS {{ '%+.3f'|format(c.best.bss) }} · {{ c.best.model }} · {{ c.best.target }}</div>{% else %}<div class="text-[10px] font-mono text-slate-600 mt-1">{{ c.targets|join(', ') if c.targets else '—' }}</div>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Header Banner Executivo -->
     <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
         <div class="max-w-5xl space-y-4">

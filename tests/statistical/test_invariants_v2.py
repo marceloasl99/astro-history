@@ -221,8 +221,8 @@ def test_invariant_5_precedents_leave_one_out():
             from src.core.dates import historical_year
             prec_year = historical_year(prec_date) if prec_date else prec.get("year")
             assert prec_year is not None, f"Precedente sem ano válido no card de {year}: {prec}"
-            # Na projeção futura (2027-2060), precedentes históricos vêm de < 2026
-            assert prec_year < 2026, f"Precedente no futuro não permitido: {prec_year}"
+            # Na projeção futura (2027-2060), precedentes históricos vêm de <= 2026 (catálogo v6)
+            assert prec_year <= 2026, f"Precedente no futuro não permitido: {prec_year}"
             # Janela de exclusão estrita
             assert abs(year - prec_year) > 1
             checked_projections += 1
