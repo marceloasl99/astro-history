@@ -56,3 +56,12 @@ templates.env.filters["fmt_int"] = fmt_int
 templates.env.filters["hist_date"] = hist_date
 templates.env.globals["catalog_total"] = catalog_total
 templates.env.globals["app_version"] = APP_VERSION
+
+# Fallback global t() e lang para templates renderizados sem contexto i18n explícito
+def _default_t(key: str, **fmt):
+    from src.web.i18n import translate
+    return translate(key, "pt", **fmt)
+
+templates.env.globals["t"] = _default_t
+templates.env.globals["lang"] = "pt"
+

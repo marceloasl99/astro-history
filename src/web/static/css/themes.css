@@ -1112,3 +1112,120 @@ html.theme-oled .chart-cat-btn.active {
     font-weight: 700 !important;
     box-shadow: 0 0 14px rgba(251, 191, 36, 0.3) !important;
 }
+
+/* ==========================================================================
+   Hub de Correlações (Correlations Hub Modern Styling & High Contrast)
+   ========================================================================== */
+
+.corr-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.corr-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.25);
+}
+
+.corr-planet-row {
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.corr-planet-row:hover {
+    background-color: rgba(51, 65, 85, 0.4);
+}
+
+html.theme-light .corr-card {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+}
+html.theme-light .corr-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04) !important;
+    border-color: #cbd5e1 !important;
+}
+
+html.theme-light .corr-planet-row {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+html.theme-light .corr-planet-row:hover {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+html.theme-oled .corr-card {
+    background-color: #000000 !important;
+    border-color: #262626 !important;
+}
+html.theme-oled .corr-planet-row {
+    background-color: #0a0a0a !important;
+    border-color: #1f1f1f !important;
+}
+html.theme-oled .corr-planet-row:hover {
+    background-color: #171717 !important;
+}
+
+/* Badges de Elementos Astrológicos */
+.elem-fogo {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.elem-terra {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.elem-ar {
+    background-color: rgba(14, 165, 233, 0.12);
+    color: #0ea5e9;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+.elem-agua {
+    background-color: rgba(99, 102, 241, 0.12);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+html.theme-light .elem-fogo {
+    background-color: #fef3c7 !important;
+    color: #b45309 !important;
+    border-color: #fde68a !important;
+    font-weight: 600;
+}
+html.theme-light .elem-terra {
+    background-color: #d1fae5 !important;
+    color: #047857 !important;
+    border-color: #a7f3d0 !important;
+    font-weight: 600;
+}
+html.theme-light .elem-ar {
+    background-color: #e0f2fe !important;
+    color: #0369a1 !important;
+    border-color: #bae6fd !important;
+    font-weight: 600;
+}
+html.theme-light .elem-agua {
+    background-color: #e0e7ff !important;
+    color: #4338ca !important;
+    border-color: #c7d2fe !important;
+    font-weight: 600;
+}
+
+/* Milestone Cards nos Ciclos */
+.milestone-card {
+    transition: all 0.15s ease-in-out;
+}
+.milestone-card:hover {
+    border-color: rgba(148, 163, 184, 0.6);
+}
+html.theme-light .milestone-card {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+html.theme-light .milestone-card:hover {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+html.theme-oled .milestone-card {
+    background-color: #000000 !important;
+    border-color: #262626 !important;
+}

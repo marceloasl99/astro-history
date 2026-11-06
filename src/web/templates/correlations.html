@@ -1,182 +1,564 @@
 {% extends "base.html" %}
 
-{% block title %}Hub de Correlações Astrológicas Históricas{% endblock %}
+{% block title %}Hub de Correlações da Astrologia Moderna | AstroHistory{% endblock %}
 
 {% block content %}
-<div class="space-y-8">
-    <!-- Header -->
-    <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
-        <div class="max-w-4xl space-y-3">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
-                <span>🌌 Análise Arquetípica • {{ catalog_total()|fmt_int }} Fatos Históricos • 6 Categorias Canônicas</span>
+<div class="space-y-10 max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+
+    <!-- 1. HERO & KPI HEADER -->
+    <section class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/60 shadow-xl relative overflow-hidden">
+        <!-- Breadcrumbs -->
+        <nav class="text-[11px] font-mono text-slate-400 mb-4 flex items-center gap-1.5" aria-label="breadcrumb">
+            <a href="/" class="hover:text-amber-400 transition">{{ t('nav.home') or 'Início' }}</a>
+            <span>›</span>
+            <span class="text-slate-400">Analisar</span>
+            <span>›</span>
+            <span class="text-slate-200 font-semibold">Correlações</span>
+        </nav>
+
+        <div class="max-w-4xl space-y-4">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                <span>🌌</span>
+                <span>Análise Arquetípica & Frequências Empíricas • {{ catalog_total()|fmt_int }} Marcos Históricos</span>
             </div>
+
             <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
                 Hub de Correlações da Astrologia Moderna
             </h1>
+
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                A Astrologia Mundana investiga como os planetas transpessoais (<strong class="text-amber-300">Urano, Netuno e Plutão</strong>) e os planetas sociais (<strong class="text-sky-300">Júpiter e Saturno</strong>) demarcam ciclos geracionais e grandes viradas geopolíticas e econômicas. Abaixo, explore como os {{ catalog_total()|fmt_int }} acontecimentos históricos se distribuem estatisticamente sob estes arquétipos cósmicos nas 6 categorias canônicas.
+                A Astrologia Mundana investiga como as posições zodiacais, aspectos estritos e ciclos dos planetas transpessoais (<strong class="text-amber-300">Urano, Netuno e Plutão</strong>) e sociais (<strong class="text-sky-300">Júpiter e Saturno</strong>) se correlacionam com grandes viradas geopolíticas, guerras, crises financeiras e revoluções. Abaixo, explore os desvios de frequência medidos empiricamente sobre todos os <strong>{{ catalog_total()|fmt_int }} fatos históricos</strong> catalogados nas 6 categorias canônicas.
             </p>
         </div>
-    </div>
 
-    <!-- Category Tension Ranking -->
-    <div class="glass-panel p-6 sm:p-8 rounded-2xl">
-        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
-            <span>⚡</span> Nível Médio de Tensão Cósmica por Categoria de Fato Histórico
-        </h3>
+        <!-- KPI Mini-Ribbon -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-slate-700/60 dark:border-slate-800">
+            <div class="p-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-700/50">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Base Catalogada</div>
+                <div class="text-xl sm:text-2xl font-black text-white font-mono mt-1">{{ catalog_total()|fmt_int }}</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">9650 a.C. a 2026 d.C.</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-700/50">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Eixos Canônicos</div>
+                <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-1">6 Categorias</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Macro-domínios humanos</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-700/50">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Corpos Celestes</div>
+                <div class="text-xl sm:text-2xl font-black text-sky-400 font-mono mt-1">17 Corpos</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Planetas + Asteroides + Nodos</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-700/50">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Ciclos Maiores</div>
+                <div class="text-xl sm:text-2xl font-black text-purple-400 font-mono mt-1">3 Sinódicos</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">♄-♇ • ♅-♇ • ♄-♅</div>
+            </div>
+        </div>
+    </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-5">
-            {% for cat_name, cdata in corrs.by_category.items() %}
-            <div class="bg-slate-900/70 p-5 rounded-xl border border-slate-700/80 hover:border-slate-500 transition">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-base font-bold text-white">{{ cat_name }}</span>
-                    <span class="text-xs font-mono text-slate-400">{{ cdata.total_events }} eventos</span>
+    <!-- 2. CATEGORY TENSION & ARCHETYPAL CONCENTRATIONS -->
+    <section class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+                <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">
+                    <span>⚡</span> <span>Distribuição Estatística por Domínio</span>
                 </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide">
+                    Tensão Cósmica Média & Concentrações Arquetípicas
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-3xl mt-1">
+                    Para cada categoria histórica, a tabela revela a tensão geométrica média (0–100) e os signos de maior concentração estatística para os 7 principais corpos astrológicos.
+                </p>
+            </div>
+            <div class="text-xs font-mono text-slate-400 shrink-0">
+                <span>Orbe de aspecto ≤ 3.0° • Swiss Ephemeris</span>
+            </div>
+        </div>
 
-                <!-- Tension Score Meter -->
-                <div class="mb-4">
-                    <div class="flex justify-between text-xs font-mono mb-1">
-                        <span class="text-slate-400">Tensão Cósmica:</span>
-                        <span class="font-bold {% if cdata.average_tension > 78 %}text-rose-400{% else %}text-emerald-400{% endif %}">
-                            {{ cdata.average_tension }}/100
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for cat_name, cdata in corrs.by_category.items() %}
+            <article class="corr-card glass-panel rounded-2xl p-5 sm:p-6 border border-slate-700/70 flex flex-col justify-between">
+                <div>
+                    <!-- Header da Categoria -->
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-2xl p-2 rounded-xl bg-slate-800/80 dark:bg-slate-900/90 border border-slate-700/60 shadow-sm">
+                                {{ cdata.meta.icon if cdata.meta else '📊' }}
+                            </span>
+                            <div>
+                                <h3 class="font-display font-bold text-base text-white leading-tight">
+                                    {{ cat_name }}
+                                </h3>
+                                <span class="text-[11px] font-mono text-slate-400">
+                                    {{ cdata.total_events|fmt_int }} marcos documentados
+                                </span>
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-bold shrink-0 {{ cdata.meta.badge if cdata.meta else 'bg-slate-800 text-slate-300' }}">
+                            {{ "%.1f"|format(cdata.total_events / catalog_total() * 100) }}%
                         </span>
                     </div>
-                    <div class="w-full bg-slate-800 rounded-full h-2">
-                        <div class="h-full rounded-full {% if cdata.average_tension > 78 %}bg-rose-500{% else %}bg-amber-400{% endif %}" style="width: {{ cdata.average_tension }}%"></div>
+
+                    <!-- Tension Meter Box -->
+                    <div class="p-3.5 rounded-xl bg-slate-900/60 dark:bg-slate-950/70 border border-slate-700/50 mb-5">
+                        <div class="flex items-center justify-between text-xs font-mono mb-2">
+                            <span class="text-slate-400 flex items-center gap-1.5">
+                                <span>⚡</span> Tensão Cósmica Média:
+                            </span>
+                            <span class="font-bold px-2 py-0.5 rounded text-xs {% if cdata.average_tension >= 83 %}bg-rose-500/15 text-rose-400 border border-rose-500/30{% elif cdata.average_tension >= 80 %}bg-amber-500/15 text-amber-400 border border-amber-500/30{% else %}bg-emerald-500/15 text-emerald-400 border border-emerald-500/30{% endif %}">
+                                {{ cdata.average_tension }} / 100
+                            </span>
+                        </div>
+                        <div class="w-full bg-slate-800 dark:bg-slate-900 rounded-full h-2.5 overflow-hidden p-0.5">
+                            <div class="h-full rounded-full transition-all duration-500 {% if cdata.average_tension >= 83 %}bg-gradient-to-r from-amber-500 to-rose-500{% elif cdata.average_tension >= 80 %}bg-gradient-to-r from-emerald-500 to-amber-500{% else %}bg-emerald-500{% endif %}"
+                                 style="width: {{ [cdata.average_tension, 100]|min }}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Structured Highlights (Substituindo bullets soltos!) -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between text-xs font-bold text-slate-300 pb-1 border-b border-slate-700/60 dark:border-slate-800">
+                            <span class="flex items-center gap-1.5">
+                                <span>🎯</span> Signos de Maior Concentração
+                            </span>
+                            <span class="text-[10px] font-mono text-slate-400">Freq. %</span>
+                        </div>
+
+                        <div class="space-y-1.5 pt-1">
+                            {% for item in cdata.highlights_structured %}
+                            <div class="corr-planet-row p-2 rounded-xl border border-slate-800 flex items-center justify-between gap-2 text-xs">
+                                <!-- Planeta -->
+                                <div class="flex items-center gap-2 shrink-0 min-w-[5.5rem]">
+                                    <span class="w-6 h-6 rounded-lg bg-slate-800 dark:bg-slate-900 border border-slate-700/70 flex items-center justify-center font-bold text-amber-400 text-xs shadow-inner">
+                                        {{ item.symbol }}
+                                    </span>
+                                    <span class="font-semibold text-slate-200">{{ item.planet }}</span>
+                                </div>
+
+                                <!-- Signo & Elemento -->
+                                <div class="flex items-center gap-1.5 flex-wrap flex-1 justify-center">
+                                    <span class="font-bold text-white flex items-center gap-1 bg-slate-800/80 dark:bg-slate-900/90 px-2 py-0.5 rounded-lg border border-slate-700/60">
+                                        <span class="text-amber-400">{{ item.sign_symbol }}</span>
+                                        <span>{{ item.sign }}</span>
+                                    </span>
+                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-medium {% if item.element == 'Fogo' %}elem-fogo{% elif item.element == 'Terra' %}elem-terra{% elif item.element == 'Ar' %}elem-ar{% else %}elem-agua{% endif %}">
+                                        {{ item.element }} • {{ item.modality }}
+                                    </span>
+                                </div>
+
+                                <!-- Percentual & Barra -->
+                                <div class="text-right shrink-0 min-w-[3.25rem]">
+                                    <span class="font-mono font-bold text-amber-400 text-xs">
+                                        {{ item.percentage }}%
+                                    </span>
+                                    <div class="text-[9px] font-mono text-slate-400">
+                                        {{ item.frequency }}x
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
 
-                <!-- Highlights -->
-                <div class="text-xs space-y-1.5 pt-3 border-t border-slate-800 text-slate-300">
-                    <div class="text-slate-400 font-semibold mb-1">Concentrações Significativas:</div>
-                    {% for p_name, p_text in cdata.key_highlights.items() %}
-                    <div class="flex items-start gap-1.5">
-                        <span class="text-amber-400 font-bold">• {{ p_name }}:</span>
-                        <span class="text-slate-300">{{ p_text }}</span>
+                <!-- Accordion de Aspectos e Estrelas Fixas -->
+                {% if cdata.top_aspects or cdata.top_stars %}
+                <details class="group mt-5 pt-3 border-t border-slate-700/60 dark:border-slate-800">
+                    <summary class="cursor-pointer text-xs font-semibold text-slate-400 hover:text-amber-300 flex items-center justify-between py-1 select-none">
+                        <span class="flex items-center gap-1.5">
+                            <span>🔍</span> Aspectos & Estrelas Fixas Dominantes
+                        </span>
+                        <span class="text-xs transition-transform duration-200 group-open:rotate-180">▾</span>
+                    </summary>
+
+                    <div class="space-y-3 pt-3 text-xs">
+                        {% if cdata.top_aspects %}
+                        <div>
+                            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">
+                                Aspectos Mais Frequentes (Orbe ≤ 3.0°):
+                            </div>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                {% for asp in cdata.top_aspects[:4] %}
+                                <div class="p-1.5 rounded-lg bg-slate-800/60 dark:bg-slate-900/60 border border-slate-700/50 flex items-center justify-between text-[11px]">
+                                    <span class="font-semibold text-slate-300 flex items-center gap-1">
+                                        <span>{{ asp.p1_sym }}</span>
+                                        <span class="text-amber-400">{{ asp.aspect_symbol }}</span>
+                                        <span>{{ asp.p2_sym }}</span>
+                                    </span>
+                                    <span class="font-mono text-slate-400 text-[10px]">{{ asp.frequency }}x</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if cdata.top_stars %}
+                        <div>
+                            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1.5">
+                                Estrelas Fixas Mais Ativadas (Orbe ≤ 0.3°):
+                            </div>
+                            <div class="flex flex-wrap gap-1.5">
+                                {% for star in cdata.top_stars %}
+                                <span class="px-2 py-0.5 rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/25 text-[10px] font-mono flex items-center gap-1">
+                                    <span>⭐</span>
+                                    <span>{{ star.star_name }}</span>
+                                    <span class="text-purple-400 font-bold">({{ star.frequency }}x)</span>
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                </div>
-            </div>
+                </details>
+                {% endif %}
+            </article>
             {% endfor %}
         </div>
-    </div>
+    </section>
 
-    <!-- Ciclos Históricos Saturno-Plutão e Urano-Plutão -->
-    <div class="glass-panel p-6 sm:p-8 rounded-2xl">
-        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-            <span>🪐</span> Grandes Ciclos Planetários Registrados no Dataset
-        </h3>
-        <p class="text-sm text-slate-400 mb-6">
-            Alinhamentos maiores entre planetas transpessoais coincidem historicamente com transformações profundas na geopolítica, guerras mundiais e crises sistêmicas.
-        </p>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Ciclo Saturno - Plutão -->
-            <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-500/30">
-                <div class="flex items-center justify-between mb-3">
-                    <h4 class="font-bold text-purple-300 flex items-center gap-2">
-                        <span>♄ ↔ ♇</span> Ciclo Saturno-Plutão
-                    </h4>
-                    <span class="text-xs text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded font-mono">
-                        Estruturas, Guerras & Crises Globais
-                    </span>
-                </div>
-                <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                    Historicamente associado a momentos de ruptura de ordens vigentes, austeridade drástica, colapsos institucionais e redefinição de fronteiras nacionais (período sinódico de aprox. 33 a 38 anos).
-                </p>
-
-                <div class="space-y-3 text-xs">
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">1914 • Conjunção Saturno-Plutão em Câncer</div>
-                        <div class="text-slate-400 mt-0.5">Início da Primeira Guerra Mundial, colapso de impérios europeus e desestruturação da ordem do século XIX.</div>
-                    </div>
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">1947 • Conjunção Saturno-Plutão em Leão</div>
-                        <div class="text-slate-400 mt-0.5">Partição sangrenta da Índia e Paquistão, Doutrina Truman e início formal da Guerra Fria.</div>
-                    </div>
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">1982 • Conjunção Saturno-Plutão em Libra</div>
-                        <div class="text-slate-400 mt-0.5">Guerra das Malvinas, auge da recessão global do início dos anos 80 e avanço do neoliberalismo.</div>
-                    </div>
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">2020 • Conjunção Saturno-Plutão em Capricórnio (22°)</div>
-                        <div class="text-slate-400 mt-0.5">Eclosão da Pandemia de COVID-19, lockdowns planetários sincronizados e choque na economia internacional.</div>
-                    </div>
-                </div>
+    <!-- 3. GRANDES CICLOS PLANETÁRIOS (3 EIXOS: SATURNO-PLUTÃO, URANO-PLUTÃO, SATURNO-URANO) -->
+    <section class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700/60 space-y-6">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-purple-400 mb-1">
+                <span>🪐</span> <span>Mecânica Sinódica Coletiva</span>
             </div>
-
-            <!-- Ciclo Urano - Plutão -->
-            <div class="bg-slate-900/80 p-5 rounded-xl border border-sky-500/30">
-                <div class="flex items-center justify-between mb-3">
-                    <h4 class="font-bold text-sky-300 flex items-center gap-2">
-                        <span>♅ ↔ ♇</span> Ciclo Urano-Plutão
-                    </h4>
-                    <span class="text-xs text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded font-mono">
-                        Revoluções Tecnológicas & Sociais
-                    </span>
-                </div>
-                <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                    Associa a pulsão revolucionária, libertária e inovadora de Urano com a força transformadora subterrânea de Plutão, marcando eclosões de contracultura, colapsos econômicos e saltos de inovação radical.
-                </p>
-
-                <div class="space-y-3 text-xs">
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">1930-1934 • Quadratura Urano em Áries x Plutão em Câncer</div>
-                        <div class="text-slate-400 mt-0.5">Auge da Grande Depressão, New Deal, descoberta de Plutão e ascensão do totalitarismo na Europa.</div>
-                    </div>
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">1965-1966 • Conjunção Urano-Plutão em Virgem</div>
-                        <div class="text-slate-400 mt-0.5">Efervescência da contracultura dos anos 60, movimentos de direitos civis, Revolução Cultural Chinesa e corrida espacial.</div>
-                    </div>
-                    <div class="p-3 bg-slate-800/70 rounded-lg border border-slate-700">
-                        <div class="font-bold text-white">2012-2015 • Série de 7 Quadraturas Urano (Áries) x Plutão (Capricórnio)</div>
-                        <div class="text-slate-400 mt-0.5">Primavera Árabe, Jornadas de Junho no Brasil, Operação Lava Jato, Bóson de Higgs e ascensão das redes sociais massivas.</div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide">
+                Grandes Ciclos Planetários Registrados no Dataset
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                Alinhamentos maiores entre planetas lentos (conjunções, quadraturas e oposições) coincidem historicamente com transformações profundas na geopolítica, guerras mundiais, viradas tecnológicas e colapsos institucionais.
+            </p>
         </div>
-    </div>
 
-    <!-- Métodos Internacionais de Astrologia Mundana & Ciclos Globais -->
-    <div class="glass-panel p-6 sm:p-8 rounded-2xl border-l-4 border-indigo-400">
-        <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-            <span>🌐</span> Investigação Internacional de Ciclos Globais (Barbault, Oshop & Tarnas)
-        </h3>
-        <p class="text-sm text-slate-400 mb-6">
-            Comparação empírica das teorias mundiais de ciclos planetários coletivos avaliadas sobre o catálogo dos {{ catalog_total()|fmt_int }} fatos históricos.
-        </p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div class="bg-slate-900/80 p-5 rounded-xl border border-sky-500/30">
-                <div class="text-sm font-bold text-sky-300 mb-2 flex items-center gap-1.5">
-                    <span>🌀</span> Índice Cíclico de Barbault (CI-4 / CI-5)
+            <!-- CICLO 1: SATURNO - PLUTÃO -->
+            <article class="milestone-card glass-panel p-5 sm:p-6 rounded-2xl border border-purple-500/30 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between pb-3 border-b border-purple-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl p-1.5 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30 font-bold">
+                                ♄ ↔ ♇
+                            </span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">Saturno–Plutão</h3>
+                                <div class="text-[10px] font-mono text-purple-300">Ciclo Sinódico de ~33 a 38 anos</div>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                            Poder & Fricção
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Historicamente associado a momentos de ruptura de ordens vigentes, austeridade drástica, colapsos institucionais, eclosão de guerras de atrito e redefinição de fronteiras nacionais.
+                    </p>
+
+                    <div class="space-y-2.5 pt-2">
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300">1914</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Câncer (02°–04°♋)</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Eclosão da 1ª Guerra Mundial</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Colapso de impérios europeus e desestruturação completa da ordem do século XIX.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300">1939–1940</span>
+                                <span class="text-[10px] font-mono text-slate-400">□ Quadratura Touro x Leão</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Início da 2ª Guerra Mundial</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Mobilização industrial bélica total, invasão da Polônia e colapso da Liga das Nações.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300">1947</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Leão (13°♌)</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Doutrina Truman & Guerra Fria</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Partição violenta Índia-Paquistão e surgimento da bipolaridade atômica mundial.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300">1982</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Libra (27°♎)</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Guerra das Malvinas & Crise da Dívida</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Recessão mundial do início dos anos 80, início da doutrina Reagan-Thatcher e crise na América Latina.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300">2020</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Capricórnio (22°♑)</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Pandemia de COVID-19 & Lockdowns</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Lockdowns planetários sincronizados, choque logístico e fratura na ordem global.</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-xs text-slate-300 leading-relaxed mb-3">
-                    André Barbault postulou que crises sistêmicas mundiais (1914, 1939, 1982) ocorrem nos fundos da curva da soma das distâncias angulares dos planetas lentos. O AstroHistory implementou tanto a versão clássica CI-4 quanto a moderna CI-5 (com Plutão, Archos 2024).
-                </p>
-                <div class="text-[11px] text-amber-300 font-mono">Status: Incorporado aos índices anuais e à linha do tempo 1800–2100.</div>
-            </div>
 
-            <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-500/30">
-                <div class="text-sm font-bold text-purple-300 mb-2 flex items-center gap-1.5">
-                    <span>📐</span> Métrica Sum of Cosines (Renay Oshop)
+                <div class="pt-3 border-t border-purple-500/20">
+                    <a href="/events?search=Saturno" class="text-xs font-semibold text-purple-300 hover:text-purple-200 flex items-center justify-between">
+                        <span>Explorar eventos de Saturno no catálogo &rarr;</span>
+                    </a>
                 </div>
-                <p class="text-xs text-slate-300 leading-relaxed mb-3">
-                    Renay Oshop (AyurAstro / SSE) avalia o agrupamento planetário geral por $\sum \cos(\Delta\theta)$. O AstroHistory integrou o cálculo de agrupamento dos 5 planetas exteriores e dos 10 corpos celestes, comparando com testes de permutação contra amostras de controle pareadas.
-                </p>
-                <div class="text-[11px] text-purple-300 font-mono">Status: Calculado por evento via Swiss Ephemeris e módulo interno Sum of Cosines.</div>
-            </div>
+            </article>
 
-            <div class="bg-slate-900/80 p-5 rounded-xl border border-amber-500/30">
-                <div class="text-sm font-bold text-amber-300 mb-2 flex items-center gap-1.5">
-                    <span>🪐</span> Ciclos de Richard Tarnas (Cosmos & Psyche)
+            <!-- CICLO 2: URANO - PLUTÃO -->
+            <article class="milestone-card glass-panel p-5 sm:p-6 rounded-2xl border border-sky-500/30 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between pb-3 border-b border-sky-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl p-1.5 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30 font-bold">
+                                ♅ ↔ ♇
+                            </span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">Urano–Plutão</h3>
+                                <div class="text-[10px] font-mono text-sky-300">Ciclo Sinódico de ~110 a 140 anos</div>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                            Revolução & Salto
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Associa a pulsão revolucionária, libertária e disruptiva de Urano com a intensidade transformadora subterrânea de Plutão, gerando contracultura, colapsos econômicos e saltos tecnológicos.
+                    </p>
+
+                    <div class="space-y-2.5 pt-2">
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/20 text-sky-300">1930–1934</span>
+                                <span class="text-[10px] font-mono text-slate-400">□ Quadratura Áries x Câncer</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Grande Depressão & Totalitarismo</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">New Deal nos EUA, descoberta de Plutão (1930) e colapso das democracias liberais na Europa.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/20 text-sky-300">1965–1966</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Virgem (16°–17°♍)</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Contracultura & Corrida Espacial</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Movimentos de direitos civis, efervescência musical dos anos 60, Revolução Cultural e Projeto Apollo.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/20 text-sky-300">2012–2015</span>
+                                <span class="text-[10px] font-mono text-slate-400">□ 7 Quadraturas Áries x Capricórnio</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Primavera Árabe & Redes Sociais</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Jornadas de Junho no Brasil, Occupy Wall Street, Bóson de Higgs e explosão dos smartphones mundiais.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/20 text-sky-300">2026–2028</span>
+                                <span class="text-[10px] font-mono text-slate-400">△ Trígono Gêmeos x Aquário</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Próximo Alinhamento Harmônico</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Revolução da Inteligência Artificial Generativa, computação quântica e transição aeroespacial.</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-xs text-slate-300 leading-relaxed mb-3">
-                    Tarnas postulou correlações específicas para os ciclos sinódicos de Saturno–Urano, Saturno–Plutão e Urano–Plutão. No AstroHistory, os alinhamentos são rastreados com orbes estritos e submetidos a testes de significância com controle de FDR.
-                </p>
-                <div class="text-[11px] text-sky-300 font-mono">Status: Documentado e contrastado com os modelos nulos N1–N3.</div>
-            </div>
+
+                <div class="pt-3 border-t border-sky-500/20">
+                    <a href="/events?search=Urano" class="text-xs font-semibold text-sky-300 hover:text-sky-200 flex items-center justify-between">
+                        <span>Explorar eventos de Urano no catálogo &rarr;</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- CICLO 3: SATURNO - URANO (NOVO!) -->
+            <article class="milestone-card glass-panel p-5 sm:p-6 rounded-2xl border border-amber-500/30 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between pb-3 border-b border-amber-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl p-1.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold">
+                                ♄ ↔ ♅
+                            </span>
+                            <div>
+                                <h3 class="font-bold text-white text-base">Saturno–Urano</h3>
+                                <div class="text-[10px] font-mono text-amber-300">Ciclo Sinódico de ~45 anos</div>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                            Ordem vs Ruptura
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Reflete a fricção dialética entre a conservação das estruturas institucionais (Saturno) e a força disruptiva da inovação libertária (Urano), marcando crises de transição estrutural.
+                    </p>
+
+                    <div class="space-y-2.5 pt-2">
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300">1930–1931</span>
+                                <span class="text-[10px] font-mono text-slate-400">☍ Oposição Capricórnio x Câncer</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Crise Financeira Global dos Anos 30</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Quebras bancárias em cadeia, colapso do comércio internacional e abandono do padrão-ouro.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300">1941–1942</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Touro (24°–29°♉)</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Batalha de Stalingrado & Pearl Harbor</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Entrada direta dos Estados Unidos na Segunda Guerra e confronto decisivo no front oriental.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300">1988–1989</span>
+                                <span class="text-[10px] font-mono text-slate-400">☌ Conjunção em Sagitário/Capricórnio</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Queda do Muro de Berlim & Nova Ordem</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Dissolução do Bloco do Leste, Constituição Cidadã no Brasil e eclosão de reformas mundiais.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/70 dark:bg-slate-950/80 rounded-xl border border-slate-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300">2021–2022</span>
+                                <span class="text-[10px] font-mono text-slate-400">□ Quadratura Touro x Aquário</span>
+                            </div>
+                            <div class="font-bold text-white text-xs">Guerra da Ucrânia & Crise Logística</div>
+                            <p class="text-[11px] text-slate-400 leading-normal">Transição energética conturbada, quebra nas cadeias globais de suprimentos e choque inflacionário.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-amber-500/20">
+                    <a href="/events?search=Saturno" class="text-xs font-semibold text-amber-300 hover:text-amber-200 flex items-center justify-between">
+                        <span>Explorar aspectos no catálogo &rarr;</span>
+                    </a>
+                </div>
+            </article>
+
         </div>
-    </div>
+    </section>
+
+    <!-- 4. INVESTIGAÇÃO INTERNACIONAL (BARBAULT, OSHOP & TARNAS) -->
+    <section class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700/60 space-y-6">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-sky-400 mb-1">
+                <span>🌐</span> <span>Metodologia & Pesquisa Aberta</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide">
+                Módulos de Astrologia Mundana & Teoria de Ciclos
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                Implementação computacional e validação cética das três principais escolas contemporâneas de análise de ciclos planetários mundanos testadas contra a base de <strong>{{ catalog_total()|fmt_int }} fatos</strong>.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Card 1: Barbault -->
+            <div class="p-5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-sky-500/30 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono font-bold text-sky-400 px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/25">
+                            André Barbault (1921–2019)
+                        </span>
+                        <span class="text-lg">🌀</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-base">
+                        Índice Cíclico de Barbault (CI-4 & CI-5)
+                    </h3>
+
+                    <!-- Fórmula Formatada Limpa (sem LaTeX cru) -->
+                    <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-center text-xs">
+                        <div class="text-sky-300 font-bold tracking-wider">CI(t) = ∑ θ_ij(t)</div>
+                        <div class="text-[10px] text-slate-400 mt-0.5">Soma de distâncias angulares de 5 planetas lentos</div>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        André Barbault postulou que crises sistêmicas mundiais (1914, 1940, 1982) coincidem com fundos acentuados na curva de dispersão dos planetas lentos. O AstroHistory implementa o CI-4 clássico e o CI-5 moderno (com Plutão), com a primeira derivada temporal indicando aceleração ou expansão.
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+                    <span class="text-[10px] font-mono text-emerald-400 font-bold">✓ Integrado na Linha 1800–2100</span>
+                    <a href="/forecast" class="text-xs text-sky-400 hover:text-sky-300 font-semibold">Ver Previsão &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Card 2: Renay Oshop -->
+            <div class="p-5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-purple-500/30 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono font-bold text-purple-400 px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25">
+                            Renay Oshop (SSE / AyurAstro)
+                        </span>
+                        <span class="text-lg">📐</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-base">
+                        Métrica Sum of Cosines (Σ cos)
+                    </h3>
+
+                    <!-- Fórmula Formatada Limpa -->
+                    <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-center text-xs">
+                        <div class="text-purple-300 font-bold tracking-wider">Σ cos = ∑ cos(θ_ij)</div>
+                        <div class="text-[10px] text-slate-400 mt-0.5">Agrupamento harmônico e variância circular</div>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        A métrica Sum of Cosines quantifica o grau de alinhamento e agrupamento angular geral no zodíaco. No AstroHistory, ela é submetida a permutações de Monte Carlo (1.000 iterações por consulta) para medir desvios estatísticos contra distribuições nulas de controle.
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+                    <span class="text-[10px] font-mono text-purple-400 font-bold">✓ Teste de Permutação Ativo</span>
+                    <a href="/simulator" class="text-xs text-purple-400 hover:text-purple-300 font-semibold">Testar no Simulador &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Card 3: Richard Tarnas -->
+            <div class="p-5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/70 border border-amber-500/30 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono font-bold text-amber-400 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25">
+                            Richard Tarnas (Cosmos & Psyche)
+                        </span>
+                        <span class="text-lg">🪐</span>
+                    </div>
+
+                    <h3 class="font-bold text-white text-base">
+                        Alinhamentos de Planetas Externos
+                    </h3>
+
+                    <!-- Fórmula Formatada Limpa -->
+                    <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-center text-xs">
+                        <div class="text-amber-300 font-bold tracking-wider">Envelopes Gaussianos (σ = 5.0°)</div>
+                        <div class="text-[10px] text-slate-400 mt-0.5">Ativações de aspectos tensos (0°, 90°, 180°)</div>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Richard Tarnas postulou que os aspectos maiores entre Saturno, Urano, Netuno e Plutão governam as grandes ondas de revolução e crise. No AstroHistory, estas hipóteses foram pré-registradas (H4) e avaliadas sob modelos nulos N1–N3 e controle rigoroso de FDR.
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+                    <span class="text-[10px] font-mono text-amber-400 font-bold">✓ Avaliado em H4 (Nulo Aceito)</span>
+                    <a href="/methodology" class="text-xs text-amber-400 hover:text-amber-300 font-semibold">Ver Metodologia &rarr;</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 </div>
 {% endblock %}

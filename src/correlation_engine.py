@@ -76,23 +76,75 @@ def get_category_correlations() -> Dict[str, Any]:
 
         # Destaques dos principais corpos na categoria
         key_bodies = ["Plutão", "Netuno", "Urano", "Saturno", "Marte", "Ceres", "Quíron"]
+        body_symbols = {
+            "Plutão": "♇", "Netuno": "♆", "Urano": "♅", "Saturno": "♄",
+            "Júpiter": "♃", "Marte": "♂", "Vênus": "♀", "Mercúrio": "☿",
+            "Sol": "☉", "Lua": "☽", "Quíron": "⚷", "Ceres": "⚳",
+            "Pallas": "⚴", "Juno": "⚵", "Vesta": "⚶", "Nodo Norte": "☊", "Lilith": "⚸"
+        }
+        sign_symbols = {
+            "Áries": "♈", "Touro": "♉", "Gêmeos": "♊", "Câncer": "♋",
+            "Leão": "♌", "Virgem": "♍", "Libra": "♎", "Escorpião": "♏",
+            "Sagitário": "♐", "Capricórnio": "♑", "Aquário": "♒", "Peixes": "♓"
+        }
         highlights = {}
+        highlights_structured = []
         for kb in key_bodies:
             if kb in planets_dist and len(planets_dist[kb]) > 0:
                 top_pos = planets_dist[kb][0]
-                highlights[kb] = f"{top_pos['sign']} ({top_pos['percentage']}% dos casos - {top_pos['element']}/{top_pos['modality']})"
+                raw_str = f"{top_pos['sign']} ({top_pos['percentage']}% dos casos - {top_pos['element']}/{top_pos['modality']})"
+                highlights[kb] = raw_str
+                highlights_structured.append({
+                    "planet": kb,
+                    "symbol": body_symbols.get(kb, "🪐"),
+                    "sign": top_pos["sign"],
+                    "sign_symbol": sign_symbols.get(top_pos["sign"], "✨"),
+                    "percentage": top_pos["percentage"],
+                    "frequency": top_pos["frequency"],
+                    "element": top_pos["element"],
+                    "modality": top_pos["modality"],
+                    "raw_text": raw_str
+                })
+
+        body_id_map = {
+            "sun": ("Sol", "☉"), "moon": ("Lua", "☽"), "mercury": ("Mercúrio", "☿"),
+            "venus": ("Vênus", "♀"), "mars": ("Marte", "♂"), "jupiter": ("Júpiter", "♃"),
+            "saturn": ("Saturno", "♄"), "uranus": ("Urano", "♅"), "neptune": ("Netuno", "♆"),
+            "pluto": ("Plutão", "♇"), "chiron": ("Quíron", "⚷"), "ceres": ("Ceres", "⚳"),
+            "pallas": ("Pallas", "⚴"), "juno": ("Juno", "⚵"), "vesta": ("Vesta", "⚶"),
+            "lilith": ("Lilith", "⚸"), "north_node": ("Nodo Norte", "☊")
+        }
+        enriched_aspects = []
+        for a in aspect_rows:
+            ad = dict(a)
+            p1_info = body_id_map.get(ad.get("planet1_id", ""), (ad.get("planet1_id", ""), ""))
+            p2_info = body_id_map.get(ad.get("planet2_id", ""), (ad.get("planet2_id", ""), ""))
+            ad["p1_name"], ad["p1_sym"] = p1_info[0], p1_info[1]
+            ad["p2_name"], ad["p2_sym"] = p2_info[0], p2_info[1]
+            enriched_aspects.append(ad)
+
+        cat_meta = {
+            "Guerra & Conflito": {"icon": "⚔️", "color": "rose", "badge": "bg-rose-500/15 text-rose-400 border-rose-500/30"},
+            "Revolução & Conflito Interno": {"icon": "⚡", "color": "orange", "badge": "bg-orange-500/15 text-orange-400 border-orange-500/30"},
+            "Crise Financeira & Econômica": {"icon": "📉", "color": "amber", "badge": "bg-amber-500/15 text-amber-400 border-amber-500/30"},
+            "Desastre & Saúde Pública": {"icon": "🌪️", "color": "rose", "badge": "bg-rose-500/15 text-rose-400 border-rose-500/30"},
+            "Ciência & Tecnologia": {"icon": "🔭", "color": "sky", "badge": "bg-sky-500/15 text-sky-400 border-sky-500/30"},
+            "Política, Tratados & Cultura": {"icon": "🏛️", "color": "indigo", "badge": "bg-indigo-500/15 text-indigo-400 border-indigo-500/30"},
+        }.get(cat, {"icon": "📊", "color": "slate", "badge": "bg-slate-500/15 text-slate-300 border-slate-500/30"})
 
         results_by_category[cat] = {
             "total_events": total_evs,
             "average_tension": round(avg_tension, 1),
             "key_highlights": highlights,
-            "top_aspects": [dict(a) for a in aspect_rows],
-            "top_stars": [dict(s) for s in star_rows]
+            "highlights_structured": highlights_structured,
+            "top_aspects": enriched_aspects,
+            "top_stars": [dict(s) for s in star_rows],
+            "meta": cat_meta
         }
 
     # Análise de Grandes Ciclos Planetários (Saturno-Plutão, Urano-Plutão, Saturno-Urano)
     cycles_rows = conn.execute("""
-        SELECT a.planet1_id, a.planet2_id, a.aspect_name, e.title, e.date, e.category, e.consequence
+        SELECT a.planet1_id, a.planet2_id, a.aspect_name, e.id as event_id, e.title, e.date, e.category, e.consequence
         FROM event_aspects a
         JOIN events e ON a.event_id = e.id
         WHERE (a.planet1_id = 'saturn' AND a.planet2_id = 'pluto')

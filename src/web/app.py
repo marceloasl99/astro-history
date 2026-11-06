@@ -376,12 +376,16 @@ async def event_detail_view(request: Request, event_id: int):
 
 @app.get("/correlations", response_class=HTMLResponse)
 async def correlations_view(request: Request):
+    from src.web.i18n import resolve_lang, translator
+    lang = resolve_lang(request)
     corrs = get_category_correlations()
     return templates.TemplateResponse(
         request=request,
         name="correlations.html",
         context={
-            "corrs": corrs
+            "corrs": corrs,
+            "lang": lang,
+            "t": translator(lang),
         }
     )
 
