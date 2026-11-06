@@ -57,15 +57,15 @@ Para além da amostra analítica pré-registrada de teste, o AstroHistory implem
 | TRACK A: Catálogo Geral Expandido  | TRACK B: Amostra Analítica Fidedigna|
 | (Exploração & Historical Analogues)| (Teste de Hipótese Pré-Registrado)  |
 +------------------------------------+-------------------------------------+
-| • Tabela: events (N = 1.342)       | • Tabela: events_v2 (N = 61)        |
+| • Tabela: events (N = 3.406)       | • Tabela: events_v2 (N = 61)        |
 | • Categorias: 6 canônicas          | • Categorias: 6 analíticas          |
 | • Arquivo: historical_events.json  | • Arquivo: events_v2.csv            |
-| • Fontes: COW v4.0 (94 guerras),   | • Controle: control_dates (10.000)  |
-|   UCDP v24.1 (251 conflitos),      | • Critérios: Inclusão restrita,     |
-|   Powell & Thyne (462 golpes),     |   pareamento temporal decenal,      |
-|   USGS (190 terremotos M>=7.8),    |   análise cega a hipóteses.         |
-|   NBER (34 recessões),             | • Status: Rígido e Imutável         |
-|   Milestones (39 marcos/tratados)  |   (preserva validações v2/v3).      |
+| • Fontes: COW v4.0, UCDP v24.1,    | • Controle: control_dates (10.000)  |
+|   Powell & Thyne, USGS, NOAA NCEI, | • Critérios: Inclusão restrita,     |
+|   Smithsonian GVP, NBER,           |   pareamento temporal decenal,      |
+|   Curados (Antiguidade, LatAm,     |   análise cega a hipóteses.         |
+|   Ciência, Diplomacia, Sociedade)  | • Status: Rígido e Imutável         |
+| • Alcance: 9650 a.C. a 2026 d.C.   |   (preserva validações v2/v3).      |
 | • Objetivo: Pesquisa de análogos,  | • Objetivo: Avaliação objetiva de   |
 |   educação, timeline e consultas.  |   capacidade preditiva estatística. |
 +------------------------------------+-------------------------------------+
@@ -96,5 +96,5 @@ Para além da amostra analítica pré-registrada de teste, o AstroHistory implem
 
 ### Deduplicação Fuzzy e Higiene:
 - Critério de deduplicação: eventos candidatos com mesma data ($\pm 3$ dias) e alta similaridade léxica ou mesmo país/categoria foram comparados, resultando em 76 potenciais duplicatas descartadas.
-- Todas as 1.342 efemérides foram calculadas integralmente pela Swiss Ephemeris (`calculated = 1`), com posições zodiacais, aspectos estritos e índices de tensão gerados no banco SQLite.
+- Todas as 3.406 efemérides foram calculadas integralmente pela Swiss Ephemeris (`calculated = 1`), com posições zodiacais, aspectos estritos e índices de tensão gerados no banco SQLite.
 

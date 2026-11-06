@@ -299,7 +299,7 @@ def calculate_event_emphasis(event_id: int) -> Dict[str, Any]:
 
 def calculate_macro_correlations() -> Dict[str, Any]:
     """
-    Executa contas estatísticas em toda a base histórica expandida (1.342 fatos),
+    Executa contas estatísticas em toda a base histórica expandida (3.406 fatos),
     identificando desvios de frequência, planetas em ênfase e aspectos dominantes nas 6 categorias canônicas.
     """
     conn = get_connection()

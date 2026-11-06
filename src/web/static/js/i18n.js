@@ -10,7 +10,7 @@
             "Pessoal": "Personal",
             "Sobre": "About",
             "Dashboard": "Dashboard",
-            "Catálogo (1.342)": "Catalog (1,342)",
+            "Catálogo (3.406)": "Catalog (3,406)",
             "Catálogo": "Catalog",
             "🌐 Países": "🌐 Countries",
             "Países": "Countries",
@@ -54,7 +54,7 @@
             "Pesquisa Científica & Astrologia Moderna": "Scientific Research & Modern Astrology",
             "Astrologia Mundana Computacional": "Computational Mundane Astrology",
             "1800–2100 Ativo": "1800–2100 Active",
-            "1.342 Fatos": "1,342 Events",
+            "3.406 Fatos": "3,406 Events",
 
             // Navigation Mega-Menu Submenu Items & Descriptions
             "Mapa Natal": "Natal Chart",
@@ -179,8 +179,8 @@
             "Buscar Análogos Cósmicos": "Search Cosmic Analogues",
             "⏳ Calculando...": "⏳ Calculating...",
             "Fatos Históricos Ocorridos sob Céus Mais Semelhantes": "Historical Events Under Most Similar Skies",
-            "Precedentes Históricos Ocorridos sob Céus Semelhantes (Base 1.342 Fatos)": "Historical Precedents Under Similar Skies (1,342 Events Base)",
-            "Precedentes Históricos Mais Próximos na Base (1.342 Fatos)": "Closest Historical Precedents in Database (1,342 Events)",
+            "Precedentes Históricos Ocorridos sob Céus Semelhantes (Base 3.406 Fatos)": "Historical Precedents Under Similar Skies (3,406 Events Base)",
+            "Precedentes Históricos Mais Próximos na Base (3.406 Fatos)": "Closest Historical Precedents in Database (3,406 Events)",
             "Índice Cíclico de André Barbault (CI-4 vs CI-5)": "André Barbault Cyclic Index (CI-4 vs CI-5)",
             "Métrica Sum of Cosines (Renay Oshop)": "Sum of Cosines Metric (Renay Oshop)",
             "5 Planetas Lentos": "5 Outer Planets",
@@ -192,7 +192,7 @@
             "Ver Mapa &rarr;": "View Chart &rarr;",
             "Ver Mapa": "View Chart",
             "Ver Mapa Astral &rarr;": "View Astral Chart &rarr;",
-            "Ver Todos os 1.342 Fatos &rarr;": "View All 1,342 Events &rarr;",
+            "Ver Todos os 3.406 Fatos &rarr;": "View All 3,406 Events &rarr;",
             "Ver &rarr;": "View &rarr;",
             "similar": "similar",
 
@@ -209,8 +209,8 @@
             "Quadraturas e Oposições ponderadas": "Weighted Squares and Oppositions",
             "Guerras, Crises, Revoluções, Ciência": "Wars, Crises, Revolutions, Science",
             "Gráfico de Tensão Cósmica & Rupturas Históricas (1800–2100)": "Cosmic Tension & Historical Ruptures Chart (1800–2100)",
-            "Distribuição dos 1.342 Fatos pelas 6 Categorias Canônicas": "Distribution of 1,342 Events Across 6 Canonical Categories",
-            "Posição do Sol nos 1.342 Grandes Eventos Históricos": "Sun Sign Distribution in 1,342 Major Historical Events",
+            "Distribuição dos 3.406 Fatos pelas 6 Categorias Canônicas": "Distribution of 3,406 Events Across 6 Canonical Categories",
+            "Posição do Sol nos 3.406 Grandes Eventos Históricos": "Sun Sign Distribution in 3,406 Major Historical Events",
             "Marcos Históricos Paradigmáticos & Mapas Natais": "Paradigmatic Historical Milestones & Natal Charts",
             "Eventos de grande relevância selecionados com suas respectivas coordenadas e cartas celestes.": "High-relevance historical events with geographical coordinates and astronomical charts.",
             "Passado:": "Past:",
@@ -265,8 +265,8 @@
             "Buscar por ano, gatilho, fato histórico ou síntese...": "Search by year, trigger, historical event or synthesis...",
 
             // Event Detail
-            "Voltar ao Catálogo dos 1.342 Fatos": "Back to 1,342 Events Catalog",
-            "&larr; Voltar ao Catálogo dos 1.342 Fatos": "&larr; Back to 1,342 Events Catalog",
+            "Voltar ao Catálogo dos 3.406 Fatos": "Back to 3,406 Events Catalog",
+            "&larr; Voltar ao Catálogo dos 3.406 Fatos": "&larr; Back to 3,406 Events Catalog",
             "&larr; Anterior": "&larr; Previous",
             "Próximo &rarr;": "Next &rarr;",
             "Desdobramentos & Consequências Históricas": "Historical Developments & Consequences",
@@ -309,7 +309,7 @@
             "Modelos Nulos N1–N3": "N1–N3 Null Models",
             "Skill Walk-Forward": "Walk-Forward Skill",
             "Mapas Soberanos": "Sovereign Charts",
-            "Swiss Ephemeris © Astrodienst AG • Licenciado sob GNU AGPL-3.0-or-later • 1.342 fatos históricos catalogados (1800–2100)": "Swiss Ephemeris © Astrodienst AG • Licensed under GNU AGPL-3.0-or-later • 1,342 historical events cataloged (1800–2100)"
+            "Swiss Ephemeris © Astrodienst AG • Licenciado sob GNU AGPL-3.0-or-later • 3.406 fatos históricos catalogados (1800–2100)": "Swiss Ephemeris © Astrodienst AG • Licensed under GNU AGPL-3.0-or-later • 3,406 historical events cataloged (1800–2100)"
         }
     };
 

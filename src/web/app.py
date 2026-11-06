@@ -1,6 +1,6 @@
 """
 Aplicação Web FastAPI rodando na porta 81 (0.0.0.0:81).
-Oferece o Dashboard completo de Astrologia Moderna com os 1.342 fatos históricos mundiais,
+Oferece o Dashboard completo de Astrologia Moderna com os 3.406 marcos históricos mundiais,
 visualização de mapas astrais em mandala SVG e simulador de correlações futuras.
 """
 
@@ -45,7 +45,7 @@ async def lifespan(app: FastAPI):
 import ipaddress
 
 app = FastAPI(
-    title="AstroHistory - Astrologia Moderna & 1.342 Fatos Históricos Mundiais",
+    title="AstroHistory - Astrologia Moderna & 3.406 Fatos Históricos Mundiais",
     description="Plataforma Internacional de Correlação Astrológica Histórica com Swiss Ephemeris",
     version="7.0.0",
     docs_url=None,

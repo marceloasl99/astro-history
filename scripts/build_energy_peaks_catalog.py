@@ -314,7 +314,7 @@ def generate_world_synthesis(year: int, scenario_key: str, peak_score: float, tr
                 "synthesis": f"Pico Crítico Global ({peak_score}/1000): {m['summary']}",
                 "prec_title": m["historical_precedent"],
                 "prec_year": str(year),
-                "prec_summary": f"Configuração astrológica análoga a momentos de profunda transição de poder mundial e saltos tecnológicos registrados nos 1.342 fatos históricos."
+                "prec_summary": f"Configuração astrológica análoga a momentos de profunda transição de poder mundial e saltos tecnológicos registrados nos 3.406 fatos históricos."
             }
 
     # Anos gerais da era

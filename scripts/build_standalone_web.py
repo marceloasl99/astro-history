@@ -1,7 +1,7 @@
 """
 Gerador da Versão Standalone Estática do AstroHistory para GitHub Pages e Servidores Estáticos.
 Gera um único arquivo 'web/index.html' totalmente funcional, autônomo e auto-contido,
-com todos os 1.342 fatos históricos, 107 países, 148 picos de energia 2026-2060,
+com todos os 3.406 fatos históricos, 107 países, 148 picos de energia 2026-2060,
 linha do tempo 1800-2100, projeções anuais e previsões pré-calculadas.
 """
 
@@ -17,7 +17,7 @@ def build_standalone():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     print("1. Extraindo dados do SQLite e arquivos JSON...")
 
-    # 1. Eventos Históricos (1.342) com cartas celestes calculadas
+    # 1. Eventos Históricos (3.406) com cartas celestes calculadas
     conn = sqlite3.connect(os.path.join(BASE_DIR, "db", "history_astrology.db"))
     c = conn.cursor()
     c.execute("""
@@ -152,7 +152,7 @@ def build_standalone():
             "h1": {"z": -0.506, "p": 0.612, "q": 0.883, "result": "Hipótese Nula NÃO Rejeitada"},
             "tost": {"bounds": "±0.30 DP", "p": 0.041, "result": "Efeito Estatisticamente Equivalente a Zero"},
             "sample_n": 59,
-            "catalog_total": 1342,
+            "catalog_total": 3406,
             "control_dates": 10000
         }
     }
@@ -177,7 +177,7 @@ def generate_html_template(bundle_json: str) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstroHistory | Plataforma Standalone de Astrologia Mundana Computacional (v5.0.0)</title>
+    <title>AstroHistory | Plataforma Standalone de Astrologia Mundana Computacional (v7.0.0)</title>
 
     <!-- FOUC Prevention & Initial Theme Restore -->
     <script>
@@ -289,7 +289,7 @@ def generate_html_template(bundle_json: str) -> str:
                     <span>📊</span> <span data-i18n="Dashboard">Dashboard</span>
                 </button>
                 <button type="button" onclick="switchMainTab('catalog')" data-tab="catalog" class="nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/80 transition flex items-center gap-1.5">
-                    <span>📚</span> <span data-i18n="Catálogo">Catálogo (1.342)</span>
+                    <span>📚</span> <span data-i18n="Catálogo">Catálogo (3.406)</span>
                 </button>
                 <button type="button" onclick="switchMainTab('countries')" data-tab="countries" class="nav-tab-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/80 transition flex items-center gap-1.5">
                     <span>🌐</span> <span data-i18n="Países">Países Soberanos</span>
@@ -336,7 +336,7 @@ def generate_html_template(bundle_json: str) -> str:
         <!-- Mobile Menu Dropdown -->
         <div id="nav-mobile" class="hidden xl:hidden p-4 bg-slate-950 border-b border-slate-800 space-y-2">
             <button type="button" onclick="switchMainTab('dashboard'); toggleMobileNav();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800 flex items-center gap-2"><span>📊</span> Dashboard</button>
-            <button type="button" onclick="switchMainTab('catalog'); toggleMobileNav();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800 flex items-center gap-2"><span>📚</span> Catálogo (1.342)</button>
+            <button type="button" onclick="switchMainTab('catalog'); toggleMobileNav();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800 flex items-center gap-2"><span>📚</span> Catálogo (3.406)</button>
             <button type="button" onclick="switchMainTab('countries'); toggleMobileNav();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800 flex items-center gap-2"><span>🌐</span> Países Soberanos</button>
             <button type="button" onclick="switchMainTab('peaks'); toggleMobileNav();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800 flex items-center gap-2"><span>⚡</span> Picos de Energia (148)</button>
             <button type="button" onclick="switchMainTab('scenarios'); toggleMobileNav();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800 flex items-center gap-2"><span>📅</span> Cenários 2027–2060</button>
@@ -359,7 +359,7 @@ def generate_html_template(bundle_json: str) -> str:
                     <div class="max-w-3xl space-y-4">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/30">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span>Standalone GitHub Pages • 1.342 Fatos Históricos • Swiss Ephemeris 2.10</span>
+                            <span>Standalone GitHub Pages • 3.406 Fatos Históricos • Swiss Ephemeris 2.10</span>
                         </div>
                         <h1 class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
                             Astrologia Mundana Computacional
@@ -372,7 +372,7 @@ def generate_html_template(bundle_json: str) -> str:
                                 <span>⚡</span> <span>Ver Picos de Energia (2026–2060)</span>
                             </button>
                             <button type="button" onclick="switchMainTab('catalog')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs sm:text-sm border border-slate-700 transition flex items-center gap-2">
-                                <span>📚</span> <span>Explorar 1.342 Fatos</span>
+                                <span>📚</span> <span>Explorar 3.406 Fatos</span>
                             </button>
                             <button type="button" onclick="switchMainTab('countries')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-300 font-semibold text-xs sm:text-sm border border-slate-700 transition flex items-center gap-2">
                                 <span>🌐</span> <span>Países Soberanos</span>
@@ -393,7 +393,7 @@ def generate_html_template(bundle_json: str) -> str:
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
                                     <span class="text-slate-400">Marcos Históricos:</span>
-                                    <span class="font-bold text-white font-mono">1.342 eventos</span>
+                                    <span class="font-bold text-white font-mono">3.406 eventos</span>
                                 </div>
                                 <div class="w-full bg-slate-800 rounded-full h-2">
                                     <div class="bg-amber-400 h-2 rounded-full w-full"></div>
@@ -430,7 +430,7 @@ def generate_html_template(bundle_json: str) -> str:
             <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="glass-panel p-5 rounded-2xl border-l-4 border-amber-400">
                     <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Eventos Auditados</span>
-                    <div class="text-3xl font-black text-white font-mono mt-1" id="dashTotalEvents">1.342</div>
+                    <div class="text-3xl font-black text-white font-mono mt-1" id="dashTotalEvents">3.406</div>
                     <div class="text-xs text-amber-300/80 mt-1">100% com efemérides suíças</div>
                 </div>
                 <div class="glass-panel p-5 rounded-2xl border-l-4 border-sky-400">
@@ -479,7 +479,7 @@ def generate_html_template(bundle_json: str) -> str:
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="glass-panel p-6 rounded-2xl space-y-4">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <span>📊</span> Distribuição dos 1.342 Fatos pelas 6 Categorias Canônicas
+                        <span>📊</span> Distribuição dos 3.406 Fatos pelas 6 Categorias Canônicas
                     </h3>
                     <div class="h-64 flex items-center justify-center">
                         <canvas id="categoryDoughnutCanvas"></canvas>
@@ -488,7 +488,7 @@ def generate_html_template(bundle_json: str) -> str:
 
                 <div class="glass-panel p-6 rounded-2xl space-y-4">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <span>☀️</span> Posição do Sol nos 1.342 Grandes Eventos Históricos
+                        <span>☀️</span> Posição do Sol nos 3.406 Grandes Eventos Históricos
                     </h3>
                     <div class="h-64 flex items-center justify-center">
                         <canvas id="sunSignBarCanvas"></canvas>
@@ -524,7 +524,7 @@ def generate_html_template(bundle_json: str) -> str:
         </section>
 
         <!-- ============================================================= -->
-        <!-- TAB 2: CATÁLOGO DE 1.342 FATOS HISTÓRICOS                     -->
+        <!-- TAB 2: CATÁLOGO DE 3.406 FATOS HISTÓRICOS                     -->
         <!-- ============================================================= -->
         <section id="tab-catalog" class="tab-pane hidden space-y-6">
             <!-- Header -->
@@ -532,7 +532,7 @@ def generate_html_template(bundle_json: str) -> str:
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2">
-                            <span>📚</span> Catálogo dos 1.342 Fatos Históricos Mundiais
+                            <span>📚</span> Catálogo dos 3.406 Fatos Históricos Mundiais
                         </h2>
                         <p class="text-xs sm:text-sm text-slate-300 mt-1">
                             Base auditada cobrindo de 490 a.C. até 2026 d.C. em 6 eixos canônicos com efemérides suíças completas.
@@ -548,7 +548,7 @@ def generate_html_template(bundle_json: str) -> str:
 
                 <!-- Category Pills -->
                 <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800" id="catalogCategoryFilters">
-                    <button type="button" onclick="setCatalogCategoryFilter('Todas')" class="cat-pill px-3 py-1 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition" data-cat="Todas">Todas (1.342)</button>
+                    <button type="button" onclick="setCatalogCategoryFilter('Todas')" class="cat-pill px-3 py-1 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition" data-cat="Todas">Todas (3.406)</button>
                     <button type="button" onclick="setCatalogCategoryFilter('Guerra & Conflito')" class="cat-pill px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white transition" data-cat="Guerra & Conflito">⚔️ Guerra & Conflito</button>
                     <button type="button" onclick="setCatalogCategoryFilter('Política, Revoluções & Poder')" class="cat-pill px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white transition" data-cat="Política, Revoluções & Poder">🏛️ Política & Revolução</button>
                     <button type="button" onclick="setCatalogCategoryFilter('Ciência, Tecnologia & Exploração Espacial')" class="cat-pill px-3 py-1 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white transition" data-cat="Ciência, Tecnologia & Exploração Espacial">🚀 Ciência & Espaço</button>
@@ -943,7 +943,7 @@ def generate_html_template(bundle_json: str) -> str:
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-4 font-mono text-xs">
-                <span>1.342 Fatos Catalogados</span>
+                <span>3.406 Fatos Catalogados</span>
                 <span>•</span>
                 <span>148 Picos (2026–2060)</span>
                 <span>•</span>
@@ -1166,7 +1166,7 @@ def generate_html_template(bundle_json: str) -> str:
                     data: {{
                         labels: sunData.map(s => s.sun_sign),
                         datasets: [{{
-                            label: 'Ocorrências nos 1.342 Fatos',
+                            label: 'Ocorrências nos 3.406 Fatos',
                             data: sunData.map(s => s.cnt),
                             backgroundColor: 'rgba(251, 191, 36, 0.75)',
                             borderRadius: 4

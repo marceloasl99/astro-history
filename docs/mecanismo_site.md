@@ -13,18 +13,18 @@ Swiss Ephemeris (pyswisseph)
    │                                                              ──► hindcast walk-forward ──► skill (BSS, AUC)
    │                                                              ──► forecast 2026–2060 (p, intervalo, drivers)
    │
-   ├─ Catálogo Expandido de 1.342 Eventos Mundiais ──► 6 categorias canônicas ──► efemérides Swiss Ephemeris
-   │  (COW Wars, UCDP, Powell & Thyne, USGS, NBER, Marcos)
+   ├─ Catálogo Expandido de 3.406 Eventos Mundiais ──► 6 categorias canônicas ──► efemérides Swiss Ephemeris
+   │  (COW Wars, UCDP, Powell & Thyne, USGS, NOAA NCEI, GVP, NBER, Marcos Curados)
    │
    ├─ Módulos de Pesquisa Internacional (Fase 4)
    │  ├─ André Barbault Cyclic Index (CI-4 vs CI-5, derivadas) ──► src.features.barbault_ci
    │  ├─ Renay Oshop Sum of Cosines (agrupamento e variância circular) ──► src.features.sum_of_cosines
-   │  └─ Cosmic History Search (análogos celestes na base 1.342) ──► src.analysis.historical_analogues
+   │  └─ Cosmic History Search (análogos celestes na base 3.406) ──► src.analysis.historical_analogues
    │
    ├─ Astrologia Mundana dos Países (National Horoscopes) ──► /countries
    │  └─ Mapas soberanos (Campion), trânsitos históricos passados e projeções 2026–2050
    │
-   └─ Cartas de eventos (1.342 do catálogo + simulador) ──► aspectos, estrelas fixas, casas, mandala SVG
+   └─ Cartas de eventos (3.406 do catálogo + simulador) ──► aspectos, estrelas fixas, casas, mandala SVG
 
 Alvos históricos: catálogo objetivo v2 (N=59), COW Guerras v4, NBER, UCDP/PRIO v24.1 ──► séries mensais
 ```
@@ -91,7 +91,7 @@ As features são agregadas por **mês** (média, e máximo para ativações). A 
 
 **Considerações:**
 - Com 59 eventos o efeito mínimo detectável era 0,33 desvios-padrão; séries mensais dão milhares de pontos e potência real.
-- O catálogo geral de 1.342 marcos históricos agrega bases acadêmicas (COW, UCDP, Powell-Thyne, USGS, NBER) e marcos mundiais categorizados em 6 eixos canônicos. Ele alimenta a exploração, a busca de análogos cósmicos e as certidões nacionais, mantendo a amostra analítica v2 (N=59) estritamente congelada para blindagem contra vazamento de dados.
+- O catálogo geral de 3.406 marcos históricos agrega bases acadêmicas (COW, UCDP, Powell-Thyne, USGS, NOAA NCEI, GVP, NBER) e marcos mundiais categorizados em 6 eixos canônicos. Ele alimenta a exploração, a busca de análogos cósmicos e as certidões nacionais, mantendo a amostra analítica v2 (N=59) estritamente congelada para blindagem contra vazamento de dados.
 - A contagem de eventos cresce ao longo do tempo (mais Estados, mais registro) enquanto os planetas lentos derivam monotonicamente. O hindcast usa climatologia expansiva e estratificação temporal para não confundir época com geometria.
 
 ## 7. Hindcast: como o skill é medido
@@ -121,8 +121,8 @@ As features são agregadas por **mês** (média, e máximo para ativações). A 
 ## 9. Simulador, Catálogo e Análogos Cósmicos
 
 - **Simulador e Linha do Tempo**: O simulador oferece varredura contínua de 1800 a 2100 com demarcação cronológica estrita: anos anteriores a 2026 são marcados como Histórico (com selos dourados para anos com fatos históricos registrados e ardósia para cálculo retroativo), enquanto anos de 2026 a 2100 são identificados como Projeção Futura.
-- **Cosmic History Search**: Motor interativo de busca de precedentes cósmicos na base de 1.342 fatos históricos para qualquer data informada, exibindo o Índice Cíclico de Barbault (CI-4 vs CI-5) e a métrica Sum of Cosines de Renay Oshop.
-- **Catálogo de 1.342 Fatos**: 1.342 eventos mundiais em 6 eixos canônicos com filtros por categoria, busca textual instantânea e indicação da amostra validada v2 ("✓ N=59"). Navegação cronológica entre eventos.
+- **Cosmic History Search**: Motor interativo de busca de precedentes cósmicos na base de 3.406 fatos históricos para qualquer data informada, exibindo o Índice Cíclico de Barbault (CI-4 vs CI-5) e a métrica Sum of Cosines de Renay Oshop.
+- **Catálogo de 3.406 Fatos**: 3.406 eventos mundiais em 6 eixos canônicos com filtros por categoria, busca textual instantânea e indicação da amostra validada v2 ("✓ N=59"). Navegação cronológica entre eventos.
 - **Astrologia dos Países**: Hub em `/countries` com cartas de fundação soberana (Campion), reconstituição de trânsitos em eventos históricos passados e projeções de picos energéticos até 2050.
 
 ## 10. Caches, reprodução e deploy

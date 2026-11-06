@@ -16,7 +16,7 @@ templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 
 def fmt_int(n) -> str:
-    """1342 → '1.342' (separador de milhar PT)."""
+    """3406 → '3.406' (separador de milhar PT)."""
     try:
         return f"{int(n):,}".replace(",", ".")
     except (TypeError, ValueError):

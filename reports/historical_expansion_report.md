@@ -2,8 +2,11 @@
 
 **Data de Conclusão**: Novembro de 2026  
 **Repositório**: `marceloasl99/astro-history`  
-**Versão do Catálogo**: 4.0.0 (Expansão Internacional)  
+**Versão do Catálogo**: 4.0.0 (Expansão Internacional; atualizado na v7 para 3.406 eventos)  
 **Status**: Concluído e Validado  
+
+> [!NOTE]
+> Este relatório registra o marco histórico da Fase 4 (expansão inicial de 300 para 1.342 eventos). A partir da **v6/v7**, o catálogo foi expandido e integralmente auditado para **3.406 marcos históricos verificados** (9650 a.C. a 2026 d.C., com mais de 11.600 anos de cobertura), conforme detalhado em [`reports/catalog_audit_v6.md`](catalog_audit_v6.md) e [`data/DATASET_CARD.md`](../data/DATASET_CARD.md).
 
 ---
 

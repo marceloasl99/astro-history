@@ -17,20 +17,20 @@
 1. [What this project is](#1-what-this-project-is)
 2. [Key innovations in v7.0.0](#2-key-innovations-in-v700)
 3. [The research question and empirical results](#3-the-research-question-and-empirical-results)
-4. [Platform architecture & interactive pages](#4-platform-architecture--interactive-pages)
+4. [Platform architecture & interactive pages](#4-platform-architecture-interactive-pages)
 5. [The computational pipeline](#5-the-computational-pipeline)
 6. [Astronomical layer: Swiss Ephemeris precision](#6-astronomical-layer-swiss-ephemeris-precision)
 7. [The tension score and empirical percentiles](#7-the-tension-score-and-empirical-percentiles)
 8. [Mundane methodology: Barbault, Oshop, and Tarnas](#8-mundane-methodology-barbault-oshop-and-tarnas)
-9. [Historical database: 3,406 events across 2,500+ years](#9-historical-database-3406-events-across-2500-years)
-10. [National charts & mundane transit analysis](#10-national-charts--mundane-transit-analysis)
-11. [Personal Module: Natal, Transits & Progressions](#11-personal-module-natal-transits--progressions)
-12. [Validation I — Pre-registered null-model tests](#12-validation-i--pre-registered-null-model-tests)
-13. [Validation II — Walk-forward hindcast and forecast skill](#13-validation-ii--walk-forward-hindcast-and-forecast-skill)
+9. [Historical database: 3,406 events across 11,600+ years (9650 BCE–2026 CE)](#9-historical-database-3406-events-across-11600-years-9650-bce2026-ce)
+10. [National charts & mundane transit analysis (107 sovereign nations)](#10-national-charts-mundane-transit-analysis-107-sovereign-nations)
+11. [Personal Module: Natal Charts, Transits, Progressions & Forecast](#11-personal-module-natal-charts-transits-progressions-forecast)
+12. [Validation I — Pre-registered null-model tests](#12-validation-i-pre-registered-null-model-tests)
+13. [Validation II — Walk-forward hindcast and forecast skill](#13-validation-ii-walk-forward-hindcast-and-forecast-skill)
 14. [Forecast 2026–2060: probabilistic projection](#14-forecast-20262060-probabilistic-projection)
-15. [Design system, triple themes & i18n](#15-design-system-triple-themes--i18n)
+15. [Design system, triple themes & i18n](#15-design-system-triple-themes-i18n)
 16. [Quickstart, reproduction and deployment](#16-quickstart-reproduction-and-deployment)
-17. [Security model & internal API architecture](#17-security-model--internal-api-architecture)
+17. [Security model & internal API architecture](#17-security-model-internal-api-architecture)
 18. [Repository structure](#18-repository-structure)
 19. [Citation, licensing and attribution](#19-citation-licensing-and-attribution)
 
@@ -91,7 +91,7 @@ The `v7.0.0` release introduces major personal astrology visualization advanceme
 | **H2 Walk-Forward Out-of-Sample** | Train: 1800–1950 (N=26) $\rightarrow$ Test: 1951–2025 (N=33) | $z = -0.851, p = 0.401, q = 0.933$ | ❌ No predictive transfer |
 | **H4 Tarnas Outer-Planet Thesis** | Hard aspects between Saturn, Uranus, Neptune, Pluto | $z = -0.063, p = 0.979, q = 0.883$ | ❌ Null not rejected |
 | **Hindcast on Monthly Series (1951–2024)** | 7 objective targets $\times$ 8 model families vs Climatology & AR | Max astrological BSS $\le 0.003$; AUC $\le 0.52$ | ❌ No discrimination over baseline |
-| **Annual Indices vs 1,342 Catalogue** | Circular-shift null with Benjamini-Hochberg FDR control | Zero correlations survive FDR threshold | ❌ No robust correlation |
+| **Annual Indices vs 3,406 Catalogue** | Circular-shift null with Benjamini-Hochberg FDR control | Zero correlations survive FDR threshold | ❌ No robust correlation |
 
 **Conclusion:** Across all tested configurations, planetary alignments and astrological tension indices do not perform better than random chance or autoregressive baselines. The platform presents all future curves accompanied by these skill metrics, recommending historical base rates for probabilistic risk assessment.
 
@@ -104,13 +104,15 @@ The web application is built with **FastAPI**, **Jinja2**, and **Chart.js**, ser
 | View | Route | Core Functionality | Primary Data Source |
 | :--- | :--- | :--- | :--- |
 | **Dashboard** | `/` | 1800–2100 interactive timeline, tension percentiles, null envelopes (P5–P95), Barbault concentration, featured events | `data/timeline_1800_2100.json`, `data/forecast_v3.json` |
-| **Event Catalogue** | `/events` | 1,342 audited events, 6 canonical categories, text search, century filters, objective sample filter | `data/historical_events.json`, SQLite `events` |
+| **Event Catalogue** | `/events` | 3,406 audited events, 6 canonical categories, text search, century filters, objective sample filter | `data/historical_events.json`, SQLite `events` |
 | **Event Detail** | `/events/{id}` | Full chart (17 celestial bodies, houses, fixed stars), SVG mandala, archetypal breakdown, random control comparison | SQLite `events`, Swiss Ephemeris |
-| **National Charts** | `/countries` | 20 sovereign nations, constitutional founding charts, active transits, 2026–2050 energy peaks | `data/countries_database.json`, `src/mundane/` |
+| **National Charts** | `/countries` | 107 sovereign nations, constitutional founding charts, active transits, 2026–2050 energy peaks | `data/countries_database.json`, `src/mundane/` |
 | **Simulator** | `/simulator` | Real-time ephemeris calculator for any date/time/location; leave-one-out cosmic analogue matching | `src/astro_engine.py`, Swiss Ephemeris |
 | **Correlations Hub** | `/correlations` | Statistical distributions of planetary positions, aspects, and fixed stars by historical category | SQLite database aggregation |
 | **Forecast** | `/forecast` | Probabilistic 2026–2060 projection by target, model skill badges, astronomical calendar, cosmic analogues | `data/forecast_v3.json` |
 | **Scenarios** | `/projections` | Annual geometric tension tiers (2026–2060), outer-planet sign ingresses, seasonal gates | `data/projections_2027_2060.json` |
+| **Personal Hub** | `/natal` | Natal chart calculator, 6 house systems, 17 bodies, SVG chart, 34,204-city offline search | `data/gazetteer/cities.sqlite`, `src/natal/` |
+| **Personal Forecast** | `/natal/forecast` | Lifetime transits (0–100y), 6 criticality tiers, category-separated interactive chart, scope filters, cookie profiles | `data/ephemeris/natal_grid_1850_2150.npz`, `src/natal/` |
 | **Methodology** | `/methodology` | Scientific documentation, null hypothesis formulations, exclusion funnel, hindcast verification table | `data/results.json`, `reports/hindcast_v3.json` |
 
 ---
@@ -134,16 +136,16 @@ flowchart TD
     end
 
     subgraph "Historical Datasets"
-        CAT["1,342-Event Expanded Database<br/>6 canonical categories · 490 BCE–2026 CE"]
+        CAT["3,406-Event Expanded Database<br/>6 canonical categories · 9650 BCE–2026 CE"]
         V2["Pre-registered Objective Sample (N=59)"]
-        NAT["20 Sovereign National Charts<br/>Audited constitutional dates"]
+        NAT["107 Sovereign National Charts<br/>Audited constitutional dates"]
         CTRL["10,000 Decade-Stratified Controls"]
     end
 
     subgraph "Statistical Validation"
         NULL["Null Models N1–N3<br/>10,000 circular-shift permutations · TOST"]
         HIND["Walk-Forward Hindcast 1951–2024<br/>Brier Skill Score · ROC AUC · Bootstrap"]
-        ANALOG["Cosmic History Search<br/>Geometric distance across 1,342 events"]
+        ANALOG["Cosmic History Search<br/>Geometric distance across 3,406 events"]
     end
 
     subgraph "Presentation Layer"
@@ -209,42 +211,54 @@ Continuous Gaussian activations ($\sigma = 5^\circ$) tracking hard configuration
 
 ---
 
-## 9. Historical database: 1,342 events across 2,500 years
+## 9. Historical database: 3,406 events across 11,600+ years (9650 BCE–2026 CE)
 
-The historical foundation contains **1,342 audited events** spanning from 490 BCE (Battle of Marathon) through 2026 CE. Every event is verified for date, time, location coordinates, calendar standard, and categorized into 6 canonical domains:
+The historical foundation contains **3,406 audited events** spanning from 9650 BCE (prehistoric geological and volcanic benchmarks) through 2026 CE, representing over 11,600 years of recorded civilizational, scientific, and geopolitical history. Every record includes verified calendar standards (Julian/Gregorian), geographical coordinates, Local Mean Time / IANA timezones, source provenance, data precision flags (`day`, `month`, `year`, `decade`), and quality tiers (Tier A/B/C):
 
 ```
-Total Events: 1,342
-├── 1. Armed Conflicts & Wars (conflict_war): 396 events (29.5%)
-├── 2. Politics, Revolutions & Coups (politics_power): 367 events (27.3%)
-├── 3. Science, Technology & Space (science_tech): 199 events (14.8%)
-├── 4. Economy, Financial Crises & Markets (economy_crisis): 150 events (11.2%)
-├── 5. Culture, Religion & Philosophy (culture_philosophy): 118 events (8.8%)
-└── 6. Disasters, Pandemics & Climate (disaster_pandemic): 112 events (8.3%)
+Total Events: 3,406
+├── 1. Disasters & Public Health (Desastre & Saúde Pública): 1,456 events (42.7%)
+│   ├── NOAA NCEI Significant Earthquakes (M ≥ 7.5): 1,200 events
+│   ├── Smithsonian GVP Volcanic Eruptions (VEI ≥ 5): 154 events
+│   └── Major Historical Epidemics & Pandemics: 40 events
+├── 2. Revolutions & Internal Conflicts (Revolução & Conflito Interno): 1,327 events (39.0%)
+│   ├── Powell & Thyne Coup d'État Dataset: 495 coups and coup attempts
+│   └── Wikidata & Curated Political Uprisings, Sieges & Revolutions: 832 events
+├── 3. Wars & Armed Conflicts (Guerra & Conflito): 229 events (6.7%)
+│   ├── Correlates of War (COW) Inter-State Wars v4.0: 94 wars
+│   └── UCDP/PRIO Armed Conflict Dataset v24.1 & Decisive Battles: 135 events
+├── 4. Politics, Treaties & Sovereignty (Política, Tratados & Cultura): 185 events (5.4%)
+│   ├── Peace Treaties, Declarations of Independence & International Accords: 70 events
+│   └── Institutional, Constitutional & Cultural Milestones: 115 events
+├── 5. Science, Technology & Space Exploration (Ciência & Tecnologia): 116 events (3.4%)
+│   └── Major Scientific Discoveries, Computing Eras, Telecommunications & Space Missions
+└── 6. Financial & Economic Crises (Crise Financeira & Econômica): 93 events (2.7%)
+    └── NBER Business Cycle Peaks, Sovereign Defaults, Panics & Modern Market Crashes
 ```
 
 ### Chronological Distribution
-- **Antiquity & Middle Ages (Pre-1500 CE):** 62 pivotal civilizational milestones.
-- **Early Modern Era (1500–1799 CE):** 115 events.
-- **19th Century (1800–1899 CE):** 282 events.
-- **20th Century (1900–1999 CE):** 641 events (including WWI, WWII, atomic weapons, Cold War crises, space exploration).
-- **21st Century (2000–2026 CE):** 242 contemporary events.
+- **Pre-History & Antiquity (9650 BCE–1 BCE):** 165 pivotal ancient events (including Göbekli Tepe era volcanic benchmarks, Bronze Age collapses, Thera eruption, classical Greco-Roman battles, and ancient treaties).
+- **Classical & Medieval Eras (1–1499 CE):** 247 civilizational milestones (Total Pre-1500 CE: 412 events).
+- **Early Modern Era (1500–1799 CE):** 298 events (Total Pre-1800: 710 events).
+- **19th Century (1800–1899 CE):** 350 events.
+- **20th Century (1900–1999 CE):** 1,804 events (including WWI, WWII, atomic weapons, Cold War crises, global decolonization, space exploration, and computing revolutions).
+- **21st Century (2000–2026 CE):** 542 contemporary events.
 
 ### Dual-Track Analytic Architecture
-To prevent circular reasoning, the platform separates the broad exploration catalogue from analytical testing:
-1. **Curated Catalogue (N = 1,342):** Used for public browsing, educational chart analysis, and Cosmic History Search.
-2. **Objective Pre-Registered Sample (N = 59):** Fixed prior to analysis from objective conflict and economic databases (COW, UCDP, NBER, Powell & Thyne) with zero subjective post-selection.
+To prevent data snooping and circular reasoning, the platform enforces strict structural separation:
+1. **Curated Catalogue (Track A, N = 3,406):** Used for public exploration, interactive chart visualizations, national horoscopes, and the Cosmic History Search engine.
+2. **Objective Pre-Registered Sample (Track B, N = 61 in `events_v2.csv` / 59 complete):** Strictly frozen prior to analysis from objective conflict and economic databases (COW, UCDP, NBER, Powell & Thyne) with 10,000 decade-stratified control dates and zero subjective post-selection.
 
 ---
 
-## 10. National charts & mundane transit analysis
+## 10. National charts & mundane transit analysis (107 sovereign nations)
 
-Implemented in `src/mundane/`, the platform provides constitutional foundation charts and active mundane transits for 20 sovereign geopolitical entities:
+Implemented in `src/mundane/`, the platform provides constitutional foundation charts and active mundane transits for 107 sovereign geopolitical entities:
 
-- **Americas:** United States (1776-07-04), Brazil (1822-09-07), Argentina, Canada, Mexico.
-- **Europe:** United Kingdom (1801-01-01), France (1958-10-04, Fifth Republic), Germany (1990-10-03, Reunification), Italy, Ukraine, Russia (1991-12-25).
-- **Middle East:** Israel (1948-05-14), Iran (1979-04-01), Turkey, Saudi Arabia, Egypt.
-- **Asia & Oceania:** China (1949-10-01, PRC), Japan (1947-05-03, Post-War Constitution), India (1947-08-15), Australia.
+- **Americas (25 nations):** United States (1776-07-04), Brazil (1822-09-07), Argentina, Canada, Mexico, Colombia, Chile, Peru, Venezuela, Cuba, etc.
+- **Europe (36 nations):** United Kingdom (1801-01-01), France (1958-10-04, Fifth Republic), Germany (1990-10-03, Reunification), Italy, Ukraine, Russia (1991-12-25), Poland, Spain, Portugal, Greece, Switzerland, etc.
+- **Middle East & North Africa (18 nations):** Israel (1948-05-14), Iran (1979-04-01), Turkey, Saudi Arabia, Egypt, Iraq, Syria, UAE, etc.
+- **Asia & Oceania (28 nations):** China (1949-10-01, PRC), Japan (1947-05-03, Post-War Constitution), India (1947-08-15), Australia, South Korea, Indonesia, Pakistan, Taiwan, etc.
 
 Each country entry includes:
 - Exact historical foundation date, time, and capital coordinates.
@@ -254,7 +268,41 @@ Each country entry includes:
 
 ---
 
-## 11. Validation I — Pre-registered null-model tests
+## 11. Personal Module: Natal Charts, Transits, Progressions & Forecast
+
+The Personal Module (`/natal`) operationalizes high-precision personal astrology with mathematical rigor, client-side privacy, and modern interactive data visualization:
+
+- **High-Precision Natal Chart Calculation (`/natal`):**
+  - Multiple house systems: Placidus, Whole Sign, Equal, Koch, Regiomontanus, Porphyry.
+  - 17 celestial bodies computed to sub-arcsecond accuracy via Swiss Ephemeris (`Sun`, `Moon`, `Mercury`, `Venus`, `Mars`, `Jupiter`, `Saturn`, `Uranus`, `Neptune`, `Pluto`, `Chiron`, `Ceres`, `Pallas`, `Juno`, `Vesta`, `Mean Lilith`, `True Lunar Node`).
+  - Interactive SVG natal wheel mandala with house boundaries, aspect chords, dignity highlights, and fixed-star conjunctions.
+- **Vectorized Lifetime Daily Transits (`/natal/transits`):**
+  - Daily astrological scan spanning a full lifetime from 0 to 100 years (up to 36,525 days) computed in under 1.5 seconds using optimized NumPy precomputed grids (`data/ephemeris/natal_grid_1850_2150.npz`).
+- **Secondary Progressions & Major Life Cycles:**
+  - Day-for-a-year progression engine tracking progressed Moon movements (~2.5 years per sign) and aspects to natal points.
+  - Algorithmic detection of pivotal life cycles: Saturn Return (~29.5 years and ~59 years), Jupiter Returns (~12, ~24, ~36, ~48, ~60 years), Uranus Opposition (~42 years), and Chiron Return (~50 years).
+- **8 Calibrated Life Domains:**
+  - Standardized normalization (0–1000 scale) of active transits across 8 primary spheres of human experience: *Identity & Vitality, Mind & Communication, Relationships & Partnerships, Career & Purpose, Finances & Material Resources, Structure & Discipline, Deep Transformation, Expansion & Wisdom*.
+- **Offline World Gazetteer (34,204 Cities):**
+  - Integrated SQLite database (`data/gazetteer/cities.sqlite`) derived from GeoNames with instant client-side autocomplete, coordinates, and embedded IANA timezones.
+- **Personal Forecast with 6 Criticality Tiers (`/natal/forecast`):**
+  - Standardized 0–1000 criticality score segmented into 6 rich, psychologically and biographically grounded tiers:
+    - 💥 **Transformative Peak** ($\ge 850$): Radical metamorphosis, major destiny turning points, and life milestones.
+    - ⚡ **Turning Point** (700–849): Crucial transitions, redefining priorities, and structural decisions.
+    - 🔥 **High Activation** (550–699): Dynamic movement, accelerating opportunities, and high productivity.
+    - 🌊 **Moderate** (400–549): Steady rhythmic progress, gradual evolution, and maturation.
+    - 🌿 **Consolidation** (250–399): Grounding previous gains, routine stabilization, and reflective learning.
+    - 🌱 **Stability & Gestation** ($< 250$): Low planetary friction, psychic integration, and serene planning.
+- **Interactive Multi-Dataset Chart & Temporal Scope Filter:**
+  - 6 distinct color-coded bar datasets for each criticality tier, plus an unbroken continuous life curve line dataset.
+  - Clickable legend with single-category isolation buttons.
+  - Scope toggles: **"Show All"** vs **"Future Only"** (filtering out past dates and focusing strictly on upcoming years and events).
+- **Local Profile Persistence:**
+  - Save and switch profiles instantly via browser `localStorage` cookies with zero user registration and zero external database storage, guaranteeing strict personal privacy.
+
+---
+
+## 12. Validation I — Pre-registered null-model tests
 
 Pre-registered hypotheses were frozen in [`docs/hipoteses.md`](docs/hipoteses.md) and evaluated in [`reports/validacao_v2.md`](reports/validacao_v2.md):
 
@@ -277,7 +325,7 @@ Pre-registered hypotheses were frozen in [`docs/hipoteses.md`](docs/hipoteses.md
 
 ---
 
-## 12. Validation II — Walk-forward hindcast and forecast skill
+## 13. Validation II — Walk-forward hindcast and forecast skill
 
 A walk-forward hindcast framework (`src/analysis/hindcast.py`) tested 8 model families across monthly historical series from 1951 to 2024 with a 12-month safety gap:
 
@@ -295,7 +343,7 @@ A walk-forward hindcast framework (`src/analysis/hindcast.py`) tested 8 model fa
 
 ---
 
-## 13. Forecast 2026–2060: probabilistic projection
+## 14. Forecast 2026–2060: probabilistic projection
 
 The probabilistic forecast module (`src/analysis/forecast_v3.py`) models each target out to 2060:
 
@@ -307,7 +355,7 @@ The probabilistic forecast module (`src/analysis/forecast_v3.py`) models each ta
 
 ---
 
-## 14. Design system, triple themes & i18n
+## 15. Design system, triple themes & i18n
 
 The frontend follows modern design principles inspired by Vercel and UI/UX Pro Max guidelines:
 
@@ -322,7 +370,7 @@ The frontend follows modern design principles inspired by Vercel and UI/UX Pro M
 
 ---
 
-## 15. Quickstart, reproduction and deployment
+## 16. Quickstart, reproduction and deployment
 
 ### Prerequisites
 - Linux or macOS
@@ -344,7 +392,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# Run full test suite (122 automated tests)
+# Run full test suite (138 automated tests)
 pytest tests/
 ```
 
@@ -370,7 +418,7 @@ The entire platform is also compiled into a **100% self-contained, standalone si
 
 ---
 
-## 16. Security model & internal API architecture
+## 17. Security model & internal API architecture
 
 Because the server is deployed to the public internet fronted by Cloudflare proxy (`history.skyastrum.com`), **all external API exposure has been locked down by design**:
 
@@ -379,7 +427,7 @@ Because the server is deployed to the public internet fronted by Cloudflare prox
 - **Internal Loopback API:**
   API endpoints remain strictly accessible to local server processes (`127.0.0.1`, `::1`, `localhost`, `testclient`) to power automated continuous integration tests (`pytest`), offline CLI batch jobs, and internal validation suites.
 - **Server-Side Pre-Rendering (Zero Client API Calls):**
-  All interactive web pages—including event detail control comparisons, live simulations, Barbault indices, and historical analogue matches—are rendered dynamically on the server via Jinja2 templates, ensuring full user functionality with zero client-side `/api/` fetch dependencies.
+  All interactive web pages—including event detail control comparisons, live simulations, Barbault indices, personal natal charts, lifetime transits, and historical analogue matches—are rendered dynamically on the server via Jinja2 templates, ensuring full user functionality with zero client-side `/api/` fetch dependencies.
 - **OWASP Defense-in-Depth Headers:**
   The application attaches strict HTTP security headers to every response:
   - `X-Frame-Options: SAMEORIGIN` (prevents clickjacking)
@@ -392,11 +440,11 @@ Because the server is deployed to the public internet fronted by Cloudflare prox
 
 | Method | Endpoint | Internal Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/stats` | Global database summary (1,342 events, categories, time span) |
+| `GET` | `/api/stats` | Global database summary (3,406 events, categories, time span 9650 BCE–2026 CE) |
 | `GET` | `/api/events?category=&search=` | Filtered list of historical events |
 | `GET` | `/api/events/{id}` | Full chart data, aspect matrix, and star conjunctions for an event |
 | `POST` | `/api/simulate` | On-demand chart calculation and historical analogue matching |
-| `GET` | `/api/historical-analogues?date=&category=&top_k=` | Multidimensional Cosmic History Search across 1,342 events |
+| `GET` | `/api/historical-analogues?date=&category=&top_k=` | Multidimensional Cosmic History Search across 3,406 events |
 | `GET` | `/api/features/barbault?date=` | André Barbault CI-4 and CI-5 indices and first derivative |
 | `GET` | `/api/features/oshop?date=` | Renay Oshop Sum of Cosines ($\Sigma \cos$), variance, and permutation test |
 | `GET` | `/api/countries` | Sovereign national mundane database (107 nations) |
@@ -409,74 +457,127 @@ Because the server is deployed to the public internet fronted by Cloudflare prox
 | `GET` | `/api/energy-peaks-2026-2060` | Geopolitical energy peaks catalog (148 peaks) |
 | `GET` | `/api/forecast` | Probabilistic forecasts and skill badges across all targets |
 | `GET` | `/api/forecast/year/{year}` | Astronomical calendar, exact aspects, and analogues for a given year |
+| `GET` | `/api/natal/chart?date=&time=&lat=&lon=` | High-precision personal natal chart (17 bodies, houses, aspects, stars) |
+| `GET` | `/api/natal/transits?date=&time=&lat=&lon=&target_date=` | Personal active transits and 8 calibrated life domain scores |
+| `GET` | `/api/natal/forecast?date=&time=&lat=&lon=&start_year=&end_year=` | Multi-year personal forecast timeline (6 criticality tiers) |
+| `GET` | `/api/natal/cities?q=` | Offline GeoNames gazetteer search (34,204 cities with IANA timezones) |
 
 ---
 
-## 17. Repository structure
+## 18. Repository structure
 
 ```
 astro-history/
 ├── config/
 │   ├── score.yaml                 # Planetary weights, aspect orbs, tension parameters
-│   ├── stars.yaml                 # Fixed star coordinates and bounds
-│   └── analysis.yaml              # Random seeds, permutation counts, validation windows
+│   ├── stars.yaml                 # Fixed star coordinates and bounds (30 stars)
+│   ├── analysis.yaml              # Random seeds, permutation counts, validation windows
+│   ├── categories.yaml            # Canonical and analytical category taxonomies
+│   ├── natal.yaml                 # Natal module configurations, orbs, and planetary weights
+│   └── natal_domains.yaml         # Calibrated weights for the 8 life domains
 ├── data/
-│   ├── historical_events.json     # 1,342-event verified historical database
+│   ├── historical_events.json     # 3,406-event verified historical database (9650 BCE–2026 CE)
 │   ├── countries_database.json    # 107 sovereign national charts & historical metadata
+│   ├── country_historical_events.json # 101 country-linked historical events
 │   ├── energy_peaks_2026_2060.json# 148 calculated planetary energy peaks (2026–2060)
-│   ├── events_v2.csv              # Objective validation sample (N=59)
-│   ├── external/                  # COW Wars, UCDP Conflicts, NBER Cycles, Powell & Thyne Coups, USGS Earthquakes
-│   ├── ephemeris/                 # Daily precomputed ephemeris grid 1800–2100 (.npz)
+│   ├── events_v2.csv              # Objective validation sample (N=61 / N=59 clean)
+│   ├── curated/                   # Curated datasets (Antiquity, LatAm, Science, Diplomacy, etc.)
+│   ├── external/                  # COW Wars, UCDP Conflicts, NBER Cycles, Powell & Thyne Coups, NOAA NCEI, GVP
+│   ├── gazetteer/
+│   │   └── cities.sqlite          # Offline SQLite gazetteer with 34,204 world cities
+│   ├── ephemeris/
+│   │   ├── daily_grid_1800_2100.npz   # Daily precomputed ephemeris grid 1800–2100
+│   │   └── natal_grid_1850_2150.npz   # Vectorized daily natal transit grid 1850–2150
+│   ├── calibration/
+│   │   └── natal_domains_reference.json # Empirical quantile calibration for 8 life domains
 │   ├── forecast_v3.json           # Probabilistic forecast models & calendar (2026–2060)
 │   ├── timeline_1800_2100.json    # UI cache for timeline and percentile curves
 │   └── DATASET_CARD.md            # Rigorous dataset documentation and source provenance
 ├── db/
-│   └── history_astrology.db       # SQLite relational database
+│   └── history_astrology.db       # SQLite relational database (3,406 events, 10,000 controls)
 ├── docs/
 │   ├── index.html                 # Synchronized standalone single-file for GitHub Pages (/docs branch)
-│   ├── hipoteses.md               # Pre-registration of hypotheses (v2)
-│   ├── hipoteses_v3.md            # Pre-registration of hindcast hypotheses (v3)
-│   └── mecanismo_site.md          # Architectural and methodological documentation
+│   ├── mecanismo_site.md          # Architectural and methodological documentation
+│   ├── plano_v6_roadmap.md        # Comprehensive v6/v7 roadmap and development milestones
+│   ├── spec_modulo_pessoal_natal_transitos.md # Detailed specification of personal module
+│   ├── hipoteses.md / hipoteses_v3.md / hipoteses_v4.md # Pre-registered hypotheses
+│   └── decisao_M2.md              # Milestone M2 decision record
 ├── reports/
+│   ├── catalog_audit_v6.md        # Full audit metrics for the 3,406-event catalogue
+│   ├── energy_peaks_2026_2060_report.md # Comprehensive 148 energy peaks intelligence report
 │   ├── validacao_v2.md            # Detailed report of null-model validation
 │   └── hindcast_v3.json           # Full walk-forward hindcast statistical metrics
 ├── scripts/
 │   ├── build_standalone_web.py    # Compiler for self-contained single-file web/index.html
-│   ├── build_historical_events.py # Expansion script compiling 1,342 historical events
-│   ├── build_countries_dataset.py # National charts and metadata compiler
-│   └── calculate_all_events.py    # Swiss Ephemeris batch processor
+│   ├── build_historical_events.py # Expansion compiler for 3,406 historical events
+│   ├── build_countries_dataset.py # National charts and metadata compiler (107 nations)
+│   ├── build_energy_peaks_catalog.py # 2026–2060 energy peaks detector and dossier generator
+│   ├── build_gazetteer.py         # Offline GeoNames SQLite 34,204-city builder
+│   ├── build_natal_grid.py        # Vectorized natal ephemeris grid generator (1850–2150)
+│   ├── audit_catalog.py           # Catalog integrity, tier, and source auditor
+│   ├── calculate_all_events.py    # Swiss Ephemeris batch processor
+│   └── importers/                 # Modular importers (curated, GVP, NCEI, Wikidata)
 ├── src/
 │   ├── astro_engine.py            # High-precision chart calculator (Swiss Ephemeris wrapper)
 │   ├── correlation_engine.py      # Category correlations and analogue matching
 │   ├── future_engine.py           # Annual timelines and geometric projections
+│   ├── db.py                      # Database models, connection pool, and migrations
 │   ├── core/
 │   │   ├── scoring.py             # Standardized planetary tension scoring
-│   │   └── timezones.py           # Historical IANA / LMT timezone resolution
+│   │   ├── timezones.py           # Historical IANA / LMT timezone resolution
+│   │   ├── dates.py               # Robust calendar parsing and negative BCE year handling
+│   │   ├── ephemeris.py           # Low-level Swiss Ephemeris bindings
+│   │   └── ephemeris_grid.py      # Vectorized NumPy grid lookups
 │   ├── features/
 │   │   ├── barbault_ci.py         # André Barbault Cyclic Index (CI-4 / CI-5) engine
 │   │   ├── sum_of_cosines.py      # Renay Oshop Sum of Cosines and permutation tests
 │   │   ├── astro_features.py      # 409-feature astronomical matrix
+│   │   ├── astro_events.py        # Exact planetary aspects and stations
 │   │   └── targets.py             # Historical target series extraction
 │   ├── mundane/
-│   │   ├── countries_engine.py    # National foundation charts & mundane transits
-│   │   └── energy_peaks.py        # 2026–2060 national transit peak detector
+│   │   ├── countries_data.py      # 107 Sovereign national foundation charts
+│   │   ├── transits_engine.py     # Real-time mundane transit calculations
+│   │   ├── energy_peaks.py        # 2026–2060 national transit peak detector
+│   │   ├── analogy_engine.py      # Geometric distance & precedent matcher
+│   │   ├── historical_analyzer.py # Longitudinal pattern analysis
+│   │   ├── mandala_biwheel.py     # Bi-wheel SVG mundane synastry mandalas
+│   │   └── web_routes.py          # Mundane web routing
+│   ├── natal/
+│   │   ├── chart.py               # High-precision natal chart calculations (6 house systems)
+│   │   ├── transits.py            # Vectorized lifetime daily transits (0–100 years)
+│   │   ├── progressions.py        # Day-for-a-year secondary progressions
+│   │   ├── personal_forecast.py   # 6-Tier criticality engine and annual timeline synthesis
+│   │   ├── domains.py             # Calibrated 8 life domains scoring (0–1000 scale)
+│   │   ├── cycles.py              # Major life cycle milestones (Saturn, Jupiter, Uranus, Chiron)
+│   │   ├── bodies.py              # 17 Celestial bodies definitions and ephemeris wrappers
+│   │   ├── gazetteer.py           # Fast offline GeoNames search
+│   │   ├── interpretations.py     # Bilingual astrological and psychological synthesis
+│   │   ├── models.py              # Pydantic data schemas
+│   │   ├── service.py             # Unified natal application service
+│   │   └── web_routes.py          # FastAPI web routes for `/natal/*`
 │   ├── analysis/
 │   │   ├── historical_analogues.py# Cosmic History Search engine
 │   │   ├── hindcast.py            # Walk-forward validation harness
-│   │   └── forecast_v3.py         # Probabilistic forecasting engine
+│   │   ├── forecast_v3.py         # Probabilistic forecasting engine
+│   │   ├── forecast_timeline.py   # Multi-year timeline projection builder
+│   │   └── null_models.py         # Permutation testing (N1–N4)
 │   └── web/
-│       ├── app.py                 # FastAPI application and routing
+│       ├── app.py                 # FastAPI application and security middleware
+│       ├── pages.py               # Web page handlers and template renderers
+│       ├── templating.py          # Custom Jinja2 template filters and formatters
+│       ├── mandala.py             # SVG natal mandala generator
+│       ├── i18n.py                # Server-side internationalization helpers
 │       ├── static/
 │       │   └── js/i18n.js         # Bilingual internationalization engine (EN/PT)
 │       └── templates/             # Jinja2 templates (triple-theme enabled)
 ├── web/
 │   └── index.html                 # Standalone single-file application for GitHub Pages (zero backend)
-└── tests/                         # 138+ automated tests (astronomy, mundane, natal, stats, API, UI)
+└── tests/                         # 138 automated tests (astronomy, mundane, natal, stats, API, UI)
 ```
 
 ---
 
-## 18. Citation, licensing and attribution
+## 19. Citation, licensing and attribution
 
 If you utilize this software, its historical dataset, or its statistical testing framework in academic or open-source research, please cite:
 
