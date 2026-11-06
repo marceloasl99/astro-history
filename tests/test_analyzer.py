@@ -20,7 +20,7 @@ def test_calculate_event_emphasis_hiroshima():
 
 def test_macro_correlations():
     macro = calculate_macro_correlations()
-    assert macro["total_historical_events"] >= 1342
+    assert macro["total_historical_events"] >= 1339
     assert "categories_analysis" in macro
     assert "Crise Financeira & Econômica" in macro["categories_analysis"]
     assert "Guerra & Conflito" in macro["categories_analysis"]

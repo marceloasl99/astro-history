@@ -36,8 +36,7 @@ from src.mundane.energy_peaks import (
 )
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
+from src.web.templating import templates  # v6: instância única
 
 router = APIRouter(tags=["mundane_astrology"])
 

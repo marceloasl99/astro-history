@@ -69,10 +69,10 @@ def test_projections_page_renders_cleanly():
     assert api_data["peaks"][0]["year"] == 2026
 
 def test_footer_version_and_no_v2_v3_mentions():
-    # Footer version v5.0.0
+    # Footer version (v6)
     res_home = client.get("/")
     assert res_home.status_code == 200
-    assert "v5.0.0" in res_home.text
+    assert "v6.0.0" in res_home.text
     assert "Previsão v3" not in res_home.text
 
     # Forecast page has no v3 in title or heading

@@ -13,6 +13,28 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # v6: caminho relativo à raiz do repositório (worktrees/containers) com override por variável de ambiente.
 DB_PATH = os.environ.get("ASTRO_DB_PATH") or os.path.join(ROOT_DIR, "db", "history_astrology.db")
 
+# v6: colunas adicionais do catálogo (todas opcionais; nenhuma coluna legada é removida).
+SCHEMA_V3_COLUMNS = [
+    ("date_precision", "TEXT DEFAULT 'day'"),      # day | month | year | decade
+    ("calendar", "TEXT"),                          # gregorian | julian | proleptic
+    ("source_id", "TEXT"),                         # chave em data/sources_manifest.yml
+    ("source_url", "TEXT"),
+    ("quality_tier", "TEXT"),                      # A primário | B dataset acadêmico | C enciclopédico auditado
+    ("macro_category", "TEXT"),                    # 7 macro-categorias (config/categories.yaml)
+    ("subcategory", "TEXT"),
+    ("polarity", "TEXT"),                          # disruptive | constructive | structural | neutral
+    ("region", "TEXT"),
+    ("magnitude", "REAL"),
+    ("is_start", "INTEGER DEFAULT 1"),
+    ("external_ids", "TEXT"),                      # JSON
+    ("data_version", "TEXT"),
+]
+
+EVENT_LIST_COLUMNS = ("id, title, category, date, time, city, country, latitude, longitude, consequence, calculated, "
+                      "tension_index, sun_sign, moon_sign, ascendant_sign, date_precision, quality_tier, macro_category, "
+                      "subcategory, polarity, region, source_id, source_url, magnitude")
+
+
 def get_connection():
     """Retorna uma conexão SQLite configurada com dicionários de linhas."""
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
@@ -117,6 +139,15 @@ def init_db():
             conn.execute("ALTER TABLE planet_positions ADD COLUMN category TEXT DEFAULT 'planeta';")
         except Exception:
             pass
+
+        # v6: esquema v3 do catálogo (proveniência, precisão, taxonomia em 2 níveis) — migração aditiva
+        for col, ddl in SCHEMA_V3_COLUMNS:
+            try:
+                conn.execute(f"ALTER TABLE events ADD COLUMN {col} {ddl};")
+            except Exception:
+                pass
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_events_macro ON events (macro_category);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_events_country ON events (country);")
 
     conn.close()
 
@@ -247,25 +278,76 @@ def get_event_by_id(event_id: int) -> Optional[Dict[str, Any]]:
         d["chart"] = json.loads(d["chart_json"])
     return d
 
-def get_all_events(category: Optional[str] = None, search: Optional[str] = None) -> List[Dict[str, Any]]:
-    """Lista eventos com filtros opcionais de categoria e busca textual."""
-    conn = get_connection()
-    query = "SELECT id, title, category, date, time, city, country, latitude, longitude, consequence, calculated, tension_index, sun_sign, moon_sign, ascendant_sign FROM events WHERE 1=1"
-    params = []
-
+def _event_filters(category=None, search=None, macro=None, tier=None, precision=None, polarity=None, country=None,
+                   century_from=None, century_to=None, time_known=None):
+    """Cláusulas WHERE e parâmetros comuns ao catálogo facetado (v6)."""
+    clauses, params = [], []
     if category and category != "Todas":
-        query += " AND category = ?"
-        params.append(category)
-
+        clauses.append("category = ?"); params.append(category)
     if search:
-        query += " AND (title LIKE ? OR consequence LIKE ? OR city LIKE ? OR country LIKE ?)"
-        term = f"%{search}%"
-        params.extend([term, term, term, term])
+        clauses.append("(title LIKE ? OR consequence LIKE ? OR city LIKE ? OR country LIKE ?)")
+        term = f"%{search}%"; params.extend([term, term, term, term])
+    if macro:
+        clauses.append("macro_category = ?"); params.append(macro)
+    if tier:
+        clauses.append("quality_tier = ?"); params.append(tier)
+    if precision:
+        clauses.append("COALESCE(date_precision,'day') = ?"); params.append(precision)
+    if polarity:
+        clauses.append("polarity = ?"); params.append(polarity)
+    if country:
+        clauses.append("country = ?"); params.append(country)
+    if time_known is not None:
+        clauses.append("is_time_known = ?"); params.append(1 if time_known else 0)
+    # Século: datas a.C. começam com '-' e ordenam antes; usa expressão de ano histórico.
+    year_expr = "CASE WHEN substr(date,1,1)='-' THEN -CAST(substr(date,2,4) AS INTEGER) ELSE CAST(substr(date,1,4) AS INTEGER) END"
+    if century_from is not None:
+        clauses.append(f"{year_expr} >= ?"); params.append(int(century_from))
+    if century_to is not None:
+        clauses.append(f"{year_expr} <= ?"); params.append(int(century_to))
+    where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+    return where, params, year_expr
 
-    query += " ORDER BY date ASC"
-    rows = conn.execute(query, params).fetchall()
+
+def get_all_events(category: Optional[str] = None, search: Optional[str] = None, **filters) -> List[Dict[str, Any]]:
+    """Lista eventos (ordem cronológica) com filtros opcionais; aceita os filtros facetados de v6."""
+    conn = get_connection()
+    where, params, year_expr = _event_filters(category, search, **filters)
+    rows = conn.execute(f"SELECT {EVENT_LIST_COLUMNS} FROM events{where} ORDER BY {year_expr} ASC, date ASC", params).fetchall()
     conn.close()
     return [dict(r) for r in rows]
+
+
+def get_events_page(page: int = 1, per_page: int = 50, sort: str = "date", **filters) -> Dict[str, Any]:
+    """Página do catálogo facetado (v6): itens, total e contagens por faceta para os filtros atuais."""
+    conn = get_connection()
+    where, params, year_expr = _event_filters(**filters)
+    order = {"date": f"{year_expr} ASC, date ASC", "date_desc": f"{year_expr} DESC, date DESC",
+             "tension": "tension_index DESC", "title": "title COLLATE NOCASE ASC"}.get(sort, f"{year_expr} ASC, date ASC")
+    total = conn.execute(f"SELECT COUNT(*) FROM events{where}", params).fetchone()[0]
+    page = max(1, page)
+    pages = max(1, (total + per_page - 1) // per_page)
+    page = min(page, pages)
+    rows = conn.execute(f"SELECT {EVENT_LIST_COLUMNS} FROM events{where} ORDER BY {order} LIMIT ? OFFSET ?",
+                        params + [per_page, (page - 1) * per_page]).fetchall()
+
+    def facet(expr: str, limit: int = 40):
+        q = f"SELECT {expr} AS k, COUNT(*) AS n FROM events{where} GROUP BY k ORDER BY n DESC LIMIT {limit}"
+        return [{"key": r[0], "n": r[1]} for r in conn.execute(q, params).fetchall() if r[0] is not None]
+
+    facets = {
+        "category": facet("category"),
+        "macro": facet("macro_category"),
+        "tier": facet("quality_tier"),
+        "precision": facet("COALESCE(date_precision,'day')"),
+        "polarity": facet("polarity"),
+        "country": facet("country", 30),
+        "century": [{"key": r[0], "n": r[1]} for r in conn.execute(
+            f"SELECT ({year_expr})/100*100 AS c, COUNT(*) AS n FROM events{where} GROUP BY c ORDER BY c", params).fetchall()],
+        "time_known": facet("is_time_known"),
+    }
+    conn.close()
+    return {"items": [dict(r) for r in rows], "total": total, "page": page, "pages": pages, "per_page": per_page, "facets": facets}
 
 def get_validated_sample_dates() -> set:
     """Datas (YYYY-MM-DD) dos eventos do catálogo objetivo v2 usados na validação (N=59, 1800–2025)."""

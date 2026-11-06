@@ -156,7 +156,7 @@
                             AstroHistory
                         </span>
                         <span class="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30">
-                            1.342 Fatos
+                            {{ catalog_total()|fmt_int }} Fatos
                         </span>
                     </div>
                     <span class="hidden md:block text-[10px] text-slate-400 font-mono tracking-tight leading-none">Astrologia Mundana Computacional</span>
@@ -309,7 +309,7 @@
             <div class="text-left">
                 <div class="flex items-center gap-2">
                     <span class="font-display font-bold text-white tracking-wider">AstroHistory</span>
-                    <span class="text-xs text-slate-500 font-mono">• v6.0.0</span>
+                    <span class="text-xs text-slate-500 font-mono">• v{{ app_version }}</span>
                 </div>
                 <p class="text-xs text-slate-400 mt-1">
                     Plataforma Internacional de Pesquisa Computacional em Astrologia Mundana & Ephemerides Suíças.
@@ -332,7 +332,7 @@
             </div>
         </div>
         <div class="w-full max-w-[1920px] mx-auto mt-4 pt-4 border-t border-slate-800/60 text-[11px] text-slate-500 text-center">
-            Swiss Ephemeris &copy; Astrodienst AG • Licenciado sob GNU AGPL-3.0-or-later • 1.342 fatos históricos catalogados (1800–2100)
+            Swiss Ephemeris &copy; Astrodienst AG • Licenciado sob GNU AGPL-3.0-or-later • {{ catalog_total()|fmt_int }} fatos históricos catalogados (490 a.C.–2026)
         </div>
     </footer>
     <script src="/static/js/i18n.js"></script>

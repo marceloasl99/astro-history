@@ -2,7 +2,7 @@
   "start_year": 1800,
   "end_year": 2100,
   "total_years_calculated": 301,
-  "calculation_time_seconds": 126.2,
+  "calculation_time_seconds": 126.47,
   "highest_past_rupture": {
     "year": 1819,
     "tension": 1000.0,
@@ -88,7 +88,7 @@
           "country": "Turquia",
           "consequence": "A inauguração da 'Nova Roma' pelo imperador Constantino deslocou o centro de gravidade econômico e geopolítico do império para o Oriente, permitindo a sobrevivência do Império Romano Oriental (Bizantino) por mais de um milênio após o colapso de Roma ocidental.",
           "tension_index": 100.0,
-          "match_percent": 47.3,
+          "match_percent": 47.2,
           "matching_traits": [
             "Plutão em Peixes (mesmo signo)",
             "Netuno em Escorpião (mesmo signo)",
@@ -224,7 +224,7 @@
       "tech_innovation_index_1000": 86.4,
       "barbault_concentration_1000": 621.3,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 42.8,
+      "resonance_index": 42.0,
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
       "peak_date": "1802-02-12",
@@ -237,23 +237,6 @@
       "key_aspects_count": 8,
       "star_contacts_count": 3,
       "top_matches": [
-        {
-          "id": 202,
-          "title": "Batalha de Gaugamela e Triunfo Definitivo de Alexandre, o Grande",
-          "category": "Guerra & Conflito",
-          "date": "0331-10-01",
-          "city": "Tel Gomel (Gaugamela)",
-          "country": "Iraque",
-          "consequence": "A genial vitória tática de Alexandre, o Grande, contra o exército numericamente muito superior do imperador Dario III provocou o colapso irreversível do Império Aquemênida da Pérsia. Com a tomada subsequente das capitais imperiais de Babilônia, Susa e Persépolis, Alexandre inaugurou o Período Helenístico, promovendo uma profunda fusão cultural, linguística, científica e comercial entre o mundo grego e o Oriente Médio por mais de três séculos.",
-          "tension_index": 100.0,
-          "match_percent": 44.0,
-          "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Escorpião (mesmo signo)",
-            "Saturno em Virgem (mesmo signo)",
-            "Aspecto comum: Netuno em Trígono com Nodo Norte"
-          ]
-        },
         {
           "id": 925,
           "title": "Golpe de Estado Consumado em Panamá (1968)",
@@ -283,9 +266,26 @@
             "Netuno em Escorpião (mesmo signo)",
             "Urano em Libra (mesmo signo)"
           ]
+        },
+        {
+          "id": 540,
+          "title": "Eclosão do Conflito em Filipinas: Government of Philippines vs MIM",
+          "category": "Revolução & Conflito Interno",
+          "date": "1970-08-20",
+          "city": "Manila",
+          "country": "Filipinas",
+          "consequence": "Eclosão de conflito armado documentado pelo Uppsala Conflict Data Program (UCDP #308). Beligerantes: Government of Philippines versus MIM (pelo controle de Mindanao). Tipo UCDP: 3 (precisão cronológica: nível 1).",
+          "tension_index": 84.0,
+          "match_percent": 41.8,
+          "matching_traits": [
+            "Netuno em Escorpião (mesmo signo)",
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Netuno",
+            "Aspecto comum: Mercúrio em Conjunção com Plutão"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 644.5/1000 (Percentil Moderado, 51 dias > P90). Configuração calculada: Plutão em Peixes, Netuno em Escorpião, Urano em Libra, Saturno em Virgem. Isomorfismo geométrico mais próximo: 'Batalha de Gaugamela e Triunfo Definitivo de Alexandre, o Grande' (44.0% de similaridade angular)."
+      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 644.5/1000 (Percentil Moderado, 51 dias > P90). Configuração calculada: Plutão em Peixes, Netuno em Escorpião, Urano em Libra, Saturno em Virgem. Isomorfismo geométrico mais próximo: 'Golpe de Estado Consumado em Panamá (1968)' (42.3% de similaridade angular)."
     },
     {
       "year": 1803,
@@ -308,11 +308,11 @@
       "tech_innovation_index_1000": 176.1,
       "barbault_concentration_1000": 754.2,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 47.1,
+      "resonance_index": 46.3,
       "alert_level": "Percentil Basal",
       "alert_color": "green",
       "peak_date": "1803-03-31",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Escorpião, Urano em Libra, Saturno em Virgem. Aspectos-chave: ☉□♂, ☉☍♅, ☉□⚳. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Escorpião",
@@ -321,23 +321,6 @@
       "key_aspects_count": 15,
       "star_contacts_count": 0,
       "top_matches": [
-        {
-          "id": 202,
-          "title": "Batalha de Gaugamela e Triunfo Definitivo de Alexandre, o Grande",
-          "category": "Guerra & Conflito",
-          "date": "0331-10-01",
-          "city": "Tel Gomel (Gaugamela)",
-          "country": "Iraque",
-          "consequence": "A genial vitória tática de Alexandre, o Grande, contra o exército numericamente muito superior do imperador Dario III provocou o colapso irreversível do Império Aquemênida da Pérsia. Com a tomada subsequente das capitais imperiais de Babilônia, Susa e Persépolis, Alexandre inaugurou o Período Helenístico, promovendo uma profunda fusão cultural, linguística, científica e comercial entre o mundo grego e o Oriente Médio por mais de três séculos.",
-          "tension_index": 100.0,
-          "match_percent": 48.5,
-          "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Escorpião (mesmo signo)",
-            "Saturno em Virgem (mesmo signo)",
-            "Aspecto comum: Juno em Quadratura com Lilith (Lua Negra)"
-          ]
-        },
         {
           "id": 48,
           "title": "Batalha de Trafalgar",
@@ -370,9 +353,26 @@
             "Aspecto comum: Sol em Quadratura com Ceres",
             "Aspecto comum: Saturno em Trígono com Pallas"
           ]
+        },
+        {
+          "id": 980,
+          "title": "Golpe de Estado Consumado em Bolívia (1969)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1969-09-26",
+          "city": "Sucre / La Paz",
+          "country": "Bolívia",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Bolívia (Bolivia, COW ccode: 145). Resultado: Poder deposto com sucesso.",
+          "tension_index": 100.0,
+          "match_percent": 46.1,
+          "matching_traits": [
+            "Netuno em Escorpião (mesmo signo)",
+            "Urano em Libra (mesmo signo)",
+            "Aspecto comum: Sol em Quadratura com Marte",
+            "Aspecto comum: Marte em Quadratura com Urano"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 36.5/1000 (Percentil Basal, 3 dias > P90). Configuração calculada: Plutão em Peixes, Netuno em Escorpião, Urano em Libra, Saturno em Virgem. Isomorfismo geométrico mais próximo: 'Batalha de Gaugamela e Triunfo Definitivo de Alexandre, o Grande' (48.5% de similaridade angular)."
+      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 36.5/1000 (Percentil Basal, 3 dias > P90). Configuração calculada: Plutão em Peixes, Netuno em Escorpião, Urano em Libra, Saturno em Virgem. Isomorfismo geométrico mais próximo: 'Batalha de Trafalgar' (46.6% de similaridade angular)."
     },
     {
       "year": 1804,
@@ -1384,7 +1384,7 @@
       "tech_innovation_index_1000": 797.3,
       "barbault_concentration_1000": 747.5,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 42.6,
+      "resonance_index": 42.9,
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
       "peak_date": "1815-02-01",
@@ -1431,19 +1431,18 @@
           ]
         },
         {
-          "id": 1021,
-          "title": "Tentativa de Golpe Militar em Spain (1981)",
-          "category": "Revolução & Conflito Interno",
-          "date": "1981-02-23",
-          "city": "Madri",
-          "country": "Spain",
-          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Spain (Spain, COW ccode: 230). Resultado: Tentativa frustrada / debelada.",
-          "tension_index": 80.0,
-          "match_percent": 39.0,
+          "id": 3,
+          "title": "Destruição de Cartago (Fim da Terceira Guerra Púnica)",
+          "category": "Guerra & Conflito",
+          "date": "-0146-04-15",
+          "city": "Cartago",
+          "country": "Tunísia",
+          "consequence": "A aniquilação completa de Cartago pelas legiões de Cipião Emiliano eliminou o maior rival marítimo e comercial de Roma, transformando o Mar Mediterrâneo no 'Mare Nostrum' e abrindo caminho para a hegemonia romana inquestionável sobre três continentes.",
+          "tension_index": 100.0,
+          "match_percent": 39.9,
           "matching_traits": [
-            "Netuno em Sagitário (mesmo signo)",
-            "Urano em Sagitário (mesmo signo)",
-            "Aspecto comum: Pallas em Trígono com Vesta"
+            "Plutão em Peixes (mesmo signo)",
+            "Netuno em Sagitário (mesmo signo)"
           ]
         }
       ],
@@ -1815,11 +1814,11 @@
       "tech_innovation_index_1000": 53.2,
       "barbault_concentration_1000": 907.0,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 40.1,
+      "resonance_index": 41.1,
       "alert_level": "Percentil Superior",
       "alert_color": "red",
       "peak_date": "1820-01-10",
-      "dominant_category": "Revolução & Conflito Interno",
+      "dominant_category": "Guerra & Conflito",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Sagitário, Urano em Sagitário, Saturno em Peixes. Aspectos-chave: ☽□♀, ☽□⚳, ☿□♄. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Sagitário",
@@ -1828,6 +1827,36 @@
       "key_aspects_count": 20,
       "star_contacts_count": 0,
       "top_matches": [
+        {
+          "id": 3,
+          "title": "Destruição de Cartago (Fim da Terceira Guerra Púnica)",
+          "category": "Guerra & Conflito",
+          "date": "-0146-04-15",
+          "city": "Cartago",
+          "country": "Tunísia",
+          "consequence": "A aniquilação completa de Cartago pelas legiões de Cipião Emiliano eliminou o maior rival marítimo e comercial de Roma, transformando o Mar Mediterrâneo no 'Mare Nostrum' e abrindo caminho para a hegemonia romana inquestionável sobre três continentes.",
+          "tension_index": 100.0,
+          "match_percent": 41.3,
+          "matching_traits": [
+            "Plutão em Peixes (mesmo signo)",
+            "Netuno em Sagitário (mesmo signo)",
+            "Aspecto comum: Mercúrio em Quadratura com Saturno"
+          ]
+        },
+        {
+          "id": 304,
+          "title": "Proclamação de Augusto e Fundação do Império Romano",
+          "category": "Política, Tratados & Cultura",
+          "date": "-0027-01-16",
+          "city": "Roma",
+          "country": "Itália",
+          "consequence": "Otaviano recebe o título de Augusto pelo Senado Romano, consolidando o Principado e o início da Pax Romana.",
+          "tension_index": 100.0,
+          "match_percent": 41.3,
+          "matching_traits": [
+            "Urano em Sagitário (mesmo signo)"
+          ]
+        },
         {
           "id": 1224,
           "title": "Tentativa de Golpe Militar em Sudão (1966)",
@@ -1844,41 +1873,9 @@
             "Aspecto comum: Mercúrio em Quadratura com Quíron",
             "Aspecto comum: Saturno em Conjunção com Quíron"
           ]
-        },
-        {
-          "id": 1136,
-          "title": "Golpe de Estado Consumado em Nigéria (1983)",
-          "category": "Revolução & Conflito Interno",
-          "date": "1983-12-31",
-          "city": "Abuja / Lagos",
-          "country": "Nigéria",
-          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Nigéria (Nigeria, COW ccode: 475). Resultado: Poder deposto com sucesso.",
-          "tension_index": 80.0,
-          "match_percent": 40.1,
-          "matching_traits": [
-            "Netuno em Sagitário (mesmo signo)",
-            "Urano em Sagitário (mesmo signo)",
-            "Aspecto comum: Vesta em Conjunção com Nodo Norte"
-          ]
-        },
-        {
-          "id": 49,
-          "title": "Batalha de Waterloo e Derrota Definitiva de Napoleão",
-          "category": "Guerra & Conflito",
-          "date": "1815-06-18",
-          "city": "Waterloo",
-          "country": "Bélgica",
-          "consequence": "A derrota das forças imperiais napoleônicas diante dos exércitos anglo-prussianos de Wellington e Blücher encerrou de forma irrevogável o império de Napoleão e conduziu à ordem reacionária do Congresso de Viena, inaugurando décadas de equilíbrio de poder concertado entre as potências.",
-          "tension_index": 50.0,
-          "match_percent": 39.6,
-          "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Netuno em Sagitário (mesmo signo)",
-            "Urano em Sagitário (mesmo signo)"
-          ]
         }
       ],
-      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 996.7/1000 (Percentil Superior, 262 dias > P90). Configuração calculada: Plutão em Peixes, Netuno em Sagitário, Urano em Sagitário, Saturno em Peixes. Isomorfismo geométrico mais próximo: 'Tentativa de Golpe Militar em Sudão (1966)' (40.6% de similaridade angular)."
+      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 996.7/1000 (Percentil Superior, 262 dias > P90). Configuração calculada: Plutão em Peixes, Netuno em Sagitário, Urano em Sagitário, Saturno em Peixes. Isomorfismo geométrico mais próximo: 'Destruição de Cartago (Fim da Terceira Guerra Púnica)' (41.3% de similaridade angular)."
     },
     {
       "year": 1821,
@@ -9387,11 +9384,11 @@
       "tech_innovation_index_1000": 16.6,
       "barbault_concentration_1000": 79.7,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 45.5,
+      "resonance_index": 44.7,
       "alert_level": "Percentil Superior",
       "alert_color": "red",
       "peak_date": "1901-03-07",
-      "dominant_category": "Política, Tratados & Cultura",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Gêmeos, Netuno em Gêmeos, Urano em Sagitário, Saturno em Capricórnio. Aspectos-chave: ☉☌☿, ☉□♅, ☉□♇. ★ Estrela Ativa: Fomalhaut",
       "pluto_sign": "Gêmeos",
       "neptune_sign": "Gêmeos",
@@ -9400,22 +9397,6 @@
       "key_aspects_count": 15,
       "star_contacts_count": 3,
       "top_matches": [
-        {
-          "id": 305,
-          "title": "Édito de Milão (Liberdade Religiosa no Império Romano)",
-          "category": "Política, Tratados & Cultura",
-          "date": "0313-02-03",
-          "city": "Milão",
-          "country": "Itália",
-          "consequence": "Acordo entre Constantino e Licínio garantindo liberdade de culto e tolerância religiosa aos cristãos no Império Romano.",
-          "tension_index": 86.0,
-          "match_percent": 47.2,
-          "matching_traits": [
-            "Urano em Sagitário (mesmo signo)",
-            "Saturno em Capricórnio (mesmo signo)",
-            "★ Estrela Fixa Fomalhaut ativada simultaneamente (Vênus)"
-          ]
-        },
         {
           "id": 33,
           "title": "Tratado de Paz de Vestfália",
@@ -9448,9 +9429,25 @@
             "Aspecto comum: Sol em Quadratura com Plutão",
             "Aspecto comum: Urano em Quadratura com Ceres"
           ]
+        },
+        {
+          "id": 306,
+          "title": "Paz de Westfália (Nascimento da Soberania dos Estados)",
+          "category": "Política, Tratados & Cultura",
+          "date": "1648-10-24",
+          "city": "Münster",
+          "country": "Alemanha",
+          "consequence": "Assinatura dos tratados de Münster e Osnabrück encerrando a Guerra dos Trinta Anos e estabelecendo o princípio da soberania nacional moderna.",
+          "tension_index": 100.0,
+          "match_percent": 44.7,
+          "matching_traits": [
+            "Plutão em Gêmeos (mesmo signo)",
+            "Urano em Sagitário (mesmo signo)",
+            "Aspecto comum: Urano em Oposição com Plutão"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 877.1/1000 (Percentil Superior, 72 dias > P90). Configuração calculada: Plutão em Gêmeos, Netuno em Gêmeos, Urano em Sagitário, Saturno em Capricórnio. Isomorfismo geométrico mais próximo: 'Édito de Milão (Liberdade Religiosa no Império Romano)' (47.2% de similaridade angular)."
+      "scenarios_and_possibilities": "Ano histórico sem fato específico no catálogo dos 200 marcos. Percentil Médio Anual: 877.1/1000 (Percentil Superior, 72 dias > P90). Configuração calculada: Plutão em Gêmeos, Netuno em Gêmeos, Urano em Sagitário, Saturno em Capricórnio. Isomorfismo geométrico mais próximo: 'Tratado de Paz de Vestfália' (44.7% de similaridade angular)."
     },
     {
       "year": 1902,
@@ -10544,7 +10541,7 @@
       "tech_innovation_index_1000": 342.2,
       "barbault_concentration_1000": 69.8,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 41.5,
+      "resonance_index": 40.7,
       "alert_level": "Percentil Basal",
       "alert_color": "green",
       "peak_date": "1912-03-03",
@@ -10565,28 +10562,12 @@
           "city": "1914 Biak Earthquake",
           "country": "1914 Biak Earthquake",
           "consequence": "Grande sismo com magnitude de momento M 8.2 e profundidade focal de 15.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1914 Biak Earthquake (-1.980°, 136.944°). Ocorrência em 14:22 UTC.",
-          "tension_index": 97.0,
-          "match_percent": 42.5,
+          "tension_index": 100.0,
+          "match_percent": 42.8,
           "matching_traits": [
             "Plutão em Gêmeos (mesmo signo)",
             "Netuno em Câncer (mesmo signo)",
             "Urano em Aquário (mesmo signo)"
-          ]
-        },
-        {
-          "id": 303,
-          "title": "Assassinato de Júlio César (Idos de Março)",
-          "category": "Política, Tratados & Cultura",
-          "date": "-0044-03-15",
-          "city": "Roma",
-          "country": "Itália",
-          "consequence": "Golpe senatorial conspiratório que resultou na morte de Júlio César e deflagrou o fim da República Romana.",
-          "tension_index": 100.0,
-          "match_percent": 42.1,
-          "matching_traits": [
-            "Plutão em Gêmeos (mesmo signo)",
-            "Aspecto comum: Sol em Oposição com Lua",
-            "Aspecto comum: Lua em Quadratura com Júpiter"
           ]
         },
         {
@@ -10599,6 +10580,22 @@
           "consequence": "O chamado às armas emitido por Francisco I. Madero encerrou mais de três décadas da ditadura autocrática do 'Porfiriato', inaugurando uma década de conflito civil violento que mobilizou camponeses sob líderes icônicos como Emiliano Zapata e Pancho Villa. A revolução resultou na criação da pioneira Constituição Mexicana de 1917, que consagrou os primeiros direitos trabalhistas, reforma agrária e nacionalização de recursos minerais da história da América Latina.",
           "tension_index": 100.0,
           "match_percent": 40.0,
+          "matching_traits": [
+            "Plutão em Gêmeos (mesmo signo)",
+            "Netuno em Câncer (mesmo signo)",
+            "Saturno em Touro (mesmo signo)"
+          ]
+        },
+        {
+          "id": 843,
+          "title": "Grande Terremoto M7.8 - 28 km ESE of Isangel, Vanuatu",
+          "category": "Desastre & Saúde Pública",
+          "date": "1910-06-16",
+          "city": "28 km ESE of Isangel",
+          "country": "Vanuatu",
+          "consequence": "Grande sismo com magnitude de momento M 7.8 e profundidade focal de 100.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 28 km ESE of Isangel, Vanuatu (-19.601°, 169.547°). Ocorrência em 06:30 UTC.",
+          "tension_index": 82.0,
+          "match_percent": 39.2,
           "matching_traits": [
             "Plutão em Gêmeos (mesmo signo)",
             "Netuno em Câncer (mesmo signo)",
@@ -13469,7 +13466,7 @@
       "tech_innovation_index_1000": 920.3,
       "barbault_concentration_1000": 93.0,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 53.8,
+      "resonance_index": 50.2,
       "alert_level": "Percentil Basal",
       "alert_color": "green",
       "peak_date": "1937-01-17",
@@ -13524,13 +13521,12 @@
           "city": "Roma",
           "country": "Itália",
           "consequence": "Otaviano recebe o título de Augusto pelo Senado Romano, consolidando o Principado e o início da Pax Romana.",
-          "tension_index": 72.0,
-          "match_percent": 51.8,
+          "tension_index": 100.0,
+          "match_percent": 41.1,
           "matching_traits": [
             "Plutão em Câncer (mesmo signo)",
             "Netuno em Virgem (mesmo signo)",
-            "Aspecto comum: Sol em Oposição com Plutão",
-            "Aspecto comum: Mercúrio em Trígono com Netuno"
+            "Aspecto comum: Sol em Oposição com Plutão"
           ]
         }
       ],
@@ -17284,7 +17280,7 @@
       "tech_innovation_index_1000": 299.0,
       "barbault_concentration_1000": 491.7,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 50.1,
+      "resonance_index": 50.0,
       "alert_level": "Percentil Basal",
       "alert_color": "green",
       "peak_date": "1961-09-21",
@@ -17332,20 +17328,20 @@
           ]
         },
         {
-          "id": 1,
-          "title": "Batalha de Maratona",
-          "category": "Guerra & Conflito",
-          "date": "0490-09-12",
-          "city": "Maratona",
-          "country": "Grécia",
-          "consequence": "A vitória ateniense sobre o poderoso Império Persa impediu a subjugação imediata da Grécia, consolidando a democracia nascente de Atenas e inaugurando a era de ouro da civilização clássica ocidental, cujos valores de filosofia, teatro e política moldaram profundamente o mundo moderno.",
-          "tension_index": 56.0,
-          "match_percent": 48.9,
+          "id": 1244,
+          "title": "Tentativa de Golpe Militar em Iraque (1959)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1959-03-07",
+          "city": "Bagdá",
+          "country": "Iraque",
+          "consequence": "Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Iraque (Iraq, COW ccode: 645). Resultado: Tentativa frustrada / debelada.",
+          "tension_index": 72.0,
+          "match_percent": 48.5,
           "matching_traits": [
             "Plutão em Virgem (mesmo signo)",
             "Netuno em Escorpião (mesmo signo)",
-            "Saturno em Capricórnio (mesmo signo)",
-            "★ Estrela Fixa Alphard ativada simultaneamente (Nodo Norte)"
+            "Urano em Leão (mesmo signo)",
+            "Saturno em Capricórnio (mesmo signo)"
           ]
         }
       ],
@@ -21585,7 +21581,7 @@
       "tech_innovation_index_1000": 687.7,
       "barbault_concentration_1000": 990.0,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 46.6,
+      "resonance_index": 46.5,
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
       "peak_date": "1981-03-25",
@@ -21633,20 +21629,20 @@
           ]
         },
         {
-          "id": 302,
-          "title": "Batalha de Salamina",
-          "category": "Política, Tratados & Cultura",
-          "date": "-0480-09-28",
-          "city": "Salamina",
-          "country": "Grécia",
-          "consequence": "Batalha naval decisiva no estreito de Salamina que assegurou a supremacia grega sobre as forças de Xerxes.",
-          "tension_index": 100.0,
-          "match_percent": 45.9,
+          "id": 899,
+          "title": "Golpe de Estado Consumado em Grenada (1979)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1979-03-13",
+          "city": "Capital",
+          "country": "Grenada",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Grenada (Grenada, COW ccode: 55). Resultado: Poder deposto com sucesso.",
+          "tension_index": 92.0,
+          "match_percent": 45.6,
           "matching_traits": [
             "Plutão em Libra (mesmo signo)",
             "Netuno em Sagitário (mesmo signo)",
-            "Aspecto comum: Sol em Oposição com Júpiter",
-            "★ Estrela Fixa Spica ativada simultaneamente (Plutão)"
+            "Urano em Escorpião (mesmo signo)",
+            "Aspecto comum: Marte em Oposição com Saturno"
           ]
         }
       ],
@@ -22051,7 +22047,7 @@
       "tech_innovation_index_1000": 724.3,
       "barbault_concentration_1000": 993.4,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 43.4,
+      "resonance_index": 43.5,
       "alert_level": "Percentil Basal",
       "alert_color": "green",
       "peak_date": "1984-09-03",
@@ -22089,13 +22085,12 @@
           "city": "Roma",
           "country": "Itália",
           "consequence": "Otaviano recebe o título de Augusto pelo Senado Romano, consolidando o Principado e o início da Pax Romana.",
-          "tension_index": 72.0,
-          "match_percent": 42.9,
+          "tension_index": 100.0,
+          "match_percent": 43.1,
           "matching_traits": [
             "Urano em Sagitário (mesmo signo)",
-            "Aspecto comum: Mercúrio em Trígono com Júpiter",
-            "Aspecto comum: Mercúrio em Trígono com Netuno",
-            "Aspecto comum: Juno em Conjunção com Vesta"
+            "Aspecto comum: Vênus em Trígono com Nodo Norte",
+            "Aspecto comum: Netuno em Quadratura com Lilith (Lua Negra)"
           ]
         },
         {
@@ -28793,20 +28788,16 @@
           ]
         },
         {
-          "id": 795,
-          "title": "Grande Terremoto M8.2 - 1938 Semidi Islands, Alaska Earthquake",
-          "category": "Desastre & Saúde Pública",
-          "date": "1938-11-10",
-          "city": "1938 Semidi Islands",
-          "country": "Alaska Earthquake",
-          "consequence": "Grande sismo com magnitude de momento M 8.2 e profundidade focal de 35.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1938 Semidi Islands, Alaska Earthquake (55.178°, -158.181°). Ocorrência em 20:18 UTC.",
-          "tension_index": 100.0,
-          "match_percent": 36.5,
-          "matching_traits": [
-            "Urano em Touro (mesmo signo)",
-            "Saturno em Áries (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Nodo Norte"
-          ]
+          "id": 4,
+          "title": "Assassinato de Júlio César (Idos de Março)",
+          "category": "Revolução & Conflito Interno",
+          "date": "-0044-03-15",
+          "city": "Roma",
+          "country": "Itália",
+          "consequence": "O complô senatorial com o objetivo de restaurar as instituições republicanas provocou o efeito oposto, mergulhando Roma em uma guerra civil devastadora que culminou no fim da República Romana e na ascensão de Otaviano Augusto como o primeiro Imperador Romano em 27 a.C.",
+          "tension_index": 89.0,
+          "match_percent": 36.6,
+          "matching_traits": []
         }
       ],
       "scenarios_and_possibilities": "FATO HISTÓRICO REAL: Tentativa de Golpe Militar em Níger (2026). Percentil Médio Anual: 425.2/1000 (Percentil Moderado, 18 dias > P90 da era). Configuração calculada pelo Swiss Ephemeris: Plutão em Aquário, Netuno em Áries, Urano em Touro, Saturno em Áries. Consequências registradas na história: \"Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada....\""
@@ -29854,11 +29845,11 @@
       "tech_innovation_index_1000": 541.5,
       "barbault_concentration_1000": 229.2,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 40.1,
+      "resonance_index": 39.0,
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
       "peak_date": "2039-09-25",
-      "dominant_category": "Política, Tratados & Cultura",
+      "dominant_category": "Desastre & Saúde Pública",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Aspectos-chave: ☉□♂, ☉☌♄, ☽☍♂. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
@@ -29867,22 +29858,6 @@
       "key_aspects_count": 18,
       "star_contacts_count": 0,
       "top_matches": [
-        {
-          "id": 2,
-          "title": "Morte de Alexandre, o Grande",
-          "category": "Política, Tratados & Cultura",
-          "date": "0323-06-10",
-          "city": "Babilônia",
-          "country": "Iraque",
-          "consequence": "O desaparecimento precoce de Alexandre aos 32 anos desencadeou as Guerras dos Diádocos e a partilha de seu império colossal, inaugurando o Período Helenístico, marcado pela fusão das culturas grega, persa e egípcia, com a difusão da língua grega e a criação de centros científicos como Alexandria.",
-          "tension_index": 100.0,
-          "match_percent": 41.1,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Aspecto comum: Marte em Quadratura com Saturno",
-            "Aspecto comum: Júpiter em Quadratura com Nodo Norte"
-          ]
-        },
         {
           "id": 766,
           "title": "Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake",
@@ -29914,9 +29889,26 @@
             "Urano em Leão (mesmo signo)",
             "Aspecto comum: Urano em Quadratura com Netuno"
           ]
+        },
+        {
+          "id": 13,
+          "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
+          "category": "Guerra & Conflito",
+          "date": "1066-10-14",
+          "city": "Hastings",
+          "country": "Reino Unido",
+          "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+          "tension_index": 100.0,
+          "match_percent": 37.6,
+          "matching_traits": [
+            "Netuno em Touro (mesmo signo)",
+            "Aspecto comum: Mercúrio em Trígono com Plutão",
+            "Aspecto comum: Mercúrio em Trígono com Lilith (Lua Negra)",
+            "Aspecto comum: Marte em Quadratura com Saturno"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2039: Percentil Médio Anual de 561.5/1000 (Percentil Moderado), com 20 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Morte de Alexandre, o Grande' (41.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2039: Percentil Médio Anual de 561.5/1000 (Percentil Moderado), com 20 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake' (40.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2040,
@@ -32222,11 +32214,11 @@
       "tech_innovation_index_1000": 259.1,
       "barbault_concentration_1000": 13.3,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 43.0,
+      "resonance_index": 42.7,
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
       "peak_date": "2067-01-21",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Revolução & Conflito Interno",
       "cosmic_trigger": "Plutão em Peixes, Netuno em Câncer, Urano em Sagitário, Saturno em Virgem. Aspectos-chave: ☽□⚸, ♀□⚳, ♂□♄. ",
       "pluto_sign": "Peixes",
       "neptune_sign": "Câncer",
@@ -32267,19 +32259,18 @@
           ]
         },
         {
-          "id": 202,
-          "title": "Batalha de Gaugamela e Triunfo Definitivo de Alexandre, o Grande",
-          "category": "Guerra & Conflito",
-          "date": "0331-10-01",
-          "city": "Tel Gomel (Gaugamela)",
-          "country": "Iraque",
-          "consequence": "A genial vitória tática de Alexandre, o Grande, contra o exército numericamente muito superior do imperador Dario III provocou o colapso irreversível do Império Aquemênida da Pérsia. Com a tomada subsequente das capitais imperiais de Babilônia, Susa e Persépolis, Alexandre inaugurou o Período Helenístico, promovendo uma profunda fusão cultural, linguística, científica e comercial entre o mundo grego e o Oriente Médio por mais de três séculos.",
-          "tension_index": 100.0,
-          "match_percent": 40.1,
+          "id": 1238,
+          "title": "Golpe de Estado Consumado em Turquia (1960)",
+          "category": "Revolução & Conflito Interno",
+          "date": "1960-05-27",
+          "city": "Ancara",
+          "country": "Turquia",
+          "consequence": "Golpe de Estado Consumado registrado na base Powell & Thyne Coup d'État Dataset. País: Turquia (Turkey, COW ccode: 640). Resultado: Poder deposto com sucesso.",
+          "tension_index": 77.0,
+          "match_percent": 39.3,
           "matching_traits": [
-            "Plutão em Peixes (mesmo signo)",
-            "Saturno em Virgem (mesmo signo)",
-            "Aspecto comum: Marte em Conjunção com Urano"
+            "Aspecto comum: Vênus em Quadratura com Ceres",
+            "Aspecto comum: Quíron em Trígono com Lilith (Lua Negra)"
           ]
         }
       ],
@@ -32388,11 +32379,11 @@
       "tech_innovation_index_1000": 139.5,
       "barbault_concentration_1000": 46.5,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 41.2,
+      "resonance_index": 38.1,
       "alert_level": "Percentil Superior",
       "alert_color": "red",
       "peak_date": "2069-10-03",
-      "dominant_category": "Guerra & Conflito",
+      "dominant_category": "Ciência & Tecnologia",
       "cosmic_trigger": "Plutão em Áries, Netuno em Câncer, Urano em Sagitário, Saturno em Libra. Aspectos-chave: ☉☌♄, ☉□♆, ☿△⚶. ★ Estrela Ativa: Vindemiatrix",
       "pluto_sign": "Áries",
       "neptune_sign": "Câncer",
@@ -32401,22 +32392,6 @@
       "key_aspects_count": 13,
       "star_contacts_count": 1,
       "top_matches": [
-        {
-          "id": 201,
-          "title": "Batalha de Termópilas",
-          "category": "Guerra & Conflito",
-          "date": "0480-08-11",
-          "city": "Termópilas",
-          "country": "Grécia",
-          "consequence": "O sacrifício do rei espartano Leônidas I e seus 300 guerreiros contra o massivo exército persa de Xerxes I tornou-se o maior símbolo militar de resistência heróica da civilização ocidental. A resistência comprou tempo vital para que Atenas evacuasse sua população e organizasse a armada naval que destruiria a frota persa na Batalha de Salamina semanas depois, impedindo a conquista persa da península grega e salvaguardando as bases filosóficas, políticas e artísticas da Grécia Clássica.",
-          "tension_index": 100.0,
-          "match_percent": 46.7,
-          "matching_traits": [
-            "Urano em Sagitário (mesmo signo)",
-            "Saturno em Libra (mesmo signo)",
-            "Aspecto comum: Marte em Oposição com Urano"
-          ]
-        },
         {
           "id": 28,
           "title": "Adoção do Calendário Gregoriano",
@@ -32449,9 +32424,25 @@
             "Aspecto comum: Sol em Quadratura com Netuno",
             "Aspecto comum: Júpiter em Quadratura com Urano"
           ]
+        },
+        {
+          "id": 150,
+          "title": "Início da Guerra das Malvinas (Falklands)",
+          "category": "Guerra & Conflito",
+          "date": "1982-04-02",
+          "city": "Port Stanley",
+          "country": "Ilhas Malvinas",
+          "consequence": "A tentativa da junta militar argentina de recuperar a posse do arquipélago no Atlântico Sul provocou a resposta bélica esmagadora do Reino Unido de Thatcher, culminando na derrota militar argentina que acelerou a derrocada da ditadura e a redemocratização em Buenos Aires.",
+          "tension_index": 88.0,
+          "match_percent": 37.4,
+          "matching_traits": [
+            "Urano em Sagitário (mesmo signo)",
+            "Saturno em Libra (mesmo signo)",
+            "★ Estrela Fixa Vindemiatrix ativada simultaneamente (Sol)"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2069: Percentil Médio Anual de 920.3/1000 (Percentil Superior), com 102 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Áries, Netuno em Câncer, Urano em Sagitário, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Batalha de Termópilas' (46.7% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2069: Percentil Médio Anual de 920.3/1000 (Percentil Superior), com 102 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Áries, Netuno em Câncer, Urano em Sagitário, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Adoção do Calendário Gregoriano' (38.9% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2070,
@@ -35178,20 +35169,16 @@
           ]
         },
         {
-          "id": 795,
-          "title": "Grande Terremoto M8.2 - 1938 Semidi Islands, Alaska Earthquake",
-          "category": "Desastre & Saúde Pública",
-          "date": "1938-11-10",
-          "city": "1938 Semidi Islands",
-          "country": "Alaska Earthquake",
-          "consequence": "Grande sismo com magnitude de momento M 8.2 e profundidade focal de 35.0 km, registrado e catalogado pelo United States Geological Survey (USGS). Epicentro: 1938 Semidi Islands, Alaska Earthquake (55.178°, -158.181°). Ocorrência em 20:18 UTC.",
-          "tension_index": 100.0,
-          "match_percent": 36.5,
-          "matching_traits": [
-            "Urano em Touro (mesmo signo)",
-            "Saturno em Áries (mesmo signo)",
-            "Aspecto comum: Sol em Conjunção com Nodo Norte"
-          ]
+          "id": 4,
+          "title": "Assassinato de Júlio César (Idos de Março)",
+          "category": "Revolução & Conflito Interno",
+          "date": "-0044-03-15",
+          "city": "Roma",
+          "country": "Itália",
+          "consequence": "O complô senatorial com o objetivo de restaurar as instituições republicanas provocou o efeito oposto, mergulhando Roma em uma guerra civil devastadora que culminou no fim da República Romana e na ascensão de Otaviano Augusto como o primeiro Imperador Romano em 27 a.C.",
+          "tension_index": 89.0,
+          "match_percent": 36.6,
+          "matching_traits": []
         }
       ],
       "scenarios_and_possibilities": "FATO HISTÓRICO REAL: Tentativa de Golpe Militar em Níger (2026). Percentil Médio Anual: 425.2/1000 (Percentil Moderado, 18 dias > P90 da era). Configuração calculada pelo Swiss Ephemeris: Plutão em Aquário, Netuno em Áries, Urano em Touro, Saturno em Áries. Consequências registradas na história: \"Tentativa de Golpe Militar registrado na base Powell & Thyne Coup d'État Dataset. País: Níger (Niger, COW ccode: 436). Resultado: Tentativa frustrada / debelada....\""
@@ -36239,11 +36226,11 @@
       "tech_innovation_index_1000": 541.5,
       "barbault_concentration_1000": 229.2,
       "social_transformation_index_1000": 0.0,
-      "resonance_index": 40.1,
+      "resonance_index": 39.0,
       "alert_level": "Percentil Moderado",
       "alert_color": "yellow",
       "peak_date": "2039-09-25",
-      "dominant_category": "Política, Tratados & Cultura",
+      "dominant_category": "Desastre & Saúde Pública",
       "cosmic_trigger": "Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Aspectos-chave: ☉□♂, ☉☌♄, ☽☍♂. ",
       "pluto_sign": "Aquário",
       "neptune_sign": "Touro",
@@ -36252,22 +36239,6 @@
       "key_aspects_count": 18,
       "star_contacts_count": 0,
       "top_matches": [
-        {
-          "id": 2,
-          "title": "Morte de Alexandre, o Grande",
-          "category": "Política, Tratados & Cultura",
-          "date": "0323-06-10",
-          "city": "Babilônia",
-          "country": "Iraque",
-          "consequence": "O desaparecimento precoce de Alexandre aos 32 anos desencadeou as Guerras dos Diádocos e a partilha de seu império colossal, inaugurando o Período Helenístico, marcado pela fusão das culturas grega, persa e egípcia, com a difusão da língua grega e a criação de centros científicos como Alexandria.",
-          "tension_index": 100.0,
-          "match_percent": 41.1,
-          "matching_traits": [
-            "Plutão em Aquário (mesmo signo)",
-            "Aspecto comum: Marte em Quadratura com Saturno",
-            "Aspecto comum: Júpiter em Quadratura com Nodo Norte"
-          ]
-        },
         {
           "id": 766,
           "title": "Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake",
@@ -36299,9 +36270,26 @@
             "Urano em Leão (mesmo signo)",
             "Aspecto comum: Urano em Quadratura com Netuno"
           ]
+        },
+        {
+          "id": 13,
+          "title": "Batalha de Hastings e Conquista Normanda da Inglaterra",
+          "category": "Guerra & Conflito",
+          "date": "1066-10-14",
+          "city": "Hastings",
+          "country": "Reino Unido",
+          "consequence": "A vitória de Guilherme, o Conquistador, sobre o rei saxão Haroldo II transformou a nobreza e a língua inglesas com a introdução do anglo-normando, centralizou a coroa britânica e interligou a história inglesa aos conflitos continentais franceses pelos séculos seguintes.",
+          "tension_index": 100.0,
+          "match_percent": 37.6,
+          "matching_traits": [
+            "Netuno em Touro (mesmo signo)",
+            "Aspecto comum: Mercúrio em Trígono com Plutão",
+            "Aspecto comum: Mercúrio em Trígono com Lilith (Lua Negra)",
+            "Aspecto comum: Marte em Quadratura com Saturno"
+          ]
         }
       ],
-      "scenarios_and_possibilities": "Horizonte prospectivo para 2039: Percentil Médio Anual de 561.5/1000 (Percentil Moderado), com 20 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Morte de Alexandre, o Grande' (41.1% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
+      "scenarios_and_possibilities": "Horizonte prospectivo para 2039: Percentil Médio Anual de 561.5/1000 (Percentil Moderado), com 20 dias acima do percentil 90 da era (esperado ao acaso: 36.5 dias). Configuração calculada: Plutão em Aquário, Netuno em Touro, Urano em Leão, Saturno em Libra. Isomorfismo geométrico mais próximo: 'Grande Terremoto M8.6 - 1957 Atka, Alaska Earthquake' (40.2% de similaridade). Nota metodológica (M2): este paralelo reflete proximidade de coordenadas celestes, sem valor preditivo determinístico."
     },
     {
       "year": 2040,

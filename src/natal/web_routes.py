@@ -33,8 +33,7 @@ from src.web.mandala import generate_mandala_svg
 from src.mundane.mandala_biwheel import generate_biwheel_svg
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
+from src.web.templating import templates  # v6: instância única
 
 router = APIRouter(tags=["natal"])
 

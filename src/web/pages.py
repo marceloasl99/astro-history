@@ -18,7 +18,7 @@ from src.mundane.countries_data import search_countries
 from src.web.i18n import resolve_lang, translator
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "src", "web", "templates"))
+from src.web.templating import templates  # v6: instância única
 router = APIRouter(tags=["pages"])
 
 

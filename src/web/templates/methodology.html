@@ -307,15 +307,15 @@
     <!-- Auditoria do Catálogo e Log de Exclusão -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60">
         <h3 class="text-base font-bold text-slate-100 mb-2 flex items-center gap-2">
-            <span>📋</span> Auditoria do Catálogo & Arquitetura de Duplo Circuito (1.342 Eventos)
+            <span>📋</span> Auditoria do Catálogo & Arquitetura de Duplo Circuito ({{ catalog_total()|fmt_int }} Eventos)
         </h3>
         <p class="text-xs text-slate-300 leading-relaxed mb-4">
-            O AstroHistory opera sob o <strong>Princípio de Duplo Circuito (Dual-Track Architecture)</strong>: o catálogo geral de pesquisa e busca de análogos cósmicos foi substancialmente expandido para <strong>1.342 eventos mundiais</strong> organizados em <strong>6 categorias canônicas</strong>, enquanto a amostra analítica pré-registrada de teste permanece estritamente congelada ($N=59$) para blindagem metodológica contra <em>cherry-picking</em> e vazamento de dados.
+            O AstroHistory opera sob o <strong>Princípio de Duplo Circuito (Dual-Track Architecture)</strong>: o catálogo geral de pesquisa e busca de análogos cósmicos foi substancialmente expandido para <strong>{{ catalog_total()|fmt_int }} eventos mundiais</strong> organizados em <strong>6 categorias canônicas</strong>, enquanto a amostra analítica pré-registrada de teste permanece estritamente congelada ($N=59$) para blindagem metodológica contra <em>cherry-picking</em> e vazamento de dados.
         </p>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono">
             <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
                 <span class="text-slate-400 block mb-1">Catálogo Geral:</span>
-                <strong class="text-sky-300 text-sm">1.342 eventos</strong>
+                <strong class="text-sky-300 text-sm">{{ catalog_total()|fmt_int }} eventos</strong>
                 <p class="text-[11px] text-slate-400 mt-1 font-sans">COW, UCDP, Powell & Thyne, USGS ($M\ge7.8$), NBER e marcos históricos.</p>
             </div>
             <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800">
@@ -412,7 +412,7 @@
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">Similaridade Multidimensional</span>
                 </div>
                 <p class="text-xs text-slate-300 leading-relaxed">
-                    Motor vetorial de recuperação de informação cosmológica: para qualquer configuração planetária de entrada (passada ou projetada no futuro), efetua busca por produto interno cosseno sobre os 10 pares de planetas lentos e posições zodiacais em todo o catálogo de 1.342 fatos históricos, identificando precedentes mundanos documentados.
+                    Motor vetorial de recuperação de informação cosmológica: para qualquer configuração planetária de entrada (passada ou projetada no futuro), efetua busca por produto interno cosseno sobre os 10 pares de planetas lentos e posições zodiacais em todo o catálogo de {{ catalog_total()|fmt_int }} fatos históricos, identificando precedentes mundanos documentados.
                 </p>
                 <div class="text-xs font-mono bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-400">
                     Módulo Interno: <code class="text-amber-300">src.analysis.historical_analogues (Similaridade Multidimensional)</code>

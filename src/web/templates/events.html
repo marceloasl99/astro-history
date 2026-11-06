@@ -1,193 +1,140 @@
 {% extends "base.html" %}
 
-{% block title %}Catálogo dos 1.342 Grandes Fatos Históricos{% endblock %}
+{% block title %}Catálogo de {{ page.total|fmt_int }} Fatos Históricos | AstroHistory{% endblock %}
+
+{% macro facet_link(param, value, label, n, active) -%}
+{% set args = base_args.copy() %}{% if active %}{% set _ = args.pop(param, None) %}{% else %}{% set _ = args.update({param: value}) %}{% endif %}{% set _ = args.pop('page', None) %}
+<a href="/events?{{ args|urlencode }}" class="flex items-center justify-between gap-2 px-2 py-1 rounded-lg text-xs transition {% if active %}bg-amber-400 text-slate-950 font-bold{% else %}text-slate-300 hover:bg-slate-800{% endif %}"><span class="truncate">{{ label }}</span><span class="font-mono {% if active %}text-slate-800{% else %}text-slate-500{% endif %}">{{ n }}</span></a>
+{%- endmacro %}
 
 {% block content %}
 <div class="space-y-6">
-    <!-- Hero & Search Bar -->
     <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-700/60 shadow-xl">
+        <nav class="text-[11px] font-mono text-slate-400 mb-3" aria-label="breadcrumb"><a href="/" class="hover:text-amber-300">Início</a> › Explorar › <span class="text-slate-200">Catálogo</span></nav>
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div class="max-w-3xl space-y-2">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30">
-                    <span>🏛️ Arquivo Histórico Global • 1.342 Acontecimentos • 490 a.C. a 2026</span>
+                    <span>🏛️ Arquivo Histórico Global • {{ catalog_total()|fmt_int }} acontecimentos • 490 a.C. a 2026</span>
                 </div>
-                <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
-                    Catálogo de Fatos Históricos Mundiais
-                </h1>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                    Acervo cronológico abrangendo mais de 2.500 anos, categorizado nos 6 eixos geopolíticos canônicos com posições planetárias, aspectos exatos e análise historiográfica de consequências.
-                </p>
+                <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">Catálogo de Fatos Históricos Mundiais</h1>
+                <p class="text-sm text-slate-300 leading-relaxed">Acervo cronológico de mais de 2.500 anos com posições planetárias, aspectos exatos e análise de consequências. <b class="text-slate-100">O que esta página mostra:</b> todos os eventos do Track A (exploratório), filtráveis por categoria, período, região, precisão da data e qualidade da fonte. A amostra estatística pré-registrada (Track B, N=59) é marcada com ✓.</p>
             </div>
-
-            <!-- Search Input -->
-            <div class="w-full lg:w-96 relative shrink-0">
-                <input type="text" id="searchInput" placeholder="Pesquisar por evento, país ou consequência..." 
-                    class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-11 shadow-inner">
+            <form method="get" action="/events" class="w-full lg:w-96 relative shrink-0">
+                {% for k, v in base_args.items() if k not in ('search', 'page') %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+                <input type="search" name="search" value="{{ search_term }}" placeholder="Pesquisar por evento, país ou consequência..." class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-11 shadow-inner">
                 <span class="absolute left-4 top-3.5 text-slate-400 text-sm">🔍</span>
-            </div>
+            </form>
         </div>
-
-        <!-- Category Filters -->
-        <div class="flex flex-wrap items-center gap-2 mt-6 pt-5 border-t border-slate-700/60">
-            <span class="text-xs text-slate-400 mr-2 font-mono uppercase tracking-wider">Filtrar:</span>
-            <button onclick="filterCategory('Todas')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 transition shadow-sm font-bold" data-cat="Todas">
-                Todas ({{ events|length }})
-            </button>
-            <a href="/events{% if not validated_only %}?validated=1{% endif %}" title="Eventos da amostra de validação estatística pré-registrada (N=59)"
-               class="px-3 py-1.5 rounded-lg text-xs font-semibold transition border {% if validated_only %}bg-emerald-500 text-slate-950 border-emerald-400 font-bold{% else %}bg-slate-800 text-emerald-300 border-emerald-500/40 hover:bg-slate-700{% endif %}">
-                ✓ Amostra validada ({{ validated_count }})
-            </a>
-            <button onclick="filterCategory('Guerra & Conflito')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Guerra & Conflito">
-                Guerras & Conflitos
-            </button>
-            <button onclick="filterCategory('Revolução & Conflito Interno')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Revolução & Conflito Interno">
-                Revoluções & Conflitos Internos
-            </button>
-            <button onclick="filterCategory('Desastre & Saúde Pública')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Desastre & Saúde Pública">
-                Desastres & Saúde Pública
-            </button>
-            <button onclick="filterCategory('Crise Financeira & Econômica')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Crise Financeira & Econômica">
-                Crises Financeiras & Econômicas
-            </button>
-            <button onclick="filterCategory('Ciência & Tecnologia')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Ciência & Tecnologia">
-                Ciência & Tecnologia
-            </button>
-            <button onclick="filterCategory('Política, Tratados & Cultura')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition" data-cat="Política, Tratados & Cultura">
-                Política, Tratados & Cultura
-            </button>
+        {% if active_filters %}
+        <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-slate-700/60 text-xs">
+            <span class="text-slate-400 font-mono uppercase tracking-wider">Filtros ativos:</span>
+            {% for k, label in active_filters %}{% set args = base_args.copy() %}{% set _ = args.pop(k, None) %}{% set _ = args.pop('page', None) %}
+            <a href="/events?{{ args|urlencode }}" class="px-2.5 py-1 rounded-lg bg-amber-400/15 text-amber-200 border border-amber-400/40 hover:bg-amber-400/25">{{ label }} ✕</a>{% endfor %}
+            <a href="/events" class="px-2.5 py-1 rounded-lg text-slate-300 hover:bg-slate-800">limpar tudo</a>
         </div>
+        {% endif %}
     </div>
 
-    <!-- Events List / Table -->
-    <div class="space-y-4" id="eventsContainer">
-        {% for ev in events %}
-        <div class="event-card glass-card-interactive p-5 sm:p-6 rounded-2xl" 
-             data-title="{{ ev.title|lower }}" 
-             data-category="{{ ev.category }}" data-validated="{{ 1 if ev.in_validated_sample else 0 }}" 
-             data-consequence="{{ ev.consequence|lower }}"
-             data-location="{{ ev.city|lower }} {{ ev.country|lower }}">
-            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-                <div class="space-y-2 flex-grow">
-                    <!-- Badges -->
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
-                            #{{ "%03d"|format(ev.id) }}
-                        </span>
-                        <span class="px-2.5 py-0.5 rounded text-xs font-semibold 
-                            {% if ev.category == 'Crise Financeira & Econômica' or ev.category == 'Crise Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
-                            {% elif ev.category == 'Guerra & Conflito' %}bg-amber-500/20 text-amber-300 border border-amber-500/30
-                            {% elif ev.category == 'Ciência & Tecnologia' %}bg-sky-500/20 text-sky-300 border border-sky-500/30
-                            {% elif ev.category == 'Revolução & Conflito Interno' or ev.category == 'Revolução Política' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
-                            {% elif ev.category == 'Desastre & Saúde Pública' or ev.category == 'Pandemia & Desastre' %}bg-red-500/20 text-red-300 border border-red-500/30
-                            {% elif ev.category == 'Política, Tratados & Cultura' %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30
-                            {% else %}bg-slate-500/20 text-slate-300 border border-slate-500/30{% endif %}">
-                            {{ ev.category }}
-                        </span>
-                        {% if ev.in_validated_sample %}
-                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" title="Na amostra validada (N=59, testes nulos N1–N3)">
-                            ✓ N=59
-                        </span>
-                        {% endif %}
-                        <span class="text-xs font-mono text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded">
-                            📅 {{ ev.date }} {% if ev.time != 'desconhecido' %}• ⏰ {{ ev.time }}{% else %}• ⏰ Hora desconhecida{% endif %}
-                        </span>
-                        <span class="text-xs text-slate-400">
-                            📍 {{ ev.city }}, {{ ev.country }}
-                        </span>
-                    </div>
-
-                    <!-- Title -->
-                    <h3 class="text-xl font-bold text-white hover:text-amber-300 transition-colors">
-                        <a href="/events/{{ ev.id }}">{{ ev.title }}</a>
-                    </h3>
-
-                    <!-- 1-Paragraph Consequence -->
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 text-sm text-slate-300 leading-relaxed">
-                        <span class="text-amber-400 font-semibold text-xs block mb-1">Impacto & Consequências Históricas:</span>
-                        {{ ev.consequence }}
-                    </div>
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <aside class="space-y-4 xl:col-span-1">
+            <details class="glass-panel rounded-2xl p-4" open>
+                <summary class="cursor-pointer text-sm font-bold text-white">Categoria</summary>
+                <div class="mt-2 space-y-0.5">
+                    {% for f in page.facets.category %}{{ facet_link('category', f.key, f.key, f.n, base_args.get('category') == f.key) }}{% endfor %}
                 </div>
+                {% set vargs = base_args.copy() %}{% if validated_only %}{% set _ = vargs.pop('validated', None) %}{% else %}{% set _ = vargs.update({'validated': 1}) %}{% endif %}{% set _ = vargs.pop('page', None) %}
+                <a href="/events?{{ vargs|urlencode }}" class="mt-2 flex items-center justify-between px-2 py-1 rounded-lg text-xs border {% if validated_only %}bg-emerald-500 text-slate-950 border-emerald-400 font-bold{% else %}text-emerald-300 border-emerald-500/40 hover:bg-slate-800{% endif %}" title="Amostra de validação pré-registrada (Track B)"><span>✓ Amostra validada (N=59)</span><span class="font-mono">{{ validated_count }}</span></a>
+            </details>
+            <details class="glass-panel rounded-2xl p-4" open>
+                <summary class="cursor-pointer text-sm font-bold text-white">Macro-categoria (v6)</summary>
+                <div class="mt-2 space-y-0.5">{% for f in page.facets.macro %}{{ facet_link('macro', f.key, macro_labels.get(f.key, f.key), f.n, base_args.get('macro') == f.key) }}{% endfor %}</div>
+            </details>
+            <details class="glass-panel rounded-2xl p-4" open>
+                <summary class="cursor-pointer text-sm font-bold text-white">Período (século)</summary>
+                <div class="mt-2 grid grid-cols-2 gap-0.5">{% for f in page.facets.century %}{% set lab = (f.key|abs ~ ' a.C.') if f.key < 0 else (f.key ~ 's') %}{{ facet_link('century', f.key, lab, f.n, base_args.get('century')|string == f.key|string) }}{% endfor %}</div>
+            </details>
+            <details class="glass-panel rounded-2xl p-4">
+                <summary class="cursor-pointer text-sm font-bold text-white">Polaridade</summary>
+                <div class="mt-2 space-y-0.5">{% for f in page.facets.polarity %}{{ facet_link('polarity', f.key, {'disruptive':'Disruptiva','constructive':'Construtiva','structural':'Estrutural','neutral':'Neutra'}.get(f.key, f.key), f.n, base_args.get('polarity') == f.key) }}{% endfor %}</div>
+            </details>
+            <details class="glass-panel rounded-2xl p-4">
+                <summary class="cursor-pointer text-sm font-bold text-white">Precisão e fonte</summary>
+                <div class="mt-2 space-y-0.5">
+                    {% for f in page.facets.precision %}{{ facet_link('precision', f.key, 'Data: ' ~ f.key, f.n, base_args.get('precision') == f.key) }}{% endfor %}
+                    {% for f in page.facets.tier %}{{ facet_link('tier', f.key, 'Tier ' ~ f.key ~ ' — ' ~ {'A':'primário','B':'dataset acadêmico','C':'enciclopédico auditado'}.get(f.key, ''), f.n, base_args.get('tier') == f.key) }}{% endfor %}
+                    {% for f in page.facets.time_known %}{{ facet_link('time_known', f.key, 'Hora conhecida' if f.key else 'Hora desconhecida', f.n, base_args.get('time_known')|string == f.key|string) }}{% endfor %}
+                </div>
+                <p class="text-[10px] text-slate-500 mt-2"><a class="text-sky-400 hover:underline" href="/glossario#tier">O que são tiers →</a></p>
+            </details>
+            <details class="glass-panel rounded-2xl p-4">
+                <summary class="cursor-pointer text-sm font-bold text-white">País</summary>
+                <div class="mt-2 space-y-0.5 max-h-72 overflow-auto">{% for f in page.facets.country %}{{ facet_link('country', f.key, f.key, f.n, base_args.get('country') == f.key) }}{% endfor %}</div>
+            </details>
+        </aside>
 
-                <!-- Astrology Info Column & CTA -->
-                <div class="flex lg:flex-col items-center lg:items-end justify-between lg:justify-start gap-4 min-w-[200px] border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-6">
-                    <div class="text-right space-y-1">
-                        <div class="text-xs text-slate-400">Sol em <strong class="text-amber-300 font-medium">{{ ev.sun_sign or 'Calculado' }}</strong></div>
-                        <div class="text-xs text-slate-400">Lua em <strong class="text-sky-300 font-medium">{{ ev.moon_sign or 'Calculado' }}</strong></div>
-                        <div class="text-xs text-slate-400">
-                            Tensão: 
-                            <span class="font-mono font-bold {% if ev.tension_index > 75 %}text-rose-400{% else %}text-emerald-400{% endif %}">
-                                {{ ev.tension_index }}/100
-                            </span>
+        <div class="xl:col-span-3 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+                <span><b class="text-slate-100">{{ page.total|fmt_int }}</b> eventos · página {{ page.page }} de {{ page.pages }}</span>
+                <form method="get" class="flex items-center gap-2">
+                    {% for k, v in base_args.items() if k not in ('sort', 'page') %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+                    <label>Ordenar <select name="sort" onchange="this.form.submit()" class="rounded-lg bg-slate-900 border border-slate-700 px-2 py-1 text-slate-100">
+                        {% for k, lab in [('date','cronológica'),('date_desc','mais recentes'),('tension','maior tensão'),('title','título')] %}<option value="{{ k }}" {% if sort == k %}selected{% endif %}>{{ lab }}</option>{% endfor %}
+                    </select></label>
+                </form>
+            </div>
+
+            <div class="space-y-4" id="eventsContainer">
+                {% for ev in page['items'] %}
+                <article class="event-card glass-card-interactive p-5 sm:p-6 rounded-2xl">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+                        <div class="space-y-2 flex-grow">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">#{{ "%03d"|format(ev.id) }}</span>
+                                <span class="px-2.5 py-0.5 rounded text-xs font-semibold
+                                    {% if ev.category == 'Crise Financeira & Econômica' %}bg-rose-500/20 text-rose-300 border border-rose-500/30
+                                    {% elif ev.category == 'Guerra & Conflito' %}bg-amber-500/20 text-amber-300 border border-amber-500/30
+                                    {% elif ev.category == 'Ciência & Tecnologia' %}bg-sky-500/20 text-sky-300 border border-sky-500/30
+                                    {% elif ev.category == 'Revolução & Conflito Interno' %}bg-purple-500/20 text-purple-300 border border-purple-500/30
+                                    {% elif ev.category == 'Desastre & Saúde Pública' %}bg-red-500/20 text-red-300 border border-red-500/30
+                                    {% elif ev.category == 'Política, Tratados & Cultura' %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30
+                                    {% else %}bg-slate-500/20 text-slate-300 border border-slate-500/30{% endif %}">{{ ev.category }}</span>
+                                {% if ev.subcategory %}<span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-900/80 text-slate-400 border border-slate-800">{{ ev.subcategory }}{% if ev.polarity %} · {{ ev.polarity }}{% endif %}</span>{% endif %}
+                                {% if ev.in_validated_sample %}<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" title="Na amostra validada (N=59, testes nulos N1–N3)">✓ N=59</span>{% endif %}
+                                <span class="text-xs font-mono text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded" title="precisão: {{ ev.date_precision or 'day' }}">📅 {{ ev.date|hist_date }} {% if ev.time != 'desconhecido' %}• ⏰ {{ ev.time }}{% else %}• ⏰ hora desconhecida{% endif %}</span>
+                                <span class="text-xs text-slate-400">📍 {{ ev.city }}, {{ ev.country }}</span>
+                                {% if ev.quality_tier %}<span class="text-[10px] font-mono text-slate-500" title="tier de fonte">tier {{ ev.quality_tier }}</span>{% endif %}
+                            </div>
+                            <h3 class="text-xl font-bold text-white hover:text-amber-300 transition-colors"><a href="/events/{{ ev.id }}">{{ ev.title }}</a></h3>
+                            <details class="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 text-sm text-slate-300 leading-relaxed">
+                                <summary class="cursor-pointer text-amber-400 font-semibold text-xs">Impacto & consequências históricas</summary>
+                                <p class="mt-2">{{ ev.consequence }}</p>
+                            </details>
+                        </div>
+                        <div class="flex lg:flex-col items-center lg:items-end justify-between lg:justify-start gap-4 min-w-[200px] border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-6">
+                            <div class="text-right space-y-1">
+                                <div class="text-xs text-slate-400">Sol em <strong class="text-amber-300 font-medium">{{ ev.sun_sign or '—' }}</strong></div>
+                                <div class="text-xs text-slate-400">Lua em <strong class="text-sky-300 font-medium">{{ ev.moon_sign or '—' }}</strong>{% if ev.time == 'desconhecido' %} <span class="text-slate-600" title="hora desconhecida: Lua aproximada">≈</span>{% endif %}</div>
+                                <div class="text-xs text-slate-400">Tensão: <span class="font-mono font-bold {% if ev.tension_index and ev.tension_index > 75 %}text-rose-400{% else %}text-emerald-400{% endif %}">{{ ev.tension_index }}/100</span></div>
+                            </div>
+                            <a href="/events/{{ ev.id }}" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md">Ver Mapa Astral 🪐</a>
                         </div>
                     </div>
-
-                    <a href="/events/{{ ev.id }}" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all transform hover:scale-105 shadow-md flex items-center gap-1">
-                        Ver Mapa Astral 🪐
-                    </a>
-                </div>
+                </article>
+                {% else %}
+                <div class="glass-panel p-12 text-center rounded-2xl"><span class="text-4xl block mb-2">🔭</span><h4 class="text-lg font-bold text-white">Nenhum evento correspondente encontrado</h4><p class="text-sm text-slate-400 mt-1">Ajuste o termo de pesquisa ou remova filtros.</p></div>
+                {% endfor %}
             </div>
-        </div>
-        {% endfor %}
-    </div>
 
-    <!-- Empty State -->
-    <div id="noResults" class="hidden glass-panel p-12 text-center rounded-2xl">
-        <span class="text-4xl block mb-2">🔭</span>
-        <h4 class="text-lg font-bold text-white">Nenhum evento correspondente encontrado</h4>
-        <p class="text-sm text-slate-400 mt-1">Tente ajustar o termo de pesquisa ou selecionar outra categoria.</p>
+            {% if page.pages > 1 %}
+            <nav class="flex flex-wrap items-center justify-center gap-1 text-xs font-mono pt-4" aria-label="paginação">
+                {% set pargs = base_args.copy() %}
+                {% for p in page_links %}
+                {% if p is none %}<span class="px-2 text-slate-600">…</span>
+                {% else %}{% set _ = pargs.update({'page': p}) %}<a href="/events?{{ pargs|urlencode }}" class="px-2.5 py-1 rounded-lg border {% if p == page.page %}bg-amber-400 text-slate-950 border-amber-400 font-bold{% else %}border-slate-700 text-slate-300 hover:bg-slate-800{% endif %}" {% if p == page.page %}aria-current="page"{% endif %}>{{ p }}</a>{% endif %}
+                {% endfor %}
+            </nav>
+            {% endif %}
+        </div>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    let currentCategory = 'Todas';
-    const searchInput = document.getElementById('searchInput');
-    const cards = document.querySelectorAll('.event-card');
-    const noResults = document.getElementById('noResults');
-
-    function filterEvents() {
-        const query = searchInput.value.toLowerCase().trim();
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-            const title = card.getAttribute('data-title');
-            const category = card.getAttribute('data-category');
-            const consequence = card.getAttribute('data-consequence');
-            const location = card.getAttribute('data-location');
-
-            const matchesCat = (currentCategory === 'Todas' || category === currentCategory);
-            const matchesSearch = (!query || title.includes(query) || consequence.includes(query) || location.includes(query));
-
-            if (matchesCat && matchesSearch) {
-                card.style.display = 'block';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        if (visibleCount === 0) {
-            noResults.classList.remove('hidden');
-        } else {
-            noResults.classList.add('hidden');
-        }
-    }
-
-    function filterCategory(cat) {
-        currentCategory = cat;
-        document.querySelectorAll('.cat-btn').forEach(btn => {
-            if (btn.getAttribute('data-cat') === cat) {
-                btn.classList.remove('bg-slate-800', 'text-slate-300');
-                btn.classList.add('bg-amber-500', 'text-slate-950');
-            } else {
-                btn.classList.remove('bg-amber-500', 'text-slate-950');
-                btn.classList.add('bg-slate-800', 'text-slate-300');
-            }
-        });
-        filterEvents();
-    }
-
-    searchInput.addEventListener('input', filterEvents);
-</script>
 {% endblock %}

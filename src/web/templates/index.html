@@ -10,7 +10,7 @@
             <div class="max-w-3xl space-y-4">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/30">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Plataforma Computacional • 1.342 Fatos Históricos • Swiss Ephemeris 2.10</span>
+                    <span>Plataforma Computacional • {{ catalog_total()|fmt_int }} Fatos Históricos • Swiss Ephemeris 2.10</span>
                 </div>
                 <h1 class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
                     Astrologia Mundana Computacional
@@ -48,7 +48,7 @@
                     <div>
                         <div class="flex justify-between text-xs mb-1">
                             <span class="text-slate-400">Marcos Históricos:</span>
-                            <span class="font-bold text-white font-mono">1.342 eventos</span>
+                            <span class="font-bold text-white font-mono">{{ catalog_total()|fmt_int }} eventos</span>
                         </div>
                         <div class="w-full bg-slate-800 rounded-full h-2">
                             <div class="bg-amber-400 h-2 rounded-full w-full"></div>
@@ -120,7 +120,7 @@
                 </h3>
             </div>
             <span class="text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700">
-                Catálogo: <strong class="text-emerald-400">1.342 Fatos</strong> • 6 Eixos Canônicos
+                Catálogo: <strong class="text-emerald-400">{{ catalog_total()|fmt_int }} Fatos</strong> • 6 Eixos Canônicos
             </span>
         </div>
 
@@ -150,7 +150,7 @@
                         Cosmic History Search
                     </h4>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        Busca de análogos cósmicos: descubra quais dos 1.342 fatos históricos ocorreram sob céus similares a qualquer data futura.
+                        Busca de análogos cósmicos: descubra quais dos {{ catalog_total()|fmt_int }} fatos históricos ocorreram sob céus similares a qualquer data futura.
                     </p>
                 </div>
                 <div class="pt-3 mt-3 border-t border-slate-800 text-xs font-bold text-sky-400 flex items-center justify-between">
@@ -221,7 +221,7 @@
             </tbody>
         </table>
         </div>
-        <p class="text-[11px] text-slate-500 mt-2">Âmbar = p &lt; 0,05 sem sobreviver ao FDR; verde = q &lt; 0,05. O catálogo geral de 1.342 marcos é voltado para exploração ampla e análogos cósmicos; a amostra de validação pré-registrada (N=59) é a referência científica congelada.</p>
+        <p class="text-[11px] text-slate-500 mt-2">Âmbar = p &lt; 0,05 sem sobreviver ao FDR; verde = q &lt; 0,05. O catálogo geral de {{ catalog_total()|fmt_int }} marcos é voltado para exploração ampla e análogos cósmicos; a amostra de validação pré-registrada (N=59) é a referência científica congelada.</p>
     </div>
     {% endif %}
 
@@ -316,7 +316,7 @@
         <!-- Categories Chart -->
         <div class="glass-panel p-6 rounded-2xl">
             <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <span>📊</span> Distribuição dos 1.342 Fatos pelas 6 Categorias Canônicas
+                <span>📊</span> Distribuição dos {{ catalog_total()|fmt_int }} Fatos pelas 6 Categorias Canônicas
             </h3>
             <div class="h-80 flex items-center justify-center">
                 <canvas id="categoryChart"></canvas>
@@ -326,7 +326,7 @@
         <!-- Sun Signs Chart -->
         <div class="glass-panel p-6 rounded-2xl">
             <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <span>☀️</span> Posição do Sol nos 1.342 Grandes Eventos Históricos
+                <span>☀️</span> Posição do Sol nos {{ catalog_total()|fmt_int }} Grandes Eventos Históricos
             </h3>
             <div class="h-80 flex items-center justify-center">
                 <canvas id="sunSignChart"></canvas>
@@ -344,7 +344,7 @@
                 <p class="text-sm text-slate-400">Eventos de grande relevância selecionados com suas respectivas coordenadas e cartas celestes.</p>
             </div>
             <a href="/events" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-sm font-semibold border border-slate-700 transition">
-                Ver Todos os 1.342 Fatos &rarr;
+                Ver Todos os {{ catalog_total()|fmt_int }} Fatos &rarr;
             </a>
         </div>
 
@@ -883,7 +883,7 @@
         data: {
             labels: sunLabels,
             datasets: [{
-                label: 'Ocorrências nos 1.342 Fatos',
+                label: 'Ocorrências nos {{ catalog_total()|fmt_int }} Fatos',
                 data: sunCounts,
                 backgroundColor: 'rgba(251, 191, 36, 0.75)',
                 borderColor: '#fbbf24',

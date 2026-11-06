@@ -218,7 +218,8 @@ def test_invariant_5_precedents_leave_one_out():
         if prec:
             # O precedente deve ter um ano identificável
             prec_date = prec.get("date", "")
-            prec_year = int(prec_date.split("-")[0]) if prec_date else prec.get("year")
+            from src.core.dates import historical_year
+            prec_year = historical_year(prec_date) if prec_date else prec.get("year")
             assert prec_year is not None, f"Precedente sem ano válido no card de {year}: {prec}"
             # Na projeção futura (2027-2060), precedentes históricos vêm de < 2026
             assert prec_year < 2026, f"Precedente no futuro não permitido: {prec_year}"
@@ -238,11 +239,12 @@ def test_invariant_5_precedents_leave_one_out():
         ev = get_event_by_id(eid)
         if not ev or not ev.get("chart"):
             continue
-        ev_year = int(ev["date"].split("-")[0])
+        from src.core.dates import historical_year
+        ev_year = historical_year(ev["date"])
         sims = find_similar_events(ev["chart"], top_k=5, exclude_event_id=ev["id"]).get("top_matches", [])
         assert len(sims) > 0, f"Deveria encontrar similares para evento {eid}"
         for sim in sims:
-            sim_year = int(sim["date"].split("-")[0])
+            sim_year = historical_year(sim["date"])
             assert sim["id"] != ev["id"], f"Auto-match violado para evento {ev['id']}"
             assert abs(sim_year - ev_year) > 1, (
                 f"Vazamento temporal ±1 ano detectado: evento {ev['id']} ({ev_year}) "

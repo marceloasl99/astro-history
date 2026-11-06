@@ -378,7 +378,9 @@ def resolve_event_instant(
     """
     parts = date_str.strip().split("-")
     if len(parts) == 4 and date_str.startswith("-"):
-        year = -int(parts[1])
+        # v6: "-0490-09-12" = 490 a.C. histórico → ano astronômico 1 − 490 = −489 (não existe ano 0 na
+        # cronologia histórica; o Swiss Ephemeris usa numeração astronômica, em que 1 a.C. = ano 0).
+        year = 1 - int(parts[1])
         month = int(parts[2])
         day = int(parts[3])
     elif len(parts) == 3:

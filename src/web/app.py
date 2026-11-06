@@ -151,7 +151,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "src", "web", "static")
 WEB_DIR = os.path.join(BASE_DIR, "web")
 
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
+from src.web.templating import templates  # v6: instância única com filtros/globais
 if os.path.exists(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 if os.path.exists(WEB_DIR):
@@ -256,20 +256,60 @@ async def index_view(request: Request):
     )
 
 @app.get("/events", response_class=HTMLResponse)
-async def events_catalog_view(request: Request, category: str = "Todas", search: str = "", validated: int = 0):
-    events = _mark_validated(get_all_events(category=category if category != "Todas" else None, search=search if search else None))
-    validated_count = sum(1 for e in events if e["in_validated_sample"])
+async def events_catalog_view(request: Request, category: str = "Todas", search: str = "", validated: int = 0,
+                              macro: str = "", tier: str = "", precision: str = "", polarity: str = "", country: str = "",
+                              century: Optional[int] = None, time_known: Optional[int] = None, sort: str = "date",
+                              page: int = 1, per_page: int = 50):
+    """Catálogo facetado e paginado (v6). Mantém os parâmetros legados category/search/validated."""
+    from src.db import get_events_page
+    import yaml as _yaml
+    per_page = max(10, min(per_page, 200))
+    filters = dict(category=category if category != "Todas" else None, search=search or None, macro=macro or None,
+                   tier=tier or None, precision=precision or None, polarity=polarity or None, country=country or None,
+                   century_from=century if century is not None else None,
+                   century_to=(century + 99) if century is not None else None,
+                   time_known=(bool(time_known) if time_known is not None else None))
     if validated:
-        events = [e for e in events if e["in_validated_sample"]]
+        # Track B: filtra em memória (datas da amostra), mantendo as facetas da consulta base.
+        evs = _mark_validated(get_all_events(**filters))
+        evs = [e for e in evs if e["in_validated_sample"]]
+        total = len(evs)
+        pages = max(1, (total + per_page - 1) // per_page)
+        page = min(max(1, page), pages)
+        pg = get_events_page(page=1, per_page=1, sort=sort, **filters)
+        pg.update({"items": evs[(page - 1) * per_page: page * per_page], "total": total, "page": page, "pages": pages, "per_page": per_page})
+        validated_count = total
+    else:
+        pg = get_events_page(page=page, per_page=per_page, sort=sort, **filters)
+        _mark_validated(pg["items"])
+        validated_count = len([d for d in get_validated_sample_dates()])
+    base_args = {k: v for k, v in request.query_params.items() if v not in ("", None) and k != "page"}
+    if "category" in base_args and base_args["category"] == "Todas":
+        base_args.pop("category")
+    try:
+        with open(os.path.join(BASE_DIR, "config", "categories.yaml"), "r", encoding="utf-8") as f:
+            cats = _yaml.safe_load(f)
+        macro_labels = {k: v["label_pt"] for k, v in cats["macro_categories"].items()}
+    except Exception:
+        macro_labels = {}
+    labels = {"category": "Categoria", "macro": "Macro", "tier": "Tier", "precision": "Precisão", "polarity": "Polaridade",
+              "country": "País", "century": "Século", "time_known": "Hora", "search": "Busca", "validated": "Amostra validada"}
+    active_filters = [(k, f"{labels.get(k, k)}: {macro_labels.get(v, v) if k == 'macro' else v}") for k, v in base_args.items() if k in labels]
+    # links de paginação compactos
+    cur, last = pg["page"], pg["pages"]
+    cand = sorted({1, last, cur, max(1, cur - 1), min(last, cur + 1), max(1, cur - 2), min(last, cur + 2)})
+    page_links = []
+    for i, p in enumerate(cand):
+        if i and p - cand[i - 1] > 1:
+            page_links.append(None)
+        page_links.append(p)
     return templates.TemplateResponse(
         request=request,
         name="events.html",
         context={
-            "events": events,
-            "selected_category": category,
-            "search_term": search,
-            "validated_only": bool(validated),
-            "validated_count": validated_count
+            "page": pg, "page_links": page_links, "base_args": base_args, "active_filters": active_filters,
+            "selected_category": category, "search_term": search, "sort": sort, "macro_labels": macro_labels,
+            "validated_only": bool(validated), "validated_count": validated_count, "facets_total": pg["total"],
         }
     )
 
@@ -304,8 +344,8 @@ async def event_detail_view(request: Request, event_id: int):
         from src.features.sum_of_cosines import calculate_oshop_indices
         from src.analysis.historical_analogues import find_historical_analogues
 
-        p = [int(x) for x in event["date"].split("-")]
-        tjd = swe.julday(p[0], p[1], p[2], 12.0)
+        from src.core.dates import catalog_date_to_jd
+        tjd = catalog_date_to_jd(event["date"])
         barbault_data = calculate_barbault_comparison(tjd)
         oshop_data = calculate_oshop_indices(tjd)
         ana_res = find_historical_analogues(event["date"], top_k=5, exclude_event_id=event_id, min_year_diff=1)
@@ -364,8 +404,8 @@ async def simulator_get_view(request: Request, title: Optional[str] = None, date
             from src.features.sum_of_cosines import calculate_oshop_indices
             from src.analysis.historical_analogues import find_historical_analogues
 
-            p = [int(x) for x in date.split("-")]
-            tjd = swe.julday(p[0], p[1], p[2], 12.0)
+            from src.core.dates import catalog_date_to_jd
+            tjd = catalog_date_to_jd(date)
             barbault_data = calculate_barbault_comparison(tjd)
             oshop_data = calculate_oshop_indices(tjd)
             ana_res = find_historical_analogues(date, top_k=5)
@@ -651,8 +691,8 @@ async def api_features_oshop(date: str):
     try:
         import swisseph as swe
         from src.features.sum_of_cosines import calculate_oshop_indices
-        parts = [int(p) for p in date.strip().split("-")]
-        tjd = swe.julday(parts[0], parts[1], parts[2], 12.0)
+        from src.core.dates import catalog_date_to_jd
+        tjd = catalog_date_to_jd(date)
         res = calculate_oshop_indices(tjd)
         return JSONResponse(content=res)
     except Exception as e:
@@ -666,8 +706,8 @@ async def api_features_barbault(date: str):
     try:
         import swisseph as swe
         from src.features.barbault_ci import calculate_barbault_comparison
-        parts = [int(p) for p in date.strip().split("-")]
-        tjd = swe.julday(parts[0], parts[1], parts[2], 12.0)
+        from src.core.dates import catalog_date_to_jd
+        tjd = catalog_date_to_jd(date)
         res = calculate_barbault_comparison(tjd)
         return JSONResponse(content=res)
     except Exception as e:
