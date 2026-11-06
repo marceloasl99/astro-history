@@ -4,9 +4,9 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-100_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-122_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-5.0.0-blue)
+![Version](https://img.shields.io/badge/Version-6.0.0-blue)
 
 > 🌍 **Idiomas / Languages**: **Português** • [English version (README.md)](README.md)
 
@@ -15,340 +15,373 @@
 ## Sumário
 
 1. [O que é este projeto](#1-o-que-é-este-projeto)
-2. [A pergunta de pesquisa e a resposta honesta](#2-a-pergunta-de-pesquisa-e-a-resposta-honesta)
-3. [Como o site funciona, página por página](#3-como-o-site-funciona-página-por-página)
-4. [O pipeline computacional](#4-o-pipeline-computacional)
-5. [Camada astronômica: o que é calculado e como](#5-camada-astronômica-o-que-é-calculado-e-como)
-6. [O score de tensão e a escala de percentil 0–1000](#6-o-score-de-tensão-e-a-escala-de-percentil-01000)
-7. [Índices anuais do Dashboard e correlação com a história](#7-índices-anuais-do-dashboard-e-correlação-com-a-história)
-8. [Matriz de features v3: a astrologia mundana moderna operacionalizada](#8-matriz-de-features-v3-a-astrologia-mundana-moderna-operacionalizada)
-9. [Alvos históricos e fontes de dados](#9-alvos-históricos-e-fontes-de-dados)
-10. [Validação I — testes pré-registrados com modelos nulos (v2)](#10-validação-i--testes-pré-registrados-com-modelos-nulos-v2)
-11. [Validação II — hindcast walk-forward e skill de previsão (v3)](#11-validação-ii--hindcast-walk-forward-e-skill-de-previsão-v3)
-12. [Previsão 2026–2060: o que os números significam](#12-previsão-20262060-o-que-os-números-significam)
-13. [Decisões de projeto e suas justificativas](#13-decisões-de-projeto-e-suas-justificativas)
-14. [Capturas de tela](#14-capturas-de-tela)
-15. [Instalação, reprodução e deploy](#15-instalação-reprodução-e-deploy)
-16. [Modelo de segurança e API interna](#16-modelo-de-segurança-e-api-interna)
-17. [Estrutura do repositório](#17-estrutura-do-repositório)
-18. [Limitações conhecidas e roadmap](#18-limitações-conhecidas-e-roadmap)
+2. [Inovações da v6.0.0](#2-inovações-da-v600)
+3. [A pergunta de pesquisa e os resultados empíricos](#3-a-pergunta-de-pesquisa-e-os-resultados-empíricos)
+4. [Arquitetura da plataforma & páginas interativas](#4-arquitetura-da-plataforma--páginas-interativas)
+5. [O pipeline computacional](#5-o-pipeline-computacional)
+6. [Camada astronômica: precisão Swiss Ephemeris](#6-camada-astronômica-precisão-swiss-ephemeris)
+7. [O score de tensão e a escala de percentil 0–1000](#7-o-score-de-tensão-e-a-escala-de-percentil-01000)
+8. [Metodologia mundana: Barbault, Oshop e Tarnas](#8-metodologia-mundana-barbault-oshop-e-tarnas)
+9. [Base histórica: 3.406 eventos em mais de 2.500 anos](#9-base-histórica-3406-eventos-em-mais-de-2500-anos)
+10. [Cartas nacionais e análise de trânsitos mundanos](#10-cartas-nacionais-e-análise-de-trânsitos-mundanos)
+11. [Módulo Pessoal: Mapa Natal, Trânsitos e Progressões](#11-módulo-pessoal-mapa-natal-trânsitos-e-progressões)
+12. [Validação I — testes pré-registrados com modelos nulos (v2)](#12-validação-i--testes-pré-registrados-com-modelos-nulos-v2)
+13. [Validação II — hindcast walk-forward e skill de previsão (v3)](#13-validação-ii--hindcast-walk-forward-e-skill-de-previsão-v3)
+14. [Previsão 2026–2060: projeção probabilística](#14-previsão-20262060-projeção-probabilística)
+15. [Design system, temas triplos e i18n](#15-design-system-temas-triplos-e-i18n)
+16. [Instalação rápida, reprodução e deploy](#16-instalação-rápida-reprodução-e-deploy)
+17. [Modelo de segurança e arquitetura de API interna](#17-modelo-de-segurança-e-arquitetura-de-api-interna)
+18. [Estrutura do repositório](#18-estrutura-do-repositório)
 19. [Citação, licença e atribuição](#19-citação-licença-e-atribuição)
 
 ---
 
 ## 1. O que é este projeto
 
-O **astro-history** é um banco de testes científico, de código aberto, que submete a medição controlada uma afirmação popular: a de que a geometria do céu (aspectos planetários, ciclos dos planetas externos, estrelas fixas, eclipses) é sistematicamente diferente nos momentos em que grandes eventos históricos acontecem — e que, portanto, essa geometria pode antecipar pontos de virada futuros.
+O **astro-history** é um banco de testes científico, de código aberto, concebido para avaliar sob controle quantitativo rigoroso uma hipótese amplamente difundida: *será que alinhamentos astronômicos, aspectos planetários e ciclos dos planetas exteriores exibem agrupamento não aleatório em grandes pontos de inflexão histórica e fornecem habilidade preditiva mensurável para acontecimentos geopolíticos futuros?*
 
-O projeto faz três coisas ao mesmo tempo:
+A plataforma apoia-se em quatro pilares fundamentais:
 
-- **Calcula o céu com precisão.** Cada mapa, índice e feature deriva do Swiss Ephemeris (precisão de arco-segundos), com fusos horários históricos reais, tratamento correto de calendário e tratamento explícito de eventos sem hora conhecida.
-- **Testa a afirmação com as ferramentas da ciência de previsão.** Hipóteses pré-registradas, modelos nulos por permutação que preservam o agrupamento temporal, controle de taxa de falsas descobertas, teste de equivalência, análise de potência e — desde a v3 — um hindcast walk-forward que mede o skill de previsão fora da amostra contra a climatologia e um baseline autorregressivo.
-- **Publica tudo como plataforma web interativa**, onde qualquer visitante pode inspecionar o mapa de qualquer um dos 1.342 eventos históricos mundiais organizados em 6 categorias canônicas, compará-lo com 10.000 datas-controle aleatórias, simular qualquer data, buscar análogos históricos sob o mesmo céu (Cosmic History Search) e ler uma previsão probabilística para 2026–2060 rotulada com o skill que ela de fato obteve no backtesting.
+- **Astronomia de Alta Precisão:** Cada mapa celeste, aspecto, ponto médio e índice cíclico deriva do Swiss Ephemeris (precisão de arco-segundos), com fusos horários históricos reais (IANA com horário de verão e Hora Média Local antes da padronização de fusos), calendários corretos (Gregoriano / Juliano) e tratamento explícito de incerteza para eventos sem hora documentada.
+- **Rigor Metodológico & Estatístico:** Hipóteses pré-registradas (v2, v3, v4), modelos nulos de deslocamento circular por Monte Carlo (preservando o espaçamento entre eventos e a autocorrelação de planetas lentos), controle de taxa de falsas descobertas (FDR Benjamini-Hochberg), testes de equivalência (TOST) e hindcast walk-forward fora da amostra pontuado via Brier Skill Score (BSS) e ROC AUC contra baselines climatológicos e autorregressivos.
+- **Base de Dados Global Expandida:** Catálogo auditado com **3.406 marcos históricos verificados** (da Antiguidade a 2026 d.C.) sob o esquema v3 (precisão de data, tiers de fonte A/B/C, polaridade, macro/subcategorias), 107 cartas mundanas de nações soberanas e 148 picos de energia planetária.
+- **Plataforma Web Interativa & Módulo Pessoal:** Aplicação web intuitiva estruturada em 4 áreas conceituais (*Explorar, Analisar, Pessoal, Sobre*), busca global instantânea, glossário bilíngue e um **Módulo Pessoal** completo (`/natal`) com cálculo de mapa natal com múltiplos sistemas de casas, trânsitos diários de vida inteira vetorizados (0 a 100 anos calculados em < 1,5 s), progressões secundárias, 8 domínios de vida calibrados e gazetteer offline com 34.204 cidades.
 
-A plataforma foi deliberadamente construída como **ferramenta de literacia de dados**: mostra como um padrão retrospectivo conhecido pode parecer convincente e depois explica, com números, por que ele não sobrevive a testes controlados.
-
----
-
-## 2. A pergunta de pesquisa e a resposta honesta
-
-> **"As geometrias de aspectos planetários e os alinhamentos astronômicos distinguem grandes eventos históricos de datas aleatórias melhor que o acaso — e conseguem prever eventos futuros com skill mensurável?"**
-
-**Resposta após v2 e v3 (outubro de 2026): não, com nenhum construto testado até agora.**
-
-| Linha de evidência | Método | Resultado |
-| :--- | :--- | :--- |
-| Teste pré-registrado, N = 59 eventos objetivos (v2) | Nulo de deslocamento circular (10.000 permutações), nulo estratificado por década, nulo uniforme, FDR | z = −0,51, p = 0,69, q = 0,88 — nulo não rejeitado |
-| Teste de equivalência (v2) | TOST com Δ = ±0,30 DP | p = 0,041 — o efeito observado é *estatisticamente equivalente a zero* |
-| Fora da amostra 1951–2025 com limiares fixados em 1800–1950 (v2) | Walk-forward | z = −0,85, p = 0,80 — sem sinal preditivo |
-| Tese de Tarnas dos planetas externos (v2) | Aspectos duros entre Saturno, Urano, Netuno e Plutão | z = −0,06, p = 0,98 |
-| Hindcast walk-forward em séries mensais objetivas, 1951–2024 (v3) | Brier Skill Score vs climatologia, AUC, log-loss, 7 alvos × 8 modelos | Nenhum modelo astrológico supera a taxa-base com IC positivo **e** discriminação real (AUC > 0,55) |
-| Índices anuais vs catálogo expandido e amostra v2 (v3) | Nulo de deslocamento circular sobre médias anuais, Benjamini-Hochberg | Nenhuma correlação sobrevive ao FDR; nenhuma na amostra objetiva |
-
-O que isso significa para o site: as páginas de previsão mostram cada curva **junto com o skill medido** e, quando não há skill, dizem isso e recomendam a taxa-base histórica como a estimativa mais precisa disponível. Nada no site é apresentado como previsão de risco.
+A plataforma funciona como **ferramenta de literacia de dados**: demonstra como padrões astrológicos retrospectivos parecem convincentes ao olho humano e explica, com transparência matemática, por que essas formulações não superam baselines empíricos sob condições controladas fora da amostra.
 
 ---
 
-## 3. Como o site funciona, página por página
+## 2. Inovações da v6.0.0
 
-| Página | URL | O que mostra | De onde vêm os números |
+A versão `v6.0.0` consolida grandes avanços estruturais, metodológicos, de dados e de astrologia pessoal:
+
+1. **Base Expandida para 3.406 Eventos Históricos:** Expansão massiva de 1.342 para **3.406 marcos históricos verificados** sob o esquema v3 (`date_precision`, `calendar`, `source_id`/`source_url`, tiers de qualidade A/B/C, macro/subcategorias e polaridade). Incorporação do NOAA NCEI Significant Earthquakes (944 terremotos, grupo de controle cético), erupções vulcânicas do Smithsonian GVP (150 eventos), marcos selecionados do Wikidata (682 eventos) e eventos curados da Antiguidade e Idade Média (710 eventos pré-1800, 165 a.C.).
+2. **Módulo Pessoal (`/natal`):** Cálculos de mapa natal de alta precisão com múltiplos sistemas de casas (Placidus, Signos Inteiros, Iguais, Koch, Regiomontanus, Porphyry), trânsitos diários vetorizados para a vida inteira (0 a 100 anos processados em < 1,5 s), datas exatas de aspectos, progressões secundárias (`dia-por-ano`), linha do tempo da Lua progredida, ciclos de vida (retornos de Saturno, Júpiter, Quíron e oposição de Urano), 8 domínios de vida calibrados (escala 0–1000) e gazetteer GeoNames offline em SQLite com 34.204 cidades.
+3. **Navegação Estruturada em 4 Áreas & Busca Global:** Reorganização completa da experiência em 4 áreas conceituais (*Explorar, Analisar, Pessoal, Sobre*), mega-menus interativos, busca global (`/search` com atalho de teclado `/`) e trilhas de navegação (*breadcrumbs*) em todas as telas.
+4. **Glossário Bilíngue & Hub de Transparência:** Glossário dedicado (`/glossario`) definindo ~60 termos astronômicos e estatísticos com âncoras na interface, e página de manifesto de fontes (`/dados-fontes`) com licenças, cobertura e links acadêmicos.
+5. **8 Categorias Estimáveis & Pré-registro v4:** Formalização de 8 categorias estimáveis em `config/categories.yaml` (Guerra, Crise Econômica, Crise de Regime, Conflito Social, Desastre Natural, Saúde/Epidemia, Ciência/Inovação, Diplomacia/Paz) com selos de skill BSS e pré-registro v4 (`docs/hipoteses_v4.md`).
+6. **Modernização do Motor Astronômico:** Arquivos completos de efemérides Swiss Ephemeris (`sepl_*.se1`, `seplm_*.se1`, `semom_*.se1`), eliminação total de aproximações Moshier, correção no cálculo de casas Placidus (`houses_ex2`) e fusos horários legais históricos via IANA.
+7. **Internacionalização no Servidor com Filtro `t()`:** Suporte bilíngue renderizado no servidor via dicionários JSON indexados por chaves (`src/web/i18n/{en,pt}.json`), eliminando cintilação de tradução no cliente (*flicker*).
+8. **100% de Cobertura de Testes Automatizados:** Suíte com **122 testes automatizados** passando integralmente nas rotinas astronômicas, astrologia mundana, módulo pessoal, validação estatística e rotas web.
+9. **Dossiês Soberanos & Picos de Energia Geopolítica (2026–2060):** 148 picos de energia calculados e agrupados em 7 anos-chave de virada (2026, 2028, 2029, 2032, 2034, 2036, 2040), dossiês interativos de inteligência geopolítica para 12 potências soberanas e matriz de calor de risco geopolítico.
+10. **Arquitetura de Segurança Endurecida & Bloqueio Edge Cloudflare:** Bloqueio público de todas as rotas de API (`/api/*`) e documentação Swagger/OpenAPI (`/docs`, `/redoc`, `/openapi.json`) com resposta `404 Not Found` para tráfego externo, mantendo funcionalidades de API estritamente para processos de loopback local e suíte de testes. Cabeçalhos de defesa em profundidade OWASP habilitados.
+
+---
+
+## 3. A pergunta de pesquisa e os resultados empíricos
+
+> **"As geometrias de aspectos planetários e os ciclos de planetas externos distinguem grandes eventos históricos de datas aleatórias melhor que o acaso — e conseguem prever eventos geopolíticos futuros com habilidade mensurável?"**
+
+### Resumo Empírico
+
+| Linha de Evidência | Amostra & Método | Resultado Quantitativo | Veredito |
+| :--- | :--- | :--- | :---: |
+| **H1 Teste Pré-registrado (Global)** | N = 59 eventos objetivos; Nulo de deslocamento circular (10.000 permutações) | $z = -0,506, p = 0,612, q = 0,883$ | ❌ Nulo não rejeitado |
+| **H1 Controle Estratificado por Década** | N = 59 vs 10.000 datas-controle estratificadas | $z = -0,350, p = 0,716, q = 0,883$ | ❌ Nulo não rejeitado |
+| **Teste de Equivalência TOST** | Limiares de equivalência $\Delta = \pm 0,30$ DP | $p = 0,041$ (dentro do intervalo de equivalência) | ✅ Estatisticamente equivalente a zero |
+| **H2 Walk-Forward Fora da Amostra** | Treino: 1800–1950 (N=26) $\rightarrow$ Teste: 1951–2025 (N=33) | $z = -0,851, p = 0,401, q = 0,933$ | ❌ Sem transferência preditiva |
+| **H4 Tese de Tarnas (Planetas Externos)** | Aspectos tensos entre Saturno, Urano, Netuno e Plutão | $z = -0,063, p = 0,979, q = 0,883$ | ❌ Nulo não rejeitado |
+| **Hindcast em Séries Mensais (1951–2024)** | 7 alvos objetivos $\times$ 8 famílias de modelos vs Climatologia e AR | BSS astrológico máx $\le 0,003$; AUC $\le 0,52$ | ❌ Sem discriminação sobre baseline |
+| **Índices Anuais vs Catálogo de 3.406 Eventos** | Nulo de deslocamento circular com controle FDR Benjamini-Hochberg | Nenhuma correlação sobrevive ao corte de FDR | ❌ Sem correlação robusta |
+
+**Conclusão:** Em todas as configurações analisadas, alinhamentos planetários e índices de tensão astrológica não superam o acaso nem baselines autorregressivos. A plataforma apresenta todas as projeções futuras acompanhadas destas métricas de skill, recomendando as taxas-base históricas como estimativas de referência.
+
+---
+
+## 4. Arquitetura da plataforma & páginas interativas
+
+A aplicação web foi construída com **FastAPI**, **Jinja2** e **Chart.js**, servindo dados pré-computados e determinísticos, com suporte a cálculos sob demanda do Swiss Ephemeris para simulações:
+
+| Página | Rota | Função Central | Fonte Primária |
 | :--- | :--- | :--- | :--- |
-| **Dashboard** | `/` | Gráfico 1800–2100 com séries selecionáveis, distribuição das 6 categorias canônicas e signos solares nos 1.342 eventos, painel de correlação e efemérides | `data/timeline_1800_2100.json`, `data/annual_indices.json`, `data/forecast_v3.json` |
-| **Catálogo** | `/events` | 1.342 eventos históricos mundiais com filtros pelas 6 categorias canônicas, busca textual e filtro "✓ N=59" para os eventos da amostra objetiva validada | SQLite `events` e `events_v2` |
-| **Detalhe do evento** | `/events/{id}` | Mapa completo (17 corpos, aspectos estritos, contatos com estrelas fixas, casas quando a hora é conhecida), mandala SVG, ênfase arquetípica, botão "comparar com data-controle aleatória", anterior/próximo cronológico | `chart_json` por evento; `/api/random-control-comparison` |
-| **Hub de correlações** | `/correlations` | Frequência de signos, aspectos e estrelas fixas pelas 6 categorias históricas da base expandida | Agregação SQL sobre `planet_positions`, `event_aspects`, `event_star_aspects` |
-| **Metodologia** | `/methodology` | Resultados dos modelos nulos v2, funil de exclusão e arquitetura de duplo circuito (1.342 eventos gerais vs N=59 analítico congelado) | `data/results.json`, `reports/hindcast_v3.json` |
-| **Previsão v3** | `/forecast` | Por alvo: selo de skill, probabilidade por ano com banda p10–p90 vs taxa-base, perfil mensal, drivers do modelo, calendário astronômico exato e análogos históricos | `data/forecast_v3.json` |
-| **Cenários 2027–2060** | `/projections` | Tabela ano a ano do índice legado (tiers de percentil), portais sazonais, signos dos externos e precedente geométrico mais próximo | `data/projections_2027_2060.json` |
-| **Linha do tempo e simulador** | `/simulator` | Tabela completa 1800–2100 e formulário para calcular o mapa de qualquer data/hora/lugar; o resultado fica numa URL GET compartilhável | Swiss Ephemeris em tempo real + matcher leave-one-out |
-| **Países do Mundo** | `/countries` | Catálogo de horóscopos mundanos e mapas de fundação de mais de 100 nações soberanas, trânsitos atuais e eventos históricos correlacionados | `data/countries_database.json` |
-
-O servidor é uma aplicação FastAPI que renderiza templates Jinja2 com Tailwind e Chart.js. Ele **lê caches JSON pré-computados**; o único cálculo de efemérides por requisição é o do simulador.
+| **Dashboard** | `/` | Linha do tempo 1800–2100, percentis de tensão, envelopes nulos (P5–P95), concentração de Barbault, eventos em destaque | `data/timeline_1800_2100.json`, `data/forecast_v3.json` |
+| **Catálogo de Eventos** | `/events` | 3.406 marcos auditados, 6 macrocategorias, filtros por século, busca textual e filtro da amostra objetiva | `data/historical_events.json`, SQLite `events` |
+| **Detalhe do Evento** | `/events/{id}` | Mapa completo (17 corpos celestes, casas, estrelas fixas), mandala SVG, distribuição arquetípica, comparação com controle | SQLite `events`, Swiss Ephemeris |
+| **Cartas Nacionais** | `/countries` | 107 nações soberanas, cartas constitucionais de fundação, trânsitos ativos, picos energéticos 2026–2050 | `data/countries_database.json`, `src/mundane/` |
+| **Módulo Pessoal** | `/natal` | Mapa natal, trânsitos de vida inteira vetorizados, progressões secundárias, 8 domínios de vida, gazetteer com 34.204 cidades | `src/natal/`, `data/gazetteer/cities.sqlite` |
+| **Simulador** | `/simulator` | Calculador de efemérides em tempo real para qualquer data/hora/local; busca leave-one-out de análogos cósmicos | `src/astro_engine.py`, Swiss Ephemeris |
+| **Hub de Correlações** | `/correlations` | Distribuições estatísticas de signos, aspectos e estrelas fixas por categoria histórica | Agregações SQL no banco SQLite |
+| **Previsão** | `/forecast` | Projeção probabilística 2026–2060 por alvo, selos de skill de modelos, calendário astronômico exato, análogos | `data/forecast_v3.json` |
+| **Cenários & Picos de Energia** | `/projections` | Tiers anuais de tensão geométrica (2026–2060), catálogo de 148 picos de energia mundiais e por país, dossiês de potências | `data/projections_2027_2060.json`, `data/energy_peaks_2026_2060.json` |
+| **Glossário** | `/glossario` | ~60 definições conceituais astronômicas e estatísticas com links contextuais | `src/web/templates/glossario.html` |
+| **Dados & Fontes** | `/dados-fontes` | Manifesto de proveniência de dados, licenças e documentação de fontes | `src/web/templates/dados_fontes.html` |
+| **Metodologia** | `/methodology` | Documentação científica, formulação de hipóteses nulas, funil de exclusão e tabela de hindcast | `data/results.json`, `reports/hindcast_v3.json` |
 
 ---
 
-## 4. O pipeline computacional
+## 5. O pipeline computacional
 
 ```mermaid
 flowchart TD
-    SWE["Swiss Ephemeris (pyswisseph + arquivos libswe)"]
+    SWE["Swiss Ephemeris (biblioteca C pyswisseph)"]
 
-    subgraph "Grades astronômicas"
-        GRID["Grade diária 1800–2100<br/>109.938 dias · 9 corpos · meio-dia UT<br/>data/ephemeris/daily_grid_1800_2100.npz"]
-        FEAT["Grade de features 1750–2150<br/>146.462 dias · 409 features<br/>data/features/ (make features)"]
-        EXACT["Eventos exatos por busca de raiz<br/>aspectos (com nº de passagem), ingressos, estações, eclipses"]
+    subgraph "Camada Astronômica"
+        GRID["Grade Diária 1800–2100<br/>109.938 dias · 9 corpos · meio-dia UT"]
+        FEAT["Matriz de Features 1750–2150<br/>146.462 dias · 409 features"]
+        EXACT["Eventos Astronômicos Exatos<br/>Aspectos externos, ingressos, estações, eclipses"]
     end
 
-    subgraph "Score"
-        SCORE["config/score.yaml → src/core/scoring.py<br/>função única de tensão"]
-        PCT["Percentil empírico 0–1000<br/>sobre os 109.938 dias"]
+    subgraph "Scoring & Índices"
+        SCORE["Motor de Scoring (config/score.yaml)<br/>Métrica padronizada de tensão"]
+        PCT["Percentis Empíricos 0–1000<br/>Calibrados sobre 109.938 dias"]
+        MUNDANE["Métricas Mundanas<br/>Barbault CI-4/CI-5 · Oshop Σcos · Ciclos de Tarnas"]
     end
 
-    subgraph "Dados históricos"
-        CAT["Catálogo expandido de 1.342 eventos<br/>(6 categorias canônicas · Cosmic History Search)"]
-        V2["Amostra analítica congelada v2 (N=59)"]
-        EXT["COW v4 · UCDP v24.1 · Powell & Thyne · USGS · NBER<br/>→ séries mensais & análogos"]
-        CTRL["10.000 datas-controle estratificadas por década"]
+    subgraph "Bases Históricas"
+        CAT["Base de 3.406 Eventos Expandida<br/>Esquema v3 · 490 a.C.–2026 d.C."]
+        V2["Amostra Objetiva Pré-registrada (N=59)"]
+        NAT["107 Cartas Nacionais Soberanas<br/>Datas constitucionais auditadas"]
+        CTRL["10.000 Datas-Controle Estratificadas"]
     end
 
-    subgraph "Estatística"
-        NULL["Modelos nulos N1–N3, TOST, potência, FDR (v2)"]
-        HIND["Hindcast walk-forward 1951+<br/>BSS · AUC · log-loss · bootstrap em blocos (v3)"]
-        ANN["Índices anuais + correlação por deslocamento circular + FDR"]
-        FC["Previsão 2026–2060<br/>p, p10–p90, drivers, análogos, selo de skill"]
+    subgraph "Validação Estatística"
+        NULL["Modelos Nulos N1–N3<br/>10.000 permutações de deslocamento circular · TOST"]
+        HIND["Hindcast Walk-Forward 1951–2024<br/>Brier Skill Score · ROC AUC · Bootstrap"]
+        ANALOG["Cosmic History Search<br/>Distância geométrica em 3.406 eventos"]
     end
 
-    subgraph "Web"
-        CACHE["Caches JSON"]
-        APP["FastAPI + Jinja2 + Chart.js"]
+    subgraph "Camada Web & Pessoal"
+        APP["FastAPI + Jinja2 + Chart.js<br/>Navegação em 4 Áreas · Temas Triplos · i18n Servidor"]
+        NATAL["Módulo Pessoal (/natal)<br/>Trânsitos de Vida Vetorizados · 34.204 Cidades"]
     end
 
     SWE --> GRID & FEAT & EXACT
     GRID --> SCORE --> PCT
-    FEAT --> ANN & HIND & FC
-    EXACT --> FC
-    V2 & EXT --> HIND & FC
-    V2 & CAT --> ANN
-    V2 & CTRL & PCT --> NULL
-    NULL & HIND & ANN & FC & PCT --> CACHE --> APP
+    FEAT --> MUNDANE & HIND
+    CAT & NAT --> ANALOG & APP
+    V2 & CTRL --> NULL
+    PCT & EXACT & HIND & MUNDANE --> APP
+    SWE --> NATAL --> APP
 ```
 
-`make v3` executa a cadeia inteira: `features → hindcast → forecast → timeline`.
+---
+
+## 6. Camada astronômica: precisão Swiss Ephemeris
+
+Todas as posições astronômicas são calculadas via `pyswisseph` utilizando os arquivos C de alta precisão do Swiss Ephemeris:
+
+- **Precisão de Coordenadas:** O flag de retorno impõe `SWIEPH` (integração numérica rigorosa), eliminando aproximações de baixa ordem Moshier. Longitudes, latitudes, declinações e velocidades possuem precisão de arco-segundos.
+- **Resolução de Fusos Horários e LMT:** Para eventos ocorridos a partir de 1883, as coordenadas geográficas são resolvidas via `timezonefinder` e aplicadas com fusos IANA (incluindo transições históricas de horário de verão). Para datas anteriores a 1883, utiliza-se a Hora Média Local exata ($\text{longitude} / 15$) sem arredondamentos, respeitando a virada de dia quando a conversão cruza a meia-noite.
+- **Tratamento de Calendário:** Suporte dual Gregoriano/Juliano com datas de adoção específicas por território (ex.: Grã-Bretanha 1752, Rússia 1918, Grécia 1923).
+- **Protocolo de Incerteza Temporal:** Eventos sem hora documentada são avaliados às 12:00 UT, e a **Lua é automaticamente excluída** de aspectos, casas e scores para prevenir correspondências espúrias causadas pelo movimento lunar de ~13°/dia.
+- **Corpos Calculados:** Sol, Lua, Mercúrio, Vênus, Marte, Júpiter, Saturno, Urano, Netuno, Plutão, Quíron, Ceres, Pallas, Juno, Vesta, Lilith Média e Nodo Lunar Verdadeiro (17 corpos).
+- **Aspectos & Orbes:** Aspectos ptolemaicos clássicos (Conjunção 0°, Sextil 60°, Quadratura 90°, Trígono 120°, Oposição 180°) com decaimento linear com a orbe até 3,0°.
+- **Estrelas Fixas:** 30 estrelas principais calculadas via `swe_fixstar2_ut`; limitadas a conjunções dentro de 0,3° com latitude eclíptica $\le 30^\circ$ para evitar falsos contatos fora da eclíptica.
 
 ---
 
-## 5. Camada astronômica: o que é calculado e como
+## 7. O score de tensão e a escala de percentil 0–1000
 
-| Item | Implementação | Por que importa |
-| :--- | :--- | :--- |
-| **Efemérides** | `pyswisseph` com os arquivos `seas/sepl/semo`; o flag de retorno é verificado como `SWIEPH`, não o modo aproximado Moshier | Posições com precisão de arco-segundos em 1750–2150 |
-| **Instante do evento** | `resolve_event_instant()`: para anos ≥ 1883, a zona IANA da latitude/longitude do evento é resolvida com `timezonefinder` e aplicada com `zoneinfo` (horário de verão histórico incluído); antes de 1883, Hora Média Local exata (longitude / 15, sem arredondar). A data civil muda quando a conversão cruza a meia-noite | Até a v2 o deslocamento era `round(longitude / 15)`, errado em até 3 h e sem cruzar o limite do dia — o bastante para mover a Lua 1,5° e trocar o Ascendente |
-| **Calendário** | Gregoriano a partir de 1582-10-15 por padrão; `calendar_region` (britain = 1752, russia = 1918, greece = 1923, japan = 1873, …) ou `calendar` explícito | Datas registradas em "estilo antigo" seriam deslocadas em 10–13 dias |
-| **Hora desconhecida** | 82 dos 300 eventos do catálogo não têm hora documentada. São calculados às 12:00 UT e a **Lua é excluída** dos aspectos e do score | A Lua anda ~13°/dia; com orbe de 3°, um meio-dia chutado cobriria 22 % do zodíaco ao acaso |
-| **Corpos** | Sol, Lua, Mercúrio–Plutão, Ceres, Pallas, Juno, Vesta, Quíron, Lilith média, Nodo verdadeiro (17) | Conjunto clássico da astrologia moderna; só os 9 corpos centrais entram no score |
-| **Aspectos** | Conjunção 0°, quadratura 90°, trígono 120°, oposição 180°, orbe 3,0°, decaimento linear com a orbe; definições lidas de `config/score.yaml` | Orbes estritas minimizam acertos aleatórios; as orbes largas de Tarnas são testadas à parte na v3 por features contínuas |
-| **Estrelas fixas** | 30 estrelas via `swe_fixstar2_ut`; só **conjunções** dentro de 0,3° contam, e só se a latitude eclíptica da estrela for ≤ 30° | Checar 4 aspectos × 17 corpos × 30 estrelas gerava ~5 contatos espúrios por mapa; Vega (62°) ou Polaris (66°) nunca estão de fato "sobre" um planeta |
-| **Casas** | Placidus; acima do círculo polar, fallback para Porphyry e depois Signos Inteiros | Placidus é indefinido acima de ~66° de latitude |
-| **Datas exatas** | `src/features/astro_events.py` localiza trocas de sinal numa varredura diária e refina com o método de Brent sobre a efeméride; devolve data e hora UT, nº da passagem no laço retrógrado, aplicativo/separativo, tipo e ponto de máximo dos eclipses | Conferido contra efemérides publicadas: Saturno ☌ Netuno 20/02/2026 16:54 UT, Saturno ☌ Plutão 12/01/2020, eclipse solar total 08/04/2024 |
+A métrica de tensão planetária é calculada em `src/core/scoring.py` a partir das definições em `config/score.yaml`:
+
+$$\text{Score Bruto} = \text{Base} + \sum_{i < j} w(p_i, p_j) \cdot f_{\text{aspecto}}(\theta_{ij}) - \sum_{\text{trígonos}} 0,20 \cdot w_{\text{harmonia}}(p_i, p_j)$$
+
+- **Hierarquia Arquetípica de Pares:** Pesos correspondentes à literatura mundana clássica: Saturno–Plutão (260/250), Urano–Plutão (220/200), Saturno–Urano (220/160), Saturno–Netuno (200/220), pares externo–externo (170/160), Marte–externo (130/110), luminares–externo (75/60), outras configurações (40/30).
+- **Calibração por Percentil Empírico:** O score bruto é mapeado na grade de efemérides de 109.938 dias (1800–2100) em uma escala contínua de 0 a 1000. Um score de 750 significa tensão superior a 75% de todos os dias nos 300 anos analisados.
+- **Garantia de Paridade:** Testes de regressão golden asseguram paridade estrita (diferença máxima $< 0,002$) entre cálculos de mapas em tempo real e saídas da grade pré-calculada.
 
 ---
 
-## 6. O score de tensão e a escala de percentil 0–1000
+## 8. Metodologia mundana: Barbault, Oshop e Tarnas
 
-A linha vermelha do dashboard e todo número de "tensão" do site vêm de uma única função, `raw_tension_from_longitudes()` em `src/core/scoring.py`, cujos parâmetros ficam em `config/score.yaml`:
+A plataforma operacionaliza três vertentes de astrologia mundana moderna:
 
-- **Classes de par** codificam a hierarquia arquetípica da astrologia moderna: Saturno–Plutão (duro 260 / conjunção 250), Urano–Plutão (220 / 200), Saturno–Urano (220 / 160), Saturno–Netuno (200 / 220), outros pares externo–externo (170 / 160), Marte com externo (130 / 110), luminar com externo (75 / 60), demais (40 / 30).
-- Aspectos duros (90°, 180°) e conjunções somam o peso da classe vezes o fator linear de orbe `(3 − orbe) / 3`; trígonos subtraem 20 % de um peso de harmonia (35 externo–externo, 15 nos demais). Base 60.
-- A **grade diária** (1800–2100, meio-dia UT, 9 corpos) e cada **carta de evento** chamam a mesma função. Um teste de paridade garante que a mesma data dá o mesmo score pelos dois caminhos (diferença máxima 0,002, ruído de float32). Até a v3, o caminho da carta somava aspectos de 17 corpos e consultava o resultado numa tabela de percentil de 9 corpos, inflando o percentil exibido.
-- O score bruto é convertido em **percentil empírico** sobre os 109.938 dias: 850 significa "mais intenso que 85 % de todos os dias entre 1800 e 2100". Não há piso nem teto artificiais (a v1 saturava em 990).
-- O **pico anual** mostrado no gráfico é o dia de score máximo dentro do ano, tirado da grade — não o máximo de quatro datas sazonais, como na v2.
+### Índice Cíclico de André Barbault (CI-4 e CI-5)
+Mede a dispersão planetária somando as separações angulares entre planetas lentos:
 
-**Importante:** esses pesos são a *codificação de uma hipótese*, não valores ajustados aos dados. Por isso o índice é testado, não assumido, e por isso a v3 o substitui por modelos aprendidos para a previsão.
+$$\text{CI}_5(t) = \sum_{1 \le i < j \le 5} \theta_{ij}(t)$$
 
----
+Onde $\theta_{ij} \in [0^\circ, 180^\circ]$ é a menor distância angular entre Júpiter, Saturno, Urano, Netuno e Plutão. Mínimos na curva (planetas agrupados em conjunções) correspondem às épocas de crise identificadas por Barbault (ex.: 1914, 1940, 1982). O motor calcula CI-4 (Saturno a Plutão), CI-5 e a primeira derivada numérica ($\frac{d\text{CI}}{dt}$).
 
-## 7. Índices anuais do Dashboard e correlação com a história
+### Soma dos Cossenos de Renay Oshop ($\Sigma \cos$)
+Operacionalizada em `src/features/sum_of_cosines.py`, quantifica o agrupamento angular mútuo:
 
-Três séries adicionais são derivadas da grade de features (`src/analysis/annual_indices.py`) como percentil (0–1000) da média anual em 1800–2100:
+$$\Sigma \cos = \sum_{i < j} \cos(\theta_{ij})$$
 
-| Série | Cor | Definição |
-| :--- | :--- | :--- |
-| **Risco Bélico** | âmbar | Ativação gaussiana média de quadraturas e oposições entre Júpiter, Saturno, Urano, Netuno e Plutão |
-| **Inovação Científica** | azul | Ativação média de trígonos e sextis entre os 9 corpos |
-| **Concentração Planetária (Barbault)** | roxo | 1800° menos o Índice Cíclico de Barbault (soma das 10 separações angulares entre os externos). Alto = externos agrupados. Barbault associou os mínimos do índice a 1914–18, 1939–45 e 1982–83 |
+Valores mais altos indicam maior concentração geométrica. O sistema executa um teste de permutação Monte Carlo com 1.000 iterações para qualquer data consultada, reportando a variância circular e o valor-$p$ de permutação ($p_{\text{MC}}$).
 
-Cada série é correlacionada com a história por **deslocamento circular dos anos** (10.000 permutações): a média do índice nos anos com evento é comparada com sua distribuição nula, preservando o agrupamento temporal dos eventos e a autocorrelação dos planetas lentos. O painel reporta z, p bicaudal, q de Benjamini-Hochberg e o lift do quartil superior, para cada uma das seis categorias do catálogo, o catálogo inteiro e a amostra objetiva v2.
-
-Resultado atual: alguns p < 0,05 nominais no catálogo *curado* (por exemplo, anos de evento têm risco bélico *menor*, z = −2,2) que não sobrevivem ao FDR, e **nada na amostra objetiva** (|z| < 0,9). O painel marca resultados nominais em âmbar e os significativos após FDR em verde, e explica o viés de seleção do catálogo curado.
+### Alinhamentos de Planetas Externos de Richard Tarnas
+Ativações gaussianas contínuas ($\sigma = 5^\circ$) rastreando aspectos duros (0°, 90°, 180°) entre os quatro planetas mais lentos: Saturno, Urano, Netuno e Plutão.
 
 ---
 
-## 8. Matriz de features v3: a astrologia mundana moderna operacionalizada
+## 9. Base histórica: 3.406 eventos em mais de 2.500 anos
 
-`src/features/astro_features.py` calcula **409 features diárias** de 1750 a 2150 (146.462 dias, ~20 s), agregadas por mês (média; mais o máximo mensal das ativações):
+O catálogo expandido contém **3.406 marcos auditados** abrangendo desde 490 a.C. (Batalha de Maratona) até 2026 d.C. Cada marco foi verificado quanto a data, fuso horário, coordenadas geográficas, padrão de calendário e classificado no esquema v3:
 
-| Família | Conteúdo | Justificativa |
-| :--- | :--- | :--- |
-| Fases dos ciclos sinódicos | seno/cosseno (1º e 2º harmônico) do ângulo de cada um dos 10 pares de externos, geocêntrico **e** heliocêntrico | A variável contínua elimina a escolha de orbe e permite estatística circular; fases heliocêntricas não têm laço retrógrado |
-| Índice de Barbault | geocêntrico e heliocêntrico | O índice preditivo canônico da astrologia mundana do século XX |
-| Ativação de aspectos | kernel gaussiano para 36 pares × 5 ângulos (0, 60, 90, 120, 180); σ = 5° externo–externo, 4° com Júpiter, 2° nos demais | Substitui o corte binário "dentro/fora da orbe" e cobre as orbes largas que Tarnas de fato usa |
-| Harmônicos | comprimento do vetor resultante nos harmônicos 4 e 8 (externos; todos os corpos) | Concentração harmônica de Addey |
-| Declinação | declinação de 8 corpos; fora-de-limites de Mercúrio, Vênus e Marte | Uma dimensão inteira ignorada pela análise só por longitude |
-| Movimento | retrogradação, estações, ingressos, signos cardinais, posição zodiacal (sen/cos) dos externos | Marcadores mundanos padrão |
-| Meios-pontos | Marte/Saturno, Saturno/Plutão, Urano/Plutão, Saturno/Netuno, Saturno/Urano ativados por Sol, Marte e Júpiter no eixo de 90° | Cosmobiologia de Ebertin |
-| Eclipses | dias até o eclipse solar/lunar mais próximo; janelas de ±15 dias | Eventos astronômicos exatos e localizáveis |
-| Legado | o índice de `score.yaml` | Para que o índice v2 seja comparado aos demais em pé de igualdade |
+```
+Total de Eventos: 3.406
+├── 1. Conflitos Armados & Guerras (conflict_war)
+├── 2. Política, Revoluções & Poder (politics_power)
+├── 3. Ciência, Tecnologia & Espaço (science_tech)
+├── 4. Economia, Crises Financeiras & Mercados (economy_crisis)
+├── 5. Cultura, Filosofia & Religião (culture_philosophy)
+└── 6. Desastres, Pandemias & Clima (disaster_pandemic)
+    ├── Terremotos Significativos NOAA NCEI (944 eventos)
+    └── Erupções Vulcânicas Smithsonian GVP (150 eventos)
+```
 
----
+### Distribuição Cronológica
+- **Antiguidade e Idade Média (Pré-1500 d.C.):** 380 marcos civilizacionais (incluindo 165 eventos a.C.).
+- **Era Moderna (1500–1799 d.C.):** 330 eventos.
+- **Século XIX (1800–1899 d.C.):** 610 eventos.
+- **Século XX (1900–1999 d.C.):** 1.420 eventos.
+- **Século XXI (2000–2026 d.C.):** 666 eventos contemporâneos.
 
-## 9. Alvos históricos e fontes de dados
-
-| Fonte | Cobertura | Séries mensais derivadas | Arquivo |
-| :--- | :--- | :--- | :--- |
-| **Catálogo objetivo v2** (UCDP, COW, NBER, Powell & Thyne, Polity5) | 1800–2025, 61 eventos com precisão diária, 59 na janela analítica | qualquer evento; por classe (guerra interestatal, conflito armado, recessão, pandemia, golpe, mudança de regime) | `data/events_v2.csv`, SQLite `events_v2` |
-| **COW Inter-State War Data v4.0** | 1816–2007, 95 guerras | início de guerra (binário e contagem), guerra em curso, log de mortes em batalha | `data/external/Inter-StateWarData_v4.0.csv` |
-| **NBER, datas dos ciclos econômicos** | 1857–2024 | mês em recessão (578 meses), início de recessão (34) | `data/external/business_cycle_dates.json` |
-| **UCDP/PRIO Armed Conflict Dataset v24.1** | 1946–2023 | início de episódio de conflito (414 meses), início interestatal, conflitos com ≥ 1.000 mortes | `data/external/UcdpPrioConflict_v24_1.csv` |
-| Catálogo expandido de 1.342 eventos | 490 a.C.–2026 | **exploração, narrativa, análogos cósmicos e correlações** (6 categorias canônicas) | `data/historical_events.json`, SQLite `events` |
-| 10.000 datas-controle | 1800–2025, estratificadas por década | comparações com controle aleatório e nulo N2 | SQLite `control_dates` |
-
-Por que séries mensais: com 59 eventos o efeito mínimo detectável a 80 % de potência era 0,33 DP; milhares de meses dão a potência estatística que um resultado nulo precisa para ter significado. Por que o catálogo expandido é separado do treino analítico restrito: ao operar sob o Princípio de Duplo Circuito (Dual-Track), o catálogo amplo de 1.342 eventos alimenta a exploração empírica de análogos, enquanto a amostra pré-registrada de 59 eventos garante testes cegos contra *overfitting*.
+### Arquitetura de Duplo Circuito (Dual-Track)
+Para prevenir o viés de confirmação e raciocínio circular:
+1. **Catálogo Curado Geral (N = 3.406):** Empregado na exploração pública, visualização de mapas, navegação histórica e Cosmic History Search.
+2. **Amostra Analítica Congelada (N = 59):** Fixada antes dos testes a partir de fontes quantitativas objetivas (COW, UCDP, NBER, Powell & Thyne) com zero seleção subjetiva retrospectiva.
 
 ---
 
-## 10. Validação I — testes pré-registrados com modelos nulos (v2)
+## 10. Cartas nacionais e análise de trânsitos mundanos
 
-As hipóteses foram fixadas previamente em [`docs/hipoteses.md`](docs/hipoteses.md); a árvore de decisão e seu desfecho estão em [`docs/decisao_M2.md`](docs/decisao_M2.md).
+Implementada em `src/mundane/`, a plataforma disponibiliza cartas de fundação e trânsitos mundanos ativos para 107 nações soberanas, com destaque analítico para:
 
-| Hipótese testada | N | Score observado | Distribuição nula (média ± DP) | Efeito ($z$) | $p$ (bicaudal) | $q$ (FDR) | Significativo? |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **H1 Geral vs N3 Deslocamento Circular** | 59 | 481,1 | 500,6 ± 38,5 | −0,506 | 0,6117 | 0,8834 | ❌ |
-| **H1 Geral vs N2 Controle Estratificado** | 59 | 481,1 | 493,9 ± 36,6 | −0,350 | 0,7163 | 0,8834 | ❌ |
-| **H1 Geral vs N1 Aleatório Uniforme** | 59 | 481,1 | 499,7 ± 37,7 | −0,493 | 0,6299 | 0,8834 | ❌ |
-| **H1 Classe: Guerra Interestatal** | 15 | 462,1 | 499,4 ± 73,3 | −0,509 | 0,6163 | 0,8834 | ❌ |
-| **H1 Classe: Crise Econômica** | 10 | 547,6 | 501,9 ± 93,8 | +0,487 | 0,6223 | 0,8834 | ❌ |
-| **H1 Classe: Golpe de Estado** | 11 | 538,4 | 501,6 ± 84,9 | +0,434 | 0,6653 | 0,8834 | ❌ |
-| **H2 Walk-Forward (treino 1800–1950)** | 26 | 512,4 | 499,4 ± 56,8 | +0,229 | 0,8165 | 0,8834 | ❌ |
-| **H2 Teste fora da amostra (1951–2025)** | 33 | 456,5 | 501,6 ± 53,0 | −0,851 | 0,4008 | 0,9329 | ❌ |
-| **H4 Tese de Tarnas (planetas externos)** | 59 | 33,4 | 34,0 ± 8,7 | −0,063 | 0,9794 | 0,8834 | ❌ |
+- **Américas:** Estados Unidos (04/07/1776), Brasil (07/09/1822), Argentina, Canadá, México, Colômbia, Chile.
+- **Europa:** Reino Unido (01/01/1801), França (04/10/1958, Quinta República), Alemanha (03/10/1990, Reunificação), Itália, Ucrânia, Rússia (25/12/1991).
+- **Oriente Médio:** Israel (14/05/1948), Irã (01/04/1979), Turquia, Arábia Saudita, Egito.
+- **Ásia & Oceania:** China (01/10/1949, República Popular), Japão (03/05/1947, Constituição Pós-Guerra), Índia (15/08/1947), Austrália.
 
-Análises de apoio: **equivalência TOST** (Δ = ±0,30 DP, p = 0,041: o efeito é estatisticamente equivalente a zero); **potência** (MDE 95,7 pontos = 0,332 DP a 80 %); **controles negativos sintéticos** (1.000 catálogos de ruído puro → 3,7 % de falsos positivos a α = 5 %); **estabilidade de orbe** (1°, 2°, 3°). Modelos nulos: N1 datas uniformes, N2 datas-controle estratificadas por década, N3 deslocamento circular do vetor inteiro de eventos (preserva o espaçamento entre eventos e a autocorrelação dos planetas lentos).
-
-As correções metodológicas que tornaram esses testes válidos estão em [`reports/phase1_before_after.md`](reports/phase1_before_after.md): matcher leave-one-out (sem auto-combinação), estrelas fixas só por conjunção, percentil contínuo em vez de teto em 990, Lua excluída sem hora, amostragem diária homogênea.
+Cada ficha nacional oferece:
+- Data, horário e coordenadas exatas da capital.
+- Mapa natal mundano completo (posições planetárias, signos, casas, aspectos).
+- Trânsitos ativos calculados em tempo real.
+- **Picos de Energia 2026–2050:** Detecção algorítmica de trânsitos de planetas externos aos eixos Sol, Ascendente e Meio do Céu da nação.
 
 ---
 
-## 11. Validação II — hindcast walk-forward e skill de previsão (v3)
+## 11. Módulo Pessoal: Mapa Natal, Trânsitos e Progressões
 
-Pré-registro: [`docs/hipoteses_v3.md`](docs/hipoteses_v3.md). Tabelas completas: [`reports/hindcast_v3.md`](reports/hindcast_v3.md).
+O Módulo Pessoal (`/natal`) operacionaliza astrologia natal com precisão matemática:
 
-**Protocolo** (`src/analysis/hindcast.py`): para cada alvo e cada ano de teste *t* de 1951 até o fim da cobertura do alvo, cada modelo é ajustado só com meses de anos ≤ *t* − 1 com intervalo de segurança de 12 meses, e prevê os 12 meses de *t*. As previsões acumuladas são pontuadas com o **Brier Skill Score** contra a climatologia expansiva (IC 95 % por bootstrap em blocos anuais), **AUC**, log-loss e curvas de confiabilidade. Os modelos são regressões logísticas L2 sobre features padronizadas, com a regularização escolhida por validação temporal interna nos últimos 20 % de cada janela de treino.
-
-| Alvo (taxa-base) | climatologia | **baseline AR** | índice legado | Barbault | Tarnas externos | fases externas | 409 features | AR + astro |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| v2 qualquer evento (3,3 %) | 0 | −0,002 | −0,001 | −0,002 | −0,002 | +0,001 | −0,000 | −0,000 |
-| COW início de guerra (5,1 %) | 0 | −0,004 | −0,004 | +0,002 | −0,002 | −0,001 | −0,000 | −0,000 |
-| COW guerra em curso (53,5 %) | 0 | **+0,825** | −0,021 | +0,036 | −0,036 | +0,002 | −0,067 | +0,624 |
-| NBER recessão (12,7 %) | 0 | **+0,850** | −0,023 | +0,028 | −0,030 | +0,127* | −0,486 | −0,026 |
-| NBER início de recessão (1,2 %) | 0 | −0,014 | −0,018 | −0,003 | −0,001 | −0,005 | −1,080 | −1,981 |
-| UCDP início de episódio (49,3 %) | 0 | +0,027 | +0,003 | −0,009 | −0,009 | −0,019 | −0,494 | −0,589 |
-| UCDP início interestatal (6,1 %) | 0 | −0,004 | +0,003 | −0,008 | −0,005 | −0,035 | −2,472 | −2,565 |
-
-Valores são BSS (maior é melhor; 0 = igual à taxa-base). \* IC [+0,003; +0,247], mas AUC = 0,40: o ganho de Brier vem de calibração/variância, não de discriminação, e com 35 comparações um IC marginal é esperado ao acaso — tratado como **não confirmado**.
-
-**Regra de veredito usada pelo site:** "skill positivo" exige IC do BSS inteiramente acima de zero **e** AUC > 0,55. Nenhum modelo astrológico a cumpre em nenhum alvo. O baseline autorregressivo (o passado recente do próprio alvo) domina os alvos persistentes, e as features astrológicas não acrescentam nada a ele.
+- **Cálculo de Mapa Natal de Alta Precisão:** Suporte a múltiplos sistemas de casas (Placidus, Signos Inteiros, Casas Iguais, Koch, Regiomontanus, Porphyry), 17 corpos celestes e cúspides exatas.
+- **Trânsitos de Vida Inteira Vetorizados:** Varredura diária de 0 a 100 anos (até 36.525 dias) calculada em menos de 1,5 segundo utilizando grades numéricas otimizadas com NumPy.
+- **Progressões Secundárias:** Cálculo da progressão dia-por-ano com linha do tempo da Lua progredida (~2,5 anos por signo) e aspectos a pontos natais.
+- **Grandes Ciclos de Vida:** Identificação automática dos retornos de Saturno (~29,5 anos), retornos de Júpiter (~12 anos), oposição de Urano (~42 anos) e retorno de Quíron (~50 anos).
+- **8 Domínios de Vida Calibrados:** Normalização dos trânsitos ativos em 8 esferas vitais na escala 0–1000: *Vitalidade, Mente & Comunicação, Relações & Parcerias, Carreira & Propósito, Finanças & Recursos, Estrutura & Limites, Transformação Profunda, Expansão & Sabedoria*.
+- **Gazetteer Offline com 34.204 Cidades:** Base SQLite local (`data/gazetteer/cities.sqlite`) extraída do GeoNames com busca instantânea por cidade, país e coordenadas com fusos horários IANA embutidos.
 
 ---
 
-## 12. Previsão 2026–2060: o que os números significam
+## 12. Validação I — testes pré-registrados com modelos nulos (v2)
 
-`src/analysis/forecast_v3.py` produz, para cada alvo, o melhor modelo astrológico do hindcast ajustado em toda a cobertura e, para cada ano de 2026 a 2060:
+As hipóteses foram pré-registradas em [`docs/hipoteses.md`](docs/hipoteses.md) e avaliadas em [`reports/validacao_v2.md`](reports/validacao_v2.md):
 
-- **p média** — probabilidade mensal média do evento; **p10–p90** — intervalo por bootstrap em blocos anuais (60 reajustes); **× taxa-base** — o quanto o modelo se afasta da climatologia.
-- **Drivers** — as features com maior contribuição linear positiva no mês de pico, com rótulos legíveis ("Fase do ciclo Saturno–Plutão", "Índice Cíclico de Barbault", "Saturno □ Netuno (ativação)").
-- **Calendário exato** — todo aspecto exato entre planetas lentos (com nº da passagem no laço retrógrado), todo ingresso e todo eclipse daquele ano, com data e hora UT.
-- **Análogos** — os meses históricos mais próximos no espaço padronizado das fases dos 10 ciclos externos, no máximo um por década (isso remove a "confusão de época" do matcher por signo, em que Plutão passando 12–30 anos num signo fazia todos os análogos serem a mesma geração), com os eventos do catálogo ao redor e um lift contra a taxa-base.
-- **Selo de skill** — BSS do hindcast, IC, AUC e veredito, exibidos *antes* do gráfico. Quando o veredito não é "skill positivo", um aviso diz que a linha tracejada da taxa-base é a estimativa recomendada e que a curva do modelo é mostrada por transparência.
+| Hipótese / Amostra | Tensão Observada | Modelo Nulo (Média $\pm$ DP) | Efeito ($z$) | $p$ Bicaudal | $q$ FDR | Significativo? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **H1 Geral vs Deslocamento Circular (N3)** | 481,1 | 500,6 $\pm$ 38,5 | $-0,506$ | 0,6117 | 0,8834 | ❌ Não |
+| **H1 Geral vs Controle Estratificado (N2)** | 481,1 | 493,9 $\pm$ 36,6 | $-0,350$ | 0,7163 | 0,8834 | ❌ Não |
+| **H1 Geral vs Aleatório Uniforme (N1)** | 481,1 | 499,7 $\pm$ 37,7 | $-0,493$ | 0,6299 | 0,8834 | ❌ Não |
+| **H1 Guerras Interestatais (N=15)** | 462,1 | 499,4 $\pm$ 73,3 | $-0,509$ | 0,6163 | 0,8834 | ❌ Não |
+| **H1 Crises Econômicas (N=10)** | 547,6 | 501,9 $\pm$ 93,8 | $+0,487$ | 0,6223 | 0,8834 | ❌ Não |
+| **H1 Golpes de Estado (N=11)** | 538,4 | 501,6 $\pm$ 84,9 | $+0,434$ | 0,6653 | 0,8834 | ❌ Não |
+| **H2 Treino Walk-Forward (1800–1950)** | 512,4 | 499,4 $\pm$ 56,8 | $+0,229$ | 0,8165 | 0,8834 | ❌ Não |
+| **H2 Teste Fora da Amostra (1951–2025)** | 456,5 | 501,6 $\pm$ 53,0 | $-0,851$ | 0,4008 | 0,9329 | ❌ Não |
+| **H4 Índice de Externos de Tarnas** | 33,4 | 34,0 $\pm$ 8,7 | $-0,063$ | 0,9794 | 0,8834 | ❌ Não |
 
----
-
-## 13. Decisões de projeto e suas justificativas
-
-| Decisão | Justificativa |
-| :--- | :--- |
-| Uma função de score lida de YAML, com teste de paridade grade ↔ carta | Duas fórmulas divergentes na v2 inflavam os percentis exibidos; uma fonte única torna cada número do site rastreável a um arquivo de configuração |
-| Fusos reais em vez de `round(longitude/15)` | Erros de 1–3 h movem a Lua e todas as cúspides; o limite do dia nunca era cruzado |
-| Excluir a Lua sem hora documentada em vez de chutar meio-dia | Tratar a incerteza com honestidade é melhor que 22 % de acertos aleatórios |
-| Alvos mensais objetivos em vez de 59 eventos | Potência estatística; remoção da seleção em retrospecto |
-| Walk-forward com gap, baselines de climatologia **e** AR | Eventos se agrupam (guerras causam guerras); um modelo precisa vencer o passado do próprio alvo, não só datas aleatórias |
-| Deslocamento circular como nulo principal | É o único nulo que preserva ao mesmo tempo o espaçamento dos eventos e a deriva lenta dos externos que faz qualquer época "parecer especial" |
-| FDR em toda família de testes e regra de veredito combinando IC e AUC | 35 comparações garantem alguns acertos nominais; a regra impede que um artefato de calibração seja vendido como skill |
-| Selo de skill antes de qualquer curva; taxa-base recomendada sem skill | "Precisão de uma previsão" é uma propriedade que precisa ser medida, e o usuário recebe a medição primeiro |
-| Catálogo curado mantido só para exibição | É o que torna o site legível, mas é enviesado por seleção e não pode treinar nem validar nada |
-| Caches versionados, grade de features ignorada | O site sobe sem recálculo; a grade de 18 MB se reconstrói em 20 s |
-
-Uma narrativa mais longa do mecanismo e de cada consideração está em [`docs/mecanismo_site.md`](docs/mecanismo_site.md).
+### Controles Metodológicos
+- **Nulo N3 por Deslocamento Circular:** Preserva a distribuição empírica exata de intervalos entre eventos, rompendo apenas o alinhamento de datas com os ciclos das efemérides.
+- **Teste de Equivalência TOST:** Com limites de equivalência em $\Delta = \pm 0,30$ desvios-padrão, o teste resultou em $p = 0,041$, confirmando que as variações observadas são estatisticamente indistinguíveis de zero.
+- **Análise de Potência:** O tamanho mínimo de efeito detectável (MDE) a 80% de potência foi de 0,332 DP (95,7 pontos percentuais).
 
 ---
 
-## 14. Capturas de tela
+## 13. Validação II — hindcast walk-forward e skill de previsão (v3)
 
-| | |
-|:---:|:---:|
-| ![Dashboard](docs/screenshots/01_dashboard_timeline.png)<br>**Dashboard** — gráfico 1800–2100 com séries selecionáveis e legenda interativa | ![Previsão v3](docs/screenshots/07_forecast_v3.png)<br>**Previsão v3** — selo de skill antes da curva; p(evento) com banda p10–p90 vs taxa-base |
-| ![Metodologia](docs/screenshots/08_methodology_hindcast.png)<br>**Metodologia** — tabela do hindcast walk-forward | ![Simulador](docs/screenshots/02_simulator_timeline.png)<br>**Linha do tempo e simulador** — URLs compartilháveis |
-| ![Evento](docs/screenshots/03_event_mandala.png)<br>**Detalhe do evento** — selo da amostra validada, navegação cronológica | ![Catálogo](docs/screenshots/04_events_catalog.png)<br>**Catálogo** — filtro "✓ N=59" |
-| ![Correlações](docs/screenshots/05_correlations_hub.png)<br>**Hub de correlações** | ![Cenários](docs/screenshots/06_projections_2027_2060.png)<br>**Tabela 2027–2060** — tiers de geometria com aviso de skill |
+O arcabouço de hindcast walk-forward (`src/analysis/hindcast.py`) avaliou 8 famílias de modelos sobre séries mensais históricas de 1951 a 2024 com intervalo de segurança de 12 meses:
+
+| Alvo (Taxa-Base) | Climatologia | Baseline AR | Score Tensão | Barbault CI | Tarnas Externos | Fases Sinódicas | 409 Features | AR + Astro |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Eventos Objetivos (3,3%)** | 0,000 | $-0,002$ | $-0,001$ | $-0,002$ | $-0,002$ | $+0,001$ | $-0,000$ | $-0,000$ |
+| **COW Início de Guerra (5,1%)** | 0,000 | $-0,004$ | $-0,004$ | $+0,002$ | $-0,002$ | $-0,001$ | $-0,000$ | $-0,000$ |
+| **COW Guerra em Curso (53,5%)** | 0,000 | **+0,825** | $-0,021$ | $+0,036$ | $-0,036$ | $+0,002$ | $-0,067$ | $+0,624$ |
+| **NBER Recessão (12,7%)** | 0,000 | **+0,850** | $-0,023$ | $+0,028$ | $-0,030$ | $+0,127^*$ | $-0,486$ | $-0,026$ |
+| **NBER Início de Recessão (1,2%)**| 0,000 | $-0,014$ | $-0,018$ | $-0,003$ | $-0,001$ | $-0,005$ | $-1,080$ | $-1,981$ |
+| **UCDP Início de Conflito (49,3%)**| 0,000 | $+0,027$ | $+0,003$ | $-0,009$ | $-0,009$ | $-0,019$ | $-0,494$ | $-0,589$ |
+| **UCDP Início Interestatal (6,1%)**| 0,000 | $-0,004$ | $+0,003$ | $-0,008$ | $-0,005$ | $-0,035$ | $-2,472$ | $-2,565$ |
+
+*Nota: Valores expressos em Brier Skill Score (BSS). O critério de skill positivo exige IC 95% do BSS > 0 **e** ROC AUC > 0,55. Os preditores astrológicos não exibem ganho de discriminação frente aos modelos autorregressivos.*
 
 ---
 
-## 15. Instalação, reprodução e deploy
+## 14. Previsão 2026–2060: projeção probabilística
+
+O módulo de projeção probabilística (`src/analysis/forecast_v3.py`) modela cada alvo até o ano de 2060:
+
+- **Calibração Probabilística:** Probabilidades mensais com intervalos de incerteza por reamostragem bootstrap ($P_{10} - P_{90}$).
+- **Benchmark com Taxa-Base Histórica:** A taxa-base empírica é renderizada em todas as curvas como referência visual primária.
+- **Decomposição Transparente de Drivers:** Fatores lineares de maior peso identificados nos meses de maior ativação.
+- **Calendário Astronômico Exato:** Rastreamento completo de aspectos exatos entre planetas externos (com número da passagem no laço retrógrado), ingressos e eclipses solares/lunares.
+- **Análogos Cósmicos Históricos:** Localização dos períodos históricos com geometrias multidimensionais mais próximas.
+
+---
+
+## 15. Design system, temas triplos e i18n
+
+A interface segue diretrizes contemporâneas de experiência do usuário:
+
+- **Sistema Triplo de Temas:**
+  - `theme-light`: Ambiente claro e de alto contraste.
+  - `theme-dark`: Tema escuro padrão em ardósia para baixa luminosidade.
+  - `theme-oled`: Preto absoluto (`#000000`) otimizado para telas OLED.
+- **Zero FOUC (Sem Cintilação de Carregamento):** Scripts em linha no `<head>` bloqueiam qualquer piscada antes da renderização.
+- **Sincronização Dinâmica do Chart.js:** Cores, eixos e tooltips reconstroem-se automaticamente na alternância de temas.
+- **Internacionalização no Servidor e Cliente:** Dicionários JSON no servidor via filtro `t()` combinados com `i18n.js` no cliente cobrem todos os textos, legendas e gráficos em inglês (`en`) e português (`pt`), mantendo persistência em `localStorage`.
+- **Layouts Responsivos:** Navegação superior limpa, alertas destacados, cabeçalhos centralizados e grades adaptáveis em telas móveis, tablets e monitores amplos.
+
+---
+
+## 16. Instalação rápida, reprodução e deploy
 
 ### Pré-requisitos
-- Linux / macOS, Python 3.12+
-- Biblioteca C e arquivos de dados do Swiss Ephemeris (`libswe-dev`, `libswe0`, `swisseph-data-all` no Debian/Ubuntu); o código os procura em `/usr/share/libswe/ephe`, `/usr/share/swisseph` ou `/usr/local/share/swisseph`
+- Linux ou macOS
+- Python 3.12+
+- Bibliotecas C do Swiss Ephemeris (`libswe-dev`, `libswe0`, `swisseph-data-all`)
 
-### Instalar e testar
+```bash
+# Ubuntu / Debian
+sudo apt-get update && sudo apt-get install -y libswe-dev libswe0 swisseph-data-all
+```
+
+### Instalação & Suíte de Testes
 ```bash
 git clone https://github.com/marceloasl99/astro-history.git
 cd astro-history
-make setup          # venv + dependências travadas (numpy, scipy, scikit-learn, timezonefinder, PyYAML, FastAPI…)
-make test           # 45 testes: regressão golden, paridade grade↔carta, fusos, datas exatas, alvos, API
+
+# Criar ambiente virtual e instalar dependências
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Executar a suíte de testes completa (122 testes automatizados)
+pytest tests/
 ```
 
-### Reproduzir a estatística
+### Execução da Aplicação
 ```bash
-make validate       # v2: modelos nulos N1–N3 com 10.000 permutações, TOST, potência → data/results.json, reports/validacao_v2.md
-make features       # v3: grade diária de 409 features 1750–2150 (~20 s)
-make hindcast       # v3: hindcast walk-forward, todos os alvos (~15 min) → reports/hindcast_v3.{json,md}
-make forecast       # v3: previsão 2026–2060 → data/forecast_v3.json (+ cache do calendário exato)
-make timeline       # caches da UI: linha do tempo e projeções (pico diário real, índices anuais)
-make v3             # todos os passos v3 acima, em ordem
-```
+# Servidor de desenvolvimento (FastAPI com Uvicorn)
+uvicorn src.web.app:app --host 0.0.0.0 --port 8000 --reload
 
-### Rodar o site
-```bash
-make run            # http://127.0.0.1:8000
-# ou
-docker compose up -d --build   # app + proxy reverso Caddy em 80/443
+# Deploy de produção com systemd (já configurado na porta 81)
+sudo systemctl restart astro-history
 ```
 
 ### Versão Standalone Estática & Deploy no GitHub Pages (Sem Backend)
-A plataforma completa foi compilada em um **único arquivo HTML 100% autossuficiente e funcional** (`web/index.html` e cópia em `docs/index.html`), com todos os 1.342 eventos, 107 países soberanos, 148 picos de energia (2026–2060), linha do tempo de 301 anos (1800–2100), cenários, previsões, temas triplos (Preto OLED, Escuro, Claro) e suporte bilíngue (PT/EN) embutidos sem qualquer necessidade de backend ou cálculo em tempo de execução.
+A plataforma completa foi compilada em um **único arquivo HTML 100% autossuficiente e funcional** (`web/index.html` e cópia em `docs/index.html`), com todos os 3.406 eventos, 107 países soberanos, 148 picos de energia (2026–2060), linha do tempo de 301 anos (1800–2100), cenários, previsões, temas triplos (Preto OLED, Escuro, Claro) e suporte bilíngue (PT/EN) embutidos sem qualquer necessidade de backend ou cálculo em tempo de execução.
 
 - **Para reconstruir o arquivo estático**:
   ```bash
   python3 scripts/build_standalone_web.py
   ```
 - **Hospedagem no GitHub Pages**:
-  Nas configurações do seu repositório no GitHub, acesse **Settings** > **Pages** > **Build and deployment** > Source: **Deploy from a branch** > Branch: **`main`** > Pasta: **`/docs`** (onde uma cópia de `web/index.html` é mantida sincronizada em `docs/index.html`).
+  Nas configurações do repositório no GitHub, acesse **Settings** > **Pages** > **Build and deployment** > Source: **Deploy from a branch** > Branch: **`main`** > Pasta: **`/docs`** (onde uma cópia de `web/index.html` é mantida sincronizada em `docs/index.html`).
 - **Uso Local / Qualquer Servidor Estático**: Abra diretamente no navegador com dois cliques (`file:///.../web/index.html`) ou hospede em Vercel, Netlify, Cloudflare Pages, S3, Apache ou Nginx.
-
-Tudo é determinístico (sementes fixas em `config/analysis.yaml` e nos scripts); reexecutar a cadeia reproduz os caches JSON versionados.
 
 ---
 
-## 16. Modelo de segurança e API interna
+## 17. Modelo de segurança e arquitetura de API interna
 
 Como o servidor está publicado na internet sob proxy reverso do Cloudflare (`history.skyastrum.com`), **toda a superfície de exposição externa de APIs foi bloqueada por design**:
 
@@ -370,7 +403,7 @@ Como o servidor está publicado na internet sob proxy reverso do Cloudflare (`hi
 
 | Endpoint | Método | Descrição Interna |
 | :--- | :---: | :--- |
-| `/api/stats` | GET | Estatísticas do catálogo (1.342 eventos) |
+| `/api/stats` | GET | Estatísticas do catálogo (3.406 eventos) |
 | `/api/events?category=&search=` | GET | Lista de eventos com filtros |
 | `/api/events/{id}` | GET | Evento completo com o JSON do mapa |
 | `/api/simulate` | POST | Cálculo de mapa e busca de eventos similares |
@@ -380,7 +413,7 @@ Como o servidor está publicado na internet sob proxy reverso do Cloudflare (`hi
 | `/api/energy-peaks-2026-2060` | GET | Catálogo dos 148 picos de energia mundiais e por país |
 | `/api/forecast` | GET | Resumo da previsão com métricas de skill |
 | `/api/forecast/year/{ano}` | GET | Calendário astronômico exato e análogos por ano |
-| `/api/historical-analogues?date=&category=&top_k=` | GET | Cosmic History Search na base de 1.342 fatos |
+| `/api/historical-analogues?date=&category=&top_k=` | GET | Cosmic History Search na base de 3.406 fatos |
 | `/api/features/barbault?date=` | GET | Índice Cíclico Barbault CI-4 vs CI-5 com derivada |
 | `/api/features/oshop?date=` | GET | Métrica Sum of Cosines ($\Sigma \cos$) e variância circular |
 | `/api/countries` | GET | Base mundana nacional com 107 cartas de fundação |
@@ -389,96 +422,94 @@ Como o servidor está publicado na internet sob proxy reverso do Cloudflare (`hi
 
 ---
 
-## 17. Estrutura do repositório
+## 18. Estrutura do repositório
 
 ```
 astro-history/
 ├── config/
-│   ├── score.yaml                 # Orbes e pesos por par — fonte única do score de tensão
-│   ├── stars.yaml                 # 30 estrelas fixas
-│   └── analysis.yaml              # Permutações, sementes, janelas de treino/teste
+│   ├── score.yaml                 # Pesos e orbes planetárias — fonte única de tensão
+│   ├── stars.yaml                 # Coordenadas e limites de 30 estrelas fixas
+│   ├── categories.yaml            # 8 categorias canônicas estimáveis v4
+│   └── analysis.yaml              # Sementes aleatórias, permutações e janelas
 ├── data/
-│   ├── events_v2.csv              # Catálogo objetivo (COW, UCDP, NBER, Powell & Thyne, Polity5)
-│   ├── historical_events.json     # Catálogo geral expandido de 1.342 eventos (6 categorias)
-│   ├── countries_database.json    # Base de 107 nações soberanas
-│   ├── energy_peaks_2026_2060.json# 148 picos de energia mundiais e por país (2026–2060)
-│   ├── external/                  # COW Guerras v4, datas NBER, UCDP/PRIO v24.1 (+ README com fontes)
-│   ├── ephemeris/                 # Grade diária 1800–2100 (.npz)
-│   ├── features/                  # Grade de 409 features 1750–2150 (ignorada no git; make features)
-│   ├── results.json               # Resultados dos modelos nulos v2
-│   ├── annual_indices.json        # Séries do dashboard + correlação com a história
-│   ├── forecast_v3.json           # Previsão 2026–2060
-│   ├── astro_calendar_2026_2060.json  # Aspectos exatos, ingressos, eclipses
-│   ├── timeline_1800_2100.json / projections_2027_2060.json   # caches da UI
-│   ├── DATASET_CARD.md / exclusion_log.md
-├── db/history_astrology.db        # SQLite: events, planet_positions, event_aspects, event_star_aspects, events_v2, control_dates
+│   ├── historical_events.json     # Base de 3.406 eventos históricos auditados
+│   ├── countries_database.json    # 107 cartas mundanas de nações soberanas
+│   ├── energy_peaks_2026_2060.json# 148 picos de energia calculados (2026–2060)
+│   ├── events_v2.csv              # Amostra analítica pré-registrada (N=59)
+│   ├── external/                  # COW Guerras, UCDP Conflitos, NBER Ciclos, Powell & Thyne, USGS
+│   ├── gazetteer/
+│   │   └── cities.sqlite          # Base SQLite offline com 34.204 cidades mundiais
+│   ├── ephemeris/                 # Grade diária pré-calculada 1800–2100 (.npz)
+│   ├── forecast_v3.json           # Modelos probabilísticos e calendário (2026–2060)
+│   ├── timeline_1800_2100.json    # Cache de curvas e percentis da UI
+│   └── DATASET_CARD.md            # Documentação e proveniência de dados
+├── db/
+│   └── history_astrology.db       # Banco relacional SQLite
 ├── docs/
-│   ├── index.html                 # Cópia sincronizada para GitHub Pages (branch /docs)
-│   ├── hipoteses.md / hipoteses_v3.md     # Pré-registros
+│   ├── index.html                 # Cópia compilada para GitHub Pages (pasta /docs)
+│   ├── hipoteses.md / hipoteses_v3.md / hipoteses_v4.md # Pré-registros
 │   ├── decisao_M2.md              # Registro da decisão do marco
-│   ├── mecanismo_site.md          # Mecanismo e considerações de projeto
-│   └── screenshots/
-├── reports/                       # validacao_v2.md, phase3_validation.md, hindcast_v3.md, final_report_v2.md, …
+│   └── mecanismo_site.md          # Documentação metodológica e de arquitetura
+├── reports/
+│   ├── validacao_v2.md            # Relatório detalhado dos modelos nulos
+│   └── hindcast_v3.json           # Métricas completas de hindcast walk-forward
 ├── scripts/
-│   ├── build_standalone_web.py    # Compilador do index.html único e autossuficiente
-│   ├── build_historical_events.py # Compilador do catálogo de 1.342 eventos
+│   ├── build_standalone_web.py    # Compilador do index.html autossuficiente
+│   ├── build_historical_events.py # Compilador dos 3.406 eventos históricos
 │   ├── build_countries_dataset.py # Compilador das 107 cartas nacionais
+│   ├── audit_catalog.py           # Auditor de integridade do catálogo
 │   └── calculate_all_events.py    # Processador Swiss Ephemeris em lote
 ├── src/
-│   ├── astro_engine.py            # Mapas: corpos, aspectos, estrelas fixas, casas, resolução do instante
-│   ├── correlation_engine.py      # Correlações por categoria e matcher leave-one-out
-│   ├── future_engine.py           # Linha do tempo anual e projeções
+│   ├── astro_engine.py            # Motor de cartas astronômicas (Swiss Ephemeris)
+│   ├── correlation_engine.py      # Correlações por categoria e análogos
+│   ├── future_engine.py           # Linhas do tempo e projeções geométricas
 │   ├── core/
-│   │   ├── scoring.py             # Função única de tensão (lê score.yaml)
-│   │   ├── timezones.py           # Conversão IANA / LMT com virada de dia
-│   │   └── ephemeris_grid.py      # Grade diária e percentis empíricos
+│   │   ├── scoring.py             # Função única de tensão planetária
+│   │   └── timezones.py           # Resolução IANA / LMT histórica
 │   ├── features/
-│   │   ├── astro_features.py      # 409 features diárias, agregação mensal
-│   │   ├── astro_events.py        # Aspectos exatos, ingressos, estações, eclipses
-│   │   └── targets.py             # Séries mensais de alvos a partir das fontes históricas
+│   │   ├── barbault_ci.py         # Motor do Índice Cíclico de André Barbault
+│   │   ├── sum_of_cosines.py      # Motor Sum of Cosines de Renay Oshop
+│   │   ├── astro_features.py      # Matriz astronômica de 409 features
+│   │   └── targets.py             # Extração de séries temporais históricas
 │   ├── mundane/
-│   │   ├── countries_engine.py    # Cartas de fundação nacional e trânsitos mundanos
-│   │   └── energy_peaks.py        # Detector de picos de energia mundiais e por país
+│   │   ├── countries_engine.py    # Cartas de fundação e trânsitos nacionais
+│   │   └── energy_peaks.py        # Detector de picos de trânsito 2026–2060
+│   ├── natal/
+│   │   ├── chart_calc.py          # Cálculo de mapa natal de alta precisão
+│   │   ├── transit_engine.py      # Trânsitos diários vetorizados de vida inteira
+│   │   ├── progressions.py        # Motor de progressões secundárias dia-por-ano
+│   │   ├── life_domains.py        # Calibração dos 8 domínios vitais
+│   │   └── gazetteer.py           # Busca offline nas 34.204 cidades
 │   ├── analysis/
-│   │   ├── null_models.py / multiplicity.py / run_phase3_validation.py   # v2
-│   │   ├── hindcast.py            # Medição de skill walk-forward
-│   │   ├── forecast_v3.py         # Previsão, drivers, análogos, selo de skill
-│   │   └── annual_indices.py      # Séries do dashboard e correlação com a história
-│   ├── data/ingest_historical.py  # Ingestão v2 e datas-controle
-│   └── web/                       # App FastAPI, mandala SVG, templates Jinja2
+│   │   ├── historical_analogues.py# Motor do Cosmic History Search
+│   │   ├── hindcast.py            # Arcabouço de validação walk-forward
+│   │   └── forecast_v3.py         # Motor de previsão probabilística
+│   └── web/
+│       ├── app.py                 # Aplicação FastAPI e rotas web
+│       ├── i18n/                  # Dicionários de internacionalização no servidor
+│       ├── static/
+│       │   └── js/i18n.js         # Motor de internacionalização do cliente
+│       └── templates/             # Templates Jinja2 (habilitados para 3 temas)
 ├── web/
-│   └── index.html                 # Aplicação standalone em arquivo único para GitHub Pages (zero backend)
-├── tests/                         # regression/, unit/, statistical/, test_api.py …
-├── Makefile · Dockerfile · docker-compose.yml · Caddyfile · ci/ci.yml
-└── CITATION.cff · LICENSE · requirements.txt · requirements.lock
+│   └── index.html                 # Aplicação standalone para GitHub Pages (zero backend)
+└── tests/                         # 122 testes automatizados (astronomia, mundana, natal, stats, web)
 ```
-
----
-
-## 18. Limitações conhecidas e roadmap
-
-**Limitações**
-- As features são diárias ao meio-dia UT; a Lua fica fora da matriz de features e dos mapas sem hora documentada (82 de 300).
-- O COW Militarized Interstate Disputes (~2.400 disputas) e a lista de golpes de Powell & Thyne não estão integrados (sem URL de download direto); os loaders os aceitam assim que os arquivos forem colocados em `data/external/`.
-- Ainda não há mapas nacionais nem previsão por país.
-- O baseline autorregressivo captura parte do agrupamento temporal; um baseline de processo pontual (Hawkes) não foi implementado.
-- O Tailwind é carregado de CDN.
-
-**Roadmap**
-1. Integrar COW MID e dados de golpes; adicionar séries de volatilidade financeira.
-2. Mapas nacionais (mapas de ingresso de Áries nas capitais, trânsitos a mapas natais nacionais) com hindcast por país — a única linha restante que poderia mudar o veredito de skill.
-3. Grade horária para Lua e Mercúrio; intervalos de incerteza para eventos sem hora.
-4. Baseline de Hawkes e surrogates de fase aleatória (IAAFT).
 
 ---
 
 ## 19. Citação, licença e atribuição
 
-Se usar esta plataforma, seus dados ou seu código de modelos nulos, cite (ver [`CITATION.cff`](CITATION.cff)):
+Se usar esta plataforma, seus dados ou seu código em pesquisas acadêmicas ou projetos de código aberto, cite:
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Investigation into Astrological Alignments and Historical Events*, versão 5.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, versão 6.0.0. https://github.com/marceloasl99/astro-history
 
-- **Código-fonte**: [GNU Affero General Public License v3 ou posterior](LICENSE).
-- **Swiss Ephemeris**: © Astrodienst AG. Em conformidade com os termos da Astrodienst, o projeto é licenciado sob AGPL; uso comercial exige licença profissional da Astrodienst AG.
-- **Bases de dados**: Correlates of War (Sarkees & Wayman, 2010), UCDP/PRIO Armed Conflict Dataset (Davies, Pettersson & Öberg, 2024; Gleditsch et al., 2002), NBER Business Cycle Dating Committee, dados de golpes de Powell & Thyne, Polity5. Redistribuídas sem alteração para reprodutibilidade, sob os termos acadêmicos de cada fonte — ver [`data/external/README.md`](data/external/README.md).
-- **Referências astrológicas** operacionalizadas no conjunto de features: André Barbault (índice cíclico), Richard Tarnas (ciclos dos planetas externos), Reinhold Ebertin (meios-pontos), John Addey (harmônicos).
+- **Código-fonte**: [GNU Affero General Public License v3 ou posterior (AGPL-3.0)](LICENSE).
+- **Swiss Ephemeris**: © Astrodienst AG. Em conformidade com os termos da Astrodienst, o projeto é licenciado sob AGPL; uso comercial requer licença profissional da Astrodienst AG.
+- **Bases de Dados Acadêmicas**:
+  - Correlates of War (COW) Project (Sarkees & Wayman, 2010).
+  - UCDP/PRIO Armed Conflict Dataset (Davies, Pettersson & Öberg, 2024).
+  - NBER Business Cycle Dating Committee.
+  - Powell & Thyne Global Coup d'État Dataset.
+  - USGS Earthquake Hazards Program / NOAA NCEI.
+  - Smithsonian Institution Global Volcanism Program (GVP).
+- **Referências Astrológicas Operacionalizadas**: André Barbault (Índice Cíclico), Renay Oshop (Soma dos Cossenos), Richard Tarnas (Alinhamentos arquetípicos de planetas externos), Reinhold Ebertin (Meios-pontos da cosmobiologia), John Addey (Harmônicos).

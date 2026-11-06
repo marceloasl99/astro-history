@@ -4,9 +4,9 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Swiss Ephemeris](https://img.shields.io/badge/Swiss_Ephemeris-2.10.3-00599C)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-100_Passed-10B981)
+![Tests](https://img.shields.io/badge/Tests-122_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-5.0.0-blue)
+![Version](https://img.shields.io/badge/Version-6.0.0-blue)
 
 > 🌍 **Languages / Idiomas**: **English** • [Versão em Português (README_PT.md)](README_PT.md)
 
@@ -15,23 +15,24 @@
 ## Table of contents
 
 1. [What this project is](#1-what-this-project-is)
-2. [Key innovations in v5.0.0](#2-key-innovations-in-v500)
+2. [Key innovations in v6.0.0](#2-key-innovations-in-v600)
 3. [The research question and empirical results](#3-the-research-question-and-empirical-results)
 4. [Platform architecture & interactive pages](#4-platform-architecture--interactive-pages)
 5. [The computational pipeline](#5-the-computational-pipeline)
 6. [Astronomical layer: Swiss Ephemeris precision](#6-astronomical-layer-swiss-ephemeris-precision)
 7. [The tension score and empirical percentiles](#7-the-tension-score-and-empirical-percentiles)
 8. [Mundane methodology: Barbault, Oshop, and Tarnas](#8-mundane-methodology-barbault-oshop-and-tarnas)
-9. [Historical database: 1,342 events across 2,500 years](#9-historical-database-1342-events-across-2500-years)
+9. [Historical database: 3,406 events across 2,500+ years](#9-historical-database-3406-events-across-2500-years)
 10. [National charts & mundane transit analysis](#10-national-charts--mundane-transit-analysis)
-11. [Validation I — Pre-registered null-model tests](#11-validation-i--pre-registered-null-model-tests)
-12. [Validation II — Walk-forward hindcast and forecast skill](#12-validation-ii--walk-forward-hindcast-and-forecast-skill)
-13. [Forecast 2026–2060: probabilistic projection](#13-forecast-20262060-probabilistic-projection)
-14. [Design system, triple themes & i18n](#14-design-system-triple-themes--i18n)
-15. [Quickstart, reproduction and deployment](#15-quickstart-reproduction-and-deployment)
-16. [HTTP API reference](#16-http-api-reference)
-17. [Repository structure](#17-repository-structure)
-18. [Citation, licensing and attribution](#18-citation-licensing-and-attribution)
+11. [Personal Module: Natal, Transits & Progressions](#11-personal-module-natal-transits--progressions)
+12. [Validation I — Pre-registered null-model tests](#12-validation-i--pre-registered-null-model-tests)
+13. [Validation II — Walk-forward hindcast and forecast skill](#13-validation-ii--walk-forward-hindcast-and-forecast-skill)
+14. [Forecast 2026–2060: probabilistic projection](#14-forecast-20262060-probabilistic-projection)
+15. [Design system, triple themes & i18n](#15-design-system-triple-themes--i18n)
+16. [Quickstart, reproduction and deployment](#16-quickstart-reproduction-and-deployment)
+17. [Security model & internal API architecture](#17-security-model--internal-api-architecture)
+18. [Repository structure](#18-repository-structure)
+19. [Citation, licensing and attribution](#19-citation-licensing-and-attribution)
 
 ---
 
@@ -39,29 +40,30 @@
 
 **astro-history** is an open-source scientific testbed designed to evaluate a widespread historical hypothesis under rigorous quantitative controls: *do astronomical alignments, planetary aspects, and outer-planet cycles exhibit non-random clustering at major world historical turning points, and do they provide measurable predictive skill for future geopolitical events?*
 
-The platform unifies three key pillars:
+The platform unifies four key pillars:
 
-- **High-Precision Astronomy:** Every celestial chart, aspect, midpoint, and cyclic index is calculated using the Swiss Ephemeris (arc-second precision), with accurate historical calendars (Gregorian / Julian), geographic coordinates, historical timezones (IANA with daylight saving and Local Mean Time prior to 1883), and strict handling of uncertainty for events without documented exact times.
-- **Methodological & Statistical Rigour:** Pre-registered hypotheses, Monte Carlo circular-shift permutations (preserving slow-planet autocorrelation and event clustering), Benjamini-Hochberg False Discovery Rate (FDR) control, Two One-Sided Tests (TOST) for equivalence, and out-of-sample walk-forward hindcasts scored via Brier Skill Score (BSS) and ROC AUC against climatological and autoregressive baselines.
-- **Interactive Global Web Platform:** An interactive web application featuring an expanded database of **1,342 audited historical events** (490 BCE to 2026 CE), **20 sovereign national mundane charts**, a multi-dimensional Cosmic History Search engine, real-time date simulation, and a transparent probabilistic forecast for 2026–2060.
+- **High-Precision Astronomy:** Every celestial chart, aspect, midpoint, and cyclic index is calculated using the Swiss Ephemeris (arc-second precision), with accurate historical calendars (Gregorian / Julian), geographic coordinates, historical timezones (IANA with daylight saving and Local Mean Time prior to timezone adoption), and strict handling of uncertainty for events without documented exact times.
+- **Methodological & Statistical Rigour:** Pre-registered hypotheses (v2, v3, v4), Monte Carlo circular-shift permutations (preserving slow-planet autocorrelation and event clustering), Benjamini-Hochberg False Discovery Rate (FDR) control, Two One-Sided Tests (TOST) for equivalence, and out-of-sample walk-forward hindcasts scored via Brier Skill Score (BSS) and ROC AUC against climatological and autoregressive baselines.
+- **Expanded Global Historical Database:** An audited database of **3,406 verified historical milestones** (from Antiquity to 2026 CE) with schema v3 (data precision, source tiers A/B/C, polarities, macro/subcategories), 107 sovereign national mundane charts, and 148 planetary energy peaks.
+- **Interactive Web Platform & Personal Module:** An accessible web application featuring 4-area mega-menu navigation (*Explore, Analyze, Personal, About*), global instant search, a bilingual glossary, and a complete **Personal Module** (`/natal`) for high-precision natal charts, vectorized lifetime daily transits (0 to 100 years), secondary progressions, 8 calibrated life domains, and an offline 34,204-city gazetteer.
 
 The platform functions as a **data-literacy tool**: it demonstrates how retrospective astrological patterns can seem intuitive or convincing to the human eye, and then demonstrates—with mathematical transparency—why these constructs do not beat standard empirical baselines under controlled out-of-sample conditions.
 
 ---
 
-## 2. Key innovations in v5.0.0
+## 2. Key innovations in v6.0.0
 
-The `v5.0.0` release introduces major structural, methodological, and UI/UX advancements:
+The `v6.0.0` release introduces major structural, methodological, data, and personal astrology advancements:
 
-1. **Expanded 1,342 Historical Events Database:** Comprehensive expansion from earlier subsets to 1,342 historically verified milestones spanning 2,500 years (490 BCE to 2026 CE), organized into 6 canonical categories. Core geopolitical milestones include World War II, the Hiroshima atomic bombing, the Apollo 11 Moon landing, the Cuban Missile Crisis, and the 2020 global pandemic.
-2. **André Barbault Cyclic Index Engine (CI-4 vs CI-5):** Full implementation of André Barbault's Cyclic Index comparing outer-planet angular sums ($\sum \theta_{ij}$) for the outer quartet (Jupiter through Pluto) and quintet, with first-order annual derivatives ($\frac{d\text{CI}}{dt}$) and turning-point acceleration.
-3. **Renay Oshop Sum of Cosines ($\Sigma \cos$):** Operationalization of Oshop's cyclic dispersion metric with Monte Carlo permutation null hypothesis testing ($p_{\text{MC}}$) to detect non-random celestial clustering.
-4. **Sovereign National Charts & Mundane Transits:** Astrological foundation charts for 20 major sovereign nations (USA, China, Russia, Brazil, UK, France, Germany, Japan, India, Israel, Iran, Ukraine, etc.) with constitutional auditing, real-time transits, and future energy peaks (2026–2050).
-5. **Cosmic History Search (Historical Analogues Engine):** Multi-dimensional geometric matching across all 1,342 events to identify the closest celestial precedents for any past, present, or simulated date.
-6. **Triple-Theme Modern UI:** Light, Dark, and OLED Pitch Black (`theme-oled`) design with zero Flash of Unstyled Content (FOUC), fully synced Chart.js dynamic palettes, and streamlined navigation adhering to modern Vercel / UI-UX design principles.
-7. **Complete Bilingual Engine (EN / PT):** Native client-side internationalization system (`i18n.js`) providing instant switching between English and Portuguese across all views and data tables.
-8. **100% Test Coverage:** Comprehensive test suite with 100 automated tests passing across astronomical routines, API endpoints, statistical validation, and UI systems.
-9. **Geopolitical Energy Peaks & Sovereign Intelligence Dossiers (2026–2060):** In-depth mapping of 148 planetary energy peaks categorized into 7 pivotal turning point years (2026, 2028, 2029, 2032, 2034, 2036, 2040), complete with interactive intelligence dossiers for 12 sovereign powers and a geopolitical risk matrix heatmap.
+1. **Expanded 3,406 Historical Events Database:** Massive expansion from 1,342 to **3,406 historically verified milestones** with schema v3 (data precision, calendar, source IDs/URLs, quality tiers A/B/C, macro/subcategories, and polarities). Includes NOAA NCEI Significant Earthquakes (944 events, skeptical control), Smithsonian GVP Volcanic Eruptions (150 events), Wikidata curated events (682 events), and curated antiquity/medieval events (710 pre-1800 events, 165 BCE events).
+2. **Personal Module (`/natal`):** High-precision natal chart calculations with multiple house systems (Placidus, Whole Sign, Equal, Koch, Regiomontanus, Porphyry), vectorized lifetime daily transits (0 to 100 years computed in < 1.5s), exact aspect dates, secondary progressions (`day-for-a-year`), progressed Moon timeline, life cycles (Saturn/Jupiter/Chiron returns, Uranus opposition), 8 calibrated life domains (0–1000 scale), and an offline GeoNames SQLite gazetteer with 34,204 cities.
+3. **Four-Area Structured Navigation & Global Search:** Reorganized navigation into 4 conceptual areas (*Explore, Analyze, Personal, About*), interactive mega-menus, global search (`/search` with `/` shortcut), and breadcrumbs across all views.
+4. **Bilingual Glossary & Transparency Hub:** Dedicated bilingual glossary (`/glossario`) defining ~60 astronomical and statistical terms with UI anchors, and a data sources manifest page (`/dados-fontes`) detailing licenses and coverage.
+5. **8 Estimable Energy Categories & Preregistration v4:** Formal expansion to 8 estimable categories in `config/categories.yaml` (War, Economic Crash, Regime Crisis, Social Upheaval, Natural Disaster, Health/Epidemic, Science/Innovation, Diplomacy/Peace) with BSS skill badges and preregistration v4 (`docs/hipoteses_v4.md`).
+6. **Astronomical Engine Upgrades:** Full Swiss Ephemeris files (`sepl_*.se1`, `seplm_*.se1`, `semom_*.se1`) eliminating Moshier fallback, corrected Placidus house calculation (`houses_ex2` bug fix), and real historical IANA legal timezones.
+7. **Bilingual Engine with Server-Side `t()` Filter:** Server-rendered i18n support via key-based JSON dictionaries (`src/web/i18n/{en,pt}.json`) eliminating client-side translation flicker.
+8. **100% Test Coverage:** Comprehensive test suite with **122 automated tests** passing across astronomical routines, mundane astrology, personal module, statistical validation, and web UI.
+9. **Geopolitical Energy Peaks & Sovereign Intelligence Dossiers (2026–2060):** 148 calculated planetary energy peaks categorized into 7 pivotal turning point years (2026, 2028, 2029, 2032, 2034, 2036, 2040), interactive intelligence dossiers for 12 sovereign powers, and a geopolitical risk matrix heatmap.
 10. **Hardened Security Architecture & Cloudflare Edge Lockdown:** Public exposure of all API routes (`/api/*`) and Swagger/OpenAPI documentation (`/docs`, `/redoc`, `/openapi.json`) is blocked with HTTP `404 Not Found` for external traffic, preserving API functionality strictly for internal loopback processes and automated test suites. Full OWASP defense-in-depth headers are enforced.
 
 ---
@@ -333,7 +335,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# Run full test suite (100 automated tests)
+# Run full test suite (122 automated tests)
 pytest tests/
 ```
 
@@ -347,7 +349,7 @@ sudo systemctl restart astro-history
 ```
 
 ### Standalone Static Web & GitHub Pages Deployment (Zero-Backend)
-The entire platform is also compiled into a **100% self-contained, standalone single-file web application** (`web/index.html`) with all 1,342 events, 107 sovereign nations, 148 energy peaks (2026–2060), 301-year timeline (1800–2100), scenarios, forecasts, triple themes (OLED Black, Dark, Light), and bilingual support (EN/PT) pre-rendered with zero runtime backend dependency.
+The entire platform is also compiled into a **100% self-contained, standalone single-file web application** (`web/index.html`) with all 3,406 events, 107 sovereign nations, 148 energy peaks (2026–2060), 301-year timeline (1800–2100), scenarios, forecasts, triple themes (OLED Black, Dark, Light), and bilingual support (EN/PT) pre-rendered with zero runtime backend dependency.
 
 - **To rebuild the standalone file**:
   ```bash
@@ -460,7 +462,7 @@ astro-history/
 │       └── templates/             # Jinja2 templates (triple-theme enabled)
 ├── web/
 │   └── index.html                 # Standalone single-file application for GitHub Pages (zero backend)
-└── tests/                         # 100 automated tests (astronomy, stats, mundane, API, UI)
+└── tests/                         # 122 automated tests (astronomy, mundane, natal, stats, API, UI)
 ```
 
 ---
@@ -469,7 +471,7 @@ astro-history/
 
 If you utilize this software, its historical dataset, or its statistical testing framework in academic or open-source research, please cite:
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 5.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 6.0.0. https://github.com/marceloasl99/astro-history
 
 - **Source Code License:** [GNU Affero General Public License v3 or later (AGPL-3.0)](LICENSE).
 - **Swiss Ephemeris:** © Astrodienst AG. Licensed under AGPL. Commercial applications require a commercial license from Astrodienst AG.
