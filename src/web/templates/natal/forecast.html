@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+{% block title %}{{ t('natal.tab.forecast') }} · {{ inp.label or t('natal.untitled') }} | AstroHistory{% endblock %}
+{% block content %}
+{% include "natal/_tabs.html" %}
+
+<div class="space-y-8" id="personal-forecast-app">
+    <!-- Hero Banner do Forecast Pessoal -->
+    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-4xl space-y-4 relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                <span>Previsão Biográfica Pessoal • Trânsitos + Progressões • Horizonte 2026–2050</span>
+            </div>
+
+            <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
+                Previsão Pessoal & Ciclos de Vida <span class="text-amber-300 text-xl sm:text-3xl font-normal font-sans">(2026–2050)</span>
+            </h1>
+
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                Varredura contínua combinando <strong>trânsitos planetários lentos aos pontos natais</strong>, a <strong>progressão secundária dia-por-ano</strong> (com ingressos e aspectos da Lua progredida) e os <strong>grandes ciclos biográficos</strong> (Saturno, Urano, Júpiter e Quíron).
+                Cada ano recebe um <strong>Score de Intensidade (0–1000)</strong>, ativação dos <strong>8 domínios de vida</strong>, mapeamento das datas críticas e orientações de desenvolvimento pessoal.
+            </p>
+
+            <!-- Cards com Indicadores Biográficos -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Idade Atual</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-white mt-0.5">{{ forecast.current_age }} anos</div>
+                    <span class="text-[10px] text-slate-400">Nascimento: {{ forecast.birth_date }}</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Pontos de Virada</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-rose-300 mt-0.5">{{ forecast.impact_counts['Ponto de Virada'] }} Anos</div>
+                    <span class="text-[10px] text-slate-400">Score ≥ 800/1000</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Alta Ativação</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-amber-300 mt-0.5">{{ forecast.impact_counts['Alta Ativação'] }} Anos</div>
+                    <span class="text-[10px] text-slate-400">Score 600–799/1000</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Estabilidade</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-emerald-300 mt-0.5">{{ forecast.impact_counts['Estabilidade'] }} Anos</div>
+                    <span class="text-[10px] text-slate-400">Fases de consolidação</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico Interativo de Intensidade Pessoal (2026–2050) -->
+    <div class="glass-panel p-5 sm:p-7 rounded-3xl border border-slate-700/60 shadow-xl space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+                <h3 class="font-display text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                    <span>📈</span> Curva de Ativação Cósmica da Vida (2026–2050)
+                </h3>
+                <p class="text-xs text-slate-400">Evolução do score de intensidade pessoal ao longo das próximas décadas.</p>
+            </div>
+            <span class="text-xs font-mono text-slate-400">Escala Padronizada 0–1000</span>
+        </div>
+        <div class="relative h-64 sm:h-72 w-full pt-2">
+            <canvas id="personalForecastChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Barra de Filtros do Forecast Pessoal -->
+    <div class="glass-panel p-5 rounded-3xl border border-slate-700/60 shadow-xl space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+                <h3 class="font-display text-base font-bold text-white flex items-center gap-2">
+                    <span>🎚️</span> Filtros de Esferas de Vida & Impacto
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5">Filtre os anos e datas por área de interesse (Carreira, Finanças, Amor, Vitalidade) ou intensidade.</p>
+            </div>
+            <!-- Busca Rápida -->
+            <div class="relative w-full md:w-64">
+                <input type="text" id="personalSearch" placeholder="Buscar ano, tema ou planeta..."
+                    class="w-full bg-slate-900/90 text-slate-100 text-xs rounded-xl border border-slate-700 px-3 py-2 pl-8 focus:outline-none focus:border-amber-400 transition" />
+                <span class="absolute left-2.5 top-2 text-slate-500 text-xs">🔍</span>
+            </div>
+        </div>
+
+        <!-- Filtro por Domínio de Vida -->
+        <div class="space-y-1.5">
+            <span class="text-[11px] font-mono uppercase text-slate-400 font-semibold">Domínios de Vida:</span>
+            <div class="flex flex-wrap gap-1.5" id="personalDomainFilters">
+                <button type="button" data-domain="all" class="p-domain-btn active px-3 py-1.5 rounded-xl text-xs font-semibold border transition border-amber-400 bg-amber-400/20 text-amber-200">
+                    Todos os Domínios
+                </button>
+                {% for d_key, d_meta in forecast.domain_translations.items() %}
+                <button type="button" data-domain="{{ d_key }}" class="p-domain-btn px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-700 bg-slate-800/60 text-slate-300 hover:text-white hover:bg-slate-700/60 transition flex items-center gap-1.5">
+                    <span>{{ d_meta.icon }}</span>
+                    <span>{{ d_meta.label }}</span>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Filtro por Nível de Impacto -->
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80 text-xs">
+            <span class="font-mono text-slate-400 font-semibold text-[11px]">Nível de Ativação:</span>
+            <button type="button" data-impact="all" class="p-impact-btn active px-2.5 py-1 rounded-lg border border-slate-600 bg-slate-800 text-slate-200">Todos</button>
+            <button type="button" data-impact="Ponto de Virada" class="p-impact-btn px-2.5 py-1 rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20">🔴 Ponto de Virada ({{ forecast.impact_counts['Ponto de Virada'] }})</button>
+            <button type="button" data-impact="Alta Ativação" class="p-impact-btn px-2.5 py-1 rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20">🟡 Alta Ativação ({{ forecast.impact_counts['Alta Ativação'] }})</button>
+            <button type="button" data-impact="Moderado" class="p-impact-btn px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-500/10 text-sky-300 hover:bg-sky-500/20">🔵 Moderado</button>
+            <button type="button" data-impact="Estabilidade" class="p-impact-btn px-2.5 py-1 rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20">🟢 Estabilidade</button>
+        </div>
+    </div>
+
+    <!-- Linha do Tempo Ano a Ano da Pessoa (2026–2050) -->
+    <div class="space-y-6" id="personalTimelineContainer">
+        {% for y in forecast.timeline %}
+        <article class="p-year-card glass-panel rounded-3xl border border-slate-700/70 p-5 sm:p-7 shadow-xl transition duration-200 hover:border-slate-600"
+            data-year="{{ y.year }}"
+            data-impact="{{ y.impact_level }}"
+            data-topdomain="{{ y.top_domain_key }}">
+
+            <!-- Cabeçalho do Ano -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                        <span class="font-display text-2xl sm:text-3xl font-black text-white tracking-tight">{{ y.year }}</span>
+                        <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">{{ y.age }} anos</span>
+
+                        <!-- Badge de Impacto -->
+                        <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold border {{ y.badge_class }}">
+                            {{ y.impact_level }}
+                        </span>
+
+                        <!-- Domínio em Foco -->
+                        <span class="px-2.5 py-0.5 rounded-lg text-xs bg-slate-800/80 text-amber-300 border border-slate-700 flex items-center gap-1 font-sans">
+                            <span>{{ y.top_domain.icon }}</span>
+                            <span>Foco: {{ y.top_domain.label }}</span>
+                        </span>
+                    </div>
+
+                    {% if y.moon_sign %}
+                    <div class="text-xs text-slate-400 flex items-center gap-2 pt-0.5">
+                        <span class="text-sky-300 font-mono">☽ Lua Progredida em {{ y.moon_sign }}:</span>
+                        <span class="text-slate-300 text-[11px]">{{ y.moon_text }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Termômetro de Pontuação Pessoal (0-1000) -->
+                <div class="lg:text-right space-y-1 min-w-[200px]">
+                    <div class="flex lg:justify-end items-baseline gap-2">
+                        <span class="text-[11px] uppercase font-mono text-slate-400">Intensidade Pessoal:</span>
+                        <span class="text-xl sm:text-2xl font-black font-mono {% if y.score_1000 >= 800 %}text-rose-400{% elif y.score_1000 >= 600 %}text-amber-400{% else %}text-sky-400{% endif %}">
+                            {{ y.score_1000 }}
+                        </span>
+                        <span class="text-xs text-slate-500 font-mono">/1000</span>
+                    </div>
+                    <div class="w-full lg:w-48 h-2 rounded-full bg-slate-800 overflow-hidden lg:ml-auto">
+                        <div class="h-full rounded-full {% if y.score_1000 >= 800 %}bg-rose-500{% elif y.score_1000 >= 600 %}bg-amber-400{% else %}bg-sky-400{% endif %}"
+                            style="width: {{ y.score_percent }}%"></div>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-mono block">Nível de ativação biográfica</span>
+                </div>
+            </div>
+
+            <!-- Síntese Narrativa do Ano -->
+            <div class="py-3.5 space-y-3">
+                <p class="text-sm text-slate-200 leading-relaxed font-sans">
+                    {{ y.annual_synthesis }}
+                </p>
+
+                <!-- Barra dos 8 Domínios de Vida neste Ano -->
+                <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 space-y-2">
+                    <span class="text-[11px] uppercase font-mono text-slate-400 font-semibold block">Radar dos 8 Domínios de Vida em {{ y.year }}:</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        {% for d_key, d_meta in forecast.domain_translations.items() %}
+                        {% set d_score = y.domains.get(d_key, 0) %}
+                        <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-2 space-y-1">
+                            <div class="flex items-center justify-between text-[11px]">
+                                <span class="text-slate-300 flex items-center gap-1 truncate">
+                                    <span>{{ d_meta.icon }}</span>
+                                    <span>{{ d_meta.label }}</span>
+                                </span>
+                                <span class="font-mono font-bold {% if d_score >= 800 %}text-rose-400{% elif d_score >= 600 %}text-amber-300{% else %}text-slate-400{% endif %}">
+                                    {{ d_score }}
+                                </span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                                <div class="h-full rounded-full {% if d_score >= 800 %}bg-rose-500{% elif d_score >= 600 %}bg-amber-400{% else %}bg-sky-400{% endif %}"
+                                    style="width: {{ (d_score / 10)|round }}%"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datas Críticas e Acontecimentos do Ano Pessoal -->
+            {% if y.events %}
+            <div class="mt-4 pt-4 border-t border-slate-800/70 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
+                        <span>⚡</span> Acontecimentos & Passagens Críticas ({{ y.events|length }})
+                    </h4>
+                    <span class="text-[11px] text-slate-400">Trânsitos, progressões e ciclos exatos</span>
+                </div>
+
+                <div class="grid grid-cols-1 gap-2.5">
+                    {% for ev in y.events[:10] %}
+                    <div class="p-event-item rounded-2xl border border-slate-800/80 bg-slate-900/50 p-3.5 space-y-1.5 transition hover:border-slate-600"
+                        data-domain="{{ ev.domain_key }}">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-xs font-bold text-slate-200 bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-700">
+                                    📅 {{ ev.formatted_date }}
+                                </span>
+                                <span class="px-2 py-0.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                    {{ ev.type_label }}
+                                </span>
+                                <span class="font-semibold text-slate-100 text-xs">
+                                    {{ ev.title }}
+                                </span>
+                            </div>
+
+                            <!-- Score e Domínio -->
+                            <div class="flex items-center gap-2 shrink-0">
+                                <span class="text-[11px] font-mono text-slate-400">{{ ev.domain_icon }} {{ ev.domain_label }}</span>
+                                <span class="px-2 py-0.5 rounded-lg font-mono text-xs font-bold {% if ev.score_1000 >= 800 %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% elif ev.score_1000 >= 600 %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% else %}bg-sky-500/20 text-sky-300 border border-sky-500/30{% endif %}">
+                                    {{ ev.score_1000 }} / 1000
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Orientação / Interpretação do Acontecimento -->
+                        <p class="text-xs text-slate-300 leading-relaxed font-sans">
+                            {{ ev.description }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentDomain = 'all';
+    let currentImpact = 'all';
+    let currentSearch = '';
+
+    const cards = document.querySelectorAll('.p-year-card');
+
+    function applyPersonalFilters() {
+        cards.forEach(card => {
+            const cardImpact = card.getAttribute('data-impact');
+            const cardTopDomain = card.getAttribute('data-topdomain');
+            const cardText = card.textContent.toLowerCase();
+
+            const matchImpact = (currentImpact === 'all') || (cardImpact === currentImpact);
+            const matchDomain = (currentDomain === 'all') || (cardTopDomain === currentDomain);
+            const matchSearch = (!currentSearch) || cardText.includes(currentSearch);
+
+            if (matchImpact && matchDomain && matchSearch) {
+                card.style.display = '';
+
+                // Filtrar eventos internos
+                const eventItems = card.querySelectorAll('.p-event-item');
+                eventItems.forEach(ev => {
+                    const evDomain = ev.getAttribute('data-domain');
+                    const evMatchDomain = (currentDomain === 'all') || (evDomain === currentDomain);
+                    ev.style.display = evMatchDomain ? '' : 'none';
+                });
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Botões de Domínio
+    document.querySelectorAll('.p-domain-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.p-domain-btn').forEach(b => {
+                b.classList.remove('active', 'border-amber-400', 'bg-amber-400/20', 'text-amber-200');
+                b.classList.add('border-slate-700', 'bg-slate-800/60', 'text-slate-300');
+            });
+            this.classList.add('active', 'border-amber-400', 'bg-amber-400/20', 'text-amber-200');
+            this.classList.remove('border-slate-700', 'bg-slate-800/60', 'text-slate-300');
+            currentDomain = this.getAttribute('data-domain');
+            applyPersonalFilters();
+        });
+    });
+
+    // Botões de Impacto
+    document.querySelectorAll('.p-impact-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.p-impact-btn').forEach(b => b.classList.remove('active', 'ring-2', 'ring-amber-400'));
+            this.classList.add('active', 'ring-2', 'ring-amber-400');
+            currentImpact = this.getAttribute('data-impact');
+            applyPersonalFilters();
+        });
+    });
+
+    // Busca Rápida
+    const searchInput = document.getElementById('personalSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.trim().toLowerCase();
+            applyPersonalFilters();
+        });
+    }
+
+    // Chart.js do Forecast Pessoal (2026–2050)
+    const timelineData = {{ forecast.timeline | tojson }};
+    const years = timelineData.map(y => y.year + ' (' + y.age + 'a)');
+    const scores = timelineData.map(y => y.score_1000);
+
+    new Chart(document.getElementById('personalForecastChart'), {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    label: 'Score de Intensidade Biográfica',
+                    data: scores,
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                    fill: true,
+                    tension: 0.35,
+                    borderWidth: 2.5,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#f59e0b'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#cbd5e1' }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const yrItem = timelineData[context.dataIndex];
+                            return `Score: ${yrItem.score_1000}/1000 (${yrItem.impact_level})`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: 'rgba(148,163,184,0.1)' }
+                },
+                y: {
+                    min: 0,
+                    max: 1000,
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: 'rgba(148,163,184,0.1)' },
+                    title: { display: true, text: 'Pontuação de Intensidade (0–1000)', color: '#94a3b8' }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -20,14 +20,15 @@ from urllib.parse import urlencode
 
 import swisseph as swe
 
-from src.natal.bodies import ANGLES, BODY_META, NATAL_BODIES_OPTIONAL, TRANSIT_GRID_BODIES
+from src.natal.bodies import ANGLES, BODY_META, NATAL_BODIES_OPTIONAL, TRANSIT_GRID_BODIES, SWE_IDS
 from src.natal.config import natal_config
 from src.natal.domains import domain_meta
 from src.natal.exports import hits_csv, ics_calendar, to_json, windows_csv
 from src.natal.gazetteer import available as gazetteer_available, search_places
 from src.natal.interpretations import disclaimer
 from src.natal.models import BirthInput
-from src.natal.service import build_profile, build_progressions, chart_only
+from src.natal.service import build_profile, build_progressions, chart_only, now_jd
+from src.natal.personal_forecast import generate_personal_forecast
 from src.web.i18n import resolve_lang, translator
 from src.web.mandala import generate_mandala_svg
 from src.mundane.mandala_biwheel import generate_biwheel_svg
@@ -120,6 +121,7 @@ def _ctx(request: Request, lang: str, **kw) -> Dict[str, Any]:
 def _nav_urls(inp: BirthInput) -> Dict[str, str]:
     q = urlencode(inp.query_params())
     return {"chart": f"/natal/chart?{q}", "transits": f"/natal/transits?{q}", "progressions": f"/natal/progressions?{q}",
+            "forecast": f"/natal/forecast?{q}",
             "csv": f"/natal/export.csv?{q}", "ics": f"/natal/export.ics?{q}", "json": f"/natal/export.json?{q}",
             "form": f"/natal?{q}", "query": q}
 
@@ -176,6 +178,88 @@ def _biwheel(natal: Dict[str, Any], progressed: Dict[str, Any], inp: BirthInput)
         return ""
 
 
+def _biwheel_transits(natal: Dict[str, Any], active_windows: List[Dict[str, Any]], inp: BirthInput, ref_jd: float) -> str:
+    """Roda dupla natal (interna) × trânsitos atuais (externa)."""
+    nature = {"challenging": "tenso", "flowing": "harmônico", "focus": "foco"}
+    transits = []
+    for w in active_windows:
+        tb = w.get("transit_body")
+        np_id = w.get("natal_point")
+        if tb and np_id and tb not in ANGLES and np_id not in ANGLES:
+            transits.append({
+                "transit_planet_id": tb,
+                "natal_planet_id": np_id,
+                "aspect_name": w.get("aspect_name", ""),
+                "aspect_nature": nature.get(w.get("tone"), "foco"),
+                "is_exact": bool(w.get("exact"))
+            })
+    transit_bodies = []
+    for b_id in ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "chiron"]:
+        swe_id = SWE_IDS[b_id]
+        res, _ = swe.calc_ut(ref_jd, swe_id, swe.FLG_SWIEPH | swe.FLG_SPEED)
+        lon = res[0]
+        meta = BODY_META[b_id]
+        transit_bodies.append({
+            "id": b_id,
+            "name": meta["name_pt" if inp.lang == "pt" else "name_en"],
+            "symbol": meta["symbol"],
+            "longitude": round(lon, 4),
+            "sign_index": int(lon // 30),
+            "is_retrograde": res[3] < 0
+        })
+    natal_like = dict(natal)
+    natal_like["flag_emoji"] = "☉"
+    natal_like["time"] = inp.time if inp.time_known else ""
+    try:
+        return generate_biwheel_svg(natal_like, {"transit_bodies": transit_bodies, "transits": transits})
+    except Exception:
+        return ""
+
+
+def _calculate_transits_to_progressed(prog_bodies: List[Dict[str, Any]], ref_jd: float, lang: str = "pt") -> List[Dict[str, Any]]:
+    """Calcula aspectos exatos dos trânsitos de planetas lentos no céu atual sobre os pontos progredidos."""
+    transit_bodies = []
+    for b_id in ["mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "chiron"]:
+        swe_id = SWE_IDS[b_id]
+        res, _ = swe.calc_ut(ref_jd, swe_id, swe.FLG_SWIEPH | swe.FLG_SPEED)
+        transit_bodies.append({
+            "id": b_id,
+            "name": BODY_META[b_id]["name_pt" if lang == "pt" else "name_en"],
+            "symbol": BODY_META[b_id]["symbol"],
+            "lon": res[0]
+        })
+    aspect_defs = [
+        (0, "Conjunção" if lang == "pt" else "Conjunction", "☌", 2.5, "focus"),
+        (60, "Sextil" if lang == "pt" else "Sextile", "⚹", 2.0, "flowing"),
+        (90, "Quadratura" if lang == "pt" else "Square", "□", 2.5, "challenging"),
+        (120, "Trígono" if lang == "pt" else "Trine", "△", 2.5, "flowing"),
+        (180, "Oposição" if lang == "pt" else "Opposition", "☍", 2.5, "challenging"),
+    ]
+    hits = []
+    for tb in transit_bodies:
+        for pb in prog_bodies:
+            diff = abs(tb["lon"] - pb["longitude"]) % 360
+            if diff > 180:
+                diff = 360 - diff
+            for angle, name, sym, max_orb, family in aspect_defs:
+                orb = abs(diff - angle)
+                if orb <= max_orb:
+                    hits.append({
+                        "transit_id": tb["id"],
+                        "transit_name": tb["name"],
+                        "transit_symbol": tb["symbol"],
+                        "progressed_id": pb["id"],
+                        "progressed_name": pb["name"],
+                        "progressed_symbol": pb["symbol"],
+                        "aspect_name": name,
+                        "aspect_symbol": sym,
+                        "orb": round(orb, 2),
+                        "family": family
+                    })
+    hits.sort(key=lambda x: x["orb"])
+    return hits
+
+
 # ----------------------------------------------------------------------------- páginas
 @router.api_route("/natal", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def natal_form(request: Request):
@@ -215,7 +299,7 @@ async def natal_submit(request: Request):
     except (ValidationError, ValueError) as e:
         return _render_error(request, lang, e)
     target = form.get("goto") or "transits"
-    if target not in ("chart", "transits", "progressions"):
+    if target not in ("chart", "transits", "progressions", "forecast"):
         target = "transits"
     return RedirectResponse(url=_nav_urls(inp)[target], status_code=303)
 
@@ -235,10 +319,27 @@ async def natal_chart(request: Request):
         inp = _parse_input(request, lang)
     except (ValidationError, ValueError) as e:
         return _render_error(request, lang, e)
-    chart = chart_only(inp)
-    return templates.TemplateResponse(request=request, name="natal/chart.html",
-                                      context=_ctx(request, lang, inp=inp, chart=chart, mandala_svg=_mandala(chart),
-                                                   urls=_nav_urls(inp), active_tab="chart"))
+    ref_jd = _reference_jd(request) or now_jd()
+    profile = build_profile(inp, reference_jd=ref_jd, include_detail=True)
+    prog = build_progressions(inp, reference_jd=ref_jd)
+    chart = profile["chart"]
+    mandala_svg = _mandala(chart)
+    transits_biwheel_svg = _biwheel_transits(chart, profile["now"]["active"], inp, ref_jd)
+    prog_biwheel_svg = _biwheel(chart, prog["current"], inp)
+    return templates.TemplateResponse(
+        request=request, name="natal/chart.html",
+        context=_ctx(
+            request, lang, inp=inp, chart=chart,
+            profile=profile, prog=prog,
+            mandala_svg=mandala_svg,
+            transits_biwheel_svg=transits_biwheel_svg,
+            prog_biwheel_svg=prog_biwheel_svg,
+            active_transits=profile["now"]["active"],
+            upcoming_transits=profile["now"]["upcoming"][:10],
+            progressed_aspects=prog["current"]["aspects_to_natal"],
+            urls=_nav_urls(inp), active_tab="chart"
+        )
+    )
 
 
 @router.get("/natal/transits", response_class=HTMLResponse)
@@ -279,13 +380,42 @@ async def natal_progressions(request: Request):
         inp = _parse_input(request, lang)
     except (ValidationError, ValueError) as e:
         return _render_error(request, lang, e)
-    prog = build_progressions(inp, reference_jd=_reference_jd(request))
+    ref_jd = _reference_jd(request) or now_jd()
+    prog = build_progressions(inp, reference_jd=ref_jd)
     natal_svg = _mandala(prog["chart"])
     prog_svg = _biwheel(prog["chart"], prog["current"], inp)
-    return templates.TemplateResponse(request=request, name="natal/progressions.html",
-                                      context=_ctx(request, lang, inp=inp, prog=prog, chart=prog["chart"],
-                                                   natal_svg=natal_svg, prog_svg=prog_svg, urls=_nav_urls(inp),
-                                                   active_tab="progressions"))
+    transits_to_prog = _calculate_transits_to_progressed(prog["current"]["bodies"], ref_jd, lang)
+    return templates.TemplateResponse(
+        request=request, name="natal/progressions.html",
+        context=_ctx(
+            request, lang, inp=inp, prog=prog, chart=prog["chart"],
+            natal_svg=natal_svg, prog_svg=prog_svg,
+            transits_to_prog=transits_to_prog,
+            urls=_nav_urls(inp), active_tab="progressions"
+        )
+    )
+
+
+@router.get("/natal/forecast", response_class=HTMLResponse)
+async def natal_forecast(request: Request):
+    _rate_limit(request)
+    lang = resolve_lang(request)
+    try:
+        inp = _parse_input(request, lang)
+    except (ValidationError, ValueError) as e:
+        return _render_error(request, lang, e)
+    ref_jd = _reference_jd(request) or now_jd()
+    profile = build_profile(inp, reference_jd=ref_jd, include_detail=True)
+    prog = build_progressions(inp, reference_jd=ref_jd)
+    forecast_data = generate_personal_forecast(inp, profile=profile, prog=prog, start_year=2026, end_year=2050)
+    return templates.TemplateResponse(
+        request=request, name="natal/forecast.html",
+        context=_ctx(
+            request, lang, inp=inp, profile=profile, chart=profile["chart"],
+            prog=prog, forecast=forecast_data,
+            urls=_nav_urls(inp), active_tab="forecast"
+        )
+    )
 
 
 @router.get("/natal/export.{fmt}")

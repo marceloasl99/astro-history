@@ -1,0 +1,317 @@
+"""
+Motor de Previsão Pessoal (Personal Forecast Engine 2026–2050).
+Consolida:
+1. Trânsitos diários de planetas lentos aos pontos natais (prof["lifetime"]["windows"])
+2. Progressões secundárias dia-por-ano e linha do tempo da Lua progredida (prog["moon"])
+3. Grandes ciclos de vida (retornos de Saturno, Júpiter, Quíron, oposição de Urano)
+4. Calibração dos 8 domínios vitais (escala 0–1000)
+5. Identificação de confluências (trânsitos e progressões ativando simultaneamente o mesmo tema)
+
+Produz uma linha do tempo prospectiva ano a ano (2026 a 2050 ou horizonte selecionável) com:
+- Score de intensidade pessoal (0–1000)
+- Nível de impacto (Pico Decisivo, Alta Ativação, Moderado, Estável)
+- Radar dos 8 domínios de vida
+- Datas críticas e acontecimentos detalhados com orientações práticas e reflexivas
+"""
+
+from typing import Dict, Any, List, Optional
+import datetime
+
+from src.natal.models import BirthInput
+from src.natal.service import build_profile, build_progressions, now_jd
+from src.natal.interpretations import library, describe_window, describe_cycle
+
+
+DOMAIN_TRANSLATIONS = {
+    "identity": {"label": "Vitalidade & Identidade", "icon": "⚡", "theme_color": "rose"},
+    "mind_learning": {"label": "Mente, Estudos & Comunicação", "icon": "💡", "theme_color": "sky"},
+    "relationships": {"label": "Relações, Amor & Parcerias", "icon": "❤️", "theme_color": "rose"},
+    "career": {"label": "Carreira, Visibilidade & Propósito", "icon": "👑", "theme_color": "amber"},
+    "resources": {"label": "Finanças, Bens & Recursos", "icon": "💰", "theme_color": "emerald"},
+    "home_family": {"label": "Estrutura, Família & Raízes", "icon": "🏡", "theme_color": "indigo"},
+    "purpose_transformation": {"label": "Transformação & Crises Evolutivas", "icon": "🌋", "theme_color": "purple"},
+    "health_routine": {"label": "Saúde, Rotina & Equilíbrio", "icon": "🌿", "theme_color": "teal"},
+}
+
+
+def _format_date_pt(iso_date: str) -> str:
+    """Converte YYYY-MM-DD para DD/MM/AAAA."""
+    if not iso_date or len(iso_date) < 10:
+        return iso_date or ""
+    parts = iso_date[:10].split("-")
+    if len(parts) == 3:
+        return f"{parts[2]}/{parts[1]}/{parts[0]}"
+    return iso_date
+
+
+def generate_personal_forecast(
+    inp: BirthInput,
+    profile: Optional[Dict[str, Any]] = None,
+    prog: Optional[Dict[str, Any]] = None,
+    start_year: int = 2026,
+    end_year: int = 2050
+) -> Dict[str, Any]:
+    """
+    Gera o forecast pessoal completo ano a ano (2026–2050).
+    """
+    lang = inp.lang or "pt"
+    if profile is None:
+        profile = build_profile(inp)
+    if prog is None:
+        prog = build_progressions(inp)
+
+    birth_year = int(inp.date[:4])
+    scored_data = profile["domains"]["scored"]
+    all_years = scored_data["years"]
+    annual_totals = scored_data["annual_total_1000"]
+    annual_domains = scored_data["annual_1000"]
+
+    windows = profile["lifetime"]["windows"]
+    cycles = profile["lifetime"]["cycles"]
+    moon_aspects = prog["moon"]["aspects"]
+    moon_sign_periods = prog["moon"]["sign_periods"]
+    moon_house_ingresses = prog["moon"].get("house_ingresses", [])
+    sign_ingresses = prog["ingresses"].get("sign_ingresses", [])
+    stations = prog["ingresses"].get("stations", [])
+
+    # Indexar janelas de trânsito por ano
+    windows_by_year: Dict[int, List[Dict[str, Any]]] = {}
+    for w in windows:
+        w_start_y = int(w["start"][:4]) if w.get("start") else birth_year
+        w_end_y = int(w["end"][:4]) if w.get("end") else birth_year
+        # Registrar em cada ano que a janela toca
+        for y in range(max(start_year, w_start_y), min(end_year, w_end_y) + 1):
+            windows_by_year.setdefault(y, []).append(w)
+
+    # Indexar ciclos por ano
+    cycles_by_year: Dict[int, List[Dict[str, Any]]] = {}
+    for c in cycles:
+        if c.get("start") and c.get("end"):
+            c_start_y = int(c["start"][:4])
+            c_end_y = int(c["end"][:4])
+            for y in range(max(start_year, c_start_y), min(end_year, c_end_y) + 1):
+                cycles_by_year.setdefault(y, []).append(c)
+
+    # Indexar aspectos da Lua progredida por ano
+    moon_aspects_by_year: Dict[int, List[Dict[str, Any]]] = {}
+    for a in moon_aspects:
+        if a.get("date"):
+            a_y = int(a["date"][:4])
+            if start_year <= a_y <= end_year:
+                moon_aspects_by_year.setdefault(a_y, []).append(a)
+
+    # Indexar ingressos de casas da Lua progredida por ano
+    moon_houses_by_year: Dict[int, List[Dict[str, Any]]] = {}
+    for h in moon_house_ingresses:
+        if h.get("date"):
+            h_y = int(h["date"][:4])
+            if start_year <= h_y <= end_year:
+                moon_houses_by_year.setdefault(h_y, []).append(h)
+
+    # Indexar ingressos planetários progredidos por ano
+    planet_ingresses_by_year: Dict[int, List[Dict[str, Any]]] = {}
+    for i in sign_ingresses:
+        if i.get("date"):
+            i_y = int(i["date"][:4])
+            if start_year <= i_y <= end_year:
+                planet_ingresses_by_year.setdefault(i_y, []).append(i)
+
+    # Construir linha do tempo pessoal ano a ano
+    timeline: List[Dict[str, Any]] = []
+    impact_counts = {"Ponto de Virada": 0, "Alta Ativação": 0, "Moderado": 0, "Estabilidade": 0}
+
+    for y in range(start_year, end_year + 1):
+        age = y - birth_year
+        idx = all_years.index(y) if y in all_years else -1
+
+        # Score geral do ano
+        if idx >= 0:
+            year_score_1000 = float(annual_totals[idx])
+            domain_scores = {k: int(annual_domains[k][idx]) for k in annual_domains}
+        else:
+            year_score_1000 = 350.0
+            domain_scores = {k: 300 for k in DOMAIN_TRANSLATIONS}
+
+        # Nível de impacto
+        if year_score_1000 >= 800:
+            impact_level = "Ponto de Virada"
+            impact_color = "rose"
+            badge_class = "bg-rose-500/20 text-rose-300 border-rose-500/40"
+        elif year_score_1000 >= 600:
+            impact_level = "Alta Ativação"
+            impact_color = "amber"
+            badge_class = "bg-amber-500/20 text-amber-300 border-amber-500/40"
+        elif year_score_1000 >= 400:
+            impact_level = "Moderado"
+            impact_color = "sky"
+            badge_class = "bg-sky-500/20 text-sky-300 border-sky-500/40"
+        else:
+            impact_level = "Estabilidade"
+            impact_color = "emerald"
+            badge_class = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+
+        impact_counts[impact_level] += 1
+
+        # Domínio mais ativado do ano
+        sorted_domains = sorted(domain_scores.items(), key=lambda item: item[1], reverse=True)
+        top_domain_key = sorted_domains[0][0] if sorted_domains else "career"
+        top_domain_info = DOMAIN_TRANSLATIONS.get(top_domain_key, {"label": top_domain_key, "icon": "⭐", "theme_color": "amber"})
+
+        # Posição da Lua progredida neste ano
+        current_moon_sign = ""
+        current_moon_text = ""
+        mid_year_date = f"{y}-07-01"
+        for p in moon_sign_periods:
+            if p["start"] <= mid_year_date <= p["end"]:
+                current_moon_sign = p["sign"]
+                current_moon_text = p.get("text", "")
+                break
+
+        # Acontecimentos / Datas Críticas do Ano
+        events: List[Dict[str, Any]] = []
+
+        # 1. Trânsitos do ano
+        year_windows = windows_by_year.get(y, [])
+        for w in year_windows:
+            peak_w = float(w.get("intensity_peak") or 0.0)
+            score_ev = min(1000, int(peak_w * 1000)) if peak_w <= 1.0 else min(1000, int(peak_w))
+            hits = w.get("hits") or []
+            # Se tiver hit exato no ano, pegar a data exata
+            year_hits = [h for h in hits if h.get("date", "")[:4] == str(y)]
+            if year_hits:
+                for h in year_hits:
+                    events.append({
+                        "date": h["date"],
+                        "formatted_date": _format_date_pt(h["date"]),
+                        "type": "transit",
+                        "type_label": "Trânsito Exato",
+                        "title": f"{w.get('transit_symbol', '')} {w.get('transit_name', '')} {w.get('aspect_symbol', '')} {w.get('point_symbol', '')} {w.get('point_name', '')} Natal",
+                        "domain_key": w.get("primary_domain", "career"),
+                        "domain_label": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("label", "Vida Pessoal"),
+                        "domain_icon": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("icon", "🪐"),
+                        "domain_color": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("theme_color", "amber"),
+                        "tone": w.get("tone", "focus"),
+                        "score_1000": max(score_ev, 650),
+                        "description": w.get("text") or describe_window(w, lang),
+                        "is_retrograde": bool(h.get("retrograde")),
+                        "orb": 0.0
+                    })
+            else:
+                # Trânsito em andamento na janela
+                events.append({
+                    "date": w.get("start", f"{y}-01-01"),
+                    "formatted_date": f"{_format_date_pt(w.get('start', ''))} a {_format_date_pt(w.get('end', ''))}",
+                    "type": "transit",
+                    "type_label": "Janela de Trânsito",
+                    "title": f"{w.get('transit_symbol', '')} {w.get('transit_name', '')} {w.get('aspect_symbol', '')} {w.get('point_symbol', '')} {w.get('point_name', '')} Natal",
+                    "domain_key": w.get("primary_domain", "career"),
+                    "domain_label": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("label", "Vida Pessoal"),
+                    "domain_icon": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("icon", "🪐"),
+                    "domain_color": DOMAIN_TRANSLATIONS.get(w.get("primary_domain"), {}).get("theme_color", "amber"),
+                    "tone": w.get("tone", "focus"),
+                    "score_1000": score_ev,
+                    "description": w.get("text") or describe_window(w, lang),
+                    "is_retrograde": False,
+                    "orb": 1.0
+                })
+
+        # 2. Aspectos da Lua Progredida
+        for ma in moon_aspects_by_year.get(y, []):
+            events.append({
+                "date": ma["date"],
+                "formatted_date": _format_date_pt(ma["date"]),
+                "type": "progression",
+                "type_label": "Lua Progredida",
+                "title": f"☽p Lua Progredida {ma.get('aspect_symbol', '')} {ma.get('n_symbol', '')} {ma.get('n_name', '')} Natal",
+                "domain_key": "identity" if ma.get("n_id") in ("sun", "asc") else ("relationships" if ma.get("n_id") == "venus" else "career"),
+                "domain_label": "Ciclo Emocional & Amadurecimento",
+                "domain_icon": "☽",
+                "domain_color": "sky",
+                "tone": ma.get("family", "flowing"),
+                "score_1000": 780,
+                "description": f"Aspecto exato da Lua progredida ({ma.get('aspect_name', '')}) ao seu {ma.get('n_name', '')} natal. Marca um momento de amadurecimento emocional profundo e reorientação de prioridades internas.",
+                "is_retrograde": False,
+                "orb": float(ma.get("orb", 0.0))
+            })
+
+        # 3. Ingressos de Casas da Lua Progredida
+        for mh in moon_houses_by_year.get(y, []):
+            events.append({
+                "date": mh["date"],
+                "formatted_date": _format_date_pt(mh["date"]),
+                "type": "progression",
+                "type_label": "Ingresso da Lua Progredida",
+                "title": f"☽p Lua Progredida ingressa na Casa {mh.get('to')}",
+                "domain_key": "career" if mh.get("to") in (10, 6) else ("relationships" if mh.get("to") in (7, 5) else "resources"),
+                "domain_label": f"Foco na Casa {mh.get('to')}",
+                "domain_icon": "🏠",
+                "domain_color": "indigo",
+                "tone": "focus",
+                "score_1000": 820,
+                "description": f"A Lua progredida entra na Casa {mh.get('to')}. Nos próximos ~2,5 anos, as temáticas desta área da vida tornam-se o foco central de sua energia psíquica e investimentos práticos.",
+                "is_retrograde": False,
+                "orb": 0.0
+            })
+
+        # 4. Ciclos de Vida Monumentais (Saturno, Urano, Quíron, Júpiter)
+        for c in cycles_by_year.get(y, []):
+            events.append({
+                "date": c.get("peak_date", c.get("start", f"{y}-06-01")),
+                "formatted_date": f"{_format_date_pt(c.get('start', ''))} a {_format_date_pt(c.get('end', ''))}",
+                "type": "cycle",
+                "type_label": "Grande Ciclo de Vida",
+                "title": c.get("label", "Ciclo Maior"),
+                "domain_key": "career" if "saturn" in c.get("key", "") else ("identity" if "uranus" in c.get("key", "") else "purpose_transformation"),
+                "domain_label": "Marco de Vida",
+                "domain_icon": "⏳",
+                "domain_color": "purple",
+                "tone": "challenging" if "saturn" in c.get("key", "") or "uranus" in c.get("key", "") else "flowing",
+                "score_1000": 950,
+                "description": c.get("text") or describe_cycle(c, lang),
+                "is_retrograde": False,
+                "orb": 0.0
+            })
+
+        # Deduplicar e ordenar eventos do ano por data e depois score
+        events.sort(key=lambda ev: (ev.get("date", ""), -ev.get("score_1000", 0)))
+
+        # Síntese prospectiva do ano
+        top_events_titles = [e["title"] for e in events[:3]]
+        annual_synthesis = (
+            f"Aos {age} anos, seu ano destaca forte ativação em {top_domain_info['label']}. "
+            f"Principais forças cósmicas ativas: {', '.join(top_events_titles) if top_events_titles else 'Ciclos estáveis de consolidação'}. "
+            f"Momento propício para alinhamento de prioridades de longo prazo."
+        )
+
+        timeline.append({
+            "year": y,
+            "age": age,
+            "score_1000": round(year_score_1000, 1),
+            "score_percent": round(year_score_1000 / 10.0, 1),
+            "impact_level": impact_level,
+            "impact_color": impact_color,
+            "badge_class": badge_class,
+            "top_domain": top_domain_info,
+            "top_domain_key": top_domain_key,
+            "domains": domain_scores,
+            "moon_sign": current_moon_sign,
+            "moon_text": current_moon_text,
+            "events": events,
+            "events_count": len(events),
+            "annual_synthesis": annual_synthesis
+        })
+
+    # Resumo executivo dos anos mais críticos
+    critical_years = [y["year"] for y in timeline if y["impact_level"] == "Ponto de Virada"]
+
+    return {
+        "start_year": start_year,
+        "end_year": end_year,
+        "total_years": len(timeline),
+        "impact_counts": impact_counts,
+        "critical_years": critical_years,
+        "timeline": timeline,
+        "domain_translations": DOMAIN_TRANSLATIONS,
+        "birth_date": inp.date,
+        "current_age": round((now_jd() - profile["chart"]["tjd_ut"]) / 365.2422, 1)
+    }

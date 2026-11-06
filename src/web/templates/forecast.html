@@ -1,177 +1,571 @@
 {% extends "base.html" %}
-{% block title %}Previsão Probabilística (2026–2060) | AstroHistory{% endblock %}
+{% block title %}Previsão Cósmica & Geopolítica (2026–2060) | AstroHistory{% endblock %}
 
 {% block content %}
-<div class="space-y-8">
+<div class="space-y-8" id="forecast-app">
     <!-- Hero Banner -->
     <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-slate-700/70 shadow-2xl relative overflow-hidden">
-        <div class="max-w-4xl space-y-3">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-4xl space-y-4 relative z-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Modelos Preditivos Walk-Forward • 409 Features Astrológicas • Horizonte 2026–2060</span>
+                <span>Previsão Probabilística & Projeções Cronológicas 2026–2060 • 148 Picos de Alta Energia • 8 Categorias Canônicas</span>
             </div>
+
             <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-wide">
-                Previsão Probabilística <span class="text-slate-400 text-xl sm:text-2xl font-normal font-sans">(2026–2060)</span>
+                Previsão Probabilística & Geopolítica <span class="text-amber-300 text-xl sm:text-3xl font-normal font-sans">(2026–2060)</span>
             </h1>
+
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Cada ano recebe uma <strong>probabilidade com intervalo de confiança</strong> (p10–p90) comparada à <strong>taxa-base histórica</strong>,
-                calculada por modelos calibrados em bases objetivas independentes (COW, NBER, UCDP/PRIO e catálogo validado) a partir de 409 features da astrologia
-                mundana (fases de ciclos exteriores, Índice de Barbault, ativação de aspectos, harmônicos, declinações e eclipses).
-                O <strong>skill</strong> de cada modelo foi medido previamente por hindcast walk-forward — apresentado com total transparência epistemológica.
+                Varredura cronológica de alta precisão baseada no <strong>Swiss Ephemeris 2.10</strong> e calibrada na base de <strong>3.406 marcos históricos mundiais</strong>.
+                Cada ano e cada data de ativação extrema recebe um <strong>Score de Pontuação (0–1000)</strong>, classificação em <strong>8 categorias canônicas</strong>,
+                mapeamento dos <strong>possíveis acontecimentos e cenários</strong>, gatilhos cosmológicos e precedentes históricos documentados.
             </p>
+
+            <!-- Quick Metrics Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Horizonte</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-white mt-0.5">35 Anos</div>
+                    <span class="text-[10px] text-slate-400">2026 a 2060</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Picos de Energia</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-rose-300 mt-0.5">{{ unified_forecast.kpis.total_peaks }} Datas</div>
+                    <span class="text-[10px] text-slate-400">Ativações extremas</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Anos Críticos</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-amber-300 mt-0.5">{{ unified_forecast.kpis.critical_years|length }} Anos</div>
+                    <span class="text-[10px] text-slate-400">Score ≥ 900/1000</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 border border-slate-700/50">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 font-mono">Epistemologia</span>
+                    <div class="text-lg sm:text-xl font-bold font-mono text-emerald-300 mt-0.5">Walk-Forward</div>
+                    <span class="text-[10px] text-slate-400">Hindcast sem overfitting</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    {% if not forecast %}
-    <div class="glass-panel rounded-2xl p-6 text-amber-200 border border-amber-500/30">
-        O arquivo de previsão probabilística ainda não foi gerado. Rode <code>make forecast</code>.
-    </div>
-    {% else %}
+    <!-- Filtros Interativos e Barra de Busca -->
+    <div class="glass-panel p-5 rounded-3xl border border-slate-700/60 shadow-xl space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+                <h3 class="font-display text-base font-bold text-white flex items-center gap-2">
+                    <span>🎚️</span> Filtros de Análise Prospectiva
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5">Selecione uma categoria ou nível de alerta para isolar os acontecimentos e scores correspondentes.</p>
+            </div>
+            <!-- Campo de Busca em Tempo Real -->
+            <div class="relative w-full md:w-72">
+                <input type="text" id="forecastSearch" placeholder="Buscar ano, data, país ou tema..."
+                    class="w-full bg-slate-900/90 text-slate-100 text-xs rounded-xl border border-slate-700 px-3 py-2 pl-8 focus:outline-none focus:border-amber-400 transition" />
+                <span class="absolute left-2.5 top-2 text-slate-500 text-xs">🔍</span>
+            </div>
+        </div>
 
-<!-- Selo de skill (hindcast) -->
-<section class="glass-panel rounded-xl p-5 mb-8">
-    <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
-        <h2 class="text-xl font-semibold">Skill medido fora da amostra (hindcast {{ hindcast.test_start if hindcast else '' }}–presente)</h2>
-        <a href="/methodology#hindcast" class="text-sky-300 text-sm underline">como foi medido</a>
-    </div>
-    <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-        <thead class="text-slate-400 text-left">
-            <tr><th class="py-1 pr-3">Alvo</th><th class="py-1 pr-3">Melhor modelo astrológico</th><th class="py-1 pr-3 text-right">BSS</th><th class="py-1 pr-3">IC 95%</th><th class="py-1 pr-3 text-right">AUC</th><th class="py-1 pr-3 text-right">AR (baseline)</th><th class="py-1">Veredito</th></tr>
-        </thead>
-        <tbody>
-        {% for key, t in forecast.targets.items() %}
-            {% set sk = t.skill %}
-            <tr class="border-t border-slate-700/60 {% if key == selected_target %}bg-slate-800/60{% endif %}">
-                <td class="py-2 pr-3"><a href="/forecast?target={{ key }}" class="text-amber-300 hover:underline">{{ t.label }}</a></td>
-                <td class="py-2 pr-3 font-mono text-xs">{{ sk.model }}</td>
-                <td class="py-2 pr-3 text-right font-mono">{{ '%+.3f' % sk.bss if sk.bss is not none else '—' }}</td>
-                <td class="py-2 pr-3 font-mono text-xs">{% if sk.bss_ci95 %}[{{ '%+.3f' % sk.bss_ci95[0] }}, {{ '%+.3f' % sk.bss_ci95[1] }}]{% else %}—{% endif %}</td>
-                <td class="py-2 pr-3 text-right font-mono">{{ sk.auc if sk.auc is not none else '—' }}</td>
-                <td class="py-2 pr-3 text-right font-mono">{{ '%+.3f' % sk.ar_baseline_bss if sk.ar_baseline_bss is not none else '—' }}</td>
-                <td class="py-2">
-                    {% if sk.verdict == 'skill positivo' %}<span class="px-2 py-0.5 rounded bg-emerald-900/70 text-emerald-300 text-xs">{{ sk.verdict }}</span>
-                    {% elif sk.verdict == 'skill não significativo' %}<span class="px-2 py-0.5 rounded bg-amber-900/70 text-amber-300 text-xs">{{ sk.verdict }}</span>
-                    {% else %}<span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300 text-xs">{{ sk.verdict }}</span>{% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    </div>
-    <p class="text-xs text-slate-400 mt-3">
-        BSS = Brier Skill Score contra a climatologia (taxa-base expansiva). BSS &gt; 0 com IC inteiramente positivo = previsão melhor que a taxa-base.
-        <strong>Quando o IC inclui zero, a estimativa mais precisa para o futuro é a própria taxa-base</strong>, e a curva abaixo deve ser lida como exploração, não como previsão.
-        "AR" é o baseline autorregressivo (o passado recente do próprio alvo), que não está disponível para 2026–2060.
-    </p>
-</section>
+        <!-- Filtro por Categoria -->
+        <div class="space-y-1.5">
+            <span class="text-[11px] font-mono uppercase text-slate-400 font-semibold">Categorias Temáticas (8 Eixos Canônicos):</span>
+            <div class="flex flex-wrap gap-1.5" id="categoryFilters">
+                <button type="button" data-cat="all" class="cat-btn active px-3 py-1.5 rounded-xl text-xs font-semibold border transition border-amber-400 bg-amber-400/20 text-amber-200">
+                    Todas ({{ unified_forecast.kpis.total_peaks }})
+                </button>
+                {% for c_key, c_meta in unified_forecast.categories_meta.items() %}
+                    {% if c_key != 'TECH_INNOVATION' %}
+                        {% set count = unified_forecast.kpis.category_counts.get(c_key, 0) %}
+                        {% if c_key == 'SCIENCE_INNOVATION' %}
+                            {% set count = count + unified_forecast.kpis.category_counts.get('TECH_INNOVATION', 0) %}
+                        {% endif %}
+                        <button type="button" data-cat="{{ c_key }}" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-700 bg-slate-800/60 text-slate-300 hover:text-white hover:bg-slate-700/60 transition flex items-center gap-1.5">
+                            <span>{{ c_meta.icon }}</span>
+                            <span>{{ c_meta.short_pt }}</span>
+                            <span class="text-[10px] font-mono text-slate-400 font-normal">({{ count }})</span>
+                        </button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
 
-{% set T = forecast.targets[selected_target] %}
-<section class="glass-panel rounded-xl p-5 mb-8">
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
-        <h2 class="text-xl font-semibold">{{ T.label }}</h2>
-        <div class="text-sm text-slate-300">
-            Taxa-base mensal: <span class="font-mono text-amber-300">{{ '%.1f' % (T.base_rate * 100) }}%</span> ·
-            treino: {{ T.n_train_months }} meses, {{ T.positives }} positivos ({{ T.coverage[0] }}–{{ T.coverage[1] }}) ·
-            modelo: <span class="font-mono">{{ T.model }}</span>
+        <!-- Filtro por Nível de Alerta e Décadas -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/80 text-xs">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-slate-400 font-semibold text-[11px]">Alerta:</span>
+                <button type="button" data-alert="all" class="alert-btn active px-2.5 py-1 rounded-lg border border-slate-600 bg-slate-800 text-slate-200">Todos</button>
+                <button type="button" data-alert="Crítico" class="alert-btn px-2.5 py-1 rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20">🔴 Crítico ({{ unified_forecast.kpis.alert_counts.Crítico }})</button>
+                <button type="button" data-alert="Alto" class="alert-btn px-2.5 py-1 rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20">🟡 Alto ({{ unified_forecast.kpis.alert_counts.Alto }})</button>
+                <button type="button" data-alert="Moderado" class="alert-btn px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-500/10 text-sky-300 hover:bg-sky-500/20">🔵 Moderado</button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5">
+                <span class="font-mono text-slate-400 font-semibold text-[11px]">Década:</span>
+                <button type="button" data-decade="all" class="decade-btn active px-2.5 py-1 rounded-lg border border-slate-600 bg-slate-800 text-slate-200">Todas</button>
+                {% for dec, cnt in unified_forecast.kpis.decade_counts.items() %}
+                    <button type="button" data-decade="{{ dec }}" class="decade-btn px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-800/60 text-slate-300 hover:bg-slate-700">{{ dec }}</button>
+                {% endfor %}
+            </div>
         </div>
     </div>
-    {% if T.skill.verdict != 'skill positivo' %}
-    <div class="text-xs rounded-lg border border-amber-700/50 bg-amber-950/40 text-amber-200 px-3 py-2 mb-3">
-        ⚠️ Este alvo <strong>não tem skill demonstrado</strong> no hindcast ({{ T.skill.verdict }}). A linha tracejada (taxa-base) é a estimativa recomendada; a curva do modelo é mostrada para transparência e auditoria.
-    </div>
-    {% endif %}
-    <div class="relative h-80"><canvas id="forecastChart"></canvas></div>
-</section>
 
-<section class="glass-panel rounded-xl p-5 mb-8">
-    <h2 class="text-xl font-semibold mb-3">Ano a ano: probabilidade, drivers e calendário astronômico exato</h2>
-    <div class="overflow-x-auto">
-    <table class="w-full text-sm" id="yearTable">
-        <thead class="text-slate-400 text-left">
-            <tr><th class="py-1 pr-3">Ano</th><th class="py-1 pr-3 text-right">p média</th><th class="py-1 pr-3">p10–p90</th><th class="py-1 pr-3 text-right">× taxa-base</th><th class="py-1 pr-3">Mês de pico</th><th class="py-1 pr-3">Principais drivers do modelo</th><th class="py-1">Calendário</th></tr>
-        </thead>
-        <tbody>
-        {% for r in T.years %}
-            {% set cal = forecast.calendar[r.year|string] %}
-            <tr class="border-t border-slate-700/60 hover:bg-slate-800/50 cursor-pointer" onclick="toggleYear({{ r.year }})">
-                <td class="py-2 pr-3 font-semibold">{{ r.year }}</td>
-                <td class="py-2 pr-3 text-right font-mono">{{ '%.1f' % (r.p_mean * 100) }}%</td>
-                <td class="py-2 pr-3 font-mono text-xs text-slate-400">{{ '%.1f' % (r.p_lo * 100) }}–{{ '%.1f' % (r.p_hi * 100) }}%</td>
-                <td class="py-2 pr-3 text-right font-mono {% if r.ratio_to_base and r.ratio_to_base > 1.25 %}text-rose-300{% elif r.ratio_to_base and r.ratio_to_base < 0.8 %}text-emerald-300{% endif %}">{{ r.ratio_to_base }}×</td>
-                <td class="py-2 pr-3">{{ '%02d' % r.p_peak_month }}/{{ r.year }}</td>
-                <td class="py-2 pr-3 text-xs text-slate-300">{% for d in r.drivers[:3] %}<span class="inline-block mr-2">{{ d.label }}</span>{% endfor %}</td>
-                <td class="py-2 text-xs text-slate-400">{{ cal.aspects|length }} aspectos lentos · {{ cal.ingresses|length }} ingressos · {{ cal.eclipses|length }} eclipses</td>
-            </tr>
-            <tr id="year-{{ r.year }}" class="hidden bg-slate-900/60">
-                <td colspan="7" class="p-4">
-                    <div class="grid md:grid-cols-3 gap-4 text-xs">
-                        <div>
-                            <h4 class="font-semibold text-amber-300 mb-1">Aspectos exatos entre planetas lentos</h4>
-                            {% if cal.aspects %}<ul class="space-y-0.5">{% for a in cal.aspects %}<li><span class="font-mono text-slate-400">{{ a.datetime_ut }}</span> — {{ a.label }} <span class="text-slate-500">(passagem {{ a.pass_number }}/{{ a.total_passes }})</span></li>{% endfor %}</ul>{% else %}<p class="text-slate-500">Nenhum aspecto maior exato neste ano.</p>{% endif %}
-                            <h4 class="font-semibold text-sky-300 mt-3 mb-1">Ingressos</h4>
-                            <ul class="space-y-0.5">{% for i in cal.ingresses %}<li><span class="font-mono text-slate-400">{{ i.datetime_ut }}</span> — {{ i.label }}{% if i.retrograde %} <span class="text-slate-500">(℞)</span>{% endif %}</li>{% endfor %}</ul>
-                            <h4 class="font-semibold text-indigo-300 mt-3 mb-1">Eclipses</h4>
-                            <ul class="space-y-0.5">{% for e in cal.eclipses %}<li><span class="font-mono text-slate-400">{{ e.datetime_ut }}</span> — {{ e.label }}{% if e.max_point %} <span class="text-slate-500">(máx. {{ e.max_point.lat }}°, {{ e.max_point.lon }}°)</span>{% endif %}</li>{% endfor %}</ul>
+    <!-- Linha do Tempo Ano a Ano (2026–2060) -->
+    <div class="space-y-6" id="timelineContainer">
+        {% for y in unified_forecast.years %}
+        <article class="year-card glass-panel rounded-3xl border border-slate-700/70 p-5 sm:p-7 shadow-xl transition duration-200 hover:border-slate-600"
+            data-year="{{ y.year }}"
+            data-decade="{{ y.decade }}"
+            data-alert="{{ y.alert_level }}"
+            data-categories="{% for p in y.peaks %}{{ p.category_key }} {% endfor %}">
+
+            <!-- Cabeçalho do Ano -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                        <span class="font-display text-2xl sm:text-3xl font-black text-white tracking-tight">{{ y.year }}</span>
+                        <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">{{ y.decade }}</span>
+                        
+                        <!-- Badge de Alerta -->
+                        {% if y.alert_level == 'Crítico' %}
+                            <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse">
+                                🔴 Alerta Crítico
+                            </span>
+                        {% elif y.alert_level == 'Alto' %}
+                            <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                🟡 Alerta Alto
+                            </span>
+                        {% else %}
+                            <span class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                                🔵 Alerta Moderado
+                            </span>
+                        {% endif %}
+
+                        <span class="text-xs text-slate-400 font-mono">
+                            Data de Pico Anual: <strong class="text-slate-200">{{ y.formatted_peak_date }}</strong>
+                        </span>
+                    </div>
+
+                    <div class="text-xs text-slate-400 flex flex-wrap gap-2 items-center pt-0.5">
+                        <span class="text-amber-300 font-medium">Zodíaco dos Externos:</span>
+                        <span class="font-mono text-slate-300">♇ {{ y.pluto_sign }} · ♆ {{ y.neptune_sign }} · ♅ {{ y.uranus_sign }} · ♄ {{ y.saturn_sign }}</span>
+                        {% if y.dominant_category %}
+                            <span>• Categoria Dominante: <strong class="text-slate-200">{{ y.dominant_category }}</strong></span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Termômetro de Pontuação do Ano (0-1000) -->
+                <div class="lg:text-right space-y-1 min-w-[200px]">
+                    <div class="flex lg:justify-end items-baseline gap-2">
+                        <span class="text-[11px] uppercase font-mono text-slate-400">Score de Tensão:</span>
+                        <span class="text-xl sm:text-2xl font-black font-mono {% if y.tension_score_1000 >= 900 %}text-rose-400{% elif y.tension_score_1000 >= 750 %}text-amber-400{% else %}text-sky-400{% endif %}">
+                            {{ y.tension_score_1000 }}
+                        </span>
+                        <span class="text-xs text-slate-500 font-mono">/1000</span>
+                    </div>
+                    <!-- Barra de Progresso Visual do Score -->
+                    <div class="w-full lg:w-48 h-2 rounded-full bg-slate-800 overflow-hidden lg:ml-auto">
+                        <div class="h-full rounded-full {% if y.tension_score_1000 >= 900 %}bg-rose-500{% elif y.tension_score_1000 >= 750 %}bg-amber-400{% else %}bg-sky-400{% endif %}"
+                            style="width: {{ y.tension_percent }}%"></div>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-mono block">Mais intenso que {{ y.tension_percent }}% da era histórica</span>
+                </div>
+            </div>
+
+            <!-- Síntese dos Cenários do Ano -->
+            <div class="py-3.5 space-y-2">
+                <p class="text-sm text-slate-200 leading-relaxed">
+                    {{ y.scenarios_and_possibilities }}
+                </p>
+
+                {% if y.top_precedent and y.top_precedent.title %}
+                <div class="flex items-center gap-2 text-xs text-slate-400 bg-slate-900/40 rounded-xl px-3 py-2 border border-slate-800/80">
+                    <span class="text-amber-400 shrink-0">🏛️ Precedente Histórico:</span>
+                    <span><strong>{{ y.top_precedent.title }}</strong> {% if y.top_precedent.year %}({{ y.top_precedent.year }}){% endif %}</span>
+                    {% if y.top_precedent.similarity %}
+                        <span class="ml-auto font-mono text-[11px] text-slate-400">Similaridade: {{ '%.1f' % (y.top_precedent.similarity * 100) }}%</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Seção de Picos de Energia e Datas do Ano -->
+            {% if y.peaks %}
+            <div class="mt-4 pt-4 border-t border-slate-800/70 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
+                        <span>⚡</span> Acontecimentos Projetados & Datas Críticas ({{ y.peaks|length }})
+                    </h4>
+                    <span class="text-[11px] text-slate-400">Picos de ativação mundana</span>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    {% for p in y.peaks %}
+                    <div class="peak-item rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4 space-y-2.5 transition hover:border-slate-500"
+                        data-cat="{{ p.category_key }}" data-alert="{{ p.alert_level }}">
+                        
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono text-xs font-bold text-slate-200 bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-700">
+                                    📅 {{ p.formatted_date }}
+                                </span>
+                                
+                                <!-- Badge da Categoria -->
+                                <span class="px-2.5 py-0.5 rounded-lg text-xs font-semibold border flex items-center gap-1 {{ p.badge_class }}">
+                                    <span>{{ p.category_icon }}</span>
+                                    <span>{{ p.category_label }}</span>
+                                </span>
+
+                                <!-- Escopo / País -->
+                                <span class="px-2 py-0.5 rounded-lg text-xs bg-slate-800/80 text-slate-300 border border-slate-700 flex items-center gap-1 font-sans">
+                                    <span>{{ p.country_flag }}</span>
+                                    <span>{{ p.country_name }}</span>
+                                </span>
+                            </div>
+
+                            <!-- Score de Pontuação da Data -->
+                            <div class="flex items-center gap-2 shrink-0">
+                                <span class="text-[11px] font-mono text-slate-400">Score de Intensidade:</span>
+                                <span class="px-2 py-0.5 rounded-lg font-mono text-xs font-bold {% if p.energy_score_1000 >= 900 %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% elif p.energy_score_1000 >= 750 %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% else %}bg-sky-500/20 text-sky-300 border border-sky-500/40{% endif %}">
+                                    {{ p.energy_score_1000 }} / 1000
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-semibold text-rose-300 mb-1">Drivers do modelo no mês de pico ({{ '%02d' % r.p_peak_month }}/{{ r.year }})</h4>
-                            <ul class="space-y-0.5">{% for d in r.drivers %}<li>{{ d.label }} <span class="font-mono text-slate-500">+{{ d.contribution }}</span></li>{% else %}<li class="text-slate-500">Nenhum driver positivo.</li>{% endfor %}</ul>
-                            <h4 class="font-semibold text-slate-300 mt-3 mb-1">Probabilidade mensal</h4>
-                            <div class="flex gap-1 items-end h-12">{% for m in r.monthly %}<div title="{{ loop.index }}/{{ r.year }}: {{ '%.1f' % (m*100) }}%" class="flex-1 bg-amber-400/70 rounded-t" style="height: {{ [4, (m / (T.base_rate * 3 if T.base_rate > 0 else 1) * 100)]|max|round|int }}%"></div>{% endfor %}</div>
-                        </div>
-                        <div>
-                            {% set an = forecast.analogs[r.year|string] %}
-                            <h4 class="font-semibold text-emerald-300 mb-1">Análogos históricos (fase dos ciclos externos, 1 por década)</h4>
-                            <p class="text-slate-400 mb-1">Taxa de evento objetivo em ±6 meses dos análogos: <span class="font-mono">{{ '%.0f' % (an.hit_rate_6m*100) }}%</span> vs esperado <span class="font-mono">{{ '%.0f' % (an.expected_rate_6m*100) }}%</span> → lift <span class="font-mono {% if an.lift and an.lift > 1.3 %}text-rose-300{% endif %}">{{ an.lift }}×</span></p>
-                            <ul class="space-y-1">{% for a in an.analogs[:6] %}<li><span class="font-mono text-slate-400">{{ a.month }}</span> <span class="text-slate-500">(d={{ a.distance }})</span>{% for e in a.catalog_events[:2] %} · <a class="text-sky-300 hover:underline" href="/events/{{ e.id }}">{{ e.title }}</a>{% endfor %}</li>{% endfor %}</ul>
+
+                        <!-- Texto Prospectivo de Acontecimentos Possíveis -->
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                            {{ p.prospective_synthesis }}
+                        </p>
+
+                        <!-- Gatilho Cósmico e Precedente -->
+                        <div class="grid sm:grid-cols-2 gap-2 text-xs pt-1 border-t border-slate-800/60 text-slate-400">
+                            <div>
+                                <span class="text-slate-400 font-semibold font-mono text-[11px]">Gatilho Cosmológico:</span>
+                                <p class="text-[11px] text-slate-300 mt-0.5 font-mono">{{ p.cosmic_signature }}</p>
+                            </div>
+                            {% if p.historical_precedent_title %}
+                            <div>
+                                <span class="text-slate-400 font-semibold font-mono text-[11px]">Precedente Histórico Análogo:</span>
+                                <p class="text-[11px] text-slate-300 mt-0.5">{{ p.historical_precedent_title }}</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    </div>
-</section>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
 
-<section class="text-xs text-slate-400 max-w-4xl">
-    <p><strong>Método:</strong> {{ forecast.method }} Gerado em {{ forecast.generated_at[:10] }}. Intervalos com {{ forecast.n_bootstrap }} reamostragens em blocos anuais.
-    Os análogos usam distância euclidiana no espaço padronizado das fases (seno/cosseno) dos 10 pares de planetas externos, com no máximo um análogo por década — o que elimina a confusão de época do matcher por "mesmo signo".</p>
-</section>
-{% endif %}
+            <!-- Botão Expansível de Detalhes Científicos (Calendário Astronômico & Análogos) -->
+            <div class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs">
+                <button type="button" onclick="toggleDetails({{ y.year }})"
+                    class="text-sky-400 hover:text-sky-300 font-medium inline-flex items-center gap-1 transition">
+                    <span id="btn-icon-{{ y.year }}">▶</span>
+                    <span>Ver Aspectos Exatos, Ingressos & Análogos do Ciclo</span>
+                </button>
+                <span class="text-slate-400 text-[11px] font-mono">
+                    {{ y.calendar.aspects|length }} aspectos lentos · {{ y.calendar.eclipses|length }} eclipses
+                </span>
+            </div>
+
+            <!-- Painel Colapsável -->
+            <div id="details-{{ y.year }}" class="hidden mt-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs space-y-4">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- Coluna 1: Aspectos e Eclipses -->
+                    <div class="space-y-2">
+                        <h5 class="font-semibold text-amber-300">Aspectos Exatos dos Lentos</h5>
+                        {% if y.calendar.aspects %}
+                            <ul class="space-y-1 font-mono text-[11px] text-slate-300 max-h-48 overflow-y-auto pr-1">
+                            {% for a in y.calendar.aspects %}
+                                <li>{{ a.datetime_ut }} — {{ a.label }} <span class="text-slate-500">(passagem {{ a.pass_number }}/{{ a.total_passes }})</span></li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-slate-500">Nenhum aspecto maior exato neste ano.</p>
+                        {% endif %}
+
+                        <h5 class="font-semibold text-indigo-300 pt-2">Eclipses do Ano</h5>
+                        <ul class="space-y-1 font-mono text-[11px] text-slate-300">
+                        {% for e in y.calendar.eclipses %}
+                            <li>{{ e.datetime_ut }} — {{ e.label }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Coluna 2: Ingressos Zodiacais -->
+                    <div class="space-y-2">
+                        <h5 class="font-semibold text-sky-300">Ingressos de Signos</h5>
+                        {% if y.calendar.ingresses %}
+                            <ul class="space-y-1 font-mono text-[11px] text-slate-300 max-h-48 overflow-y-auto pr-1">
+                            {% for i in y.calendar.ingresses %}
+                                <li>{{ i.datetime_ut }} — {{ i.label }} {% if i.retrograde %}<span class="text-rose-400">℞</span>{% endif %}</li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-slate-500">Nenhum ingresso de planetas lentos neste ano.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Coluna 3: Análogos Históricos -->
+                    <div class="space-y-2">
+                        <h5 class="font-semibold text-emerald-300">Análogos de Fases dos Ciclos</h5>
+                        <p class="text-slate-400 text-[11px]">
+                            Taxa de evento objetivo em ±6 meses: <span class="font-mono text-slate-200">{{ '%.0f' % (y.analogs.hit_rate_6m * 100) }}%</span> 
+                            (lift: <strong class="font-mono {% if y.analogs.lift and y.analogs.lift > 1.2 %}text-rose-300{% else %}text-emerald-300{% endif %}">{{ y.analogs.lift }}×</strong>)
+                        </p>
+                        <ul class="space-y-1 font-mono text-[11px] text-slate-300 max-h-48 overflow-y-auto pr-1">
+                        {% for an in y.analogs.analogs[:5] %}
+                            <li>
+                                <span class="text-slate-400">{{ an.month }}</span> (d={{ an.distance }})
+                                {% for ev in an.catalog_events[:1] %}
+                                    · <a href="/events/{{ ev.id }}" class="text-sky-300 hover:underline">{{ ev.title }}</a>
+                                {% endfor %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+        {% endfor %}
+    </div>
+
+    <!-- Seção de Modelos Probabilísticos & Hindcast Walk-Forward -->
+    <section class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-700/70 shadow-2xl space-y-6 mt-12" id="modelos-estatisticos">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+            <div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/30 mb-1">
+                    <span>🔬 Transparência Epistemológica</span>
+                </div>
+                <h2 class="font-display text-xl sm:text-2xl font-bold text-white">Modelos Estatísticos & Validação Walk-Forward</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Skill preditivo fora da amostra medido por Brier Skill Score (BSS) e ROC AUC contra climatologia e baseline autorregressivo.</p>
+            </div>
+            <a href="/methodology#hindcast" class="text-xs text-amber-300 hover:underline font-mono">Como foi medido →</a>
+        </div>
+
+        <!-- Tabela de Alvos do Hindcast -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="text-slate-400 text-left border-b border-slate-800 text-xs">
+                    <tr>
+                        <th class="py-2 pr-3">Alvo Histórico Objetivo</th>
+                        <th class="py-2 pr-3">Melhor Modelo</th>
+                        <th class="py-2 pr-3 text-right">BSS</th>
+                        <th class="py-2 pr-3">IC 95%</th>
+                        <th class="py-2 pr-3 text-right">AUC</th>
+                        <th class="py-2 pr-3 text-right">AR Baseline</th>
+                        <th class="py-2">Veredito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for key, t in forecast.targets.items() %}
+                    {% set sk = t.skill %}
+                    <tr class="border-t border-slate-800/60 {% if key == selected_target %}bg-slate-800/40{% endif %} hover:bg-slate-800/20">
+                        <td class="py-2.5 pr-3 font-semibold">
+                            <a href="/forecast?target={{ key }}#modelos-estatisticos" class="text-amber-300 hover:underline">{{ t.label }}</a>
+                        </td>
+                        <td class="py-2.5 pr-3 font-mono text-xs text-slate-300">{{ sk.model }}</td>
+                        <td class="py-2.5 pr-3 text-right font-mono">{{ '%+.3f' % sk.bss if sk.bss is not none else '—' }}</td>
+                        <td class="py-2.5 pr-3 font-mono text-xs text-slate-400">
+                            {% if sk.bss_ci95 %}[{{ '%+.3f' % sk.bss_ci95[0] }}, {{ '%+.3f' % sk.bss_ci95[1] }}]{% else %}—{% endif %}
+                        </td>
+                        <td class="py-2.5 pr-3 text-right font-mono">{{ sk.auc if sk.auc is not none else '—' }}</td>
+                        <td class="py-2.5 pr-3 text-right font-mono text-slate-400">{{ '%+.3f' % sk.ar_baseline_bss if sk.ar_baseline_bss is not none else '—' }}</td>
+                        <td class="py-2.5">
+                            {% if sk.verdict == 'skill positivo' %}
+                                <span class="px-2 py-0.5 rounded bg-emerald-900/70 text-emerald-300 text-xs font-semibold">skill positivo</span>
+                            {% elif sk.verdict == 'skill não significativo' %}
+                                <span class="px-2 py-0.5 rounded bg-amber-900/70 text-amber-300 text-xs font-semibold">skill não significativo</span>
+                            {% else %}
+                                <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300 text-xs font-semibold">{{ sk.verdict }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% set T = forecast.targets[selected_target] %}
+        <!-- Gráfico do Alvo Selecionado -->
+        <div class="space-y-3 pt-4 border-t border-slate-800">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <h3 class="font-display text-lg font-bold text-white">{{ T.label }}</h3>
+                <div class="text-xs text-slate-300 font-mono">
+                    Taxa-base: <strong class="text-amber-300">{{ '%.1f' % (T.base_rate * 100) }}%</strong> ·
+                    Treino: {{ T.n_train_months }} meses ({{ T.coverage[0] }}–{{ T.coverage[1] }})
+                </div>
+            </div>
+
+            {% if T.skill.verdict != 'skill positivo' %}
+            <div class="text-xs rounded-xl border border-amber-700/50 bg-amber-950/40 text-amber-200 px-3.5 py-2.5">
+                ⚠️ Este alvo <strong>não tem skill demonstrado</strong> no teste cego walk-forward. A linha tracejada (taxa-base histórica) é a referência científica recomendada; a projeção do modelo é apresentada para transparência metodológica.
+            </div>
+            {% endif %}
+
+            <div class="relative h-72 w-full">
+                <canvas id="forecastChart"></canvas>
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}
 
 {% block scripts %}
-{% if forecast %}
 <script>
-function toggleYear(y) { document.getElementById('year-' + y).classList.toggle('hidden'); }
-(function () {
-    const rows = {{ forecast.targets[selected_target].years | tojson }};
-    const base = {{ forecast.targets[selected_target].base_rate }};
-    const years = rows.map(r => r.year);
-    const pct = v => Math.round(v * 1000) / 10;
-    new Chart(document.getElementById('forecastChart'), {
-        type: 'line',
-        data: {
-            labels: years,
-            datasets: [
-                { label: 'p90', data: rows.map(r => pct(r.p_hi)), borderColor: 'rgba(251,191,36,0)', backgroundColor: 'rgba(251,191,36,0.18)', fill: '+1', pointRadius: 0, tension: 0.3 },
-                { label: 'p10', data: rows.map(r => pct(r.p_lo)), borderColor: 'rgba(251,191,36,0)', pointRadius: 0, tension: 0.3 },
-                { label: 'p média (modelo)', data: rows.map(r => pct(r.p_mean)), borderColor: '#fbbf24', backgroundColor: '#fbbf24', pointRadius: 2, tension: 0.3 },
-                { label: 'taxa-base histórica', data: years.map(() => pct(base)), borderColor: '#38bdf8', borderDash: [6, 4], pointRadius: 0 }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: '#cbd5e1', filter: i => !['p90', 'p10'].includes(i.text) } },
-                       tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` } } },
-            scales: { x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
-                      y: { ticks: { color: '#94a3b8', callback: v => Number(v).toFixed(1) + '%' }, grid: { color: 'rgba(148,163,184,0.1)' }, title: { display: true, text: 'probabilidade mensal média', color: '#94a3b8' } } }
-        }
+function toggleDetails(yr) {
+    const el = document.getElementById('details-' + yr);
+    const icon = document.getElementById('btn-icon-' + yr);
+    if (!el) return;
+    el.classList.toggle('hidden');
+    if (icon) {
+        icon.textContent = el.classList.contains('hidden') ? '▶' : '▼';
+    }
+}
+
+// Filtros em Tempo Real da Linha do Tempo
+document.addEventListener('DOMContentLoaded', function() {
+    let currentCat = 'all';
+    let currentAlert = 'all';
+    let currentDecade = 'all';
+    let currentSearch = '';
+
+    const cards = document.querySelectorAll('.year-card');
+
+    function applyFilters() {
+        cards.forEach(card => {
+            const cardDecade = card.getAttribute('data-decade');
+            const cardAlert = card.getAttribute('data-alert');
+            const cardCats = card.getAttribute('data-categories') || '';
+            const cardText = card.textContent.toLowerCase();
+
+            let matchCat = (currentCat === 'all');
+            if (!matchCat) {
+                if (currentCat === 'SCIENCE_INNOVATION') {
+                    matchCat = cardCats.includes('SCIENCE_INNOVATION') || cardCats.includes('TECH_INNOVATION');
+                } else {
+                    matchCat = cardCats.includes(currentCat);
+                }
+            }
+
+            const matchAlert = (currentAlert === 'all') || (cardAlert === currentAlert);
+            const matchDecade = (currentDecade === 'all') || (cardDecade === currentDecade);
+            const matchSearch = (!currentSearch) || cardText.includes(currentSearch);
+
+            // Filtrar cards de anos
+            if (matchCat && matchAlert && matchDecade && matchSearch) {
+                card.style.display = '';
+
+                // Filtrar picos internos dentro do card
+                const peakItems = card.querySelectorAll('.peak-item');
+                let visiblePeaks = 0;
+                peakItems.forEach(p => {
+                    const pCat = p.getAttribute('data-cat');
+                    const pAlert = p.getAttribute('data-alert');
+                    let pMatchCat = (currentCat === 'all');
+                    if (!pMatchCat) {
+                        if (currentCat === 'SCIENCE_INNOVATION') {
+                            pMatchCat = (pCat === 'SCIENCE_INNOVATION' || pCat === 'TECH_INNOVATION');
+                        } else {
+                            pMatchCat = (pCat === currentCat);
+                        }
+                    }
+                    const pMatchAlert = (currentAlert === 'all') || (pAlert === currentAlert);
+
+                    if (pMatchCat && pMatchAlert) {
+                        p.style.display = '';
+                        visiblePeaks++;
+                    } else {
+                        p.style.display = 'none';
+                    }
+                });
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Botões de Categoria
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('active', 'border-amber-400', 'bg-amber-400/20', 'text-amber-200');
+                b.classList.add('border-slate-700', 'bg-slate-800/60', 'text-slate-300');
+            });
+            this.classList.add('active', 'border-amber-400', 'bg-amber-400/20', 'text-amber-200');
+            this.classList.remove('border-slate-700', 'bg-slate-800/60', 'text-slate-300');
+            currentCat = this.getAttribute('data-cat');
+            applyFilters();
+        });
     });
-})();
+
+    // Botões de Alerta
+    document.querySelectorAll('.alert-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.alert-btn').forEach(b => b.classList.remove('active', 'ring-2', 'ring-amber-400'));
+            this.classList.add('active', 'ring-2', 'ring-amber-400');
+            currentAlert = this.getAttribute('data-alert');
+            applyFilters();
+        });
+    });
+
+    // Botões de Década
+    document.querySelectorAll('.decade-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.decade-btn').forEach(b => {
+                b.classList.remove('active', 'border-slate-600', 'bg-slate-800', 'text-slate-200');
+                b.classList.add('border-slate-700', 'bg-slate-800/60', 'text-slate-300');
+            });
+            this.classList.add('active', 'border-slate-600', 'bg-slate-800', 'text-slate-200');
+            this.classList.remove('border-slate-700', 'bg-slate-800/60', 'text-slate-300');
+            currentDecade = this.getAttribute('data-decade');
+            applyFilters();
+        });
+    });
+
+    // Campo de Busca
+    const searchInput = document.getElementById('forecastSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.trim().toLowerCase();
+            applyFilters();
+        });
+    }
+
+    // Chart.js do Alvo Selecionado
+    {% if forecast and selected_target in forecast.targets %}
+    (function () {
+        const rows = {{ forecast.targets[selected_target].years | tojson }};
+        const base = {{ forecast.targets[selected_target].base_rate }};
+        const years = rows.map(r => r.year);
+        const pct = v => Math.round(v * 1000) / 10;
+        new Chart(document.getElementById('forecastChart'), {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    { label: 'p90', data: rows.map(r => pct(r.p_hi)), borderColor: 'rgba(251,191,36,0)', backgroundColor: 'rgba(251,191,36,0.15)', fill: '+1', pointRadius: 0, tension: 0.3 },
+                    { label: 'p10', data: rows.map(r => pct(r.p_lo)), borderColor: 'rgba(251,191,36,0)', pointRadius: 0, tension: 0.3 },
+                    { label: 'p média (modelo)', data: rows.map(r => pct(r.p_mean)), borderColor: '#fbbf24', backgroundColor: '#fbbf24', pointRadius: 2, tension: 0.3 },
+                    { label: 'taxa-base histórica', data: years.map(() => pct(base)), borderColor: '#38bdf8', borderDash: [6, 4], pointRadius: 0 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#cbd5e1', filter: i => !['p90', 'p10'].includes(i.text) } },
+                    tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` } }
+                },
+                scales: {
+                    x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+                    y: { ticks: { color: '#94a3b8', callback: v => Number(v).toFixed(1) + '%' }, grid: { color: 'rgba(148,163,184,0.1)' }, title: { display: true, text: 'probabilidade mensal média', color: '#94a3b8' } }
+                }
+            }
+        });
+    })();
+    {% endif %}
+});
 </script>
-{% endif %}
 {% endblock %}

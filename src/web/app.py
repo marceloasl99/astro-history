@@ -32,6 +32,7 @@ from src.future_engine import (
     get_projections_2027_2060
 )
 from src.analysis.forecast_v3 import load_forecast
+from src.analysis.forecast_timeline import build_unified_forecast_data
 from src.mundane.energy_peaks import load_energy_peaks_catalog
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -554,6 +555,7 @@ async def methodology_view(request: Request):
 @app.get("/forecast", response_class=HTMLResponse)
 async def forecast_view(request: Request, target: str = "cow_war_onset"):
     data = load_forecast()
+    unified_forecast = build_unified_forecast_data()
     hindcast = {}
     hc_file = os.path.join(BASE_DIR, "reports", "hindcast_v3.json")
     if os.path.exists(hc_file):
@@ -564,7 +566,12 @@ async def forecast_view(request: Request, target: str = "cow_war_onset"):
     return templates.TemplateResponse(
         request=request,
         name="forecast.html",
-        context={"forecast": data, "hindcast": hindcast, "selected_target": target}
+        context={
+            "forecast": data,
+            "unified_forecast": unified_forecast,
+            "hindcast": hindcast,
+            "selected_target": target
+        }
     )
 
 @app.get("/api/forecast")

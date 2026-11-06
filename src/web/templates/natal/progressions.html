@@ -35,6 +35,34 @@
         <div class="flex flex-wrap gap-1.5">
             {% for a in cur.aspects_to_natal %}<span class="px-2 py-1 rounded-lg text-xs font-mono border {% if a.family == 'challenging' %}border-rose-500/40 text-rose-200 bg-rose-500/10{% elif a.family == 'flowing' %}border-emerald-500/40 text-emerald-200 bg-emerald-500/10{% else %}border-amber-500/40 text-amber-200 bg-amber-500/10{% endif %}" title="{{ a.p_name }} ({{ t('natal.prog.p') }}) {{ a.aspect_name }} {{ a.n_name }} ({{ t('natal.prog.n') }})">{{ a.p_symbol }}<sub>p</sub> {{ a.aspect_symbol }} {{ a.n_symbol }} <span class="text-slate-400">{{ '%.2f'|format(a.orb) }}°</span></span>{% else %}<span class="text-sm text-slate-400">—</span>{% endfor %}
         </div>
+
+        <!-- Gatilhos de Trânsito Ativando a Progressão Secundária (Confluência Cósmica) -->
+        {% if transits_to_prog %}
+        <div class="mt-6 pt-4 border-t border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold text-amber-300 flex items-center gap-1.5 text-sm">
+                    <span>⚡</span> Trânsitos Ativando a Progressão (Gatilhos de Concretização)
+                </h3>
+                <span class="text-[11px] font-mono text-slate-400">{{ transits_to_prog|length }} confluências</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Na astrologia preditiva, uma progressão secundária manifesta seus efeitos no mundo tangível quando um trânsito no céu ativa diretamente o ponto progredido.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {% for tp in transits_to_prog %}
+                <div class="rounded-xl border p-2.5 text-xs font-mono {% if tp.family == 'challenging' %}border-rose-500/40 bg-rose-500/10 text-rose-200{% elif tp.family == 'flowing' %}border-emerald-500/40 bg-emerald-500/10 text-emerald-200{% else %}border-amber-500/40 bg-amber-500/10 text-amber-200{% endif %}">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold">
+                            {{ tp.transit_symbol }} {{ tp.transit_name }} {{ tp.aspect_symbol }} {{ tp.progressed_symbol }} {{ tp.progressed_name }}<sub>p</sub>
+                        </span>
+                        <span class="text-[11px] text-slate-400 font-mono">orbe {{ tp.orb }}°</span>
+                    </div>
+                    <div class="text-[11px] text-slate-300 font-sans mt-1">
+                        {{ tp.aspect_name }}: O trânsito de {{ tp.transit_name }} aciona o potencial evolutivo de {{ tp.progressed_name }} progredido.
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </section>
 </div>
 
