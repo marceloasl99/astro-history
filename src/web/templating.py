@@ -13,6 +13,8 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, "src", "web", "templates")
 APP_VERSION = "7.0.0"
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
+templates.env.trim_blocks = True
+templates.env.lstrip_blocks = True
 
 
 def fmt_int(n) -> str:

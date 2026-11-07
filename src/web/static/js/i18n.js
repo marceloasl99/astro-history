@@ -388,12 +388,12 @@
             if (dict[t]) el.setAttribute('title', dict[t]);
         });
 
-        // 4. Tradução de botões e links específicos (somente nós folha para preservar ícones e spans internos)
+        // 4. Tradução de botões e links específicos (somente nós folha para preservar ícones e spans internos sem forçar reflow)
         document.querySelectorAll('a, button, span, th, td').forEach(el => {
             if (el.children.length === 0) {
-                const text = el.innerText ? el.innerText.trim() : '';
+                const text = el.textContent ? el.textContent.trim() : '';
                 if (dict[text]) {
-                    el.innerText = dict[text];
+                    el.textContent = dict[text];
                 }
             }
         });
@@ -430,6 +430,9 @@
         if (typeof Chart !== 'undefined') {
             Chart.defaults.color = textColor;
             Chart.defaults.borderColor = gridColor;
+            if (!Chart.defaults.animation || typeof Chart.defaults.animation === 'object') {
+                Chart.defaults.animation = { duration: 350 };
+            }
 
             if (Chart.instances) {
                 Object.values(Chart.instances).forEach(chart => {

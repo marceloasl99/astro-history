@@ -160,7 +160,7 @@
             <div class="flex flex-wrap items-center gap-2 text-xs">
                 <!-- Campo de Busca Rápida -->
                 <div class="relative">
-                    <input type="text" id="tableSearchInput" onkeyup="handleSearch()" placeholder="Buscar ano, evento ou gatilho..."
+                    <input type="text" id="tableSearchInput" oninput="handleSearch()" placeholder="Buscar ano, evento ou gatilho..."
                         class="px-3 py-1.5 pl-8 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 w-56">
                     <span class="absolute left-2.5 top-2 text-slate-500">🔍</span>
                 </div>
@@ -682,19 +682,25 @@
         chartInstance.update();
     }
 
-    // Busca Rápida na Tabela
+    // Busca Rápida na Tabela com Cache de Texto e Debounce
+    let searchDebounceTimer;
     function handleSearch() {
-        const query = document.getElementById('tableSearchInput').value.toLowerCase().trim();
-        const rows = document.querySelectorAll('.timeline-row');
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+            const query = (document.getElementById('tableSearchInput')?.value || '').toLowerCase().trim();
+            const rows = document.querySelectorAll('.timeline-row');
 
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            if (!query || text.includes(query)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+            rows.forEach(row => {
+                if (!row._searchText) {
+                    row._searchText = (row.textContent || '').toLowerCase();
+                }
+                if (!query || row._searchText.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }, 70);
     }
 
     // Filtros Rápidos da Tabela

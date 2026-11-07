@@ -1229,3 +1229,33 @@ html.theme-oled .milestone-card {
     background-color: #000000 !important;
     border-color: #262626 !important;
 }
+
+/* ==========================================================================
+   High-Performance Rendering Optimizations (Virtual DOM Skipping via CSS)
+   ========================================================================== */
+
+/* Linha do Tempo & Simulador (301 Anos) */
+.timeline-row {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 54px;
+}
+
+/* Dossiês Prospectivos e Picos de Energia (148 Picos) */
+.peak-card,
+.projection-card,
+.country-dossier-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 240px;
+}
+
+/* Catálogo de Países (107 Países) */
+.country-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 160px;
+}
+
+/* Previsão Pessoal (Anos do Ciclo) */
+.p-year-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 320px;
+}

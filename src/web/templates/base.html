@@ -29,11 +29,77 @@
 
     <!-- Compiled Production Tailwind CSS (High-Performance Static Asset) -->
     <link rel="stylesheet" href="/static/css/tailwind.min.css">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Self-Hosted Chart.js (Zero External CDN Dependency) -->
+    <script src="/static/js/chart.umd.min.js"></script>
     
     <!-- Theme Engine Stylesheet -->
     <link rel="stylesheet" href="/static/css/themes.css">
+
+    <!-- Instant Navigation: W3C Speculation Rules (Chromium 121+) & Progressive Hover Prefetch -->
+    <script type="speculationrules">
+    {
+      "prefetch": [
+        {
+          "source": "list",
+          "urls": [
+            "/",
+            "/events",
+            "/countries",
+            "/simulator",
+            "/correlations",
+            "/forecast",
+            "/projections",
+            "/natal",
+            "/natal/chart",
+            "/natal/transits",
+            "/natal/progressions",
+            "/natal/forecast",
+            "/dados-fontes",
+            "/glossario",
+            "/sobre",
+            "/methodology"
+          ],
+          "eagerness": "moderate"
+        }
+      ]
+    }
+    </script>
+    <script>
+        (function() {
+            if (HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules')) return;
+            var prefetched = new Set();
+            function prefetch(url) {
+                if (prefetched.has(url)) return;
+                prefetched.add(url);
+                var link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = url;
+                document.head.appendChild(link);
+            }
+            var timer;
+            document.addEventListener('mouseover', function(e) {
+                var a = e.target.closest('a');
+                if (!a || !a.href || a.target === '_blank') return;
+                try {
+                    var u = new URL(a.href, window.location.origin);
+                    if (u.origin === window.location.origin && !u.pathname.startsWith('/api/')) {
+                        clearTimeout(timer);
+                        timer = setTimeout(function() { prefetch(u.pathname + u.search); }, 65);
+                    }
+                } catch(err) {}
+            }, { passive: true });
+            document.addEventListener('touchstart', function(e) {
+                var a = e.target.closest('a');
+                if (!a || !a.href || a.target === '_blank') return;
+                try {
+                    var u = new URL(a.href, window.location.origin);
+                    if (u.origin === window.location.origin && !u.pathname.startsWith('/api/')) {
+                        prefetch(u.pathname + u.search);
+                    }
+                } catch(err) {}
+            }, { passive: true });
+        })();
+    </script>
 
     <style>
         body {

@@ -351,7 +351,7 @@
                 <div class="w-full md:w-96 relative">
                     <input type="text" id="peakSearchInput" placeholder="Buscar por ano, país, trânsito ou precedente..." 
                         class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 placeholder-slate-500 pl-10"
-                        onkeyup="filterEnergyPeaks()">
+                        oninput="debouncedFilterEnergyPeaks()">
                     <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
                 </div>
 
@@ -868,6 +868,12 @@
         setScopeFilter('Todos');
         setDecadePeakFilter('Todas');
         filterEnergyPeaks();
+    }
+
+    let peakSearchTimer;
+    function debouncedFilterEnergyPeaks() {
+        clearTimeout(peakSearchTimer);
+        peakSearchTimer = setTimeout(filterEnergyPeaks, 70);
     }
 
     function filterEnergyPeaks() {
