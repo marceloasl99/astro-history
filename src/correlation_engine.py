@@ -13,11 +13,18 @@ import math
 from src.db import get_connection, get_all_events, get_event_by_id
 from src.astro_engine import calculate_event_chart, ZODIAC_SIGNS
 
-def get_category_correlations() -> Dict[str, Any]:
+_CATEGORY_CORRELATIONS_CACHE: Optional[Dict[str, Any]] = None
+
+def get_category_correlations(force_refresh: bool = False) -> Dict[str, Any]:
     """
     Calcula correlações estatísticas entre corpos celestes (planetas, asteroides e estrelas fixas)
     e categorias históricas, identificando as assinaturas dominantes de cada tipo de evento.
+    Utiliza cache em memória para responder em menos de 1ms após a primeira consulta.
     """
+    global _CATEGORY_CORRELATIONS_CACHE
+    if not force_refresh and _CATEGORY_CORRELATIONS_CACHE is not None:
+        return _CATEGORY_CORRELATIONS_CACHE
+
     conn = get_connection()
     
     categories_res = conn.execute("SELECT DISTINCT category FROM events ORDER BY category").fetchall()
@@ -160,10 +167,12 @@ def get_category_correlations() -> Dict[str, Any]:
 
     conn.close()
 
-    return {
+    res = {
         "by_category": results_by_category,
         "major_cycles": dict(major_cycles)
     }
+    _CATEGORY_CORRELATIONS_CACHE = res
+    return res
 
 def find_similar_events(
     target_chart: Dict[str, Any],

@@ -7,6 +7,7 @@ seus mapas astrais calculados, posições de planetas/asteroides, aspectos maior
 import sqlite3
 import json
 import os
+from functools import lru_cache
 from typing import List, Dict, Any, Optional
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -322,6 +323,20 @@ def get_all_events(category: Optional[str] = None, search: Optional[str] = None,
     return [dict(r) for r in rows]
 
 
+def get_featured_events(ids: Optional[List[int]] = None) -> List[Dict[str, Any]]:
+    """Carrega eventos em destaque por IDs sem escanear a tabela inteira (otimização de alta performance)."""
+    featured_ids = ids or [100, 107, 93, 134, 156, 171]
+    conn = get_connection()
+    placeholders = ",".join("?" * len(featured_ids))
+    rows = conn.execute(f"SELECT {EVENT_LIST_COLUMNS} FROM events WHERE id IN ({placeholders})", featured_ids).fetchall()
+    conn.close()
+    res = [dict(r) for r in rows]
+    if len(res) < len(featured_ids):
+        all_evs = get_all_events()
+        return all_evs[:len(featured_ids)]
+    return res
+
+
 def get_events_page(page: int = 1, per_page: int = 50, sort: str = "date", **filters) -> Dict[str, Any]:
     """Página do catálogo facetado (v6): itens, total e contagens por faceta para os filtros atuais."""
     conn = get_connection()
@@ -366,8 +381,9 @@ def get_validated_sample_dates() -> set:
     conn.close()
     return {r[0] for r in rows}
 
-def get_events_stats() -> Dict[str, Any]:
-    """Retorna estatísticas globais para o dashboard com estrelas fixas e asteroides."""
+@lru_cache(maxsize=1)
+def _get_events_stats_cached() -> Dict[str, Any]:
+    """Retorna estatísticas globais para o dashboard com estrelas fixas e asteroides (em cache de memória)."""
     conn = get_connection()
     total = conn.execute("SELECT COUNT(*) FROM events").fetchone()[0]
     calculated = conn.execute("SELECT COUNT(*) FROM events WHERE calculated = 1").fetchone()[0]
@@ -391,3 +407,9 @@ def get_events_stats() -> Dict[str, Any]:
         "average_tension": round(avg_tension, 1),
         "total_star_contacts": total_star_contacts
     }
+
+def get_events_stats(force_refresh: bool = False) -> Dict[str, Any]:
+    """Retorna estatísticas globais para o dashboard com suporte a cache em memória."""
+    if force_refresh:
+        _get_events_stats_cached.cache_clear()
+    return _get_events_stats_cached()

@@ -33,3 +33,6 @@ data/ephemeris/swisseph/
 # v6: dumps brutos do GeoNames (gazetteer construído em data/gazetteer/cities.sqlite)
 data/external/geonames/
 data/staging/
+
+# Local build tools
+scripts/tools/

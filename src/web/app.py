@@ -153,10 +153,18 @@ STATIC_DIR = os.path.join(BASE_DIR, "src", "web", "static")
 WEB_DIR = os.path.join(BASE_DIR, "web")
 
 from src.web.templating import templates  # v6: instância única com filtros/globais
+
+class CachedStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope):
+        response = await super().get_response(path, scope)
+        if response.status_code == 200:
+            response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
+        return response
+
 if os.path.exists(STATIC_DIR):
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    app.mount("/static", CachedStaticFiles(directory=STATIC_DIR), name="static")
 if os.path.exists(WEB_DIR):
-    app.mount("/web", StaticFiles(directory=WEB_DIR, html=True), name="web")
+    app.mount("/web", CachedStaticFiles(directory=WEB_DIR, html=True), name="web")
 
 def build_chart_series(future_data: dict) -> dict:
     """Séries 1800–2100 (escala 0–1000) para o Chart.js do dashboard, simulador e linha do tempo."""
@@ -218,11 +226,8 @@ def build_chart_series(future_data: dict) -> dict:
 async def index_view(request: Request):
     stats = get_events_stats()
     # Eventos em destaque paradigmáticos (Segunda Guerra Mundial, Hiroshima, Crash de 1929, Apollo 11, etc.)
-    all_evs = get_all_events()
-    featured_ids = [100, 107, 93, 134, 156, 171]
-    featured_events = [e for e in all_evs if e["id"] in featured_ids]
-    if len(featured_events) < 6:
-        featured_events = all_evs[:6]
+    from src.db import get_featured_events
+    featured_events = get_featured_events([100, 107, 93, 134, 156, 171])
 
     # Carregar dados da linha do tempo contínua 1800-2100 na escala 0-1000
     future_data = generate_future_timeline_1800_2100(force_refresh=False)

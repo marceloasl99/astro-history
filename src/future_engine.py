@@ -290,16 +290,23 @@ def calculate_single_year(year: int, hist_events: Optional[List[Dict[str, Any]]]
         "scenarios_and_possibilities": scenario_text
     }
 
+_TIMELINE_MEMORY_CACHE: Optional[Dict[str, Any]] = None
+
 def generate_future_timeline_1800_2100(force_refresh: bool = False) -> Dict[str, Any]:
     """
     Gera a linha do tempo prospectiva e histórica completa para 301 anos (1800 a 2100).
-    Utiliza amostragem quádrupla e cache em disco para inicialização instantânea.
+    Utiliza amostragem quádrupla e cache em memória/disco para inicialização e resposta instantâneas.
     """
+    global _TIMELINE_MEMORY_CACHE
+    if not force_refresh and _TIMELINE_MEMORY_CACHE is not None:
+        return _TIMELINE_MEMORY_CACHE
+
     if not force_refresh and os.path.exists(CACHE_FILE):
         try:
             with open(CACHE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 if len(data.get("timeline", [])) == 301 and data.get("start_year") == 1800:
+                    _TIMELINE_MEMORY_CACHE = data
                     return data
         except Exception:
             pass
@@ -373,6 +380,7 @@ def generate_future_timeline_1800_2100(force_refresh: bool = False) -> Dict[str,
     except Exception:
         pass
 
+    _TIMELINE_MEMORY_CACHE = result
     return result
 
 PROJECTIONS_CACHE_FILE = os.path.join(_ROOT, "data", "projections_2027_2060.json")
@@ -525,6 +533,7 @@ def get_projections_2027_2060(force_refresh: bool = False) -> Dict[str, Any]:
     except Exception:
         pass
 
+    _TIMELINE_MEMORY_CACHE = result
     return result
 
 # Alias para compatibilidade com código existente

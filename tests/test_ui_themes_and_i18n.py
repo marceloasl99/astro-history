@@ -120,3 +120,20 @@ def test_pessoal_submenu_single_active_item():
     assert 'href="/natal#progressões" class="nav-submenu-item " aria-current="false"' in html
     assert 'href="/natal#previsao" class="nav-submenu-item " aria-current="false"' in html
 
+
+def test_static_cache_control_and_compiled_tailwind():
+    """Garante que o Tailwind estático compilado é servido com Cache-Control e substitui o Play CDN."""
+    res_tw = client.get("/static/css/tailwind.min.css")
+    assert res_tw.status_code == 200
+    assert "public, max-age=" in res_tw.headers.get("Cache-Control", "")
+    assert len(res_tw.text) > 10000
+
+    res_th = client.get("/static/css/themes.css")
+    assert res_th.status_code == 200
+    assert "public, max-age=" in res_th.headers.get("Cache-Control", "")
+
+    res_home = client.get("/")
+    assert "/static/css/tailwind.min.css" in res_home.text
+    assert "cdn.tailwindcss.com" not in res_home.text
+
+
