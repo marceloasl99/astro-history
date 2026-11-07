@@ -100,7 +100,7 @@ async def country_detail_view(request: Request, iso_code: str, date_query: str =
             "biwheel_svg": biwheel_svg,
             "selected_date": selected_date,
             "today_date": today_str,
-            "timeline_json": json.dumps(timeline_data),
+            "timeline_json": json.dumps(timeline_data).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026"),
             "analyzed_history": analyzed_history,
             "grounded_forecasts": grounded_forecasts,
             "future_outlook": future_outlook,

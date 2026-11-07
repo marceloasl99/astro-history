@@ -130,3 +130,21 @@ async def test_disallowed_http_methods_and_payload_limits():
         # Payload excessivo (> 2 MB)
         res_payload = await ac.post("/simulator", headers={**EXTERNAL_HEADERS, "Content-Length": "5000000"})
         assert res_payload.status_code == 413
+
+
+@pytest.mark.anyio
+async def test_country_detail_and_gazetteer_safety():
+    """Valida segurança na visualização de países e na busca de locais (prevenção XSS e FTS5)."""
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Página de país válida
+        res_bra = await ac.get("/countries/BRA", headers=EXTERNAL_HEADERS)
+        assert res_bra.status_code == 200
+        assert "Brasil" in res_bra.text
+        # Garantir que script tags não contenham unescaped raw characters
+        assert "</script><script>" not in res_bra.text
+
+        # FTS5 search com caracteres especiais
+        res_search = await ac.get("/natal/places?q=S%C3%A3o%20Paulo*%22%27%3B--", headers=EXTERNAL_HEADERS)
+        assert res_search.status_code == 200
+        data = res_search.json()
+        assert "results" in data
