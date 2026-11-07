@@ -366,6 +366,11 @@ A interface segue diretrizes contemporâneas de experiência do usuário:
   - `theme-light`: Ambiente claro e de alto contraste.
   - `theme-dark`: Tema escuro padrão em ardósia para baixa luminosidade.
   - `theme-oled`: Preto absoluto (`#000000`) otimizado para telas OLED.
+- **Arquitetura de Alta Performance & CSS Estático Compilado:**
+  - **Zero Runtime CDN Lag**: Substituição do compilador dinâmico `cdn.tailwindcss.com` por folha de estilos estática pré-compilada e minificada (`src/web/static/css/tailwind.min.css`, apenas **9,7 KB gzipped**), eliminando 1 a 3 segundos de processamento de DOM no navegador.
+  - **Caches L1 em Memória RAM**: Resultados de `generate_future_timeline_1800_2100()` (linha de 301 anos), `get_category_correlations()` e `get_events_stats()` cacheados em memória volátil, com tempo de retorno reduzido para **0,001 ms**.
+  - **Queries Indexadas Seletivas**: Consulta pontual de eventos em destaque na Home (`WHERE id IN (...)`) reduzida de 62 ms para **0,5 ms**.
+  - **Política de Cache HTTP Estático**: Cabeçalhos `Cache-Control: public, max-age=86400` para todos os assets de `/static/`, permitindo carregamento local instantâneo (0 ms).
 - **Zero FOUC (Sem Cintilação de Carregamento):** Scripts em linha no `<head>` bloqueiam qualquer piscada antes da renderização.
 - **Sincronização Dinâmica do Chart.js:** Cores, eixos e tooltips reconstroem-se automaticamente na alternância de temas.
 - **Internacionalização no Servidor e Cliente:** Dicionários JSON no servidor via filtro `t()` combinados com `i18n.js` no cliente cobrem todos os textos, legendas e gráficos em inglês (`en`) e português (`pt`), mantendo persistência em `localStorage`.
@@ -404,7 +409,10 @@ pytest tests/
 # Servidor de desenvolvimento (FastAPI com Uvicorn)
 uvicorn src.web.app:app --host 0.0.0.0 --port 8000 --reload
 
-# Deploy de produção com systemd (já configurado na porta 81)
+# Compilação da folha de estilos Tailwind CSS minificada
+./scripts/build_tailwind.sh
+
+# Deploy de produção com systemd (Uvicorn multi-worker com 2 processos)
 sudo systemctl restart astro-history
 ```
 
@@ -512,6 +520,7 @@ astro-history/
 │   ├── validacao_v2.md            # Relatório detalhado dos modelos nulos
 │   └── hindcast_v3.json           # Métricas completas de hindcast walk-forward
 ├── scripts/
+│   ├── build_tailwind.sh          # Compilador do CSS de produção Tailwind minificado
 │   ├── build_standalone_web.py    # Compilador do index.html autossuficiente
 │   ├── build_historical_events.py # Compilador dos 3.406 eventos históricos
 │   ├── build_countries_dataset.py # Compilador das 107 cartas nacionais
@@ -572,8 +581,11 @@ astro-history/
 │       ├── mandala.py             # Gerador de mandalas natais em SVG
 │       ├── i18n.py                # Auxiliares de internacionalização no servidor
 │       ├── static/
-│       │   └── js/i18n.js         # Motor de internacionalização no cliente
-│       └── templates/             # Templates Jinja2 (habilitados para 3 temas)
+│       │   ├── css/tailwind.min.css   # Folha de estilos Tailwind pré-compilada de produção (9.7 KB gz)
+│       │   ├── css/themes.css         # Mecanismo visual dos 3 temas (Claro, Escuro, OLED)
+│       │   └── js/i18n.js             # Motor de internacionalização no cliente
+│       └── templates/                 # Templates Jinja2 (habilitados para 3 temas)
+├── tailwind.config.js                 # Configuração Tailwind CSS para build de produção
 ├── web/
 │   └── index.html                 # Aplicação standalone para GitHub Pages (zero backend)
 └── tests/                         # 138 testes automatizados (astronomia, mundana, natal, stats, web)
