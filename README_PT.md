@@ -6,7 +6,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-138_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-7.0.0-blue)
+![Version](https://img.shields.io/badge/Version-7.0.1-blue)
 
 > 🌍 **Idiomas / Languages**: **Português** • [English version (README.md)](README.md)
 
@@ -15,7 +15,7 @@
 ## Sumário
 
 1. [O que é este projeto](#1-o-que-é-este-projeto)
-2. [Inovações da v7.0.0](#2-inovações-da-v700)
+2. [Inovações da v7.0.1](#2-inovações-da-v701)
 3. [A pergunta de pesquisa e os resultados empíricos](#3-a-pergunta-de-pesquisa-e-os-resultados-empíricos)
 4. [Arquitetura da plataforma & páginas interativas](#4-arquitetura-da-plataforma-páginas-interativas)
 5. [O pipeline computacional](#5-o-pipeline-computacional)
@@ -51,9 +51,20 @@ A plataforma funciona como **ferramenta de literacia de dados**: demonstra como 
 
 ---
 
-## 2. Inovações da v7.0.0
+## 2. Inovações da v7.0.1
 
-A versão `v7.0.0` introduz grandes avanços em visualização de previsão pessoal, centralização responsiva de interface, persistência local de perfis e acessibilidade aprimorada:
+A versão `v7.0.1` consolida o fechamento rigoroso de segurança derivado da auditoria oficial da Cloudflare, melhorias defensivas em profundidade e refinamento operacional de produção:
+
+1. **Eliminação do Botão de Recálculo Manual (`/simulator`):** Substituição do botão e formulário de recálculo manual na linha do tempo por um card informativo de status ("Linha Contínua 1800–2100 • 301 anos integrados"), prevenindo picos acidentais de CPU/RAM em produção e assegurando integridade operacional.
+2. **Auditoria de Segurança Cloudflare (`security-audit-skill`) & Resolução Completa:** Execução formal do framework de auditoria defensiva da Cloudflare com 8 unidades canônicas cobrindo todas as superfícies de ataque, 100% aprovado pelos validadores oficiais (`validate-coverage-ledger.cjs` e `validate-findings.cjs`).
+3. **Proteção contra Host Header Injection & DNS Rebinding:** Integração de `TrustedHostMiddleware` restringindo origens autorizadas (`history.skyastrum.com`, `*.skyastrum.com`, `localhost`, `127.0.0.1`, `testserver`) e retornando `HTTP 400 Bad Request` para hosts não reconhecidos.
+4. **Rate Limiting Global por IP:** Janela deslizante de 60s limitando tráfego externo a 180 req/min por IP, retornando `HTTP 429 Too Many Requests` com cabeçalho `Retry-After: 60`. Tráfego interno de loopback e suíte de testes permanecem com bypass irrestrito.
+5. **Hardening no SQLite (`PRAGMA trusted_schema = OFF`):** Aplicado em todas as conexões SQLite (`history_astrology.db` e `cities.sqlite`), desativando funções auxiliares de esquema virtual e prevenindo escalonamento de privilégios.
+6. **Blindagem do Servidor Estático (`/static/`):** Bloqueio sumário com `HTTP 404` para dotfiles (`.env`, `.git`), arquivos temporários (`~`, `.bak`) e extensões executáveis/código (`.py`, `.sh`, `.db`, `.yaml`, `.yml`).
+7. **Reforço de Cabeçalhos HTTP (OWASP & CSP):** Inclusão de `object-src 'none'`, `media-src 'self'`, `worker-src 'self' blob:`, `upgrade-insecure-requests`, `X-Permitted-Cross-Domain-Policies: none` e `X-Download-Options: noopen`.
+8. **Sitemap XML & Otimização SEO Canônica:** 3.525 URLs indexadas no protocolo `sitemaps.org`, dados estruturados Schema.org (`@type: WebApplication`) e metatags canônicas.
+
+### Inovações da Versão 7.0 (Módulo Pessoal & UI)
 
 1. **Motor de Previsão Pessoal com 6 Patamares de Criticidade (Escala 0–1000):** Varredura completa da vida integrando trânsitos planetários lentos aos pontos natais, progressões secundárias (`dia-por-ano` com fases e aspectos da Lua progredida) e marcos de ciclos biográficos (retorno de Saturno, oposição de Urano, retorno de Quíron). Introduz 6 patamares calibrados de ativação:
    - 💥 **Pico Transformador** (Score ≥ 850): Momentos culminantes de metamorfose radical, pontos de virada máxima de destino ou grandes consagrações.
@@ -606,7 +617,7 @@ astro-history/
 
 Se usar esta plataforma, seus dados ou seu código em pesquisas acadêmicas ou projetos de código aberto, cite:
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, versão 7.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, versão 7.0.1. https://github.com/marceloasl99/astro-history
 
 - **Código-fonte**: [GNU Affero General Public License v3 ou posterior (AGPL-3.0)](LICENSE).
 - **Swiss Ephemeris**: © Astrodienst AG. Em conformidade com os termos da Astrodienst, o projeto é licenciado sob AGPL; uso comercial requer licença profissional da Astrodienst AG.

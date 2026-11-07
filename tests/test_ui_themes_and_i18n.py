@@ -90,7 +90,7 @@ def test_footer_version_and_no_v2_v3_mentions():
     # Footer version (v7)
     res_home = client.get("/")
     assert res_home.status_code == 200
-    assert "v7.0.0" in res_home.text
+    assert "v7.0.1" in res_home.text
     assert "Previsão v3" not in res_home.text
 
     # Forecast page has no v3 in title or heading

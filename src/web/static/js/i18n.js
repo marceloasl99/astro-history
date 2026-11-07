@@ -252,7 +252,9 @@
 
             // Simulator
             "Linha do Tempo Cosmológica & Simulador (1800–2100)": "Cosmological Timeline & Simulator (1800–2100)",
-            "⚡ Recalcular Linha do Tempo (1800–2100)": "⚡ Recalculate Timeline (1800–2100)",
+            "Linha Contínua 1800–2100": "Continuous Timeline 1800–2100",
+            "301 anos integrados": "301 years integrated",
+            "fatos históricos sincronizados": "historical events synchronized",
             "Maior Ruptura do Passado (1800-2025)": "Highest Past Rupture (1800-2025)",
             "Maior Pico Futuro (2026–2100)": "Highest Future Peak (2026–2100)",
             "Média do Passado (1800–2025)": "Past Mean (1800–2025)",

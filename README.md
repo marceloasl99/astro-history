@@ -6,7 +6,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-138_Passed-10B981)
 ![License](https://img.shields.io/badge/License-AGPL--3.0-8B5CF6)
-![Version](https://img.shields.io/badge/Version-7.0.0-blue)
+![Version](https://img.shields.io/badge/Version-7.0.1-blue)
 
 > 🌍 **Languages / Idiomas**: **English** • [Versão em Português (README_PT.md)](README_PT.md)
 
@@ -15,7 +15,7 @@
 ## Table of contents
 
 1. [What this project is](#1-what-this-project-is)
-2. [Key innovations in v7.0.0](#2-key-innovations-in-v700)
+2. [Key innovations in v7.0.1](#2-key-innovations-in-v701)
 3. [The research question and empirical results](#3-the-research-question-and-empirical-results)
 4. [Platform architecture & interactive pages](#4-platform-architecture-interactive-pages)
 5. [The computational pipeline](#5-the-computational-pipeline)
@@ -51,9 +51,20 @@ The platform functions as a **data-literacy tool**: it demonstrates how retrospe
 
 ---
 
-## 2. Key innovations in v7.0.0
+## 2. Key innovations in v7.0.1
 
-The `v7.0.0` release introduces major personal astrology visualization advancements, responsive layout centering, local profile persistence, and rigorous accessibility upgrades:
+The `v7.0.1` release consolidates comprehensive security hardening derived from the official Cloudflare security audit framework, deep defensive mitigations, and production operational refinements:
+
+1. **Elimination of Manual Recalculation Button (`/simulator`):** Replaced the manual recalculation button and form with an informative status card ("Continuous Timeline 1800–2100 • 301 years integrated"), preventing accidental CPU/RAM spikes in production environments and ensuring platform stability.
+2. **Cloudflare Security Audit (`security-audit-skill`) Full Resolution:** Formally executed the Cloudflare defensive security audit workflow across 8 canonical coverage units, achieving 100% clean passes from Cloudflare's official validator scripts (`validate-coverage-ledger.cjs` and `validate-findings.cjs`).
+3. **Protection against Host Header Injection & DNS Rebinding:** Integrated Starlette's `TrustedHostMiddleware`, strictly restricting allowed hosts (`history.skyastrum.com`, `*.skyastrum.com`, `localhost`, `127.0.0.1`, `testserver`) and rejecting untrusted Host headers with `HTTP 400 Bad Request`.
+4. **Global IP-based Sliding-Window Rate Limiting:** Enforced a 60-second sliding-window rate limiter capping external traffic at 180 req/min per IP, returning standard `HTTP 429 Too Many Requests` with `Retry-After: 60`. Internal loopback and CI test suites retain unrestricted access.
+5. **SQLite Engine Hardening (`PRAGMA trusted_schema = OFF`):** Enforced across all active SQLite connections (`history_astrology.db` and `cities.sqlite`), disabling auxiliary functions in virtual table schemas and preventing schema escalation vectors.
+6. **Static File Server Sandboxing (`/static/`):** Summary rejection (`HTTP 404`) for dotfiles (`.env`, `.git`), backup files (`~`, `.bak`), and sensitive executable/code extensions (`.py`, `.sh`, `.db`, `.yaml`, `.yml`).
+7. **OWASP HTTP Security Headers Expansion:** Added strict directives including `object-src 'none'`, `media-src 'self'`, `worker-src 'self' blob:`, `upgrade-insecure-requests`, `X-Permitted-Cross-Domain-Policies: none`, and `X-Download-Options: noopen`.
+8. **XML Sitemap & Canonical SEO:** 3,525 URLs indexed under the `sitemaps.org` protocol, Schema.org (`@type: WebApplication`) structured data, and canonical tags.
+
+### Version 7.0 Innovations (Personal Module & UI)
 
 1. **Personal Forecast Engine with 6 Criticality Tiers (0–1000 Scale):** Full lifetime scan combining slow planetary transits, secondary progressions (`day-for-a-year` with progressed Moon sign and aspect ingress dates), and life-cycle turning points (Saturn return, Uranus opposition, Chiron return). Introduces 6 calibrated criticality tiers:
    - 💥 **Pico Transformador / Transformative Peak** (Score ≥ 850): Culminating points of radical life transformation, evolutionary turning points, and major milestone consolidations.
@@ -602,7 +613,7 @@ astro-history/
 
 If you utilize this software, its historical dataset, or its statistical testing framework in academic or open-source research, please cite:
 
-> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 7.0.0. https://github.com/marceloasl99/astro-history
+> AstroHistory Research Group (2026). *AstroHistory: An Empirical, Reproducible, and Open Statistical Research Platform on Astrological Alignments and Historical Events*, version 7.0.1. https://github.com/marceloasl99/astro-history
 
 - **Source Code License:** [GNU Affero General Public License v3 or later (AGPL-3.0)](LICENSE).
 - **Swiss Ephemeris:** © Astrodienst AG. Licensed under AGPL. Commercial applications require a commercial license from Astrodienst AG.

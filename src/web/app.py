@@ -52,7 +52,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 app = FastAPI(
     title="AstroHistory - Astrologia Moderna & 3.406 Fatos Históricos Mundiais",
     description="Plataforma Internacional de Correlação Astrológica Histórica com Swiss Ephemeris",
-    version="7.0.0",
+    version="7.0.1",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
