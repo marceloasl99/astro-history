@@ -781,8 +781,8 @@ app.include_router(natal_router)
 from src.web.pages import router as pages_router
 app.include_router(pages_router)
 
-# v6: compressão das páginas (as páginas do módulo pessoal embutem JSON compacto)
-from starlette.middleware.gzip import GZipMiddleware
-app.add_middleware(GZipMiddleware, minimum_size=1024)
+# Compressão de alta performance: Brotli (qualidade 4) com fallback automático para GZip
+from brotli_asgi import BrotliMiddleware
+app.add_middleware(BrotliMiddleware, quality=4, minimum_size=512, gzip_fallback=True)
 
 

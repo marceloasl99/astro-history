@@ -11,3 +11,5 @@ scipy>=1.14
 PyYAML>=6.0
 scikit-learn>=1.5
 timezonefinder>=6.5
+brotli>=1.1.0
+brotli-asgi>=1.4.0

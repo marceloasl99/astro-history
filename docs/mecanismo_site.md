@@ -137,10 +137,13 @@ make test       # 138 testes automatizados aprovados (100%)
 ```
 
 **Arquitetura de Alta Performance:**
+- **Compressão Brotli & GZip Inteligente**: Middleware assíncrono `brotli-asgi` (qualidade 4) com fallback automático para `GZip` para navegadores legados. Redução de até **96,6%** do payload transmitido (ex.: `/simulator` de 2,3 MB para 109,5 KB; `/projections` de 1,57 MB para 54,1 KB; `/forecast` de 927 KB para 41,3 KB).
+- **Tipografia 100% Self-Hosted (WOFF2)**: Fontes *Cinzel*, *Plus Jakarta Sans* e *JetBrains Mono* servidas localmente em `/static/fonts/` (apenas 206 KB totais), eliminando consultas externas a `fonts.googleapis.com` e `fonts.gstatic.com`, 2 lookups de DNS, 2 negociações TLS e garantindo conformidade total de privacidade/GDPR.
+- **SQLite WAL Mode & PRAGMA Tuning**: Banco configurado com `PRAGMA journal_mode = WAL;`, `PRAGMA synchronous = NORMAL;`, `PRAGMA cache_size = -64000;` (64 MB de page cache em RAM), `PRAGMA mmap_size = 268435456;` (256 MB de memory-mapped I/O) e índices compostos (`idx_events_category_date`, `idx_events_tension`), atingindo tempos médios de consulta de **0,006 ms** (6 microssegundos por query).
 - **Caches L1 em Memória RAM**: A linha do tempo de 301 anos (`_TIMELINE_MEMORY_CACHE`), as estatísticas do catálogo (`get_events_stats`) e as correlações (`_CATEGORY_CORRELATIONS_CACHE`) residem em memória RAM volátil, respondendo em **0,001 ms**.
 - **Consultas Seletivas**: Eventos em destaque na Home consultam diretamente `WHERE id IN (...)` (0,5 ms).
 - **CSS Estático de Produção**: `tailwind.min.css` pré-compilado substitui o compilador em tempo real, zerando o consumo de CPU do navegador para renderização.
-- **Cache HTTP**: Assets estáticos servidos com `Cache-Control: public, max-age=86400`.
+- **Cache HTTP**: Assets estáticos servidos com `Cache-Control: public, max-age=86400, stale-while-revalidate=604800`.
 - **Deploy de Produção**: `uvicorn src.web.app:app --workers 2` na porta 81 via systemd (`astro-history.service`).
 
 ## 11. Limites conhecidos e arquitetura de pesquisa

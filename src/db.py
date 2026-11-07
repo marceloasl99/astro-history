@@ -37,11 +37,16 @@ EVENT_LIST_COLUMNS = ("id, title, category, date, time, city, country, latitude,
 
 
 def get_connection():
-    """Retorna uma conexão SQLite configurada com dicionários de linhas."""
+    """Retorna uma conexão SQLite configurada com dicionários de linhas e PRAGMAs otimizados."""
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON;")
+    conn.execute("PRAGMA journal_mode = WAL;")
+    conn.execute("PRAGMA synchronous = NORMAL;")
+    conn.execute("PRAGMA cache_size = -64000;")
+    conn.execute("PRAGMA mmap_size = 268435456;")
+    conn.execute("PRAGMA temp_store = MEMORY;")
     return conn
 
 def init_db():
@@ -128,6 +133,8 @@ def init_db():
         # Índices para consultas rápidas
         conn.execute("CREATE INDEX IF NOT EXISTS idx_events_category ON events (category);")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_events_date ON events (date);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_events_category_date ON events (category, date);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_events_tension ON events (tension_index);")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_planets_event ON planet_positions (event_id);")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_planets_planet_sign ON planet_positions (planet_id, sign_name);")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_aspects_event ON event_aspects (event_id);")
