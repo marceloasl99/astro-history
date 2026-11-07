@@ -5,7 +5,7 @@ visualização de mapas astrais em mandala SVG e simulador de correlações futu
 """
 
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, PlainTextResponse, Response
 from pydantic import BaseModel, Field
 from typing import Optional
 from fastapi.staticfiles import StaticFiles
@@ -13,6 +13,8 @@ from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 import os
 import json
+
+from src.web.seo import build_sitemap_xml, get_robots_txt
 
 from src.db import (
     get_events_stats,
@@ -60,26 +62,24 @@ def _is_internal_client(request: Request) -> bool:
     Qualquer requisição com headers de proxy externo (Cloudflare, XFF externo) ou IP não-loopback
     é tratada como externa.
     """
-    # 1. Cloudflare Proxy Headers
-    if (
-        request.headers.get("cf-connecting-ip")
-        or request.headers.get("cf-ray")
-        or request.headers.get("cf-ipcountry")
-        or request.headers.get("cf-visitor")
-    ):
-        return False
+    # 1. Cloudflare Proxy Headers (sempre externo quando presente)
+    for cf_header in ("cf-connecting-ip", "cf-ray", "cf-ipcountry", "cf-visitor"):
+        if request.headers.get(cf_header):
+            return False
 
-    # 2. X-Forwarded-For
-    xff = request.headers.get("x-forwarded-for")
-    if xff:
-        client_ip = xff.split(",")[0].strip()
-        if client_ip not in ("testclient", "localhost", "127.0.0.1", "::1"):
-            try:
-                ip = ipaddress.ip_address(client_ip)
-                if not ip.is_loopback:
-                    return False
-            except ValueError:
-                return False
+    # 2. Headers de proxy / encaminhamento
+    for h in ("x-forwarded-for", "x-real-ip", "forwarded", "x-client-ip"):
+        val = request.headers.get(h)
+        if val:
+            for part in val.split(","):
+                p = part.strip()
+                if p not in ("testclient", "localhost", "127.0.0.1", "::1", "testserver"):
+                    try:
+                        ip = ipaddress.ip_address(p)
+                        if not ip.is_loopback:
+                            return False
+                    except ValueError:
+                        return False
 
     # 3. Direct client connection host
     client_host = request.client.host if request.client else "127.0.0.1"
@@ -98,13 +98,49 @@ def _is_external_request(request: Request) -> bool:
 
 @app.middleware("http")
 async def security_headers_middleware(request: Request, call_next):
-    """Adiciona headers de segurança recomendados (OWASP / Defesa em Profundidade)."""
+    """Adiciona headers de segurança recomendados (OWASP / Defesa em Profundidade / Cloudflare)."""
+    # 1. Validação de métodos HTTP permitidos
+    if request.method not in ("GET", "POST", "HEAD", "OPTIONS"):
+        return JSONResponse(status_code=405, content={"detail": "Method Not Allowed"})
+
+    # 2. Limite de tamanho de payload (máximo 2 MB para prevenir ataques DoS / buffer exhaustion)
+    content_length = request.headers.get("content-length")
+    if content_length:
+        try:
+            if int(content_length) > 2 * 1024 * 1024:
+                return JSONResponse(status_code=413, content={"detail": "Payload Too Large"})
+        except ValueError:
+            return JSONResponse(status_code=400, content={"detail": "Invalid Content-Length"})
+
     response = await call_next(request)
+    
+    # Headers OWASP
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=(), payment=()"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload"
+    response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    
+    # Content-Security-Policy (CSP) Restritivo:
+    # Fontes, Tailwind e Chart.js são 100% locais em /static/. Scripts e estilos externos são bloqueados.
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline'; "
+        "style-src 'self' 'unsafe-inline'; "
+        "font-src 'self' data:; "
+        "img-src 'self' data: blob:; "
+        "connect-src 'self'; "
+        "frame-ancestors 'self'; "
+        "base-uri 'self'; "
+        "form-action 'self';"
+    )
+
+    # Mascarar assinatura do servidor Uvicorn para proteção de inventário
+    response.headers["Server"] = "AstroHistory-Engine"
+
     return response
 
 @app.middleware("http")
@@ -114,16 +150,17 @@ async def block_external_api_middleware(request: Request, call_next):
     Acesso permitido estritamente de forma interna (localhost e testes in-process).
     """
     path = request.url.path
-    is_api_or_docs_path = (
+    is_restricted_path = (
         path.startswith("/api/")
         or path == "/api"
         or path.startswith("/docs")
         or path.startswith("/redoc")
         or path == "/openapi.json"
         or path == "/simulator/recalculate"
+        or path.startswith("/web")
     )
 
-    if is_api_or_docs_path and not _is_internal_client(request):
+    if is_restricted_path and not _is_internal_client(request):
         return JSONResponse(
             status_code=404,
             content={"detail": "Not Found"}
@@ -259,6 +296,23 @@ async def index_view(request: Request):
             "annual_indices": annual_indices,
             "peaks_catalog": peaks_catalog
         }
+    )
+
+@app.api_route("/sitemap.xml", methods=["GET", "HEAD"])
+async def sitemap_xml_view():
+    """Gera o sitemap XML oficial (protocolo sitemaps.org) com todas as páginas, países e marcos."""
+    return Response(
+        content=build_sitemap_xml(),
+        media_type="application/xml; charset=utf-8",
+        headers={"Cache-Control": "public, max-age=86400, stale-while-revalidate=604800"}
+    )
+
+@app.api_route("/robots.txt", methods=["GET", "HEAD"])
+async def robots_txt_view():
+    """Retorna diretivas de indexação para robôs de busca e ponteiro para o sitemap."""
+    return PlainTextResponse(
+        content=get_robots_txt(),
+        headers={"Cache-Control": "public, max-age=86400"}
     )
 
 @app.get("/events", response_class=HTMLResponse)

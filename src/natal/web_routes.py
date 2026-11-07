@@ -369,7 +369,7 @@ async def natal_transits(request: Request):
                                       context=_ctx(request, lang, inp=inp, profile=profile, chart=profile["chart"],
                                                    urls=_nav_urls(inp), active_tab="transits", focus_year=focus_year,
                                                    year_windows=year_windows, detail_windows=detail_windows,
-                                                   compact_json=json.dumps(compact, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")))
+                                                   compact_json=json.dumps(compact, ensure_ascii=False, separators=(",", ":")).replace("<", "\u003c").replace(">", "\u003e").replace("&", "\u0026")))
 
 
 @router.api_route("/natal/progressions", methods=["GET", "HEAD"], response_class=HTMLResponse)

@@ -160,10 +160,30 @@ make test       # 138 testes automatizados aprovados (100%)
 
 ## 12. Modelo de segurança, bloqueio de API externa e proteção de borda
 
-Com a exposição do site a um domínio proxied no Cloudflare (`history.skyastrum.com`), foram implementadas políticas defensivas rigorosas:
+Com a exposição do site a um domínio proxied no Cloudflare (`history.skyastrum.com`), foram implementadas políticas defensivas rigorosas guiadas pela suíte oficial `cloudflare/security-audit-skill`:
 
-- **Ocultação e Bloqueio de API Pública**: O middleware `block_external_api_middleware` intercepta todo tráfego originado fora de `localhost` (identificado por cabeçalhos Cloudflare ou IPs não-loopback) e responde com `404 Not Found` para `/api/*`, `/docs`, `/redoc` e `/openapi.json`.
-- **Renderização Total no Backend**: Nenhuma tela pública do frontend depende de chamadas `fetch('/api/...')`. Os dados comparativos, índices e análogos são injetados diretamente nas views Jinja2 no servidor.
-- **Proteção contra DoS de CPU**: Rotas que forçam recálculo de efemérides completas (ex: `/simulator/recalculate`) foram bloqueadas para chamadas externas.
-- **Headers OWASP**: Injeção obrigatória de `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block`, `Referrer-Policy: strict-origin-when-cross-origin` e `Permissions-Policy`.
-- **Versão Standalone Compilada**: Para distribuição sem dependência de servidor Python ou banco de dados, o script `scripts/build_standalone_web.py` empacota a plataforma completa em um único arquivo HTML estático em `web/index.html` e `docs/index.html` (pronto para GitHub Pages).
+- **Bloqueio Total de APIs Externas (Zero Public API Surface)**: O middleware `block_external_api_middleware` intercepta todo tráfego originado fora de `localhost` (identificado por cabeçalhos Cloudflare como `CF-Connecting-IP`, `CF-Ray`, `CF-IPCountry` ou IPs não-loopback) e responde com `404 Not Found` para qualquer rota `/api/*`, `/docs`, `/redoc`, `/openapi.json`, `/simulator/recalculate` e `/web*`.
+- **Renderização 100% no Servidor (Zero Dependência de Fetch)**: Nenhuma tela pública depende de chamadas `fetch('/api/...')`. Todos os dados, mandalas SVG, gráficos e índices são injetados diretamente nas views Jinja2 no servidor.
+- **Proteção contra DoS de CPU e Buffer Overflow**: Rotas de recálculo foram bloqueadas para chamadas externas. Middleware rejeita payloads com `Content-Length > 2 MB` com `413 Payload Too Large` e restringe métodos HTTP a `GET, POST, HEAD, OPTIONS` (rejeitando `TRACE, CONNECT, TRACK` com `405 Method Not Allowed`).
+- **Blindagem contra XSS (OWASP Script Breakout)**: Escapamento seguro de JSON em tags `<script>` substituindo caracteres delimitadores (`<` por `\u003c`, `>` por `\u003e`, `&` por `\u0026`).
+- **Headers OWASP & CSP Restritivo**:
+  - `Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';`
+  - `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
+  - `X-Frame-Options: SAMEORIGIN`
+  - `X-Content-Type-Options: nosniff`
+  - `X-XSS-Protection: 1; mode=block`
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()`
+  - `Cross-Origin-Opener-Policy: same-origin`
+  - `Cross-Origin-Resource-Policy: same-origin`
+  - Mascaramento da assinatura do servidor: `Server: AstroHistory-Engine`.
+
+## 13. Otimização SEO, Sitemap XML & Indexação de Busca
+
+- **Sitemap Oficial (`/sitemap.xml`)**: Rota dinâmica de alta performance em `src/web/seo.py` gerando XML conforme o protocolo internacional `sitemaps.org/schemas/sitemap/0.9`. Cobre **3.525 URLs** (páginas centrais, 107 dossiês de países e marcos históricos catalogados) com cache em memória RAM e compressão Brotli.
+- **Robots.txt (`/robots.txt`)**: Permite indexação de todas as páginas públicas de conteúdo, proíbe rotas de API/recálculo e aponta o link canônico do sitemap.
+- **Metatags & Rich Snippets (Google & Redes Sociais)**:
+  - URLs canônicas obrigatórias `<link rel="canonical" href="...">`.
+  - Protocolo Open Graph (`og:title`, `og:description`, `og:type`, `og:url`, `og:site_name`, `og:locale`).
+  - Twitter / X Cards (`summary_large_image`).
+  - Dados Estruturados Schema.org (`@type: WebApplication`) em JSON-LD para indexação semântica rica.

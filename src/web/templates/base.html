@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AstroHistory | Astrologia Moderna & Fatos Históricos{% endblock %}</title>
 
+    <!-- SEO Meta Tags & Indexing Directives -->
+    <meta name="description" content="{% block meta_description %}Plataforma científica de correlação astrológica histórica e efemérides suíças (Swiss Ephemeris) com 3.406 marcos catalogados, ciclos planetários 1800–2100 e astrologia mundana de 107 países.{% endblock %}">
+    <meta name="keywords" content="astrologia mundana, swiss ephemeris, história cósmica, previsões mundanas, ciclos planetários, barbault, efemérides suíças, mapa natal histórico, correlações astrológicas">
+    <meta name="author" content="AstroHistory Research Team">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://history.skyastrum.com{{ request.url.path if request else '/' }}">
+
+    <!-- Open Graph Protocol (Facebook, LinkedIn, Discord, WhatsApp) -->
+    <meta property="og:site_name" content="AstroHistory">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="og:url" content="https://history.skyastrum.com{{ request.url.path if request else '/' }}">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:locale:alternate" content="en_US">
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ self.title() }}">
+    <meta name="twitter:description" content="{{ self.meta_description() }}">
+
+    <!-- Schema.org JSON-LD Structured Data (Google Rich Snippets) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AstroHistory",
+      "url": "https://history.skyastrum.com",
+      "description": "Plataforma Internacional de Pesquisa Computacional em Astrologia Mundana e Correlações Históricas com Swiss Ephemeris",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "inLanguage": ["pt-BR", "en-US"],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <!-- FOUC prevention & immediate theme restoration (Light theme is default) -->
     <script>
         (function() {
