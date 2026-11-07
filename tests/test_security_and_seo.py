@@ -148,3 +148,84 @@ async def test_country_detail_and_gazetteer_safety():
         assert res_search.status_code == 200
         data = res_search.json()
         assert "results" in data
+
+
+@pytest.mark.anyio
+async def test_trusted_host_protection():
+    """Valida bloqueio de cabeçalhos Host não autorizados (proteção Host Header Injection)."""
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Host legítimo
+        res_ok = await ac.get("/", headers={**EXTERNAL_HEADERS, "host": "history.skyastrum.com"})
+        assert res_ok.status_code == 200
+
+        # Host malicioso
+        res_bad = await ac.get("/", headers={**EXTERNAL_HEADERS, "host": "attacker-domain.evil"})
+        assert res_bad.status_code == 400
+
+
+@pytest.mark.anyio
+async def test_enhanced_csp_and_owasp_headers():
+    """Valida extensões de CSP e novos cabeçalhos de defesa OWASP."""
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.get("/", headers=EXTERNAL_HEADERS)
+        assert res.status_code == 200
+
+        csp = res.headers.get("content-security-policy", "")
+        assert "object-src 'none'" in csp
+        assert "upgrade-insecure-requests" in csp
+        assert "worker-src 'self' blob:" in csp
+        assert "media-src 'self'" in csp
+
+        assert res.headers.get("x-permitted-cross-domain-policies") == "none"
+        assert res.headers.get("x-download-options") == "noopen"
+
+
+@pytest.mark.anyio
+async def test_static_files_directory_traversal_and_extension_block():
+    """Valida que dotfiles, arquivos sensíveis (.env, .py, .db) e path traversal em /static/ retornam 404."""
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Dotfile oculto
+        res1 = await ac.get("/static/.env", headers=EXTERNAL_HEADERS)
+        assert res1.status_code == 404
+
+        # Arquivo de código fonte
+        res2 = await ac.get("/static/app.py", headers=EXTERNAL_HEADERS)
+        assert res2.status_code == 404
+
+        # Path traversal
+        res3 = await ac.get("/static/../../src/web/app.py", headers=EXTERNAL_HEADERS)
+        assert res3.status_code == 404
+
+
+@pytest.mark.anyio
+def test_sqlite_trusted_schema_disabled():
+    """Garante que PRAGMA trusted_schema está desativado (prevenção contra ataques via triggers/schema)."""
+    from src.db import get_connection
+    conn = get_connection()
+    try:
+        val = conn.execute("PRAGMA trusted_schema;").fetchone()[0]
+        assert val == 0, f"PRAGMA trusted_schema deveria ser 0, mas é {val}"
+    finally:
+        conn.close()
+
+
+@pytest.mark.anyio
+async def test_external_rate_limiter():
+    """Valida que o rate limiter global bloqueia requisições abusivas originadas de IPs externos."""
+    from src.web.app import _GLOBAL_RATE_LIMITER
+    test_ip = "203.0.113.99"
+    # Esgotar quota do IP de teste
+    for _ in range(180):
+        _GLOBAL_RATE_LIMITER.allow(test_ip, max_per_minute=180)
+
+    abuse_headers = {
+        "CF-Connecting-IP": test_ip,
+        "CF-Ray": "abuse-test-1"
+    }
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.get("/", headers=abuse_headers)
+        assert res.status_code == 429
+        assert "Rate limit exceeded" in res.json().get("detail", "")
+        assert res.headers.get("retry-after") == "60"
+

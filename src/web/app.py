@@ -45,6 +45,9 @@ async def lifespan(app: FastAPI):
     yield
 
 import ipaddress
+import time
+from collections import defaultdict
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 app = FastAPI(
     title="AstroHistory - Astrologia Moderna & 3.406 Fatos Históricos Mundiais",
@@ -55,6 +58,50 @@ app = FastAPI(
     openapi_url=None,
     lifespan=lifespan
 )
+
+# Proteção contra Host Header Injection e DNS Rebinding
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=[
+        "history.skyastrum.com",
+        "*.skyastrum.com",
+        "localhost",
+        "127.0.0.1",
+        "10.0.0.120",
+        "teste-10-0-0-120",
+        "testclient",
+        "testserver",
+        "test",
+    ]
+)
+
+class _RateLimitBucket:
+    """Bucket em memória com janela deslizante de 60 segundos por IP."""
+    def __init__(self):
+        self.hits = defaultdict(list)
+
+    def allow(self, key: str, max_per_minute: int = 180) -> bool:
+        now = time.time()
+        window = [t for t in self.hits[key] if now - t < 60.0]
+        if len(window) >= max_per_minute:
+            self.hits[key] = window
+            return False
+        window.append(now)
+        self.hits[key] = window
+        if len(self.hits) > 5000:
+            for k in list(self.hits.keys())[:1000]:
+                self.hits.pop(k, None)
+        return True
+
+_GLOBAL_RATE_LIMITER = _RateLimitBucket()
+
+def _client_ip(request: Request) -> str:
+    """Extrai o IP real do cliente considerando Cloudflare e proxies reversos confiáveis."""
+    for h in ("cf-connecting-ip", "x-forwarded-for"):
+        v = request.headers.get(h)
+        if v:
+            return v.split(",")[0].strip()
+    return request.client.host if request.client else "127.0.0.1"
 
 def _is_internal_client(request: Request) -> bool:
     """
@@ -112,9 +159,19 @@ async def security_headers_middleware(request: Request, call_next):
         except ValueError:
             return JSONResponse(status_code=400, content={"detail": "Invalid Content-Length"})
 
+    # 3. Rate-Limiting adaptativo para conexões externas (180 requisições/minuto por IP)
+    if not _is_internal_client(request):
+        ip = _client_ip(request)
+        if not _GLOBAL_RATE_LIMITER.allow(ip, max_per_minute=180):
+            return JSONResponse(
+                status_code=429,
+                content={"detail": "Too Many Requests. Rate limit exceeded."},
+                headers={"Retry-After": "60"}
+            )
+
     response = await call_next(request)
     
-    # Headers OWASP
+    # Headers OWASP & Defesa em Profundidade
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-XSS-Protection"] = "1; mode=block"
@@ -123,6 +180,8 @@ async def security_headers_middleware(request: Request, call_next):
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload"
     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
     response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+    response.headers["X-Download-Options"] = "noopen"
     
     # Content-Security-Policy (CSP) Restritivo:
     # Fontes, Tailwind e Chart.js são 100% locais em /static/. Scripts e estilos externos são bloqueados.
@@ -133,9 +192,13 @@ async def security_headers_middleware(request: Request, call_next):
         "font-src 'self' data:; "
         "img-src 'self' data: blob:; "
         "connect-src 'self'; "
+        "media-src 'self'; "
+        "object-src 'none'; "
+        "worker-src 'self' blob:; "
         "frame-ancestors 'self'; "
         "base-uri 'self'; "
-        "form-action 'self';"
+        "form-action 'self'; "
+        "upgrade-insecure-requests;"
     )
 
     # Mascarar assinatura do servidor Uvicorn para proteção de inventário
@@ -193,6 +256,16 @@ from src.web.templating import templates  # v6: instância única com filtros/gl
 
 class CachedStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope):
+        # 1. Proibir explicitamente componentes ocultos (dotfiles) ou sequências de traversal
+        parts = path.replace("\\", "/").split("/")
+        if any(p.startswith(".") or p.endswith("~") or p.endswith(".bak") for p in parts if p):
+            return Response(status_code=404)
+
+        # 2. Proibir extensões executáveis ou sensíveis dentro de pastas estáticas
+        forbidden_extensions = (".py", ".sh", ".env", ".sqlite", ".db", ".yaml", ".yml", ".c", ".h")
+        if any(path.lower().endswith(ext) for ext in forbidden_extensions):
+            return Response(status_code=404)
+
         response = await super().get_response(path, scope)
         if response.status_code == 200:
             response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
@@ -323,7 +396,22 @@ async def events_catalog_view(request: Request, category: str = "Todas", search:
     """Catálogo facetado e paginado (v6). Mantém os parâmetros legados category/search/validated."""
     from src.db import get_events_page
     import yaml as _yaml
+
+    # Bounding defensivo de parâmetros de entrada
+    search = (search or "").strip()[:200]
+    category = (category or "Todas").strip()[:100]
+    macro = (macro or "").strip()[:100]
+    tier = (tier or "").strip()[:10]
+    precision = (precision or "").strip()[:20]
+    polarity = (polarity or "").strip()[:20]
+    country = (country or "").strip()[:100]
+    if century is not None:
+        century = max(-10000, min(century, 3000))
+    if sort not in ("date", "date_desc", "tension", "title"):
+        sort = "date"
+    page = max(1, min(page, 10000))
     per_page = max(10, min(per_page, 200))
+
     filters = dict(category=category if category != "Todas" else None, search=search or None, macro=macro or None,
                    tier=tier or None, precision=precision or None, polarity=polarity or None, country=country or None,
                    century_from=century if century is not None else None,

@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from datetime import date
 import os
 import json
+import re
 
 from src.mundane.countries_data import (
     get_all_countries,
@@ -59,13 +60,21 @@ async def countries_hub(request: Request, q: str = "", continent: str = ""):
 @router.api_route("/countries/{iso_code}", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def country_detail_view(request: Request, iso_code: str, date_query: str = Query(None, alias="date")):
     """Página detalhada do país: mapa natal, mandala bi-wheel, trânsitos, linha do tempo e projeções."""
-    country = get_country_by_iso(iso_code)
-    if not country:
-        raise HTTPException(status_code=404, detail=f"País com código '{iso_code}' não encontrado.")
+    clean_iso = (iso_code or "").strip().upper()
+    if not re.match(r"^[A-Z0-9]{2,8}$", clean_iso):
+        raise HTTPException(status_code=404, detail="Código de país inválido.")
 
-    # Data de análise (padrão: hoje)
+    country = get_country_by_iso(clean_iso)
+    if not country:
+        raise HTTPException(status_code=404, detail=f"País com código '{clean_iso}' não encontrado.")
+
+    # Data de análise (padrão: hoje com validação de formato YYYY-MM-DD)
     today_str = date.today().isoformat()
-    selected_date = date_query.strip() if date_query else today_str
+    selected_date = today_str
+    if date_query:
+        dq = date_query.strip()
+        if re.match(r"^-?\d{1,4}-\d{2}-\d{2}$", dq):
+            selected_date = dq
 
     # 1. Mapa Natal canônico
     country_chart = calculate_country_chart(country)

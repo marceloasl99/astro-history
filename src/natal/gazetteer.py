@@ -28,6 +28,7 @@ def _strip(s: str) -> str:
 def _conn() -> sqlite3.Connection:
     conn = sqlite3.connect(f"file:{DB_FILE}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA trusted_schema = OFF;")
     return conn
 
 

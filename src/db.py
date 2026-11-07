@@ -47,6 +47,7 @@ def get_connection():
     conn.execute("PRAGMA cache_size = -64000;")
     conn.execute("PRAGMA mmap_size = 268435456;")
     conn.execute("PRAGMA temp_store = MEMORY;")
+    conn.execute("PRAGMA trusted_schema = OFF;")
     return conn
 
 def init_db():
